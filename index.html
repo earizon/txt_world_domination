@@ -4,27 +4,131 @@
    <meta name="viewport"
      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
    <title>TXT World Domination</title>
-<head>
-<body>
-<pre>
-● Source: https://github.com/earizon/txt_world_domination/
+   <head>
+<style>
+@font-face{
+  font-family: 'source_code_pro';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('./source-code-pro/EOT/SourceCodePro-Regular.eot') format('embedded-opentype'),
+       url('./source-code-pro/WOFF2/TTF/SourceCodePro-Regular.ttf.woff2') format('woff2'),
+       url('./source-code-pro/WOFF/OTF/SourceCodePro-Regular.otf.woff') format('woff'),
+       url('./source-code-pro/OTF/SourceCodePro-Regular.otf') format('opentype'),
+       url('./source-code-pro/TTF/SourceCodePro-Regular.ttf') format('truetype') ;
+}
+pre {
+  font-family:'source_code_pro',monospace, console;
+  font-size:1em;
+}
+</style>
+<script>
+const doTextPreProcessing = function () {
+   const N = document.getElementById("id_mainText")
+   let   H = N.innerHTML
+   // 1st) replace External link
+   H = H.replace(/@\[(http.?[^\]]*)\]/g," ▶<a target='_new' href='$1'>$1</a>◀")   
 
+   // 2nd) replace relative (to page) link
+   H = H.replace(/@\[([^\]]*)\]/g," ▷<a target='_new' href='$1'>$1</a>◁")   
+   N.innerHTML = H
+}
+window.addEventListener('load', doTextPreProcessing )
+</script>
+    </head>
+<body on>
+<pre id="id_mainText">
+┌─ HEAD-Quaters ────────────────────────────────────┐
+│@[https://github.com/earizon/txt_world_domination/]│
+└───────────────────────────────────────────────────┘
 
+ @[#math_symbols] @[#UML] @[#BPMN] @[#Geometric] @[#math_symbols]
+                                     
+ @[https://arthursonzogni.com/Diagon/] (Online / Desktop)
+   Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....
+   ┌─ Gallery ───────────────────────────────────────┐
+   │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │
+   │                           │                     │
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │
+   │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │
+   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │
+   │  │      ││pants │  ││tie│ │    │───────────>│   │
+   │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
+   │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │
+   │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │
+   │ └──────────┘└───────┘     │ │Alice│       │Bob│ │
+   │                           │ └─────┘       └───┘ │
+   │───────────────────────────┼─────────────────────│
+   │  TREE EXAMPLE             │   MATH EXPRESSION   │
+   │  Linux                    │                     │
+   │   ├─Android               │    1            3   │
+   │   ├─Debian                │    ⌠  2        n    │
+   │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
+   │   │  │  ├─Lubuntu         │    0            3   │
+   │   │  │  └─Xubuntu         │                     │
+   │   │  └─Mint               │                     │
+   └─────────────────────────────────────────────────┘
 
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing)
+   
+          ┌───────┐    ┌──────┐     IO PORTS  
+          │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐ 
+          │xxxxxxx│    │xxxxxx│     ││││ ││││ 
+    ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐
+    │ ┌─Comp.1────┐             │┼┼┼┼┼┼┼│    │
+    │ │           ├────────┐    └───────┘    │
+    │ ├───────────┘        │                 │ 
+    │ │ ┌──────────┐       │                 │
+    │ └─► GPU UNIT │       │     ┌─Dev.9─────┤
+    │   └─────┬────┘       │     │consectetur│
+    │      ┌──┴────┐  ┌────┴────┐└───────────┤
+    │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
+    └──────┴───────┴──┴─────────┴──┴─────────┘
 
-● Bullets  ●   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ
-  ·•●✓     ● SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ              
+┌────────────────────────────────────┐
+│ Desktop TXT World Domination Tools │
+└────────────────────────────────────┘
+ ● @[https://csvkit.readthedocs.io/en/latest/]
+   ·Convert from/to CSV/Excel/SQL-DDBB.
+   ·Query CSV using SQL.
+   ·No-code statistics on CSV data.
 
- ┌ https://en.wikipedia.org/wiki/Arrows_(Unicode_block)
- │ ← ↑ → ↓   ⇠ ⇡ ⇢ ⇣   ↖ ↗ ⇖ ⇗   ↱ ↴   ↰  │
- │ ⇇ ⇈ ⇉ ⇊   ⏴ ⏶ ⏵ ⏷   ↙ ↘ ⇙ ⇘   ↳ ↲   ↵  │    
- │ ◀ ▲ ▶ ▼   ◁ △ ▽ ▷   ↢   ↣     ⇤ ⇚ ⇥ ⇛  │   
- │ ↼ ↾ ⇀ ⇃   ↽ ↿ ⇁ ⇂   ↩   ↪     ↔   ↕    │ 
- │ ↞ ↟ ↠ ↡   ↤ ↥ ↦ ↧   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩  │
- │ ⇄ ⇅ ⇋ ⇌   ⤡ ⇱ ↶ ↷   ⤢ ⇲ ⇽ ⇾            │
- └────────────────────────────────────────┘
+ ● @[http://gnu.ist.utl.pt/software/textutils/textutils.html]
+   sort     : sort lines of text files
+   tsort    : perform topological sort
+   uniq     : remove duplicate lines from a sorted file
+   join     : join lines in two files based on common field
+   ptx      : produce permuted index of file contents
+   cut      : remove columns on each line
+   ...
 
- ┌ UML ────────────────────────────────────────────────────────┐
+┌────────────────────────────────────┐
+│    TXT World Domination Editors    │
+└────────────────────────────────────┘
+ ● vim: Then King of text.
+   · Use Ctrl + V for visual block mode ("Paint mode")
+   · Pass selected text as STDIN to external txt-command and 
+     replace it with external txt-command's STDOUT with
+     :.!txt-command
+   · Quick create macros with qq ... (macro) ... q
+
+┌─────────────────────────────────────────┐
+│ Bullets   : · • ● ✓ ◆ ◇                 │
+│   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
+│ SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ           │
+└─────────────────────────────────────────┘
+
+ ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐
+ │ ← ↑ → ↓   ⇠ ⇡ ⇢ ⇣   ↖ ↗ ⇖ ⇗   ↱ ↰   ↴   ◀ ▲ ▶ ▼       │
+ │ ⇇ ⇈ ⇉ ⇊   ⇽   ⇾     ↙ ↘ ⇙ ⇘   ↳ ↲   ↵   ◁ △ ▷ ▽       │    
+ │ ↼ ↾ ⇀ ⇃   ↽ ↿ ⇁ ⇂   ↢   ↣     ⇤ ⇚ ⇥ ⇛                 │   
+ │ ↞ ↟ ↠ ↡   ↤ ↥ ↦ ↧   ↩   ↪     ↔   ↕                   │ 
+ │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
+ └───────────────────────────────────────────────────────┘
+
+ <span id="UML" />
+ ┌ UML (Unified Modeling Language)─────────────────────────────┐
  │  ┌────────────┐   message      ↑ dependency  |              │
  │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
  │ ─┼─ Component │                | dependency  |              │
@@ -57,7 +161,8 @@
  │ └────────┘          └──────────┘  "IS A" inheritance.       │
  └─────────────────────────────────────────────────────────────┘
 
- ┌─ BPMN ──────────────────────────────────────────────────────────────────────────────┐
+ <span id="BPMN" />
+ ┌─ BPMN (Business Process Management Network) ────────────────────────────────────────┐
  │ See also: https://github.com/bpmn-io/bpmn-font/tree/master/dist/font                │
  │ ○ Start Event, ◎ Intermediary/Boundary Event, ◇ Gateway,                            │
  │ ◷ Timer Start Event,  ◈ Complex Gateway,                                            │
@@ -76,8 +181,7 @@
  │  └─┴────────────────────────────────────────┘│                  │        ▾         ││
  │                                              │                  │       YES        ││
  └─────────────────────────────────────────────────────────────────────────────────────┘
- 
- ┌ Geometric ──────────────────────────────────────────────┐  
+ ┌ Geometric ──────────────────────────────────────────────┐ <span id="Geometric" />
  │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│  
  │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │  
  │ ◀ ▶ ◂ ▸ ◁ ▷ ◃ ▹ ◣ ◢ ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊ ◰ ◱ ◲ ◳         │  
@@ -86,6 +190,7 @@
  │ ◯ ○ ◦ ◌ ◍ ◉ ◎ ● ◐ ◑ ◒ ◓ ◔ ◕ ◖ ◗         ◬ ◭ ◮           │
  │ ◘ ◙ ◚ ◛                                                 │
  └─────────────────────────────────────────────────────────┘
+
   ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧⎧ ⎧     ⎫
   │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │ ⎭⎪ ⎪⎧   ⎫⎪
   │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ ╠═╬═╣  ╟──╫──╢ ╞══╪══╡  ⎪ ⎨⎨   ⎬⎬
@@ -97,6 +202,7 @@
   └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚   └ ...           ╲╱   ╲ ╱   ╲ ╱ 
   └╴──┴─────╶┘                                         •     ▾  
 
+ <span id="math_symbols" />
 ┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐
 │ @[https://www.unicode.org/charts/PDF/U2200.pdf]                          │
 │ ● ORDER RELATIONS             ● LOGICAL OPs                              │
@@ -164,13 +270,7 @@
 │ U+22Cx  ⋀   ⋁   ⋂   ⋃   ⋄   ⋅   ⋆   ⋇   ⋈   ⋉   ⋊   ⋋   ⋌   ⋍   ⋎   ⋏    │
 │ U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟    │
 │ U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯    │
-│ U+22Fx  ⋰   ⋱   ⋲   ⋳   ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
-│                                                                          │
-│ https://en.wikipedia.org/wiki/Miscellaneous_Mathematical_Symbols-A       │
-│         0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F    │
-│ U+27Cx  ⟀   ⟁   ⟂   ⟃   ⟄   ⟅   ⟆   ⟇   ⟈   ⟉   ⟊   ⟋   ⟌   ⟍   ⟎   ⟏    │
-│ U+27Dx  ⟐   ⟑   ⟒   ⟓   ⟔   ⟕   ⟖   ⟗   ⟘   ⟙   ⟚   ⟛   ⟜   ⟝   ⟞   ⟟    │
-│ U+27Ex  ⟠   ⟡   ⟢   ⟣   ⟤   ⟥   ⟦   ⟧   ⟨   ⟩   ⟪   ⟫   ⟬   ⟭   ⟮   ⟯    │
+│ U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
 └──────────────────────────────────────────────────────────────────────────┘
 </pre>
 </body>
