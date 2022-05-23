@@ -33,18 +33,18 @@ const fetchPayload = function (url) {
       if (xhr.readyState != 4) return
       if (xhr.status != 200) return
       resolve(
-         xhr.responseText
+         doTxtPreProcessing(xhr.responseText)
       )
     }
     xhr.send()
   } )
 }
 
-const doTxtPreProcessing = function () {
-   let   H = STATE.payload
+const doTxtPreProcessing = function (input) {
+   let H = input
    // NEXT) replace html scape chars 
-   H = H.replaceAll('<','&lt;') 
-        .replaceAll('>','&gt;')
+// H = H.replaceAll('<','&lt;') 
+//      .replaceAll('>','&gt;')
 
    // NEXT) replace External links
    H = H.replace(
@@ -55,7 +55,7 @@ const doTxtPreProcessing = function () {
    H = H.replace(
        /@\[([^\]]*)\]/g,
        " ▷<a href='$1'>$1</a>◁")   
-   STATE.payload = H
+   return H
 }
 
 const getParameterByName = function(name, url) {
@@ -68,24 +68,10 @@ const getParameterByName = function(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-const STATE = {
-   payload : "",
-   output  : ""
-}
-window.STATE = STATE // help debugging
-
-const grep = () => {
-   STATE.output = STATE.payload
-   // TODO:(0)
-   document.getElementById("id_mainText").innerHTML = STATE.output
-}
-
 const bootstrap = async function () {
-  render( html` <${ControlPanel} />`, document.getElementById("idControlPanel"))
   const URLtxtDDBB = getParameterByName('URLtxtDDBB')
-  STATE.payload = await fetchPayload(URLtxtDDBB)
-  doTxtPreProcessing()
-  grep()
+  const payload01 = await fetchPayload(URLtxtDDBB)
+  render( html` <${ControlPanel} payload=${payload01} />`, document.getElementById("idControlPanel"))
 }
 
 
@@ -94,8 +80,6 @@ window.addEventListener('load', bootstrap )
 </head>
 <body>
 <pre id="idControlPanel">
-</pre>
-<pre id="id_mainText">
 </pre>
 
 </body>
