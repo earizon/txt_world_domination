@@ -18,8 +18,11 @@
        url('./source-code-pro/TTF/SourceCodePro-Regular.ttf') format('truetype') ;
 }
 pre { font-family:'source_code_pro',monospace, console; font-size:1em; }
+#idControlPanel { border-bottom: 1px solid black; }
 </style>
-<script>
+<script type="module">
+import { html, render } from './preact.standalone.module.js';
+import { ControlPanel } from './control_panel.js';
 
 const fetchPayload = function (url) {
   const xhr = new XMLHttpRequest();
@@ -29,31 +32,71 @@ const fetchPayload = function (url) {
     xhr.onreadystatechange = function() {
       if (xhr.readyState != 4) return
       if (xhr.status != 200) return
-      resolve(xhr.responseText)
+      resolve(
+         xhr.responseText
+      )
     }
     xhr.send()
   } )
 }
 
-const doTextPreProcessing = function () {
-   const N = document.getElementById("id_mainText")
-   let   H = N.innerHTML
-   // 1st) replace External link
-   H = H.replace(/@\[((http|[.][/]).?[^\]]*)\]/g," ▶<a target='_blank' href='$1'>$1</a>◀")   
-   // 2nd) replace relative (to page) link
-   H = H.replace(/@\[([^\]]*)\]/g," ▷<a href='$1'>$1</a>◁")   
-   N.innerHTML = H
+const doTxtPreProcessing = function () {
+   let   H = STATE.payload
+   // NEXT) replace html scape chars 
+   H = H.replaceAll('<','&lt;') 
+        .replaceAll('>','&gt;')
+
+   // NEXT) replace External links
+   H = H.replace(
+       /@\[((http|[.][/]).?[^\]]*)\]/g,
+       " ▶<a target='_blank' href='$1'>$1</a>◀")   
+
+   // NEXT) replace relative (to page) link
+   H = H.replace(
+       /@\[([^\]]*)\]/g,
+       " ▷<a href='$1'>$1</a>◁")   
+   STATE.payload = H
 }
+
+const getParameterByName = function(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, '\\$&');
+    const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+const STATE = {
+   payload : "",
+   output  : ""
+}
+window.STATE = STATE // help debugging
+
+const grep = () => {
+   STATE.output = STATE.payload
+   // TODO:(0)
+   document.getElementById("id_mainText").innerHTML = STATE.output
+}
+
 const bootstrap = async function () {
-  const payload = await fetchPayload('./payload.txt') // TODO:(0) Parameterize
-  document.getElementById("id_mainText").innerHTML = payload
-  doTextPreProcessing()
+  render( html` <${ControlPanel} />`, document.getElementById("idControlPanel"))
+  const URLtxtDDBB = getParameterByName('URLtxtDDBB')
+  STATE.payload = await fetchPayload(URLtxtDDBB)
+  doTxtPreProcessing()
+  grep()
 }
+
+
 window.addEventListener('load', bootstrap )
 </script>
 </head>
 <body>
+<pre id="idControlPanel">
+</pre>
 <pre id="id_mainText">
 </pre>
+
 </body>
 </html>
