@@ -5,7 +5,14 @@ class TXTDBEngine  {
     }
 
     grep( grepInput ) {
-        return this.payload // TODO:(0)
+        if (!!! grepInput ) return this.payload
+        const result = 
+            this.payload.split("\n").filter( lineN => {
+                let isMatch = lineN.indexOf(grepInput) > 0
+console.log(isMatch +","+ lineN)
+                return isMatch
+            })
+        return result.join("\n")
     }
 }
 

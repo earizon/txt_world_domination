@@ -23,11 +23,9 @@ class ControlPanel extends Component {
       }
       this.state.timerDoFind = setTimeout(
         () => {
-console.log("1 "+inputEvent.target.value)
           const dbEngineOutput = this.txtDBEngine.grep(inputEvent.target.value)
-console.log("1 "+dbEngineOutput)
           this.setState ( { dbEngineOutput :  dbEngineOutput } )
-        }, 1000)
+        }, 200)
     }
 
     render( props ) {
