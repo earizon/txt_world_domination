@@ -7,7 +7,8 @@ class ControlPanel extends Component {
 
     state = {
       timerDoFind : 0,
-      dbEngineOutput : ""
+      dbEngineOutput : "",
+      grep : [ { input: "", before: 5, after: 5 } ]
     }
 
     constructor({ payload }) {
@@ -23,14 +24,15 @@ class ControlPanel extends Component {
       }
       this.state.timerDoFind = setTimeout(
         () => {
-          const dbEngineOutput = this.txtDBEngine.grep(inputEvent.target.value)
-          this.setState ( { dbEngineOutput :  dbEngineOutput } )
+          this.state.grep[0].input = inputEvent.target.value
+          const dbEngineOutput = this.txtDBEngine.grep(this.state.grep[0])
+          this.setState ( { dbEngineOutput :  dbEngineOutput, grep : this.state.grep } )
         }, 200)
     }
 
     render( props ) {
       return html`
-        grep:<input value='${this.state.grepInput}'
+        grep:<input value='${this.state.grep[0].input}'
               onInput=${ (e) => this.onGrepInputChanged(e) } ></input>
         <hr/>
         ${this.state.dbEngineOutput}
