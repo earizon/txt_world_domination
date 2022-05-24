@@ -2,19 +2,14 @@ class RingBuffer {
 
     constructor(length) {
       this.length = length 
-      this.pointer = 0
       this.buffer = [] 
     }
-
-    // https://stackoverflow.com/questions/1583123/circular-buffer-in-javascript
-    
-    get   = function(){return this.buffer.slice(0,this.pointer+1)};
+    get   = function(){return this.buffer;}
     push  = function(item){
-       this.buffer[this.pointer] = item;
-       this.pointer = (this.length + this.pointer +1) % this.length;
+       if (this.buffer.length == this.length) { this.buffer.shift() }
+       this.buffer.push(item)
     } 
-    reset = function() { this.buffer = []; this.pointer = 0; }
-
+    reset = function() { this.buffer = []; }
 };
 
 class TXTDBEngine  {
@@ -36,11 +31,10 @@ class TXTDBEngine  {
             afterPending=afterPending-1
             result.push(lineN)
             if (afterPending==0) {
-              result.push("<<<")
             }
         }
         if (isMatch) {
-           result.push(">>>")
+           result.push("------grep ------------------")
            beforeRB.get().forEach(bLine => result.push(bLine))
            beforeRB.reset()
            result.push(lineN)

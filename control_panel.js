@@ -60,7 +60,9 @@ class ControlPanel extends Component {
 
     setGrepBound = (flag, delta) => {
       if ( flag == 'b'/*before*/ ) this.state.grep[0].before += delta
+      if ( this.state.grep[0].before < 0 ) this.state.grep[0].before = 0
       if ( flag == 'a'/*after */ ) this.state.grep[0].after  += delta
+      if ( this.state.grep[0].after < 0 ) this.state.grep[0].after = 0
       this.setState ( { grep : this.state.grep } )
       this.onGrepInputChanged()
     }
