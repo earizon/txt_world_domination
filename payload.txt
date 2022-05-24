@@ -1,4 +1,4 @@
-┌─ HEAD-Quaters ────────────────────────────────────┐
+┌─ HEAD-Quarters ───────────────────────────────────┐
 │@[https://github.com/earizon/txt_world_domination/]│
 └───────────────────────────────────────────────────┘
  @[#UML] @[#BPMN] @[#Geometric] @[#math_symbols]
