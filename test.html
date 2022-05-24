@@ -33,29 +33,11 @@ const fetchPayload = function (url) {
       if (xhr.readyState != 4) return
       if (xhr.status != 200) return
       resolve(
-         doTxtPreProcessing(xhr.responseText)
+         xhr.responseText
       )
     }
     xhr.send()
   } )
-}
-
-const doTxtPreProcessing = function (input) {
-   let H = input
-   // NEXT) replace html scape chars 
-// H = H.replaceAll('<','&lt;') 
-//      .replaceAll('>','&gt;')
-
-   // NEXT) replace External links
-   H = H.replace(
-       /@\[((http|[.][/]).?[^\]]*)\]/g,
-       " ▶<a target='_blank' href='$1'>$1</a>◀")   
-
-   // NEXT) replace relative (to page) link
-   H = H.replace(
-       /@\[([^\]]*)\]/g,
-       " ▷<a href='$1'>$1</a>◁")   
-   return H
 }
 
 const getParameterByName = function(name, url) {
@@ -80,6 +62,9 @@ window.addEventListener('load', bootstrap )
 </head>
 <body>
 <pre id="idControlPanel">
+</pre>
+<pre id="dbEngineOutput">
+-
 </pre>
 
 </body>
