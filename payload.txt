@@ -5,29 +5,29 @@
                                      
  @[https://arthursonzogni.com/Diagon/] (Online / Desktop)
    Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....
-   ┌─ Gallery ───────────────────────────────────────┐
-   │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │
-   │                           │                     │
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │
-   │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │
-   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │
-   │  │      ││pants │  ││tie│ │    │───────────>│   │
-   │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
-   │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │
-   │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │
-   │ └──────────┘└───────┘     │ │Alice│       │Bob│ │
-   │                           │ └─────┘       └───┘ │
-   │───────────────────────────┼─────────────────────│
-   │  TREE EXAMPLE             │   MATH EXPRESSION   │
-   │  Linux                    │                     │
+   ┌─ Gallery ───────────────────────────────────────┐ 
+   │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
+   │                           │                     │ 
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
+   │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
+   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1.subtopic1,topic3.subtopic1]]
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
+   │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic2.subtopic1]]
+   │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │ 
+   │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │                                       
+   │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │                                       
+   │ └──────────┘└───────┘     │ │Alice│       │Bob│ │ 
+   │                           │ └─────┘       └───┘ │                                       
+   │───────────────────────────┼─────────────────────│                                       
+   │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
+   │  Linux                    │                     │ [}]
    │   ├─Android               │    1            3   │
    │   ├─Debian                │    ⌠  2        n    │
    │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
    │   │  │  ├─Lubuntu         │    0            3   │
    │   │  │  └─Xubuntu         │                     │
    │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘
+   └─────────────────────────────────────────────────┘ [}]
 
  @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing)
    

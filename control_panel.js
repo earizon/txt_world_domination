@@ -68,11 +68,10 @@ class ControlPanel extends Component {
     }
     render( props ) {
       return html`
-        grep:
           <span onClick=${ (e) => this.setGrepBound('b',-1)}>-</span>
           ${this.state.grep[0].before}
           <span onClick=${ (e) => this.setGrepBound('b',+1)}>+</span>
-            <input value='${this.state.grep[0].input}'
+            <input value='${this.state.grep[0].input}' placeholder='grep'
               onInput=${ (e) => this.onGrepRegexChanged(e) } >
              </input>${this.state.after}
           <span onClick=${ (e) => this.setGrepBound('a',-1)}>-</span>
