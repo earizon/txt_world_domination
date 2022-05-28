@@ -67,7 +67,7 @@ class ControlPanel extends Component {
       this.onGrepInputChanged()
     }
     render( props ) {
-      return html`
+      return ( html`
           <span onClick=${ (e) => this.setGrepBound('b',-1)}>-</span>
           ${this.state.grep[0].before}
           <span onClick=${ (e) => this.setGrepBound('b',+1)}>+</span>
@@ -76,8 +76,9 @@ class ControlPanel extends Component {
              </input>${this.state.after}
           <span onClick=${ (e) => this.setGrepBound('a',-1)}>-</span>
           ${this.state.grep[0].after }
-          <span onClick=${ (e) => this.setGrepBound('a',+1)}>+</span>
-      `;
+          <span onClick=${ (e) => this.setGrepBound('a',+1)}>+</span><br/>
+          ${JSON.stringify(Object.keys(this.txtDBEngine.topicsDB._db))}
+      `) ;
     }
 }
 

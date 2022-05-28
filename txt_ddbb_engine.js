@@ -18,7 +18,7 @@ class TopicCoordinate {
         /*
          * dimension.subtopic1.subtopic2 <- sTopic 
          * └──┬────┘ └───┬───┘ └─┬─────┘
-         *    │          │     "subcoordinate"
+         *    │          │     "sub-coordinate"
          *    │          └──── "finite" dimensional "coordinate"
          *    └─────────────── "main topic" / dimmension axe
          */
@@ -31,25 +31,26 @@ class TopicCoordinate {
 }
 
 class TopicBlockDB {
-   static _db = {}
-      /*  ^^^^
-       *  topic1 : {
-       *    coordinate1 : [ block1, block2, ... ]
-       *    coordinate2 : [ block3, ... ] 
-       *  },
-       *  topic2 : {
-       *    coordinate1 : [ block1, block2, ... ]
-       *    coordinate2 : [ block3, ... ] 
-       *  },
-       *  ...
-       */ 
-   static add(tc /*topicCoordinate*/, block ) {
-       if (! TopicBlockDB._db[tc.dim] )
-          TopicBlockDB._db[tc.dim] = {}
-       if (! TopicBlockDB._db[tc.dim][tc.coord] ) 
-          TopicBlockDB._db[tc.dim][tc.coord] = []
-       if (! (block in  TopicBlockDB._db[tc.dim][tc.coord]) ) {
-          TopicBlockDB._db[tc.dim][tc.coord].push(block);
+   constructor ()  {}
+   _db = {}
+   /*    ^^
+    *  topic1 : {
+    *    coordinate1 : [ block1, block2, ... ]
+    *    coordinate2 : [ block3, ... ] 
+    *  },
+    *  topic2 : {
+    *    coordinate1 : [ block1, block2, ... ]
+    *    coordinate2 : [ block3, ... ] 
+    *  },
+    *  ...
+    */ 
+   add(tc /*topicCoordinate*/, block ) {
+       if (! this._db[tc.dim] )
+          this._db[tc.dim] = {}
+       if (! this._db[tc.dim][tc.coord] ) 
+          this._db[tc.dim][tc.coord] = []
+       if (! (block in  this._db[tc.dim][tc.coord]) ) {
+          this._db[tc.dim][tc.coord].push(block);
        }
    }
 }
@@ -87,6 +88,7 @@ class TXTDBEngine  {
 
       const blockStack = []; // Active stack for a given txt-line-input
       const block_l = [];
+      this.topicBlockDB = new TopicBlockDB();
       for (let lineIdx = 0; lineIdx < this.inmutableDDBB.length; lineIdx++) {
         const line = this.inmutableDDBB[lineIdx];
         if ( line.indexOf('[{]') >= 0 ) {
@@ -97,7 +99,7 @@ class TXTDBEngine  {
           line_topicCoords_l.forEach ( topicCoord => {
             if (topicCoord.id in block.topic_d) { return }
             block.topic_d[topicCoord.id] = true; 
-            TopicBlockDB.add(topicCoord, block);
+            this.topicBlockDB.add(topicCoord, block);
           })
         })
         if ( line.indexOf('[}]') >= 0 ) {
@@ -106,16 +108,15 @@ class TXTDBEngine  {
           block_l.push(block)
         }
       }
-      console.log("==================================")
-      console.dir(Object.keys(TopicCoordinate.id2Instance))
-      console.dir(TopicBlockDB._db)
-      console.log("==================================")
+      return this.topicBlockDB
     }
 
     constructor( payload ) {
       this.payload          = payload
       this.inmutableDDBB    = payload.split("\n")
-      this.buildIndexes()
+      this.topicsDB         = this.buildIndexes()
+      console.log("==================================")
+      console.dir(this.topicsDB._db)
     }
 
     grep( grep0 ) {
