@@ -53,6 +53,10 @@ class TopicBlockDB {
           this._db[tc.dim][tc.coord].push(block);
        }
    }
+
+   getDimensionList() { return(Object.keys(this._db).sort()); }
+
+   getCoord(dim) { return(Object.keys(this._db[dim]).sort()); }
 }
 
 class Block {

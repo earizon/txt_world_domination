@@ -7,8 +7,13 @@ class ControlPanel extends Component {
 
     state = {
       timerDoFind : 0,
+      showTopics  : true,
       dbEngineOutput : "",
       grep : [ { input: "", before: 5, after: 5 } ]
+    }
+
+    switchTopicView = ()=> { 
+        this.setState ( { showTopics: !this.state.showTopics } );
     }
 
     constructor({ payload }) {
@@ -77,7 +82,19 @@ class ControlPanel extends Component {
           <span onClick=${ (e) => this.setGrepBound('a',-1)}>-</span>
           ${this.state.grep[0].after }
           <span onClick=${ (e) => this.setGrepBound('a',+1)}>+</span><br/>
-          ${JSON.stringify(Object.keys(this.txtDBEngine.topicsDB._db))}
+            ${ this.state.showTopics &&
+               html`<span onclick=${() => this.switchTopicView()}>- hide topics</span><br/>
+                    ${ this.txtDBEngine.topicsDB.getDimensionList()
+                       .map( (dimI) => {
+                           return html`<span>[${dimI}]</span>` 
+                       })
+                    }
+                 `
+              }
+            ${ ! this.state.showTopics && 
+               html`<span onclick=${() => this.switchTopicView()}>
+                    + show topics</span>`
+            }
       `) ;
     }
 }
