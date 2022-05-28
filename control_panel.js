@@ -6,7 +6,7 @@ import { TXTDBEngine } from './txt_ddbb_engine.js';
 class Topic extends Component {
 
     state = {
-      topicCoord_id_l : []
+      TC_selected : { /*topic coord.id selected: bool*/ }
     }
 
     constructor() { super(); }
@@ -15,13 +15,20 @@ class Topic extends Component {
       console.log("clicked");
     }
 
+    tcSwitch(TC_id) {
+        console.log(TC_id);
+        this.state.TC_selected[TC_id] = !this.state.TC_selected[TC_id];
+        this.setState({ TC_selected : this.state.TC_selected });
+    }
+
     render( { topicName, topicCoord_l } ) {
       return (html`
         ${topicName} :
-        ${ topicCoord_l
-           .map( (topicCoor_id) => {
-               return html`<span>[${topicCoor_id}]</span>` 
-           })
+        ${ topicCoord_l.map( (TC_id) => 
+           html`[<span class='${this.state.TC_selected[TC_id]?"selected":""}'
+                 onclick=${(e) => this.tcSwitch(TC_id)} >
+                ${TC_id}</span>]` 
+           )
         }`
      ); 
     }
@@ -110,15 +117,10 @@ class ControlPanel extends Component {
                html`<span onclick=${() => this.switchTopicView()}>- hide topics</span><br/>
                     ${ this.txtDBEngine.topicsDB.getDimensionList()
                        .map( (dimI) => { 
-//                          return html`<span>[${dimI}]</span>` 
                             return html`<${Topic} topicName=${dimI} topicCoord_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)} //><br/>` 
                        })
                     }
                  `
-//                         html`$<${Topic} 
-//                                 id=${dimI}
-//                                 topicCoords=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)}>${dimI}<//>`
-
             }
             ${ ! this.state.showTopics && 
                html`<span onclick=${() => this.switchTopicView()}>

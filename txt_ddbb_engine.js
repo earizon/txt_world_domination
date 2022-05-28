@@ -104,6 +104,7 @@ class TXTDBEngine  {
         const line_topicCoords_l = parseTopicsInLine(line);
         blockStack.forEach( block => {
           line_topicCoords_l.forEach ( topicCoord => {
+console.log("("+topicCoord.id+" in block.topic_d)"+(topicCoord.id in block.topic_d))
             if (topicCoord.id in block.topic_d) { return }
             block.topic_d[topicCoord.id] = true; 
             this.topicBlockDB.add(topicCoord, block);
@@ -122,8 +123,7 @@ class TXTDBEngine  {
       this.payload          = payload
       this.inmutableDDBB    = payload.split("\n")
       this.topicsDB         = this.buildIndexes()
-      console.log("==================================")
-      console.dir(this.topicsDB._db)
+      // console.dir(this.topicsDB._db)
     }
 
     grep( grep0 ) {
