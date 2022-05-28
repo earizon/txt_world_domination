@@ -10,7 +10,7 @@
    │                           │                     │ 
    │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
-   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1.subtopic1,topic3.subtopic1]]
+   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopic1]]
    │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
    │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic2.subtopic1]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │ 

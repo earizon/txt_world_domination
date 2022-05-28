@@ -12,31 +12,48 @@ class ReadLinesBuffer { // keep last N lines in memory
     reset() { this.buffer = []; }
 };
 
+class Block {
+    constructor(bound, topic_d, parent) {
+        this.bound = bound // /*[lineStart,lineEnd]
+        this.topic_d = {}
+        this.parent = parent 
+    }
+    setLineEnd(lineEnd) { this.bound[1] = lineEnd; }
+}
 class TXTDBEngine  {
 
-    parseTopicsInLine(lineIn) {
-      const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return []
-      const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return []
-      if (idx0 > idx1) return []
-      const sInput = lineIn.substring(idx0+2,idx1).toLowerCase().replaceAll(" ","");
-      return sInput.split(",")
-    }
-
     buildIndexes() {
-      const topic2BlockList = { /* key: topic, value: block_list */  } 
-      const BLCK0 = { bound: [0, this.inmutableDDBB.length-1], topic_d:{}, parent: null }
+      const parseTopicsInLine = function (lineIn) {
+        const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return []
+        const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return []
+        if (idx0 > idx1) return []
+        const sInput = lineIn.substring(idx0+2,idx1).toLowerCase().replaceAll(" ","");
+        const unchecked_topic_l = sInput.split(","),
+                checked_topic_l = unchecked_topic_l
+          .map( (uchktopic) => { return uchktopic.trim().replaceAll(" ","") } )
+          .map( (uchktopic) => {
+             while (uchktopic.endsWith(".")) {
+                 uchktopic = uchktopic.substring(0,uchktopic.length-1) }
+             return uchktopic
+           })
+          .filter( (uchktopic) => { return uchktopic != "" } )
+        return checked_topic_l
+      }
+
+      const topic2BlockList = { /* key: topic, value: block_list */  } ;
+      const BLCK0 = new Block( [0, this.inmutableDDBB.length-1], {}, null );
       const blockStack = [ ]
       const block_l = [ BLCK0 ]
       for (let lineIdx = 0; lineIdx < this.inmutableDDBB.length; lineIdx++) {
         const line = this.inmutableDDBB[lineIdx];
         if ( line.indexOf('[{]') >= 0 ) {
-            blockStack.push( { bound: [lineIdx], topic_d:{}, parent: blockStack[blockStack.length-1]} )
+            blockStack.push( new Block ( [lineIdx], {}, blockStack.at(-1) ) )
         }
-        const line_topic_l = this.parseTopicsInLine(line);
+        const line_topic_l = parseTopicsInLine(line);
         line_topic_l.forEach(topic => {
             if (!!!topic2BlockList[topic]) { topic2BlockList[topic] = [] }
         })
-        blockStack.forEach( block => {
+        blockStack.forEach( block => { // For each block in stack add topics found in line
           line_topic_l.forEach ( topic => {
             if (! (topic in block.topic_d) ) {
                 block.topic_d[topic] = block
