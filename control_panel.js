@@ -1,7 +1,31 @@
 // import { html, Component, render } from 'https://unpkg.com/htm/preact/standalone.module.js';
-import { html, Component, render } from './preact.standalone.module.js';
+import { html, Component } from './preact.standalone.module.js';
 
 import { TXTDBEngine } from './txt_ddbb_engine.js';
+
+class Topic extends Component {
+
+    state = {
+      topicCoord_id_l : []
+    }
+
+    constructor() { super(); }
+
+    onTopicCoordClicked() {
+      console.log("clicked");
+    }
+
+    render( { topicName, topicCoord_l } ) {
+      return (html`
+        ${topicName} :
+        ${ topicCoord_l
+           .map( (topicCoor_id) => {
+               return html`<span>[${topicCoor_id}]</span>` 
+           })
+        }`
+     ); 
+    }
+}
 
 class ControlPanel extends Component {
 
@@ -85,12 +109,17 @@ class ControlPanel extends Component {
             ${ this.state.showTopics &&
                html`<span onclick=${() => this.switchTopicView()}>- hide topics</span><br/>
                     ${ this.txtDBEngine.topicsDB.getDimensionList()
-                       .map( (dimI) => {
-                           return html`<span>[${dimI}]</span>` 
+                       .map( (dimI) => { 
+//                          return html`<span>[${dimI}]</span>` 
+                            return html`<${Topic} topicName=${dimI} topicCoord_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)} //><br/>` 
                        })
                     }
                  `
-              }
+//                         html`$<${Topic} 
+//                                 id=${dimI}
+//                                 topicCoords=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)}>${dimI}<//>`
+
+            }
             ${ ! this.state.showTopics && 
                html`<span onclick=${() => this.switchTopicView()}>
                     + show topics</span>`

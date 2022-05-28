@@ -46,17 +46,20 @@ class TopicBlockDB {
     */ 
    add(tc /*topicCoordinate*/, block ) {
        if (! this._db[tc.dim] )
-          this._db[tc.dim] = {}
+          this._db[tc.dim] = {"*"/* coord. */: [] /*blocks*/}
        if (! this._db[tc.dim][tc.coord] ) 
           this._db[tc.dim][tc.coord] = []
-       if (! (block in  this._db[tc.dim][tc.coord]) ) {
+       if (! (block in this._db[tc.dim][tc.coord]) ) {
           this._db[tc.dim][tc.coord].push(block);
+       }
+       if (! (block in this._db[tc.dim]["*"]) ) {
+          this._db[tc.dim]["*"].push(block);
        }
    }
 
    getDimensionList() { return(Object.keys(this._db).sort()); }
 
-   getCoord(dim) { return(Object.keys(this._db[dim]).sort()); }
+   getCoordForDim(dim) { return(Object.keys(this._db[dim]).sort()); }
 }
 
 class Block {
