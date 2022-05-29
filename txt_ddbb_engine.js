@@ -63,12 +63,12 @@ class TopicBlockDB {
 }
 
 class Block {
-    constructor(bound, topic_d, parent) {
-        this.bound = bound // /*[lineStart,lineEnd]
+    constructor(bounds, topic_d, parent) {
+        this.bounds = bounds // /*[lineStart,lineEnd]
         this.topic_d = {}
         this.parent = parent 
     }
-    setLineEnd(lineEnd) { this.bound[1] = lineEnd; }
+    setLineEnd(lineEnd) { this.bounds[1] = lineEnd; }
 }
 
 class TXTDBEngine  {
@@ -112,7 +112,7 @@ console.log("("+topicCoord.id+" in block.topic_d)"+(topicCoord.id in block.topic
         })
         if ( line.indexOf('[}]') >= 0 ) {
           const block = blockStack.pop()
-          if (!!block) { block.bound.push(lineIdx) }
+          if (!!block) { block.bounds.push(lineIdx) }
           block_l.push(block)
         }
       }

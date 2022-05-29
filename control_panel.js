@@ -94,7 +94,7 @@ class ControlPanel extends Component {
            this.doTxtPreProcessing(this.state.dbEngineOutput)
     }
 
-    setGrepBound = (flag, delta) => {
+    setGrepBounds = (flag, delta) => {
       if ( flag == 'b'/*before*/ ) this.state.grep[0].before += delta
       if ( this.state.grep[0].before < 0 ) this.state.grep[0].before = 0
       if ( flag == 'a'/*after */ ) this.state.grep[0].after  += delta
@@ -102,29 +102,30 @@ class ControlPanel extends Component {
       this.setState ( { grep : this.state.grep } )
       this.onGrepInputChanged()
     }
+
     render( props ) {
       return ( html`
-          <span onClick=${ (e) => this.setGrepBound('b',-1)}>-</span>
+          <span onClick=${ (e) => this.setGrepBounds('b',-1)}>-</span>
           ${this.state.grep[0].before}
-          <span onClick=${ (e) => this.setGrepBound('b',+1)}>+</span>
+          <span onClick=${ (e) => this.setGrepBounds('b',+1)}>+</span>
             <input value='${this.state.grep[0].input}' placeholder='grep'
               onInput=${ (e) => this.onGrepRegexChanged(e) } >
              </input>${this.state.after}
-          <span onClick=${ (e) => this.setGrepBound('a',-1)}>-</span>
+          <span onClick=${ (e) => this.setGrepBounds('a',-1)}>-</span>
           ${this.state.grep[0].after }
-          <span onClick=${ (e) => this.setGrepBound('a',+1)}>+</span><br/>
+          <span onClick=${ (e) => this.setGrepBoundss('a',+1)}>+</span><br/>
             ${ this.state.showTopics &&
-               html`<span onclick=${() => this.switchTopicView()}>- hide topics</span><br/>
-                    ${ this.txtDBEngine.topicsDB.getDimensionList()
-                       .map( (dimI) => { 
-                            return html`<${Topic} topicName=${dimI} topicCoord_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)} //><br/>` 
-                       })
-                    }
-                 `
+               html`<span onclick=${() => this.switchTopicView()}>[- hide topics]</span><br/>
+                 ${ this.txtDBEngine.topicsDB.getDimensionList()
+                    .map( (dimI) => { 
+                         return html`<${Topic} topicName=${dimI} topicCoord_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)} //><br/>` 
+                    })
+                 }
+               `
             }
             ${ ! this.state.showTopics && 
                html`<span onclick=${() => this.switchTopicView()}>
-                    + show topics</span>`
+                    [+ show topics]</span>`
             }
       `) ;
     }
