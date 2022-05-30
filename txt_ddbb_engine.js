@@ -57,9 +57,28 @@ class TopicBlockDB {
        }
    }
 
-   getDimensionList() { return(Object.keys(this._db).sort()); }
+   getBlocks(tc /*topicCoordinate*/) {
+       return this._db[tc.dim][tc.coord].slice(1 /* remove docBlock */);
+   }
 
-   getCoordForDim(dim) { return(Object.keys(this._db[dim]).sort()); }
+   getDimensionList() { return Object.keys(this._db).sort(); }
+
+   getCoordForDim(dim) { return Object.keys(this._db[dim]).sort().map(i => dim+"."+i); }
+
+   getMatchingLinesForTopicCoord(docLastLine, TC_id_l) {
+     if (TC_id_l.length==0) return Array(docLastLine).fill(true);
+     const result_l = Array(docLastLine).fill(false);
+     TC_id_l.forEach(TC_id => {
+         const TC = TopicCoordinate.id2Instance[TC_id];
+         const block_l = this.getBlocks(TC);
+         block_l.forEach(block => {
+           for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
+               result_l[idx] = true;
+           }
+         });
+     });
+     return result_l;
+   }
 }
 
 class Block {
@@ -92,9 +111,7 @@ class TXTDBEngine  {
           .map( sTopic => { return new TopicCoordinate(sTopic) } );
         return topicCoordinate_l;
       }
-
-      const blockStack = []; // Active stack for a given txt-line-input
-      const block_l = [];
+      const blockStack = [this.docBlock]; // Active stack for a given txt-line-input
       this.topicBlockDB = new TopicBlockDB();
       for (let lineIdx = 0; lineIdx < this.inmutableDDBB.length; lineIdx++) {
         const line = this.inmutableDDBB[lineIdx];
@@ -104,7 +121,6 @@ class TXTDBEngine  {
         const line_topicCoords_l = parseTopicsInLine(line);
         blockStack.forEach( block => {
           line_topicCoords_l.forEach ( topicCoord => {
-console.log("("+topicCoord.id+" in block.topic_d)"+(topicCoord.id in block.topic_d))
             if (topicCoord.id in block.topic_d) { return }
             block.topic_d[topicCoord.id] = true; 
             this.topicBlockDB.add(topicCoord, block);
@@ -113,22 +129,53 @@ console.log("("+topicCoord.id+" in block.topic_d)"+(topicCoord.id in block.topic
         if ( line.indexOf('[}]') >= 0 ) {
           const block = blockStack.pop()
           if (!!block) { block.bounds.push(lineIdx) }
-          block_l.push(block)
         }
       }
+     
       return this.topicBlockDB
     }
 
     constructor( payload ) {
-      this.payload          = payload
-      this.inmutableDDBB    = payload.split("\n")
+      const doTxtPreProcessing = (input) => {
+         let H = input
+         // NEXT) replace html scape chars 
+      // H = H.replaceAll('<','&lt;') 
+      //      .replaceAll('>','&gt;')
+         // NEXT) replace External links
+         H = H.replace(
+             /@\[((http|[.][/]).?[^\]]*)\]/g,
+             " ▶<a target='_blank' href='$1'>$1</a>◀")   
+      
+         // NEXT) replace relative (to page) link
+         H = H.replace(
+             /@\[([^\]]*)\]/g,
+             " ▷<a href='$1'>$1</a>◁")   
+         return H
+      }
+      let preProcessed      = doTxtPreProcessing(payload)
+      this.inmutableDDBB    = preProcessed.split("\n")
+      this.docBlock         = new Block ( [0,this.inmutableDDBB.length-1], {}, null )
       this.topicsDB         = this.buildIndexes()
       // console.dir(this.topicsDB._db)
     }
 
-    grep( grep0 ) {
+    grep( grep0, selectedCoordinatesIds ) {
+      let selectedTopicsIds = [];
+      Object.keys(selectedCoordinatesIds).forEach( topicName => {
+          const TC_id_d = selectedCoordinatesIds[topicName];
+         Object.keys(TC_id_d).forEach( TC_id => {
+             if (TC_id_d[TC_id] == true) {
+                 selectedTopicsIds.push(TC_id);
+             }
+         });
+      });
       const grepInput = grep0.input
-      if (!!! grepInput ) return this.payload
+      const data_input = []
+      const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(this.inmutableDDBB.length-1,selectedTopicsIds) 
+      for (let idx = 0 ; idx <  this.inmutableDDBB.length; idx++) {
+          if (topicMatchingLines_l[idx]==true) data_input.push(this.inmutableDDBB[idx]);
+      }
+      if (!!! grepInput ) return data_input.join("\n")
       const beforeRB        = new ReadLinesBuffer(grep0.before)
       const result = [];
       let afterPending = 0

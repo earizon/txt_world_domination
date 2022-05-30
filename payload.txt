@@ -12,7 +12,7 @@
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
    │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
    │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
-   │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2,topic2.subtopic5]]
+   │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
    │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
    │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │                                       
@@ -29,10 +29,10 @@
    │   │  └─Mint               │                     │
    └─────────────────────────────────────────────────┘ [}]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing)
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
    
           ┌───────┐    ┌──────┐     IO PORTS  
-          │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐ 
+          │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
           │xxxxxxx│    │xxxxxx│     ││││ ││││ 
     ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐
     │ ┌─Comp.1────┐             │┼┼┼┼┼┼┼│    │
@@ -43,7 +43,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘
+    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │

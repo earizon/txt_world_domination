@@ -18,8 +18,21 @@
        url('./source-code-pro/TTF/SourceCodePro-Regular.ttf') format('truetype') ;
 }
 pre { font-family:'source_code_pro',monospace, console; font-size:1em; }
-#idControlPanel { border-bottom: 1px solid black; }
+#idControlPanel {
+    margin: 0; padding 0.1em;
+    border-bottom: 1px solid black; 
+}
+
 .selected { background-color:black; color: white ; }
+
+
+.textSelectOff {
+  user-select        : none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select : none; /* Konqueror HTML */
+  -moz-user-select   : none; /* Firefox */
+  -ms-user-select    : none; /* Internet Explorer/Edge */
+}
 </style>
 <script type="module">
 import { html, render } from './preact.standalone.module.js';
@@ -62,7 +75,7 @@ window.addEventListener('load', bootstrap )
 </script>
 </head>
 <body>
-<pre id="idControlPanel">
+<pre id="idControlPanel" class="textSelectOff">
 </pre>
 <pre id="dbEngineOutput">
 -
