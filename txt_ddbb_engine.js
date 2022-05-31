@@ -65,13 +65,15 @@ class TopicBlockDB {
 
    getCoordForDim(dim) { return Object.keys(this._db[dim]).sort().map(i => dim+"."+i); }
 
-   getMatchingLinesForTopicCoord(docLastLine, TC_id_l) {
+   getMatchingLinesForTopicCoord(docLastLine, TC_id_l, blockStackDepth) {
      if (TC_id_l.length==0) return Array(docLastLine).fill(true);
      const result_l = Array(docLastLine).fill(false);
      TC_id_l.forEach(TC_id => {
          const TC = TopicCoordinate.id2Instance[TC_id];
          const block_l = this.getBlocks(TC);
-         block_l.forEach(block => {
+         const slice_end   = block_l.length-1
+         const slice_start = (slice_end-blockStackDepth) >=0 ? slice_end : 0;
+         block_l.slice(length-length-1).forEach(block => {
            for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
                result_l[idx] = true;
            }
@@ -159,7 +161,7 @@ class TXTDBEngine  {
       // console.dir(this.topicsDB._db)
     }
 
-    grep( grep0, selectedCoordinatesIds ) {
+    grep( grep0, selectedCoordinatesIds, blockStackDepth ) {
       let selectedTopicsIds = [];
       Object.keys(selectedCoordinatesIds).forEach( topicName => {
           const TC_id_d = selectedCoordinatesIds[topicName];
@@ -171,16 +173,22 @@ class TXTDBEngine  {
       });
       const grepInput = grep0.input
       const data_input = []
-      const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(this.inmutableDDBB.length-1,selectedTopicsIds) 
+      const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
+          this.inmutableDDBB.length-1,selectedTopicsIds, blockStackDepth) 
       for (let idx = 0 ; idx <  this.inmutableDDBB.length; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input.push(this.inmutableDDBB[idx]);
       }
       if (!!! grepInput ) return data_input.join("\n")
       const beforeRB        = new ReadLinesBuffer(grep0.before)
       const result = [];
+      const grepRegex = new RegExp(grepInput, 'gi');
+        
       let afterPending = 0
-      this.inmutableDDBB.forEach( lineN => {
-        let isMatch = (lineN.indexOf(grepInput) > 0) 
+
+      data_input.forEach( lineN => {
+        // let isMatch = (lineN.indexOf(grepInput) > 0) 
+        let isMatch = lineN.match(grepRegex);
+        
 
         if ( !isMatch && afterPending > 0 ) {
             afterPending=afterPending-1
@@ -191,8 +199,10 @@ class TXTDBEngine  {
         if (isMatch) {
            result.push("------grep ------------------")
            beforeRB.get().forEach(bLine => result.push(bLine))
-           beforeRB.reset()
-           result.push(lineN)
+           beforeRB.reset();
+           const highligthedLineN = lineN
+              .replace( grepRegex, (str) => `<span class='grepMatch'>${str}</span>`);
+           result.push(highligthedLineN);
            afterPending = grep0.after
         } else {
            beforeRB.push(lineN)

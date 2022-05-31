@@ -28,7 +28,7 @@ class Topic extends Component {
         ${ topicCoord_id_l.map( (TC_id) => {
            return html`[<span key=${TC_id} class='${this.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
-              ${TC_id}</span>]` 
+              ${TC_id.replace(topicName,"")}</span>]` 
            } )
         }`
       ); 
@@ -62,11 +62,12 @@ class ControlPanel extends Component {
     componentDidMount() { this.execSearch() }
 
     execSearch = () => {
+      const blockStackDepth = 1; // TODO:(0) fetch from UI
       if (this.state.timerDoFind !== null) { clearTimeout(this.state.timerDoFind) }
       this.state.timerDoFind = setTimeout(
         () => {
           document.getElementById("dbEngineOutput").innerHTML = 
-                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected)
+                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, blockStackDepth)
         }, 200)
     }
 
