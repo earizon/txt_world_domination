@@ -6,6 +6,7 @@ class ReadLinesBuffer { // keep last N lines in memory
     };
     get() {return this.buffer;}
     push(item){
+console.log("deleteme this.buffer.length:"+ this.buffer.length);
        if (this.buffer.length == this.length) { this.buffer.shift() }
        this.buffer.push(item)
     } 
@@ -65,14 +66,12 @@ class TopicBlockDB {
 
    getCoordForDim(dim) { return Object.keys(this._db[dim]).sort().map(i => dim+"."+i); }
 
-   getMatchingLinesForTopicCoord(docLastLine, TC_id_l, blockStackDepth) {
+   getMatchingLinesForTopicCoord(docLastLine, TC_id_l) {
      if (TC_id_l.length==0) return Array(docLastLine).fill(true);
      const result_l = Array(docLastLine).fill(false);
      TC_id_l.forEach(TC_id => {
          const TC = TopicCoordinate.id2Instance[TC_id];
          const block_l = this.getBlocks(TC);
-         const slice_end   = block_l.length-1
-         const slice_start = (slice_end-blockStackDepth) >=0 ? slice_end : 0;
          block_l.slice(length-length-1).forEach(block => {
            for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
                result_l[idx] = true;
@@ -113,7 +112,7 @@ class TXTDBEngine  {
           .map( sTopic => { return new TopicCoordinate(sTopic) } );
         return topicCoordinate_l;
       }
-      const blockStack = [this.docBlock]; // Active stack for a given txt-line-input
+      const blockStack = []; // Active stack for a given txt-line-input
       this.topicBlockDB = new TopicBlockDB();
       for (let lineIdx = 0; lineIdx < this.inmutableDDBB.length; lineIdx++) {
         const line = this.inmutableDDBB[lineIdx];
@@ -137,7 +136,7 @@ class TXTDBEngine  {
       return this.topicBlockDB
     }
 
-    constructor( payload ) {
+    constructor( payload , bShowLineNum ) {
       const doTxtPreProcessing = (input) => {
          let H = input
          // NEXT) replace html scape chars 
@@ -154,14 +153,28 @@ class TXTDBEngine  {
              " ▷<a href='$1'>$1</a>◁")   
          return H
       }
-      let preProcessed      = doTxtPreProcessing(payload)
-      this.inmutableDDBB    = preProcessed.split("\n")
+
+      this.cachePayload     =  payload // TODO:(qa) Cache just source URL???
+      this.inmutableDDBB    = this.cachePayload.split("\n");
+      const rows            = this.inmutableDDBB.length;
+      const padding         = (rows<10)?1:( (rows<100)?2: ( (rows<1000)?3:( (rows<10000)?4:5 ) ) );
+      if (bShowLineNum) {
+        const lpad = function(value, padding) {
+          // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
+          var zeroes = new Array(padding+1).join("0");
+          return (zeroes + value).slice(-padding);
+        }
+        for (let idx=0; idx<rows; idx++) {
+            this.inmutableDDBB[idx] = lpad(idx, padding) + this.inmutableDDBB[idx];
+        }
+      }
+      this.cacheResult      =  this.inmutableDDBB.join("\n");
       this.docBlock         = new Block ( [0,this.inmutableDDBB.length-1], {}, null )
       this.topicsDB         = this.buildIndexes()
       // console.dir(this.topicsDB._db)
     }
 
-    grep( grep0, selectedCoordinatesIds, blockStackDepth ) {
+    grep( grep0, selectedCoordinatesIds) {
       let selectedTopicsIds = [];
       Object.keys(selectedCoordinatesIds).forEach( topicName => {
           const TC_id_d = selectedCoordinatesIds[topicName];
@@ -172,9 +185,10 @@ class TXTDBEngine  {
          });
       });
       const grepInput = grep0.input
+      if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
       const data_input = []
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
-          this.inmutableDDBB.length-1,selectedTopicsIds, blockStackDepth) 
+          this.inmutableDDBB.length-1,selectedTopicsIds) 
       for (let idx = 0 ; idx <  this.inmutableDDBB.length; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input.push(this.inmutableDDBB[idx]);
       }

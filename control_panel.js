@@ -45,6 +45,7 @@ class ControlPanel extends Component {
     state = {
       timerDoFind : 0,
       showTopics  : true,
+      showLineNumbers  : false,
       grep : [ { input: "", before: 5, after: 5 } ]
     }
 
@@ -54,21 +55,19 @@ class ControlPanel extends Component {
 
     constructor({ payload }) {
       super({ payload });
-      this.txtDBEngine = new TXTDBEngine(payload)
-      new TXTDBEngine(payload)
+      this.txtDBEngine = new TXTDBEngine(payload, this.state.bShowLineNum);
       ControlPanel.thisPtr = this;
     }
 
     componentDidMount() { this.execSearch() }
 
     execSearch = () => {
-      const blockStackDepth = 1; // TODO:(0) fetch from UI
       if (this.state.timerDoFind !== null) { clearTimeout(this.state.timerDoFind) }
       this.state.timerDoFind = setTimeout(
         () => {
           document.getElementById("dbEngineOutput").innerHTML = 
-                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, blockStackDepth)
-        }, 200)
+                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected)
+        }, 400)
     }
 
     onGrepRegexChanged = (inputEvent) => {
@@ -86,6 +85,7 @@ class ControlPanel extends Component {
       var zeroes = new Array(padding+1).join("0");
       return (zeroes + value).slice(-padding);
     }
+
     setGrepBounds = (flag, delta) => {
       if ( flag == 'b'/*before*/ ) this.state.grep[0].before += delta
       if ( this.state.grep[0].before < 0 ) this.state.grep[0].before = 0
@@ -93,6 +93,13 @@ class ControlPanel extends Component {
       if ( this.state.grep[0].after < 0 ) this.state.grep[0].after = 0
       this.setState ( { grep : this.state.grep } )
       this.execSearch()
+    }
+
+    switchShowLineNum() {
+        this.setState({ showLineNumbers : !this.state.showLineNumbers});
+        this.txtDBEngine = 
+            new TXTDBEngine(this.txtDBEngine.cachePayload, !this.state.showLineNumbers);
+        this.execSearch();
     }
 
     render( props ) {
@@ -106,7 +113,11 @@ class ControlPanel extends Component {
            </input>${this.state.after}
         <span onClick=${ (e) => this.setGrepBounds('a',-1)}>[-]</span>
         ${this.lpad(this.state.grep[0].after,3)}
-        <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span><br/>
+        <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span>
+        <span onClick=${ (e) => this.switchShowLineNum() }
+          class='${this.state.showLineNumbers?"selected":""}'>[show Line #]</span>
+        
+        <br/>
           ${ this.state.showTopics &&
              html`
                <span onclick=${() => this.switchTopicView()}>[- hide topics] ──────────────────────────────</span><br/>
