@@ -6,7 +6,6 @@ class ReadLinesBuffer { // keep last N lines in memory
     };
     get() {return this.buffer;}
     push(item){
-console.log("deleteme this.buffer.length:"+ this.buffer.length);
        if (this.buffer.length == this.length) { this.buffer.shift() }
        this.buffer.push(item)
     } 
@@ -114,8 +113,8 @@ class TXTDBEngine  {
       }
       const blockStack = []; // Active stack for a given txt-line-input
       this.topicBlockDB = new TopicBlockDB();
-      for (let lineIdx = 0; lineIdx < this.inmutableDDBB.length; lineIdx++) {
-        const line = this.inmutableDDBB[lineIdx];
+      for (let lineIdx = 0; lineIdx < this.immutableDDBB.length; lineIdx++) {
+        const line = this.immutableDDBB[lineIdx];
         if ( line.indexOf('[{]') >= 0 ) {
             blockStack.push( new Block ( [lineIdx], {}, blockStack.at(-1) ) )
         }
@@ -150,26 +149,26 @@ class TXTDBEngine  {
          // NEXT) replace relative (to page) link
          H = H.replace(
              /@\[([^\]]*)\]/g,
-             " ▷<a href='$1'>$1</a>◁")   
+             " ▷<a href='$1'>$1</a>◁")
          return H
       }
 
       this.cachePayload     =  payload // TODO:(qa) Cache just source URL???
-      this.inmutableDDBB    = this.cachePayload.split("\n");
-      const rows            = this.inmutableDDBB.length;
-      const padding         = (rows<10)?1:( (rows<100)?2: ( (rows<1000)?3:( (rows<10000)?4:5 ) ) );
+      this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
+      const rowN            = this.immutableDDBB.length;
+      const padding         = (rowN<10)?1:( (rowN<100)?2: ( (rowN<1000)?3:( (rowN<10000)?4:5 ) ) );
       if (bShowLineNum) {
         const lpad = function(value, padding) {
           // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
           var zeroes = new Array(padding+1).join("0");
           return (zeroes + value).slice(-padding);
         }
-        for (let idx=0; idx<rows; idx++) {
-            this.inmutableDDBB[idx] = lpad(idx, padding) + this.inmutableDDBB[idx];
+        for (let idx=0; idx<rowN; idx++) {
+            this.immutableDDBB[idx] = lpad(idx, padding) + this.immutableDDBB[idx];
         }
       }
-      this.cacheResult      =  this.inmutableDDBB.join("\n");
-      this.docBlock         = new Block ( [0,this.inmutableDDBB.length-1], {}, null )
+      this.cacheResult      =  this.immutableDDBB.join("");
+      this.docBlock         = new Block ( [0,this.immutableDDBB.length-1], {}, null )
       this.topicsDB         = this.buildIndexes()
       // console.dir(this.topicsDB._db)
     }
@@ -188,13 +187,13 @@ class TXTDBEngine  {
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
       const data_input = []
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
-          this.inmutableDDBB.length-1,selectedTopicsIds) 
-      for (let idx = 0 ; idx <  this.inmutableDDBB.length; idx++) {
-          if (topicMatchingLines_l[idx]==true) data_input.push(this.inmutableDDBB[idx]);
+          this.immutableDDBB.length-1,selectedTopicsIds) 
+      for (let idx = 0 ; idx <  this.immutableDDBB.length; idx++) {
+          if (topicMatchingLines_l[idx]==true) data_input.push(this.immutableDDBB[idx]);
       }
       if (!!! grepInput ) return data_input.join("\n")
       const beforeRB        = new ReadLinesBuffer(grep0.before)
-      const result = [];
+      let result = "";
       const grepRegex = new RegExp(grepInput, 'gi');
         
       let afterPending = 0
@@ -206,23 +205,23 @@ class TXTDBEngine  {
 
         if ( !isMatch && afterPending > 0 ) {
             afterPending=afterPending-1
-            result.push(lineN)
+            result += lineN;
             if (afterPending==0) {
             }
         }
         if (isMatch) {
-           result.push("------grep ------------------")
-           beforeRB.get().forEach(bLine => result.push(bLine))
+           result += "------grep ------------------\n";
+           beforeRB.get().forEach(bLine => result += bLine)
            beforeRB.reset();
            const highligthedLineN = lineN
               .replace( grepRegex, (str) => `<span class='grepMatch'>${str}</span>`);
-           result.push(highligthedLineN);
+           result += highligthedLineN;
            afterPending = grep0.after
         } else {
            beforeRB.push(lineN)
         }
       })
-      return result.join("\n")
+      return result
     }
 }
 
