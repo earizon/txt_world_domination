@@ -1,5 +1,5 @@
 "use strict"
-class ReadLinesBuffer { // keep last N lines in memory
+class ReadLinesBuffer { // keep last N lines in memory                           [{][[class.ReadLinesBuffer]]
     constructor(length) {
       this.length = length 
       this.buffer = [] 
@@ -10,9 +10,9 @@ class ReadLinesBuffer { // keep last N lines in memory
        this.buffer.push(item)
     } 
     reset() { this.buffer = []; }
-};
+}; //                                                                           [}]
 
-class TopicCoordinate {
+class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
     constructor ( sTopic ) {
         /*
@@ -28,11 +28,11 @@ class TopicCoordinate {
         this.coord = token_l.join(".")
         TopicCoordinate.id2Instance[this.id] = this
     }
-}
+} //                                                                           [}]
 
-class TopicBlockDB {
+class TopicBlockDB { //                                                        [{]
    constructor ()  {}
-   _db = {}
+   _db = {}  //  [[class.TopicBlockDB,data_structure.core]]
    /*    ^^
     *  topic1 : {
     *    coordinate1 : [ block1, block2, ... ]
@@ -43,21 +43,26 @@ class TopicBlockDB {
     *    coordinate2 : [ block3, ... ] 
     *  },
     *  ...
-    */ 
+    */ //                                                                      [}]
    add(tc /*topicCoordinate*/, block ) {
-       if (! this._db[tc.dim] )
+       if (!
+          this._db[tc.dim] )
           this._db[tc.dim] = {"*"/* coord. */: [] /*blocks*/}
-       if (! this._db[tc.dim][tc.coord] ) 
+       if (! 
+          this._db[tc.dim][tc.coord] ) 
           this._db[tc.dim][tc.coord] = []
-       if (! (block in this._db[tc.dim][tc.coord]) ) {
+       if (! (block in
+          this._db[tc.dim][tc.coord] ) ) {
           this._db[tc.dim][tc.coord].push(block);
        }
-       if (! (block in this._db[tc.dim]["*"]) ) {
+       if (! (block in
+          this._db[tc.dim]["*"]) ) {
           this._db[tc.dim]["*"].push(block);
        }
    }
 
    getBlocks(tc /*topicCoordinate*/) {
+       // TODO:(0) Add all matching subtopics.
        return this._db[tc.dim][tc.coord].slice(1 /* remove docBlock */);
    }
 
@@ -65,13 +70,14 @@ class TopicBlockDB {
 
    getCoordForDim(dim) { return Object.keys(this._db[dim]).sort().map(i => dim+"."+i); }
 
-   getMatchingLinesForTopicCoord(docLastLine, TC_id_l) {
-     if (TC_id_l.length==0) return Array(docLastLine).fill(true);
-     const result_l = Array(docLastLine).fill(false);
+   getMatchingLinesForTopicCoord(ddbbRowLength, TC_id_l) {
+     if (TC_id_l.length==0) return Array(ddbbRowLength).fill(true);
+     const result_l = Array(ddbbRowLength).fill(false);
      TC_id_l.forEach(TC_id => {
          const TC = TopicCoordinate.id2Instance[TC_id];
          const block_l = this.getBlocks(TC);
-         block_l.slice(length-length-1).forEach(block => {
+console.log(block_l)
+         block_l.forEach(block => {
            for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
                result_l[idx] = true;
            }
@@ -79,7 +85,7 @@ class TopicBlockDB {
      });
      return result_l;
    }
-}
+}//                                                                           [}]
 
 class Block {
     constructor(bounds, topic_d, parent) {
@@ -147,7 +153,6 @@ class TXTDBEngine  {
           if (!!block) { block.bounds.push(lineIdx) }
         }
       }
-     
       return this.topicBlockDB
     }
 
@@ -182,8 +187,8 @@ class TXTDBEngine  {
       }
       this.cachePayload     = doTxtPreProcessing(payload) // TODO:(qa) Cache just source URL???
       this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
-      const rowN            = this.immutableDDBB.length;
-      const padding         = (rowN<10)?1:( (rowN<100)?2: ( (rowN<1000)?3:( (rowN<10000)?4:5 ) ) );
+      this.rowN             = this.immutableDDBB.length-1;
+      const padding         = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
 
       if (bShowLineNum) {
         const lpad = function(value, padding) {
@@ -191,20 +196,20 @@ class TXTDBEngine  {
           var zeroes = new Array(padding+1).join("0");
           return (zeroes + value).slice(-padding);
         }
-        for (let idx=0; idx<rowN; idx++) {
+        for (let idx=0; idx<this.rowN; idx++) {
             this.immutableDDBB[idx] = lpad(idx, padding) + this.immutableDDBB[idx];
         }
       }
       this.cacheResult      =  this.immutableDDBB.join("");
-      this.docBlock         = new Block ( [0,this.immutableDDBB.length-1], {}, null )
+      this.docBlock         = new Block ( [0,this.rowN], {}, null )
       this.topicsDB         = this.buildIndexes()
       // console.dir(this.topicsDB._db)
     }
 
-    grep( grep0, selectedCoordinatesIds) {
+    grep( grep0, selectedCoordinatesIds ) {
       let selectedTopicsIds = [];
       Object.keys(selectedCoordinatesIds).forEach( topicName => {
-          const TC_id_d = selectedCoordinatesIds[topicName];
+         const TC_id_d = selectedCoordinatesIds[topicName];
          Object.keys(TC_id_d).forEach( TC_id => {
              if (TC_id_d[TC_id] == true) {
                  selectedTopicsIds.push(TC_id);
@@ -215,8 +220,8 @@ class TXTDBEngine  {
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
       let data_input = ""
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
-          this.immutableDDBB.length-1,selectedTopicsIds) 
-      for (let idx = 0 ; idx <  this.immutableDDBB.length; idx++) {
+          this.rowN,selectedTopicsIds) 
+      for (let idx = 0 ; idx <= this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
       }
       if (!!! grepInput ) return data_input
