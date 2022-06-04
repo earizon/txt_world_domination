@@ -21,6 +21,9 @@ pre { font-family:'source_code_pro',monospace, console; font-size:1em; }
 #idControlPanel {
     margin: 0; padding 0.1em;
     border-bottom: 1px solid black; 
+    position: sticky;
+    top: 0;
+    background-color: #EEE;
 }
 
 .selected { background-color:black; color: white ; }
@@ -40,22 +43,6 @@ pre { font-family:'source_code_pro',monospace, console; font-size:1em; }
 import { html, render } from './preact.standalone.module.js';
 import { ControlPanel } from './control_panel.js';
 
-const fetchPayload = function (url) {
-  const xhr = new XMLHttpRequest();
-  return new Promise( (resolve,reject) => {
-    xhr.open('GET', url, true);
-    xhr.setRequestHeader('Cache-Control', 'no-cache')
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState != 4) return
-      if (xhr.status != 200) return
-      resolve(
-         xhr.responseText
-      )
-    }
-    xhr.send()
-  } )
-}
-
 const getParameterByName = function(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
@@ -68,8 +55,7 @@ const getParameterByName = function(name, url) {
 
 const bootstrap = async function () {
   const URLtxtDDBB = getParameterByName('URLtxtDDBB')
-  const payload01 = await fetchPayload(URLtxtDDBB)
-  render( html` <${ControlPanel} payload=${payload01} />`, document.getElementById("idControlPanel"))
+  render( html` <${ControlPanel} url_txt_source=${URLtxtDDBB} />`, document.getElementById("idControlPanel"))
 }
 
 
@@ -80,7 +66,6 @@ window.addEventListener('load', bootstrap )
 <pre id="idControlPanel" class="textSelectOff">
 </pre>
 <pre id="dbEngineOutput">
--
 </pre>
 
 </body>

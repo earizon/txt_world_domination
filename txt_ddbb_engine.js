@@ -92,6 +92,22 @@ class Block {
 
 class TXTDBEngine  {
 
+    fetchPayload = async function (url) {
+      const xhr = new XMLHttpRequest();
+      return new Promise( (resolve,reject) => {
+        xhr.open('GET', url, true);
+        xhr.setRequestHeader('Cache-Control', 'no-cache')
+        xhr.onreadystatechange = function() {
+          if (xhr.readyState != 4) return
+          if (xhr.status != 200) return
+          resolve(
+             xhr.responseText
+          )
+        }
+        xhr.send()
+      } )
+    }
+
     buildIndexes() {
       const parseTopicsInLine = function (lineIn) {
         const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return []
@@ -135,12 +151,24 @@ class TXTDBEngine  {
       return this.topicBlockDB
     }
 
-    constructor( payload , bShowLineNum ) {
+    constructor( url_txt_source ) {
+      this.url_txt_source   = url_txt_source;
+      this.topicsDB         = new TopicBlockDB();
+    }
+
+    async init( bShowLineNum ) {
+      let payload = await this.fetchPayload(this.url_txt_source);
       const doTxtPreProcessing = (input) => {
+         /*
+          * apply simple utility-like replacements (convert @[...] to HTML links, 
+          * scape < chars , ... that in general will apply to any type of txt content.
+          * Other custom (future) transformations will apply for selected blocks
+          * (markdown, csv-to-table, ..) using some custom filter.
+          */
          let H = input
          // NEXT) replace html scape chars 
-      // H = H.replaceAll('<','&lt;') 
-      //      .replaceAll('>','&gt;')
+         H = H.replaceAll('<','&lt;') 
+              .replaceAll('>','&gt;')
          // NEXT) replace External links
          H = H.replace(
              /@\[((http|[.][/]).?[^\]]*)\]/g,
@@ -152,11 +180,11 @@ class TXTDBEngine  {
              " ▷<a href='$1'>$1</a>◁")
          return H
       }
-
-      this.cachePayload     =  payload // TODO:(qa) Cache just source URL???
+      this.cachePayload     = doTxtPreProcessing(payload) // TODO:(qa) Cache just source URL???
       this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
       const rowN            = this.immutableDDBB.length;
       const padding         = (rowN<10)?1:( (rowN<100)?2: ( (rowN<1000)?3:( (rowN<10000)?4:5 ) ) );
+
       if (bShowLineNum) {
         const lpad = function(value, padding) {
           // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
@@ -185,13 +213,13 @@ class TXTDBEngine  {
       });
       const grepInput = grep0.input
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
-      const data_input = []
+      let data_input = ""
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
           this.immutableDDBB.length-1,selectedTopicsIds) 
       for (let idx = 0 ; idx <  this.immutableDDBB.length; idx++) {
-          if (topicMatchingLines_l[idx]==true) data_input.push(this.immutableDDBB[idx]);
+          if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
       }
-      if (!!! grepInput ) return data_input.join("\n")
+      if (!!! grepInput ) return data_input
       const beforeRB        = new ReadLinesBuffer(grep0.before)
       let result = "";
       const grepRegex = new RegExp(grepInput, 'gi');

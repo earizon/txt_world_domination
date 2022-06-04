@@ -44,7 +44,7 @@ class ControlPanel extends Component {
 
     state = {
       timerDoFind : 0,
-      showTopics  : true,
+      showTopics  : false,
       showLineNumbers  : false,
       grep : [ { input: "", before: 5, after: 5 } ]
     }
@@ -53,13 +53,17 @@ class ControlPanel extends Component {
         this.setState ( { showTopics: !this.state.showTopics } );
     }
 
-    constructor({ payload }) {
-      super({ payload });
-      this.txtDBEngine = new TXTDBEngine(payload, this.state.bShowLineNum);
+    constructor({ url_txt_source }) {
+      super({ url_txt_source });
+      this.txtDBEngine = new TXTDBEngine(url_txt_source);
       ControlPanel.thisPtr = this;
     }
 
-    componentDidMount() { this.execSearch() }
+    async componentDidMount() { 
+      await this.txtDBEngine.init(this.state.bShowLineNum);
+      this.execSearch();
+      this.setState({ showTopics: true});
+    }
 
     execSearch = () => {
       if (this.state.timerDoFind !== null) { clearTimeout(this.state.timerDoFind) }
@@ -95,11 +99,10 @@ class ControlPanel extends Component {
       this.execSearch()
     }
 
-    switchShowLineNum() {
-        this.setState({ showLineNumbers : !this.state.showLineNumbers});
-        this.txtDBEngine = 
-            new TXTDBEngine(this.txtDBEngine.cachePayload, !this.state.showLineNumbers);
-        this.execSearch();
+    async switchShowLineNum() {
+      await this.txtDBEngine.init(!this.state.showLineNumbers);
+      this.setState({ showLineNumbers : !this.state.showLineNumbers});
+      this.execSearch();
     }
 
     render( props ) {
