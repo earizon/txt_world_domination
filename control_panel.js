@@ -28,7 +28,7 @@ class Topic extends Component {
         ${ topicCoord_id_l.map( (TC_id) => {
            return html`[<span key=${TC_id} class='${this.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
-              ${TC_id.replace(topicName,"")}</span>]` 
+              ${TC_id.replace(topicName+".","")}</span>]` 
            } )
         }`
       ); 
