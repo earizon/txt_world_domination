@@ -137,7 +137,7 @@ class TXTDBEngine  {
       this.topicBlockDB = new TopicBlockDB();
       for (let lineIdx = 0; lineIdx < this.immutableDDBB.length; lineIdx++) {
         const line = this.immutableDDBB[lineIdx];
-        if ( line.indexOf('[{]') >= 0 ) {
+        if ( line.indexOf('[[{]]') >= 0 ) {
             blockStack.push( new Block ( [lineIdx], {}, blockStack.at(-1) ) )
         }
         const line_topicCoords_l = parseTopicsInLine(line);
@@ -148,7 +148,7 @@ class TXTDBEngine  {
             this.topicBlockDB.add(topicCoord, block);
           })
         })
-        if ( line.indexOf('[}]') >= 0 ) {
+        if ( line.indexOf('[[}]]') >= 0 ) {
           const block = blockStack.pop()
           if (!!block) { block.bounds.push(lineIdx) }
         }

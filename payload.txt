@@ -1,38 +1,58 @@
 ┌─ HEAD-Quarters ───────────────────────────────────┐
 │@[https://github.com/earizon/txt_world_domination/]│
 └───────────────────────────────────────────────────┘
- @[#UML] @[#BPMN] @[#Geometric] @[#math_symbols]
-                                     
- @[https://arthursonzogni.com/Diagon/] (Online / Desktop)
-   Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....
-   ┌─ Gallery ───────────────────────────────────────┐ 
-   │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
-   │                           │                     │ 
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
-   │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
-   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
-   │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
-   │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
-   │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
-   │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │                                       
-   │ └──────────┘└───────┘     │ │Alice│       │Bob│ │ 
-   │                           │ └─────┘       └───┘ │                                       
-   │───────────────────────────┼─────────────────────│                                       
-   │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
-   │  Linux                    │                     │ [}]
-   │   ├─Android               │    1            3   │
-   │   ├─Debian                │    ⌠  2        n    │
-   │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
-   │   │  │  ├─Lubuntu         │    0            3   │
-   │   │  │  └─Xubuntu         │                     │
-   │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘ [}]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
+● Tests:
+- scaped p and html tags must be displayed properly: <p> <html> 
+  (vs hidden as html tags)
+
+- internal links must be converted properly:
+ @[#UML] @[#BPMN] @[#Geometric] @[#math_symbols]
+
+- External links must be converted properly:
+ @[https://www.w3.org/]   @[https://plone.org/]
+ @[https://www.ietf.org/]
+ @[https://www.ieee.org/]
+
+
+- Test: [[ comma separated values of topics ]] must update the topics section properly
+
+- Test: grep regex 'est.*grep.*gex' must display this line.
+
+- Test AsciiArt rendering: │ ┌─────┐┌─────────┐┌─────┐ │
+                           │ │socks││underwear││shirt│ │
+                           │ └┬────┘└┬─┬──────┘└┬─┬──┘ │
+                           │  │      │┌▽─────┐  │┌▽──┐ │
+                           └───────────────────────────┘
+   
+
+-  topic0, topic5 are outside any block and must not      [[topic0,topic5]]
+   be displayed in topics menu.                           
+                                                          [[{]]
+                                                                                                
+   topic1. subtopic1. must be parsed as topic.1sub        [[topic1. subtopic1.,topic3.subtopicA]]
+                                                          [[{]] 
+                                                          [[topic1.subtopic2]]
+                                                      
+                                                       
+                                                                                             
+                                                       
+                                                                                             
+                                                                                             
+                                                                                             
+                                                       [[}]]
+                                                      
+                                                      
+                                                      
+                                                      
+                                                      
+                                                      
+                                                       [[}]]
+
+                                                       [[{]]
    
           ┌───────┐    ┌──────┐     IO PORTS  
-          │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
+          │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐          [[topic2.subtopic5]]
           │xxxxxxx│    │xxxxxx│     ││││ ││││ 
     ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐
     │ ┌─Comp.1────┐             │┼┼┼┼┼┼┼│    │
@@ -43,7 +63,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
+    └──────┴───────┴──┴─────────┴──┴─────────┘         [[}]]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │
@@ -243,10 +263,10 @@
    ┌─ Gallery ───────────────────────────────────────┐ 
    │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
    │                           │                     │ 
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [[{]]
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
    │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [[{]] 
    │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
    │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
@@ -255,16 +275,16 @@
    │                           │ └─────┘       └───┘ │                                       
    │───────────────────────────┼─────────────────────│                                       
    │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
-   │  Linux                    │                     │ [}]
+   │  Linux                    │                     │ [[}]]
    │   ├─Android               │    1            3   │
    │   ├─Debian                │    ⌠  2        n    │
    │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
    │   │  │  ├─Lubuntu         │    0            3   │
    │   │  │  └─Xubuntu         │                     │
    │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘ [}]
+   └─────────────────────────────────────────────────┘ [[}]]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [[{]]
    
           ┌───────┐    ┌──────┐     IO PORTS  
           │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
@@ -278,7 +298,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
+    └──────┴───────┴──┴─────────┴──┴─────────┘          [[}]]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │
@@ -476,10 +496,10 @@
    ┌─ Gallery ───────────────────────────────────────┐ 
    │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
    │                           │                     │ 
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [[{]]
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
    │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [[{]] 
    │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
    │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
@@ -488,16 +508,16 @@
    │                           │ └─────┘       └───┘ │                                       
    │───────────────────────────┼─────────────────────│                                       
    │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
-   │  Linux                    │                     │ [}]
+   │  Linux                    │                     │ [[}]]
    │   ├─Android               │    1            3   │
    │   ├─Debian                │    ⌠  2        n    │
    │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
    │   │  │  ├─Lubuntu         │    0            3   │
    │   │  │  └─Xubuntu         │                     │
    │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘ [}]
+   └─────────────────────────────────────────────────┘ [[}]]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [[{]]
    
           ┌───────┐    ┌──────┐     IO PORTS  
           │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
@@ -511,7 +531,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
+    └──────┴───────┴──┴─────────┴──┴─────────┘          [[}]]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │
@@ -709,10 +729,10 @@
    ┌─ Gallery ───────────────────────────────────────┐ 
    │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
    │                           │                     │ 
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [[{]]
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
    │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [[{]] 
    │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
    │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
@@ -721,16 +741,16 @@
    │                           │ └─────┘       └───┘ │                                       
    │───────────────────────────┼─────────────────────│                                       
    │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
-   │  Linux                    │                     │ [}]
+   │  Linux                    │                     │ [[}]]
    │   ├─Android               │    1            3   │
    │   ├─Debian                │    ⌠  2        n    │
    │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
    │   │  │  ├─Lubuntu         │    0            3   │
    │   │  │  └─Xubuntu         │                     │
    │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘ [}]
+   └─────────────────────────────────────────────────┘ [[}]]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [[{]]
    
           ┌───────┐    ┌──────┐     IO PORTS  
           │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
@@ -744,7 +764,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
+    └──────┴───────┴──┴─────────┴──┴─────────┘          [[}]]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │
@@ -942,10 +962,10 @@
    ┌─ Gallery ───────────────────────────────────────┐ 
    │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
    │                           │                     │ 
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [[{]]
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
    │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [[{]] 
    │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
    │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
@@ -954,16 +974,16 @@
    │                           │ └─────┘       └───┘ │                                       
    │───────────────────────────┼─────────────────────│                                       
    │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
-   │  Linux                    │                     │ [}]
+   │  Linux                    │                     │ [[}]]
    │   ├─Android               │    1            3   │
    │   ├─Debian                │    ⌠  2        n    │
    │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
    │   │  │  ├─Lubuntu         │    0            3   │
    │   │  │  └─Xubuntu         │                     │
    │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘ [}]
+   └─────────────────────────────────────────────────┘ [[}]]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [[{]]
    
           ┌───────┐    ┌──────┐     IO PORTS  
           │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
@@ -977,7 +997,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
+    └──────┴───────┴──┴─────────┴──┴─────────┘          [[}]]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │
@@ -1175,10 +1195,10 @@
    ┌─ Gallery ───────────────────────────────────────┐ 
    │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │ [[topic0,topic5]]
    │                           │                     │ 
-   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [{]
+   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │ [[{]]
    │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                                       
    │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │ [[topic1. subtopic1.,topic3.subtopicA]]
-   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [{] 
+   │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │ [[{]] 
    │  │      ││pants │  ││tie│ │    │───────────>│   │ [[topic1.subtopic2]]
    │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │
    │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │ 
@@ -1187,16 +1207,16 @@
    │                           │ └─────┘       └───┘ │                                       
    │───────────────────────────┼─────────────────────│                                       
    │  TREE EXAMPLE             │   MATH EXPRESSION   │                                       
-   │  Linux                    │                     │ [}]
+   │  Linux                    │                     │ [[}]]
    │   ├─Android               │    1            3   │
    │   ├─Debian                │    ⌠  2        n    │
    │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │
    │   │  │  ├─Lubuntu         │    0            3   │
    │   │  │  └─Xubuntu         │                     │
    │   │  └─Mint               │                     │
-   └─────────────────────────────────────────────────┘ [}]
+   └─────────────────────────────────────────────────┘ [[}]]
 
- @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [{]
+ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) [[{]]
    
           ┌───────┐    ┌──────┐     IO PORTS  
           │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐            [[topic2.subtopic5]]
@@ -1210,7 +1230,7 @@
     │   └─────┬────┘       │     │consectetur│
     │      ┌──┴────┐  ┌────┴────┐└───────────┤
     │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤
-    └──────┴───────┴──┴─────────┴──┴─────────┘          [}]
+    └──────┴───────┴──┴─────────┴──┴─────────┘          [[}]]
 
 ┌────────────────────────────────────┐
 │ Desktop TXT World Domination Tools │
