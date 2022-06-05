@@ -116,9 +116,9 @@ class ControlPanel extends Component {
            </input>${this.state.after}
         <span onClick=${ (e) => this.setGrepBounds('a',-1)}>[-]</span>
         ${this.lpad(this.state.grep[0].after,3)}
-        <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span>
+        <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span><span>   </span>
         <span onClick=${ (e) => this.switchShowLineNum() }
-          class='${this.state.showLineNumbers?"selected":""}'>[show Line #]</span>
+          class='${this.state.showLineNumbers?"selected":""}'>[Line Number]</span>
         
         <br/>
           ${ this.state.showTopics &&
