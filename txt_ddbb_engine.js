@@ -227,15 +227,11 @@ class TXTDBEngine  {
       if (!!! grepInput ) return data_input
       const beforeRB        = new ReadLinesBuffer(grep0.before)
       let result = "";
-      const grepRegex = new RegExp(grepInput, 'gi');
+      const grepRegex = new RegExp(grepInput, 'gi'); 
         
       let afterPending = 0
-
-      data_input.forEach( lineN => {
-        // let isMatch = (lineN.indexOf(grepInput) > 0) 
+      data_input.split(/(\n)/g).forEach( lineN => {
         let isMatch = lineN.match(grepRegex);
-        
-
         if ( !isMatch && afterPending > 0 ) {
             afterPending=afterPending-1
             result += lineN;
