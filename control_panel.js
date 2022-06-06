@@ -18,11 +18,10 @@ class Topic extends Component {
         e.stopImmediatePropagation();
         this.state.TC_id_selected[TC_id] = !this.state.TC_id_selected[TC_id];
         this.setState({ TC_id_selected : this.state.TC_id_selected });
-        this.props.onTopicCoordOnOff(this.props.topicName, this.state.TC_id_selected)
+        this.props.CP.onTopicCoordOnOff(this.props.topicName, this.state.TC_id_selected)
     }
 
-    render( { topicName, topicCoord_id_l , parentControlPanel, onTopicCoordOnOff } ) {
-      this.parentControlParent = parentControlPanel;
+    render( { topicName, topicCoord_id_l } ) {
       return (html`
         ${topicName} :
         ${ topicCoord_id_l.map( (TC_id) => {
@@ -132,7 +131,6 @@ class ControlPanel extends Component {
                       key=${dimI}
                       topicName=${dimI}
                       topicCoord_id_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)}
-                      parentControlPanel=${this}
                       onTopicCoordOnOff=${this.onTopicCoordOnOff}
                       //>
                       <br/>` 
