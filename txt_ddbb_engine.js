@@ -14,19 +14,22 @@ class ReadLinesBuffer { // keep last N lines in memory                          
 
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
-    constructor ( sTopic ) {
+    constructor ( TC_id ) {
         /*
-         * dimension.subtopic1.subtopic2 <- sTopic 
+         * dimension.subtopic1.subtopic2 <- TC_id 
          * └──┬────┘ └───┬───┘ └─┬─────┘
          *    │          │     "sub-coordinate"
          *    │          └──── "finite" dimensional "coordinate"
          *    └─────────────── "main topic" / dimmension axe
          */
-        const token_l = sTopic.split(".")
-        this.id    = token_l.join(".") 
-        this.dim   = token_l.shift() 
-        this.coord = token_l.join(".")
-        TopicCoordinate.id2Instance[this.id] = this
+        if ( !!! TC_id ) throw new Error("TC_id empty/null");
+        const hasCoordinate = TC_id.indexOf(".")>0;
+        TC_id = hasCoordinate ? TC_id : TC_id.replace(/$/, ".*");
+        const token_l = TC_id.split(".");
+        this.dim   = token_l.shift();
+        this.coord = token_l.join(".");
+        this.id    = TC_id;
+        TopicCoordinate.id2Instance[this.id] = this;
     }
 } //                                                                           [}]
 
@@ -64,14 +67,26 @@ class TopicBlockDB { //                                                        [
    getBlocks(tc /*topicCoordinate*/) {
        const parentLevel = 0; // TODO:(0)
        // TODO:(0) Add all matching subtopics.
-console.log("this._db[tc.dim][tc.coord]:")
-console.dir( this._db[tc.dim][tc.coord]  )
        return this._db[tc.dim][tc.coord].slice(-(1+parentLevel));
    }
 
    getDimensionList() { return Object.keys(this._db).sort(); }
 
-   getCoordForDim(dim) { return Object.keys(this._db[dim]).sort().map(i => dim+"."+i); }
+   getCoordForDim(dim) { 
+       return Object.keys(this._db[dim]).sort()
+           .map(i => dim+"."+i); }
+
+   getSubtopicsIDList(TC_id) {
+     const TC = new TopicCoordinate(TC_id);
+     const coord = TC.coord != "*" ? TC.coord : "";
+     return Object.keys(this._db[TC.dim]).sort()
+         .filter( coordI => { 
+            return ( coord == "" || coord == coordI )
+            ? true
+            : ( coordI.indexOf(coord+".") == 0 )
+         })
+         .map(i => TC.dim+"."+i);
+   }
 
    getMatchingLinesForTopicCoord(ddbbRowLength, TC_id_l) {
      if (TC_id_l.length==0) return Array(ddbbRowLength).fill(true);
@@ -87,6 +102,8 @@ console.dir( this._db[tc.dim][tc.coord]  )
      });
      return result_l;
    }
+
+
 }//                                                                           [}]
 
 class Block {
@@ -143,7 +160,6 @@ class TXTDBEngine  {
           }
           const line_topicCoords_l = segment.split(',');
           line_topicCoords_l.forEach ( TC_id => {
-console.log("TC_id/blockStack.length:"+TC_id+"/"+blockStack.length);
             blockStack.forEach(block => {
               if (TC_id in block.topic_d) { return }
               block.topic_d[TC_id] = true; 
@@ -223,7 +239,6 @@ console.log("TC_id/blockStack.length:"+TC_id+"/"+blockStack.length);
       let data_input = ""
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
           this.rowN,selectedTopicsIds) 
-console.log("selectedTopicsIds/topicMatchingLines_l:"+selectedTopicsIds+"/"+topicMatchingLines_l);
       for (let idx = 0 ; idx <= this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
       }

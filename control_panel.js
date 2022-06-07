@@ -16,9 +16,13 @@ class Topic extends Component {
 
     tcSwitch(TC_id, e) {
         e.stopImmediatePropagation();
-        this.state.TC_id_selected[TC_id] = !this.state.TC_id_selected[TC_id];
+        const TC_id_l = this.props.CP.txtDBEngine.topicBlockDB.getSubtopicsIDList(TC_id);
+        const newState = ! this.state.TC_id_selected[TC_id_l[0]];
+        TC_id_l.forEach( (TC_id_i) => {
+          this.state.TC_id_selected[TC_id_i] = newState;
+        });
         this.setState({ TC_id_selected : this.state.TC_id_selected });
-        this.props.CP.onTopicCoordOnOff(this.props.topicName, this.state.TC_id_selected)
+        this.props.CP.onTopicCoordOnOff(this.props.topicName, this.state.TC_id_selected);
     }
 
     render( { topicName, topicCoord_id_l } ) {
