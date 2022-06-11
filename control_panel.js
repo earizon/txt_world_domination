@@ -27,13 +27,15 @@ class Topic extends Component {
 
     render( { topicName, topicCoord_id_l } ) {
       return (html`
-        ${topicName} :
+        <pre class="topicClass">
+        <div class="topic">${topicName}</div>:
         ${ topicCoord_id_l.map( (TC_id) => {
            return html`[<span key=${TC_id} class='${this.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
               ${TC_id.replace(topicName+".","")}</span>]` 
            } )
-        }`
+        }
+        </pre>`
       ); 
     }
 }
@@ -68,7 +70,7 @@ class ControlPanel extends Component {
         await this.txtDBEngine.init(this.state.showLineNumbers);
         this.execSearch();
         this.setState({ showTopics: this.state.showTopics});
-        setTimeout(auxFunc, 5000);
+        setTimeout(auxFunc, 50000000);
       };
       auxFunc();
     }
@@ -142,7 +144,7 @@ class ControlPanel extends Component {
                       topicCoord_id_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)}
                       onTopicCoordOnOff=${this.onTopicCoordOnOff}
                       //>
-                      <br/>` 
+                      ` 
                   })
                }
              `

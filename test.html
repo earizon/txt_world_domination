@@ -25,6 +25,21 @@ pre { font-family:'source_code_pro',monospace, console; font-size:1em; }
     top: 0;
     background-color: white;
     box-shadow: 0 0 3px 3px grey;
+    max-height: 25em;
+    overflow: auto;
+}
+
+.topicClass {
+  margin: 0px;
+  padding: 0px;
+  padding-left: 10em;
+  text-indent :-10em; /* un-indent 1st line */
+  white-space:pre-line;
+  border-bottom: 1px solid grey;
+}
+.topicClass > .topic {
+  float:left;
+  min-width: 10em;
 }
 
 .selected { background-color:black; color: white ; }
@@ -55,7 +70,7 @@ const getParameterByName = function(name, url) {
 }
 
 const bootstrap = async function () {
-  const URLtxtDDBB = getParameterByName('URLtxtDDBB')
+  const URLtxtDDBB = getParameterByName('payload')
   render( html` <${ControlPanel} url_txt_source=${URLtxtDDBB} />`, document.getElementById("idControlPanel"))
 }
 
