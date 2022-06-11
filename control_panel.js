@@ -47,7 +47,7 @@ class ControlPanel extends Component {
 
     state = {
       timerDoFind : 0,
-      showTopics  : false,
+      showTopics  : true,
       showLineNumbers  : false,
       grep : [ { input: "", before: 5, after: 5 } ]
     }
@@ -62,10 +62,15 @@ class ControlPanel extends Component {
       ControlPanel.thisPtr = this;
     }
 
-    async componentDidMount() { 
-      await this.txtDBEngine.init(this.state.bShowLineNum);
-      this.execSearch();
-      this.setState({ showTopics: true});
+    async componentDidMount() {
+      const thisPtr = this;
+      const auxFunc = async () => {
+        await this.txtDBEngine.init(this.state.showLineNumbers);
+        this.execSearch();
+        this.setState({ showTopics: this.state.showTopics});
+        setTimeout(auxFunc, 5000);
+      };
+      auxFunc();
     }
 
     execSearch = () => {
