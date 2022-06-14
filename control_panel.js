@@ -51,11 +51,19 @@ class ControlPanel extends Component {
       timerDoFind : 0,
       showTopics  : true,
       showLineNumbers  : false,
-      grep : [ { input: "", before: 5, after: 5 } ]
+      grep : [ { input: "", before: 5, after: 5 } ],
+      topicParentDepth : 0
     }
 
     switchTopicView = ()=> { 
         this.setState ( { showTopics: !this.state.showTopics } );
+    }
+
+    setTopicMatchDepth(inc) {
+        if (inc==-1 && this.state.topicParentDepth == 0) return;
+        this.setState ( {topicParentDepth:  this.state.topicParentDepth + inc } );
+
+        this.execSearch();
     }
 
     constructor({ url_txt_source }) {
@@ -80,7 +88,7 @@ class ControlPanel extends Component {
       this.state.timerDoFind = setTimeout(
         () => {
           document.getElementById("dbEngineOutput").innerHTML = 
-                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected)
+                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, this.state.topicParentDepth)
         }, 400)
     }
 
@@ -119,11 +127,11 @@ class ControlPanel extends Component {
       return ( 
        html`
        <span onClick=${ (e) => this.setGrepBounds('b',+1)}>[+]</span>
-        ${this.lpad(this.state.grep[0].before,3)}
-        <span onClick=${ (e) => this.setGrepBounds('b',-1)}>[-]</span>
-          <input value='${this.state.grep[0].input}' placeholder='grep'
-            onInput=${ (e) => this.onGrepRegexChanged(e) } >
-           </input>${this.state.after}
+       ${this.lpad(this.state.grep[0].before,3)}
+       <span onClick=${ (e) => this.setGrepBounds('b',-1)}>[-]</span>
+         <input value='${this.state.grep[0].input}' placeholder='grep'
+           onInput=${ (e) => this.onGrepRegexChanged(e) } >
+         </input>${this.state.after}
         <span onClick=${ (e) => this.setGrepBounds('a',-1)}>[-]</span>
         ${this.lpad(this.state.grep[0].after,3)}
         <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span><span>   </span>
@@ -133,7 +141,12 @@ class ControlPanel extends Component {
         <br/>
           ${ this.state.showTopics &&
              html`
-               <span onclick=${() => this.switchTopicView()}>[- hide topics] ──────────────────────────────</span><br/>
+               <span onclick=${() => this.switchTopicView()}>[- hide topics]</span>
+               <span>  </span>Match parents up to:
+                 <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
+                 ${this.state.topicParentDepth}
+                 <span onClick=${ (e) => this.setTopicMatchDepth(+1)}>[+]</span>
+                ───────────<br/>
 
                ${ this.txtDBEngine.topicsDB.getDimensionList()
                   .map( (dimI) => { 

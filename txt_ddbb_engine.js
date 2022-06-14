@@ -64,11 +64,10 @@ class TopicBlockDB { //                                                        [
        }
    }
 
-   getBlocks(tc /*topicCoordinate*/) {
-       let parentLevel = 0; // TODO:(0)
+   getBlocks(tc /*topicCoordinate*/, topicParentDepth) {
        // TODO:(0) Add all matching subtopics.
        let result = this._db[tc.dim][tc.coord].filter(block => { 
-           return (block.topic_d[tc.id]<=parentLevel);} 
+           return (block.topic_d[tc.id]<=topicParentDepth);} 
        );
        return result;
    }
@@ -92,12 +91,12 @@ class TopicBlockDB { //                                                        [
          .map(i => TC.dim+"."+i);
    }
 
-   getMatchingLinesForTopicCoord(ddbbRowLength, TC_id_l) {
+   getMatchingLinesForTopicCoord(ddbbRowLength, TC_id_l,  topicParentDepth) {
      if (TC_id_l.length==0) return Array(ddbbRowLength).fill(true);
      const result_l = Array(ddbbRowLength).fill(false);
      TC_id_l.forEach(TC_id => {
          const TC = TopicCoordinate.id2Instance[TC_id];
-         const block_l = this.getBlocks(TC);
+         const block_l = this.getBlocks(TC, topicParentDepth);
          block_l.forEach(block => {
            for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
                result_l[idx] = true;
@@ -231,7 +230,7 @@ class TXTDBEngine  {
       console.dir(this.topicsDB._db)
     }
 
-    grep( grep0, selectedCoordinatesByTopic ) {
+    grep( grep0, selectedCoordinatesByTopic , topicParentDepth) {
       let selectedTopicsIds = [];
       Object.keys(selectedCoordinatesByTopic).forEach( topicName => {
          const TC_id_d = selectedCoordinatesByTopic[topicName];
@@ -243,7 +242,7 @@ class TXTDBEngine  {
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
       let data_input = ""
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
-          this.rowN, selectedTopicsIds) 
+          this.rowN, selectedTopicsIds, topicParentDepth) 
       for (let idx = 0 ; idx <= this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
       }
