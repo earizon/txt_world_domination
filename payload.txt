@@ -1,4 +1,4 @@
-
+ payload.txt is used for testing.
  ┌──────────────────────────────────────────────────────────────────────────────┐
  │ This txt file serves as documentation of topic syntax as well as to test the │
  │ implementation of code.                                                      │
@@ -18,15 +18,39 @@
   Go to @[https://www.ietf.org/]
   Go to @[https://www.ieee.org/]
 
-● ┌─[[{test01.1{test01.2]] must update the topics section properly
-  │       test01.1,test01.2
-  │ [[}]] test01.1,test01.2 end
-  │       test01.1
-  └─[[}]] test01.1 end
+● must update the topics section properly
+  [[{ test01.1,{ test01.2,{ test01.3]] 
+    │ test01.1 │ test01.2 │ test01.3
+    │ test01.1 │ test01.2 └ test01.3 [[}]]
+    │ test01.1 └ test01.2 [[}]]
+    │ test01.1
+    └ test01.1 [[}]]
 
-● ┌─[[test02. 1.{]] must be parsed as test02.3 (ignore whitespaces, final dots)
-  │       test02.1
-  └─[[}]]
+  ● must update the topics section properly
+    [[{ test01.1 ]]
+      │        [[{ test01.2]] 
+      │          │        [[{ test01.3]] 
+      │ test01.1 │ test01.2 │ test01.3
+      │ test01.1 │ test01.2 └ test01.3
+      │ test01.1 │ test01.2 [[}]]
+      │ test01.1 └ [[}]]
+      │ test01.1 
+      │ test01.1
+      └ [[}]]
+
+● ┌─[[{test02. 1.]] must be parsed as test02.1    
+  └─[[}]]           ignore whitespaces and final dots(TODO:fix)
+                                            
+● ┌─[[{test03]]        test03.1      selected test03 must also de/select 
+  └─[[}]]              test03.1      test03.*
+  ┌─[[{test03.1]]      test03.1      selected test03.1 must also de/select 
+  └─[[}]]              test03.1      test03.1.*
+  ┌─ [[{test03.1.1]]   test03.1.1    selected test03.1.1 must also de/select 
+  └─ [[}]]             test03.1.1    test03.1.1.
+  ┌─ [[{test03.1.1.1]] test03.1.1.1
+  └─ [[}]]             test03.1.1.1
+  ┌─ [[{test03.2]]     test03.2
+  └─ [[}]]             test03.2
  
 ● grep regex 'est.*grep.*gex' must display this line.
 
