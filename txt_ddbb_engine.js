@@ -65,9 +65,12 @@ class TopicBlockDB { //                                                        [
    }
 
    getBlocks(tc /*topicCoordinate*/) {
-       const parentLevel = 0; // TODO:(0)
+       let parentLevel = 0; // TODO:(0)
        // TODO:(0) Add all matching subtopics.
-       return this._db[tc.dim][tc.coord].slice(-(1+parentLevel));
+       let result = this._db[tc.dim][tc.coord].filter(block => { 
+           return (block.topic_d[tc.id]<=parentLevel);} 
+       );
+       return result;
    }
 
    getDimensionList() { return Object.keys(this._db).sort(); }
@@ -77,6 +80,7 @@ class TopicBlockDB { //                                                        [
            .map(i => dim+"."+i); }
 
    getSubtopicsIDList(TC_id) {
+     if ( !!! TC_id ) throw new Error("TC_id empty/null");
      const TC = new TopicCoordinate(TC_id);
      const coord = TC.coord != "*" ? TC.coord : "";
      return Object.keys(this._db[TC.dim]).sort()
@@ -139,7 +143,7 @@ class TXTDBEngine  {
         const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return ""
         const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return ""
         if (idx0 > idx1) return ""
-        return lineIn.substring(idx0+2,idx1).toLowerCase() .replaceAll(" ","");
+        return lineIn.substring(idx0+2,idx1).toUpperCase() .replaceAll(" ","");
       }
       const blockStack = []; // Active stack for a given txt-line-input
       this.topicBlockDB = new TopicBlockDB();
@@ -160,10 +164,14 @@ class TXTDBEngine  {
           }
           const line_topicCoords_l = segment.split(',');
           line_topicCoords_l.forEach ( TC_id => {
+            if ( TC_id == "" ) return;
+            if ( !!! TC_id ) throw new Error("TC_id empty/null");
+            let stackDepth = blockStack.length-1;
             blockStack.forEach(block => {
               if (TC_id in block.topic_d) { return }
-              block.topic_d[TC_id] = true; 
+              block.topic_d[TC_id] = stackDepth; 
               this.topicBlockDB.add(new TopicCoordinate(TC_id), block);
+              stackDepth--;
             })
           })
         })
@@ -214,31 +222,28 @@ class TXTDBEngine  {
           return (zeroes + value).slice(-padding);
         }
         for (let idx=0; idx<this.rowN; idx++) {
-            this.immutableDDBB[idx] = lpad(idx, padding) + this.immutableDDBB[idx];
+            this.immutableDDBB[idx] = lpad(idx+1, padding) + this.immutableDDBB[idx];
         }
       }
       this.cacheResult      =  this.immutableDDBB.join("");
       this.docBlock         = new Block ( [0,this.rowN], {}, null )
       this.topicsDB         = this.buildIndexes()
-      // console.dir(this.topicsDB._db)
+      console.dir(this.topicsDB._db)
     }
 
-    grep( grep0, selectedCoordinatesIds ) {
+    grep( grep0, selectedCoordinatesByTopic ) {
       let selectedTopicsIds = [];
-      Object.keys(selectedCoordinatesIds).forEach( topicName => {
-         const TC_id_d = selectedCoordinatesIds[topicName];
-         Object.keys(TC_id_d).forEach( TC_id => {
-             if (TC_id_d[TC_id] == true) {
-                 selectedTopicsIds.push(TC_id);
-             }
-         });
+      Object.keys(selectedCoordinatesByTopic).forEach( topicName => {
+         const TC_id_d = selectedCoordinatesByTopic[topicName];
+         Object.keys(TC_id_d)
+           .filter(TC_id => { return (TC_id_d[TC_id]==true); })
+           .forEach( TC_id => { selectedTopicsIds.push(TC_id); });
       });
-
       const grepInput = grep0.input
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
       let data_input = ""
       const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
-          this.rowN,selectedTopicsIds) 
+          this.rowN, selectedTopicsIds) 
       for (let idx = 0 ; idx <= this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
       }
