@@ -16,7 +16,7 @@ class Topic extends Component {
 
     tcSwitch(TC_id, e) {
         e.stopImmediatePropagation();
-        const TC_id_l = this.props.CP.txtDBEngine.topicBlockDB.getSubtopicsIDList(TC_id);
+        const TC_id_l = this.props.CP.txtDBEngine.topicsDB.getSubtopicsIDList(TC_id);
         const newState = ! this.state.TC_id_selected[TC_id_l[0]];
         TC_id_l.forEach( (TC_id_i) => {
           this.state.TC_id_selected[TC_id_i] = newState;
@@ -179,12 +179,12 @@ class ControlPanel extends Component {
           }
           ${ ! this.state.showTopics && 
              html`<span onclick=${() => this.switchTopicView()}>
-                  [+ show topics] ──────────────────────────────</span>`
+                  [+ show topics] ──────────────────────────────<br/></span>`
           }
           ${ this.state.showIndex && 
              html`
                <span onclick=${() => this.switchIndexView()}>[- hide Index]</span>
-               <span>──────────────────────────────</span><br/>
+               <span>  ──────────────────────────────</span><br/>
                ${ this.getIndexTable().map( (line) => {
                     return html`${line}<br/>`
                 })

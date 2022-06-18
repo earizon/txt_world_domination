@@ -276,7 +276,7 @@ class TXTDBEngine {
       const grepInput = grep0.input
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
       let data_input = ""
-      const topicMatchingLines_l = this.topicBlockDB.getMatchingLinesForTopicCoord(
+      const topicMatchingLines_l = this.topicsDB.getMatchingLinesForTopicCoord(
           this.rowN, selectedTopicsIds, topicParentDepth) 
       for (let idx = 0 ; idx <= this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
