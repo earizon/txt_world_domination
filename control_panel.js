@@ -48,15 +48,31 @@ class ControlPanel extends Component {
                                  // by its children.
 
     state = {
-      timerDoFind : 0,
-      showTopics  : true,
+      timerDoFind      : 0,
+      showTopics       : true,
       showLineNumbers  : false,
-      grep : [ { input: "", before: 5, after: 5 } ],
-      topicParentDepth : 0
+      grep             : [ { input: "", before: 5, after: 5 } ],
+      topicParentDepth : 0,
+      showIndex        : true 
+    }
+
+    getIndexTable = () => {
+       const result = []
+       this.txtDBEngine.indexRoot.children.forEach( (entry) => {
+         result.push(`${entry.txt_line}, ${entry.lineNumber}`);
+         entry.children.forEach( (entry2) => {
+           result.push(`  ├─ ${entry2.txt_line}, ${entry2.lineNumber}`);
+         }) 
+       })
+       return result;
     }
 
     switchTopicView = ()=> { 
         this.setState ( { showTopics: !this.state.showTopics } );
+    }
+
+    switchIndexView = ()=> { 
+        this.setState ( { showIndex: !this.state.showIndex } );
     }
 
     setTopicMatchDepth(inc) {
@@ -137,7 +153,6 @@ class ControlPanel extends Component {
         <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span><span>   </span>
         <span onClick=${ (e) => this.switchShowLineNum() }
           class='${this.state.showLineNumbers?"selected":""}'>[Line Number]</span>
-        
         <br/>
           ${ this.state.showTopics &&
              html`
@@ -166,7 +181,21 @@ class ControlPanel extends Component {
              html`<span onclick=${() => this.switchTopicView()}>
                   [+ show topics] ──────────────────────────────</span>`
           }
-      `) ;
+          ${ this.state.showIndex && 
+             html`
+               <span onclick=${() => this.switchIndexView()}>[- hide Index]</span>
+               <span>──────────────────────────────</span><br/>
+               ${ this.getIndexTable().map( (line) => {
+                    return html`${line}<br/>`
+                })
+               }
+             `
+            }
+          ${ ! this.state.showIndex && 
+             html`<span onclick=${() => this.switchIndexView()}>[+ show index]</span>
+               <span>──────────────────────────────</span>`
+          }
+      `);
     }
 }
 

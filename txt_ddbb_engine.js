@@ -118,7 +118,19 @@ class Block {
     setLineEnd(lineEnd) { this.bounds[1] = lineEnd; }
 }
 
-class TXTDBEngine  {
+class IndexTableEntry {
+  constructor( txt_line, lineNumber) {
+    this.txt_line   = txt_line;
+    this.lineNumber = lineNumber;
+    this.children   = []
+  }
+
+  addChild( indexTableEntry ) {
+    this.children.push(indexTableEntry);
+  }
+}
+
+class TXTDBEngine {
 
     fetchPayload = async function (url) {
       const xhr = new XMLHttpRequest();
@@ -136,7 +148,7 @@ class TXTDBEngine  {
       } )
     }
 
-    buildIndexes() {
+    buildTopicsDB() {
       const parseCtrlTokens = function (lineIn) {
         // TODO:(qa) contemplte 2+ [[...]] in single line
         const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return ""
@@ -145,7 +157,7 @@ class TXTDBEngine  {
         return lineIn.substring(idx0+2,idx1).toUpperCase() .replaceAll(" ","");
       }
       const blockStack = []; // Active stack for a given txt-line-input
-      this.topicBlockDB = new TopicBlockDB();
+      this.topicsDB = new TopicBlockDB();
       for (let lineIdx = 0; lineIdx <= this.rowN; lineIdx++) {
         const line = this.immutableDDBB[lineIdx];
 
@@ -169,7 +181,7 @@ class TXTDBEngine  {
             blockStack.forEach(block => {
               if (TC_id in block.topic_d) { return }
               block.topic_d[TC_id] = stackDepth; 
-              this.topicBlockDB.add(new TopicCoordinate(TC_id), block);
+              this.topicsDB.add(new TopicCoordinate(TC_id), block);
               stackDepth--;
             })
           })
@@ -177,12 +189,35 @@ class TXTDBEngine  {
       }
       let block;
       while (block = blockStack.pop()) { block.bounds.push(this.rowN); }
-      return this.topicBlockDB
+      console.dir(this.topicsDB._db)
+    }
+
+    buildIndexTable() {
+      let currentParent = this.indexRoot;
+      for (let lineIdx = 0; lineIdx <= this.rowN; lineIdx++) {
+        const line = this.immutableDDBB[lineIdx];
+        const lineNum = lineIdx + 1;
+        if (line.startsWith("# " ) || 
+            line.startsWith("● " ) /* preferred */
+           ){
+           currentParent = new IndexTableEntry (line.trim(), lineNum)
+           this.indexRoot.addChild( currentParent )
+        }
+        if (line.startsWith("## "  ) || 
+            line.startsWith("• "   ) || /* preferred */
+            line.startsWith(" • "  ) || /* preferred */
+            line.startsWith("  • " )    /* preferred */
+           ){
+           currentParent.addChild( new IndexTableEntry(line.trim(), lineNum ) );
+        }
+      }
+      console.log(this.indexRoot)
     }
 
     constructor( url_txt_source ) {
       this.url_txt_source   = url_txt_source;
       this.topicsDB         = new TopicBlockDB();
+      this.indexRoot        = new IndexTableEntry ("Index", -1);
     }
 
     async init( bShowLineNum ) {
@@ -226,8 +261,8 @@ class TXTDBEngine  {
       }
       this.cacheResult      =  this.immutableDDBB.join("");
       this.docBlock         = new Block ( [0,this.rowN], {}, null )
-      this.topicsDB         = this.buildIndexes()
-      console.dir(this.topicsDB._db)
+      this.buildTopicsDB()
+      this.buildIndexTable()
     }
 
     grep( grep0, selectedCoordinatesByTopic , topicParentDepth) {

@@ -5,9 +5,9 @@
  │ Different tests are remarked with a "big dot" (●)                            │
  └──────────────────────────────────────────────────────────────────────────────┘
  
-● <p> <html> 
+● scaped p and html tags must be displayed properly: 
+  <p> <html> 
   └───┬────┘
-  scaped p and html tags must be displayed properly: 
   (vs hidden as html tags)
 
 ● internal links must be converted properly:
@@ -26,7 +26,7 @@
     │ test01.1
     └ test01.1 [[}]]
 
-  ● must update the topics section properly
+  • must update the topics section properly
     [[{ test01.1 ]]
       │        [[{ test01.2]] 
       │          │        [[{ test01.3]] 
@@ -38,7 +38,8 @@
       │ test01.1
       └ [[}]]
 
-● ┌─[[{test02. 1.]] must be parsed as test02.1    
+● must be parsed as test02.1    
+  ┌─[[{test02. 1.]] 
   └─[[}]]           ignore whitespaces and final dots(TODO:fix)
                                             
 ● ┌─[[{test03]]        test03.1      selected test03 must also de/select 
