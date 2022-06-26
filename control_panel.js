@@ -67,10 +67,12 @@ class ControlPanel extends Component {
        return result;
     }
 
+    switchSettingsView = () => {
+        this.setState ( { showSettings: !this.state.showSettings } );
+    }
     switchTopicView = ()=> { 
         this.setState ( { showTopics: !this.state.showTopics } );
     }
-
     switchIndexView = ()=> { 
         this.setState ( { showIndex: !this.state.showIndex } );
     }
@@ -85,6 +87,9 @@ class ControlPanel extends Component {
     constructor({ url_txt_source }) {
       super({ url_txt_source });
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
+      this.timerRefresh = 0;
+      this.state.secsRefreshInterval = 5;
+      this.state.showSettings = false;
       ControlPanel.thisPtr = this;
     }
 
@@ -94,7 +99,7 @@ class ControlPanel extends Component {
         await this.txtDBEngine.init(this.state.showLineNumbers);
         this.execSearch();
         this.setState({ showTopics: this.state.showTopics});
-        setTimeout(auxFunc, 50000000);
+        this.timerRefresh = setTimeout(auxFunc, this.state.secsRefreshInterval*1000);
       };
       auxFunc();
     }
@@ -111,6 +116,12 @@ class ControlPanel extends Component {
     onGrepRegexChanged = (inputEvent) => {
       this.state.grep[0].input = inputEvent.target.value
       this.execSearch()
+    }
+
+    onUpdateTimeChanged = (inputEvent) => {
+      this.state.secsRefreshInterval = inputEvent.target.value;
+      clearTimeout(this.timerRefresh);
+      this.componentDidMount();
     }
 
     onTopicCoordOnOff(topicName, TC_id_selected) {
@@ -154,9 +165,24 @@ class ControlPanel extends Component {
         <span onClick=${ (e) => this.switchShowLineNum() }
           class='${this.state.showLineNumbers?"selected":""}'>[Line Number]</span>
         <br/>
+          ${ this.state.showSettings &&
+             html`
+               <span onclick=${() => this.switchSettingsView()}> [- hide settings]</span><br/>
+               <span>  ● </span>Refresh content source every<span> </span>  
+               <input style='width:3em; text-align:right;' value='${this.state.secsRefreshInterval}' placeholder='update time'
+                   onInput=${ (e) => this.onUpdateTimeChanged(e) } >
+               </input> secs
+             `
+          }
+          ${ !this.state.showSettings &&
+             html`
+               <span onclick=${() => this.switchSettingsView()}> [+ show settings]</span>
+             `
+          }
+        <br/>
           ${ this.state.showTopics &&
              html`
-               <span onclick=${() => this.switchTopicView()}>[- hide topics]</span>
+               <span onclick=${() => this.switchTopicView()}> [- hide topics]</span>
                <span>  </span>Match parents up to:
                  <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
                  ${this.state.topicParentDepth}
@@ -178,12 +204,12 @@ class ControlPanel extends Component {
              `
           }
           ${ ! this.state.showTopics && 
-             html`<span onclick=${() => this.switchTopicView()}>
+             html` <span onclick=${() => this.switchTopicView()}> 
                   [+ show topics] ──────────────────────────────<br/></span>`
           }
           ${ this.state.showIndex && 
              html`
-               <span onclick=${() => this.switchIndexView()}>[- hide Index]</span>
+               <span onclick=${() => this.switchIndexView()}> [- hide Index]</span>
                <span>  ──────────────────────────────</span><br/>
                ${ this.getIndexTable().map( (line) => {
                     return html`${line}<br/>`
@@ -192,8 +218,8 @@ class ControlPanel extends Component {
              `
             }
           ${ ! this.state.showIndex && 
-             html`<span onclick=${() => this.switchIndexView()}>[+ show index]</span>
-               <span>──────────────────────────────</span>`
+             html` <span onclick=${() => this.switchIndexView()}>[+ show index]</span>
+               <span>  ──────────────────────────────</span>`
           }
       `);
     }
