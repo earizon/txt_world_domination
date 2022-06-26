@@ -177,6 +177,7 @@ class TXTDBEngine {
           line_topicCoords_l.forEach ( TC_id => {
             if ( TC_id == "" ) return;
             if ( !!! TC_id ) throw new Error("TC_id empty/null");
+            if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
             let stackDepth = blockStack.length-1;
             blockStack.forEach(block => {
               if (TC_id in block.topic_d) { return }
