@@ -5,19 +5,54 @@
      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
    <title>TXT World Domination</title>
    <head>
+
 <style>
-@font-face{
-  font-family: 'source_code_pro';
-  font-weight: 400;
-  font-style: normal;
-  font-stretch: normal;
-  src: url('./source-code-pro/EOT/SourceCodePro-Regular.eot') format('embedded-opentype'),
-       url('./source-code-pro/WOFF2/TTF/SourceCodePro-Regular.ttf.woff2') format('woff2'),
-       url('./source-code-pro/WOFF/OTF/SourceCodePro-Regular.otf.woff') format('woff'),
-       url('./source-code-pro/OTF/SourceCodePro-Regular.otf') format('opentype'),
-       url('./source-code-pro/TTF/SourceCodePro-Regular.ttf') format('truetype') ;
+@font-face {
+  font-family: 'font0'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font0/font.woff2) format('woff2');
 }
-pre { font-family:'source_code_pro',monospace, console; font-size:1em; }
+@font-face {
+  font-family: 'font1'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font1/font.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'font2'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font2/font.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'font3'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font3/font.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'font4'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font4/font.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'font5'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font5/font.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'font6'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font6/font.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'font7'; font-style: normal; font-weight: 400; font-stretch: normal;
+  src: url(fonts/font7/font.woff2) format('woff2');
+}
+
+pre { 
+    'font0',monospace, console; font-size:1em; 
+}
+
+#dbEngineOutput[font=font0]{ font-family:'font0', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font1]{ font-family:'font1', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font2]{ font-family:'font2', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font3]{ font-family:'font3', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font4]{ font-family:'font4', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font5]{ font-family:'font5', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font6]{ font-family:'font6', monospace, console; font-size:1em; }
+#dbEngineOutput[font=font7]{ font-family:'font7', monospace, console; font-size:1em; }
+
 #idControlPanel {
     margin: 0; padding 0.1em;
     border-bottom: 1px solid black; 

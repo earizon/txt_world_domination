@@ -77,6 +77,13 @@ class ControlPanel extends Component {
         this.setState ( { showIndex: !this.state.showIndex } );
     }
 
+    swithTypeWritterFont = ()=> {
+        const new_settings_font = this.state.settings_font == 5 ? 0 : this.state.settings_font+1;
+        this.setState ( { settings_font : new_settings_font });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("font","font"+new_settings_font);
+    }
+
     setTopicMatchDepth(inc) {
         if (inc==-1 && this.state.topicParentDepth == 0) return;
         this.setState ( {topicParentDepth:  this.state.topicParentDepth + inc } );
@@ -88,7 +95,8 @@ class ControlPanel extends Component {
       super({ url_txt_source });
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
-      this.state.secsRefreshInterval = 5;
+      this.state.settings_secsRefreshInterval = 5;
+      this.state.settings_font = 0;
       this.state.showSettings = false;
       ControlPanel.thisPtr = this;
     }
@@ -99,7 +107,7 @@ class ControlPanel extends Component {
         await this.txtDBEngine.init(this.state.showLineNumbers);
         this.execSearch();
         this.setState({ showTopics: this.state.showTopics});
-        this.timerRefresh = setTimeout(auxFunc, this.state.secsRefreshInterval*1000);
+        this.timerRefresh = setTimeout(auxFunc, this.state.settings_secsRefreshInterval*1000);
       };
       auxFunc();
     }
@@ -119,7 +127,7 @@ class ControlPanel extends Component {
     }
 
     onUpdateTimeChanged = (inputEvent) => {
-      this.state.secsRefreshInterval = inputEvent.target.value;
+      this.state.settings_secsRefreshInterval = inputEvent.target.value;
       clearTimeout(this.timerRefresh);
       this.componentDidMount();
     }
@@ -168,10 +176,12 @@ class ControlPanel extends Component {
           ${ this.state.showSettings &&
              html`
                <span onclick=${() => this.switchSettingsView()}> [- hide settings]</span><br/>
-               <span>  ● </span>Refresh content source every<span> </span>  
-               <input style='width:3em; text-align:right;' value='${this.state.secsRefreshInterval}' placeholder='update time'
+               <span>  ● Refresh content source every </span> 
+               <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
-               </input> secs
+               </input> secs <br/>
+               <span>  ● <span onclick=${() => this.swithTypeWritterFont() }>[font ${this.state.settings_font}]</span> </span><br/>
+               ───────────────────────────────────────────
              `
           }
           ${ !this.state.showSettings &&
