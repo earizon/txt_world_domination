@@ -1,9 +1,10 @@
- payload.txt is used for testing.
- ┌──────────────────────────────────────────────────────────────────────────────┐
- │ This txt file serves as documentation of topic syntax as well as to test the │
- │ implementation of code.                                                      │
- │ Different tests are remarked with a "big dot" (●)                            │
- └──────────────────────────────────────────────────────────────────────────────┘
+┌─ Apropos: ──────────────────────────────────────┐
+│ This text file has two purposes:                │
+│                                                 │
+│ 1) Serve as input data used by functional tests │
+│                                                 │
+│ 2) Final up-to-date documentation for users.    │
+└─────────────────────────────────────────────────┘
  
 ● scaped p and html tags must be displayed properly: 
   <p> <html> 
@@ -18,7 +19,79 @@
   Go to @[https://www.ietf.org/]
   Go to @[https://www.ieee.org/]
 
-● must update the topics section properly
+● Documentation Introduction: 
+
+  - Proper documentation is a core task of any succesful project.
+
+  - Documenting is not about piling words and powerpoints 
+    in random locations hoping that some poor soul will read
+    them in future.
+
+  - Documenting is not about being looking cool or serious.
+
+  • ┌ [[{KEY-POINT]] ───────────────────────────────────────────────────┐  
+    │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
+    │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
+    │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
+    │                DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE    │
+    │                 DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE   │
+    │                 DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE   │
+    │                DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE    │
+    │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
+    │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
+    │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
+    │    DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                │
+    │  DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                  │
+    │ DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                   │
+    │ DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                   │
+    │  DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                  │
+    │    DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                │
+    │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
+    │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
+    └─[[}]]─────────────────────────────────────────────────────────────┘
+
+  - Perfect documentation is a science-fiction dream:
+    @[https://www.youtube.com/watch?v=SoAk7zBTrvo]
+
+    ... but good documentation is possible.
+
+  - Text books are examples of good documentation (or at least they 
+    ought to).
+
+    ... BUT ... text-books require lot of expertise and free-time to create.
+
+  - In real projects we still need good documentation and the more 
+    people working in a project the biggest the need to have good 
+    documentation but ....
+
+  • ┌ [[{KEY-POINT]] ─────────────────────────────────────────┐
+    │ REAL WORLD is a very imperfect REAL WORLD.              │
+    │ - Projects misserably fail.                             │
+    │ - Companies spend lot of money in project managers,     │
+    │   scrum masters, QA specialists, ITIL masters, ...      │
+    │   none of which understand each other.                  │
+    │ - Real workers doing real work end up NOT doing real    │
+    │   work in order to satisfy the egos of project managers │
+    │   scrum masters, QA specialist, ITIL masters, ...       │
+    │   scrum masters, QA specialist, ITIL masters, ...       │
+    │ - We are project managers, scrum masters, quality       │
+    └─[[}]]───────────────────────────────────────────────────┘
+
+    Outside pure academic's enviroments documentation skills is not
+   even considered when hiring new employees acording to 99% of job's
+   vacancies ... and even 
+     
+   
+    
+  - outside pure academic's enviroments documentation skills is not
+  - Bad documentation makes us leave the office later.
+
+● A new block containing topics and subtopics is  [[{]] 
+● topics (dimension) and subtopics (coordinates) must 
+  be detected properly and display into the topic's menu:
+  
+● text engine must update the topics section properly.
+
   [[{ test01.1,{ test01.2,{ test01.3]] 
     │ test01.1 │ test01.2 │ test01.3
     │ test01.1 │ test01.2 └ test01.3 [[}]]
@@ -55,13 +128,19 @@
  
 ● grep regex 'est.*grep.*gex' must display this line.
 
-● AsciiArt must display properly:
-  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧ ⎧  ⎫
-  │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
-  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ ╠═╬═╣  ╟──╫──╢ ╞══╪══╡ ⎪ ⎨  ⎬
-  │  │      │┌▽─────┐  │┌▽──┐ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
-  └───────────────────────────┘ ├─┼─┼────┼───┼─┤ ┤┠─╂───╂──┨ ╚═╩═╝  ╙──╨──╜ ╘══╧══╛ ⎭ ⎩  ⎭   
+● Unicode and AsciiArt by extension must display properly 
+  (blame OS of if it doesn't).
+  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ 
+  │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ 
+  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ 
+  │  │      │┌▽─────┐  │┌▽──┐ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ 
+  └───────────────────────────┘ ├─┼─┼────┼───┼─┤ ┤┠─╂───╂──┨ 
                                 └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚ 
+  ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧ ⎧  ⎫
+  ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
+  ╠═╬═╣  ╟──╫──╢ ╞══╪══╡ ⎪ ⎨  ⎬
+  ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
+  ╚═╩═╝  ╙──╨──╜ ╘══╧══╛ ⎭ ⎩  ⎭   
 
 ● topic0, topic5 outside any block and must not           [[topic0,topic5]]
   be displayed in topics menu.

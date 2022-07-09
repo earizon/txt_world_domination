@@ -32,7 +32,7 @@ class Topic extends Component {
         ${ topicCoord_id_l.map( (TC_id) => {
            return html`[<span key=${TC_id} class='${this.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
-              ${TC_id.replace(topicName+".","")}</span>]` 
+              ${TC_id.replace(topicName+".","")}</span>] ` 
            } )
         }
         </pre>`
@@ -46,6 +46,12 @@ class ControlPanel extends Component {
     injected_TC_id_selected = {} // injected_TC_id_selected is by childen component's UI-state.
                                  // It's not part of this component state, but injected/updated
                                  // by its children.
+
+    menuSize2Icon = {
+      1 : "▾▹▵",
+      2 : "▿▸▵", 
+      3 : "▿▹▴",
+    }
 
     state = {
       timerDoFind      : 0,
@@ -77,12 +83,40 @@ class ControlPanel extends Component {
         this.setState ( { showIndex: !this.state.showIndex } );
     }
 
-    swithTypeWritterFont = ()=> {
-        const new_settings_font = this.state.settings_font == 5 ? 0 : this.state.settings_font+1;
-        this.setState ( { settings_font : new_settings_font });
-        document.getElementById("dbEngineOutput")
-            .setAttribute("font","font"+new_settings_font);
+    switchMenuSize = ()=> {
+        const new_value = this.state.settings_menuSize == 3 ? 1 : this.state.settings_menuSize+1;
+        this.setState ( { settings_menuSize : new_value });
+        document.getElementById("idControlPanel")
+            .setAttribute("size","s"+new_value);
     }
+
+    switchTypeWritterFont = ()=> {
+        const new_value = this.state.settings_font == 5 ? 0 : this.state.settings_font+1;
+        this.setState ( { settings_font : new_value });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("font","font"+new_value);
+    }
+
+    switchLineHeight = ()=> {
+        const new_value = this.state.settings_lineheight == 4 ? 1 : this.state.settings_lineheight+1;
+        this.setState ( { settings_lineheight : new_value });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("lineheight","height"+new_value);
+    }
+
+    switchFontSize = ()=> {
+        const new_value = this.state.settings_fontsize == 4 ? 1 : this.state.settings_fontsize+1;
+        this.setState ( { settings_fontsize : new_value });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("fontSize","s"+new_value);
+    }
+
+    switchShowBaseline = ()=> {
+        this.setState ( { settings_showbaseline : !this.state.settings_showbaseline });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("showbaseline",`${!!!this.state.settings_showbaseline}`);
+    }
+
 
     setTopicMatchDepth(inc) {
         if (inc==-1 && this.state.topicParentDepth == 0) return;
@@ -96,8 +130,12 @@ class ControlPanel extends Component {
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 5;
+      this.state.settings_menuSize = 2;
       this.state.settings_font = 0;
-      this.state.showSettings = false;
+      this.state.settings_lineheight = 1;
+      this.state.settings_fontsize = 2;
+      this.state.settings_showbaseline = false;
+      this.state.showSettings = true;
       ControlPanel.thisPtr = this;
     }
 
@@ -164,8 +202,7 @@ class ControlPanel extends Component {
        <span onClick=${ (e) => this.setGrepBounds('b',+1)}>[+]</span>
        ${this.lpad(this.state.grep[0].before,3)}
        <span onClick=${ (e) => this.setGrepBounds('b',-1)}>[-]</span>
-         <input value='${this.state.grep[0].input}' placeholder='grep'
-           onInput=${ (e) => this.onGrepRegexChanged(e) } >
+         <input value='${this.state.grep[0].input}' placeholder='grep' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
          </input>${this.state.after}
         <span onClick=${ (e) => this.setGrepBounds('a',-1)}>[-]</span>
         ${this.lpad(this.state.grep[0].after,3)}
@@ -175,12 +212,18 @@ class ControlPanel extends Component {
         <br/>
           ${ this.state.showSettings &&
              html`
-               <span onclick=${() => this.switchSettingsView()}> [- hide settings]</span><br/>
+               <div id='idSwitchMenuIcon' onClick=${() => this.switchMenuSize()}>
+                 ${ this.menuSize2Icon[this.state.settings_menuSize] }
+               </div>
+               <span onClick=${() => this.switchSettingsView()}> [- hide settings]</span><br/>
                <span>  ● Refresh content source every </span> 
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
-               <span>  ● <span onclick=${() => this.swithTypeWritterFont() }>[font ${this.state.settings_font}]</span> </span><br/>
+               <span>  ● <span onClick=${() => this.switchTypeWritterFont() }>[font ${this.state.settings_font}]</span> </span><br/>
+               <span>  ● <span onClick=${() => this.switchShowBaseline()    }>[${this.state.settings_showbaseline?"hide":"show"} underline]</span> </span><br/>
+               <span>  ● <span onClick=${() => this.switchLineHeight()      }>[line height ${this.state.settings_lineheight}]</span> </span><br/>
+               <span>  ● <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span><br/>
                ───────────────────────────────────────────
              `
           }
