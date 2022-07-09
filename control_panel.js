@@ -126,6 +126,11 @@ class ControlPanel extends Component {
             .setAttribute("showbaseline",`${!!!this.state.settings_showbaseline}`);
     }
 
+    switchLineBreak = ()=> {
+        this.setState ( { settings_linebreak : !this.state.settings_linebreak });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("linebreak",`${!!!this.state.settings_linebreak}`);
+    }
 
     setTopicMatchDepth(inc) {
         if (inc==-1 && this.state.topicParentDepth == 0) return;
@@ -145,6 +150,7 @@ class ControlPanel extends Component {
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 2;
       this.state.settings_showbaseline = false;
+      this.state.settings_linebreak = false;
       this.state.showSettings = true;
       ControlPanel.thisPtr = this;
     }
@@ -231,11 +237,12 @@ class ControlPanel extends Component {
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
-               <span>  ● <span onClick=${() => this.switchTypeWritterFont() }>[font ${this.state.settings_font}]</span> </span><br/>
+               <span>  ● Font: <span onClick=${() => this.switchTypeWritterFont() }>[type ${this.state.settings_font}]</span> </span>
+               <span>, <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span>
+               <span>, <span onClick=${() => this.switchShowBaseline()}  class='${this.state.settings_showbaseline?"selected":""}'>[underline]</span> </span><br/>
                <span>  ● <span onClick=${() => this.switchBackground()      }>[BCK ${this.state.bckg_texture}]</span> </span><br/>
-               <span>  ● <span onClick=${() => this.switchShowBaseline()    }>[${this.state.settings_showbaseline?"hide":"show"} underline]</span> </span><br/>
-               <span>  ● <span onClick=${() => this.switchLineHeight()      }>[line height ${this.state.settings_lineheight}]</span> </span><br/>
-               <span>  ● <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span><br/>
+               <span>  ● Line: <span onClick=${() => this.switchLineHeight()      }>[height ${this.state.settings_lineheight}]</span> </span>
+               <span>, <span onClick=${() => this.switchLineBreak()}  class='${this.state.settings_linebreak?"selected":""}'>[line break]</span> </span><br/>
              `
           }
           ${ !this.state.showSettings &&
