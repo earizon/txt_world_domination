@@ -82,10 +82,39 @@ pre[fontSize=s4]{ font-size: 2.5em }
   display: none;
 }
 
+*[zoom="z1.5"] { font-size: 1.5em; }
+
+#idTableTopics,#idTableIndex {
+    overflow: auto;
+    border: 1px solid black;
+    max-height: 20em;
+    margin: 0;
+}
+#idTableTopics[size=s1], #idTableIndex[size=s1] {
+    max-height: 70%;
+}
+
 #idControlPanel[size=s2] { }
 #idControlPanel[size=s3] { max-height: 2.0em; height: 2em; }
 #idControlPanel[size=s1] { max-height: 95%  ; height: 95%; }
 
+/* REF: https://projects.verou.me/css3patterns/ */
+#dbEngineOutput[background=b1] { 
+  background-color: #eee;
+  background-image: linear-gradient(15deg, #DDD 0%, #FFF 25%, #FFF 75%, #DDD 100%),
+                    linear-gradient(15deg, #DDD 0%, #FFF 25%, #FFF 75%, #DDD 100%);
+
+  background-size : 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+#dbEngineOutput[background=b2] { 
+  background-color: #eee;
+  background-image: linear-gradient(45deg, #DDD 0%, #FFF 25%, #FFF 75%, #DDD 100%),
+                    linear-gradient(45deg, #DDD 0%, #FFF 25%, #FFF 75%, #DDD 100%);
+  background-size : 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
 
 .topicClass {
   margin: 0px;
@@ -146,7 +175,7 @@ window.addEventListener('load', bootstrap )
 <body>
 <pre id="idControlPanel" class="textSelectOff" fontSize="s3" size=s2 >
 </pre>
-<pre id="dbEngineOutput" lineheight="height3" fontSize="s2"  >
+<pre id="dbEngineOutput" lineheight="height1" fontSize="s2" background="b1" >
 </pre>
 
 </body>

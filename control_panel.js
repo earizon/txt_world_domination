@@ -46,7 +46,6 @@ class ControlPanel extends Component {
     injected_TC_id_selected = {} // injected_TC_id_selected is by childen component's UI-state.
                                  // It's not part of this component state, but injected/updated
                                  // by its children.
-
     menuSize2Icon = {
       1 : "▾▹▵",
       2 : "▿▸▵", 
@@ -88,6 +87,8 @@ class ControlPanel extends Component {
         this.setState ( { settings_menuSize : new_value });
         document.getElementById("idControlPanel")
             .setAttribute("size","s"+new_value);
+        document.getElementById("idTableIndex")
+            .setAttribute("size","s"+new_value);
     }
 
     switchTypeWritterFont = ()=> {
@@ -96,6 +97,14 @@ class ControlPanel extends Component {
         document.getElementById("dbEngineOutput")
             .setAttribute("font","font"+new_value);
     }
+
+    switchBackground = ()=> {
+        const new_value = this.state.bckg_texture == 3 ? 1 : this.state.bckg_texture+1;
+        this.setState ( { bckg_texture : new_value });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("background","b"+new_value);
+    }
+
 
     switchLineHeight = ()=> {
         const new_value = this.state.settings_lineheight == 4 ? 1 : this.state.settings_lineheight+1;
@@ -129,9 +138,10 @@ class ControlPanel extends Component {
       super({ url_txt_source });
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
-      this.state.settings_secsRefreshInterval = 5;
+      this.state.settings_secsRefreshInterval = 300;
       this.state.settings_menuSize = 2;
       this.state.settings_font = 0;
+      this.state.bckg_texture = 1;
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 2;
       this.state.settings_showbaseline = false;
@@ -199,6 +209,10 @@ class ControlPanel extends Component {
     render( props ) {
       return ( 
        html`
+       <div id='idSwitchMenuIcon' onClick=${() => this.switchMenuSize()}>
+         ${ this.menuSize2Icon[this.state.settings_menuSize] }
+       </div>
+
        <span onClick=${ (e) => this.setGrepBounds('b',+1)}>[+]</span>
        ${this.lpad(this.state.grep[0].before,3)}
        <span onClick=${ (e) => this.setGrepBounds('b',-1)}>[-]</span>
@@ -212,35 +226,32 @@ class ControlPanel extends Component {
         <br/>
           ${ this.state.showSettings &&
              html`
-               <div id='idSwitchMenuIcon' onClick=${() => this.switchMenuSize()}>
-                 ${ this.menuSize2Icon[this.state.settings_menuSize] }
-               </div>
-               <span onClick=${() => this.switchSettingsView()}> [- hide settings]</span><br/>
+               <span onClick=${() => this.switchSettingsView()} zoom="z1.5"> [▾▵ settings]</span><br/>
                <span>  ● Refresh content source every </span> 
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
                <span>  ● <span onClick=${() => this.switchTypeWritterFont() }>[font ${this.state.settings_font}]</span> </span><br/>
+               <span>  ● <span onClick=${() => this.switchBackground()      }>[BCK ${this.state.bckg_texture}]</span> </span><br/>
                <span>  ● <span onClick=${() => this.switchShowBaseline()    }>[${this.state.settings_showbaseline?"hide":"show"} underline]</span> </span><br/>
                <span>  ● <span onClick=${() => this.switchLineHeight()      }>[line height ${this.state.settings_lineheight}]</span> </span><br/>
                <span>  ● <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span><br/>
-               ───────────────────────────────────────────
              `
           }
           ${ !this.state.showSettings &&
              html`
-               <span onclick=${() => this.switchSettingsView()}> [+ show settings]</span>
+               <span onclick=${() => this.switchSettingsView()} zoom="z1.5"> [▿▴ settings]</span>
              `
           }
-        <br/>
           ${ this.state.showTopics &&
              html`
-               <span onclick=${() => this.switchTopicView()}> [- hide topics]</span>
+               <span onclick=${() => this.switchTopicView()} zoom="z1.5"> [▾▵ topics]</span>
+               <pre id="idTableTopics" size=s2>
                <span>  </span>Match parents up to:
                  <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
                  ${this.state.topicParentDepth}
                  <span onClick=${ (e) => this.setTopicMatchDepth(+1)}>[+]</span>
-                ───────────<br/>
+                <br/>
 
                ${ this.txtDBEngine.topicsDB.getDimensionList()
                   .map( (dimI) => { 
@@ -254,25 +265,27 @@ class ControlPanel extends Component {
                       ` 
                   })
                }
+               </pre>
              `
           }
           ${ ! this.state.showTopics && 
-             html` <span onclick=${() => this.switchTopicView()}> 
-                  [+ show topics] ──────────────────────────────<br/></span>`
+             html` <span onclick=${() => this.switchTopicView()} zoom="z1.5"> 
+                  [▿▴ topics]</span>`
           }
           ${ this.state.showIndex && 
              html`
-               <span onclick=${() => this.switchIndexView()}> [- hide Index]</span>
-               <span>  ──────────────────────────────</span><br/>
+               <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵ Index]</span>
+               <pre id="idTableIndex" size=s2>
                ${ this.getIndexTable().map( (line) => {
                     return html`${line}<br/>`
                 })
                }
+               </pre>
              `
             }
           ${ ! this.state.showIndex && 
-             html` <span onclick=${() => this.switchIndexView()}>[+ show index]</span>
-               <span>  ──────────────────────────────</span>`
+             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5">[▿▴ index]</span>
+               <span>  </span>`
           }
       `);
     }
