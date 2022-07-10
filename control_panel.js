@@ -99,7 +99,8 @@ class ControlPanel extends Component {
     }
 
     switchBackground = ()=> {
-        const new_value = this.state.bckg_texture == 3 ? 1 : this.state.bckg_texture+1;
+        const new_value = this.state.bckg_texture == 4 ? 1 : this.state.bckg_texture+1;
+console.log(new_value);
         this.setState ( { bckg_texture : new_value });
         document.getElementById("dbEngineOutput")
             .setAttribute("background","b"+new_value);
@@ -114,7 +115,7 @@ class ControlPanel extends Component {
     }
 
     switchFontSize = ()=> {
-        const new_value = this.state.settings_fontsize == 4 ? 1 : this.state.settings_fontsize+1;
+        const new_value = this.state.settings_fontsize == 4 ? 0 : this.state.settings_fontsize+1;
         this.setState ( { settings_fontsize : new_value });
         document.getElementById("dbEngineOutput")
             .setAttribute("fontSize","s"+new_value);
