@@ -121,12 +121,6 @@ console.log(new_value);
             .setAttribute("fontSize","s"+new_value);
     }
 
-    switchShowBaseline = ()=> {
-        this.setState ( { settings_showbaseline : !this.state.settings_showbaseline });
-        document.getElementById("dbEngineOutput")
-            .setAttribute("showbaseline",`${!!!this.state.settings_showbaseline}`);
-    }
-
     switchLineBreak = ()=> {
         this.setState ( { settings_linebreak : !this.state.settings_linebreak });
         document.getElementById("dbEngineOutput")
@@ -239,8 +233,7 @@ console.log(new_value);
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
                <span>  ● Font: <span onClick=${() => this.switchTypeWritterFont() }>[type ${this.state.settings_font}]</span> </span>
-               <span>, <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span>
-               <span>, <span onClick=${() => this.switchShowBaseline()}  class='${this.state.settings_showbaseline?"selected":""}'>[underline]</span> </span><br/>
+               <span>, <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span><br/>
                <span>  ● <span onClick=${() => this.switchBackground()      }>[BCK ${this.state.bckg_texture}]</span> </span><br/>
                <span>  ● Line: <span onClick=${() => this.switchLineHeight()      }>[height ${this.state.settings_lineheight}]</span> </span>
                <span>, <span onClick=${() => this.switchLineBreak()}  class='${this.state.settings_linebreak?"selected":""}'>[line break]</span> </span><br/>
@@ -248,7 +241,7 @@ console.log(new_value);
           }
           ${ !this.state.showSettings &&
              html`
-               <span onclick=${() => this.switchSettingsView()} zoom="z1.5"> [▿▴ settings]</span>
+               <span onclick=${() => this.switchSettingsView()} zoom="z1.5"> [▿▴ settings]</span><br/>
              `
           }
           ${ this.state.showTopics &&
@@ -278,7 +271,7 @@ console.log(new_value);
           }
           ${ ! this.state.showTopics && 
              html` <span onclick=${() => this.switchTopicView()} zoom="z1.5"> 
-                  [▿▴ topics]</span>`
+                  [▿▴ topics]</span><br/>`
           }
           ${ this.state.showIndex && 
              html`
@@ -292,7 +285,7 @@ console.log(new_value);
              `
             }
           ${ ! this.state.showIndex && 
-             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5">[▿▴ index]</span>
+             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5">[▿▴ index]<br/></span>
                <span>  </span>`
           }
       `);
