@@ -1,0 +1,1681 @@
+• AWS Nomenclature:
+  - high_availability: Service is respondent maybe in degraded mode  [[{qa,escalability]]
+  - Fault-tolerant   : high_availability + compliant SLA            [[}]]
+  - availability zone: (AZ) Equivalent to a "local network". If two instances
+     are in the same AZ, they can just put the MAC address of the target
+     computer on it, and then the packet will get to the right place.
+     It doesn't matter what IP address is on the packet!
+
+• https://github.com/localstack/localstack                                 [[{dev_stack}]]
+  - easy-to-use test/mocking framework for developing Cloud applications.
+  - focus is primarily on supporting the AWS cloud stack.
+
+
+
+[[{101]]
+● IAM / Governance Hierarchy Summary: [[{security.101]]
+@[https://aws.amazon.com/iam/]
+@[https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html]
+
+  ● USER TYPES (both are linked to security credential)
+    ========== 
+    ● AWS root: Use ONLY to sig-up to AWS (email/password) and create IAM admin users.
+      - created at account creation.
+      - WARN: It can skip over any IAM deny-policies.  only AWS Organizations
+              service control policy (SCP)  can limit its permissions.           
+      ┌─ KEY POINT ──────────────────────────────────────────────────────────────
+      │ • Delegate admin tasks to (new) IAM-admin-user granting full access.   
+      │ • lock away the access keys for the root user for anything except "closing account" ...
+  
+    ● IAM User: (I)dentity and (A)ccess (M)anagement User
+      - created by root user                              
+      - primary account-level feature to securely manage fine-grained resouces
+        access control Permissions to services/resources can be added/revoked     
+       Ex: user1 → IAM user 01 → resource  01,05,10,...    
+           user2 → IAM user 02 → resource  03,07,23,...    
+  
+    ● IAM role: Similar to IAM-user but
+      · IAM users can incarnate it. (user "has permissions over Role")
+      · NO long-term credentials allowed, just temporal for session.
+      · Use case: Delegate temporal resource-access to (maybe external)
+        users/apps/lambdas/ec2 VMs/containers/services/...
+      · e.g.: IAM user1 has permissions over RoleA, and RoleA over RoleB then:
+              IAM user1 can incarnate RoleA (aws ami assume-role) for 12 hours max.
+              RoleA can tehn assume (chained) RoleB (for 1 hour max).
+      · Session tags used to keep trace of assigned roles.
+      @[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html]
+  
+  ● ┌ SECURITY CREDENTIAL TYPES ────────┐┌ Access keys are injected in code like:         
+    │   Cred. Type   │ Used For         │| (alt 1) ENV. VARs:           
+    ├────────────────┼──────────────────┤|  · AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY|  
+    │ username/pass  │ · AWS Mng Console│|    AWS_SESSION_TOKEN                         
+    ├────────────────┼──────────────────┤| (alt 2) ${HOME}/.aws/credentials ($ aws configure)
+    │  Access keys   │ · API calls      ←┘  | [default]                   
+    │   ^            │ · AWS cli        │   | aws_access_key_id = ...     
+    └────────────────┴──────────────────┘   | aws_secret_access_key = ... 
+  
+  ● KEY POINT: A Principal can be can := AWS root-account │ IAM-user │ IAM-role
+    Permissions of Principals over resources is defined by:
+  
+    arn:aws:iam::123456789012:root            ← Root account  ─┐
+    arn:aws:iam::123456789012:user/user01     ← user01         │  Example of principals       
+    arn:aws:iam::123456789012:user/user02     ← user02         ├─ with Amazon Resource Name
+    arn:aws:iam::123456789012:role/Role01     ← Role01         │  (arn used to univocally identify
+    arn:aws:iam::123456789012:role/Role02     ← Role02        ─┘  any AWS resource WorldWide)
+    arn:aws:iam::123456789012:policy/Policy01 ← Policy01
+  
+  @[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html]
+    ● STEP 1) Define permissions within policies. (set of attributes). Ex:
+      { "Version": "2012-10-17",  ← Allow all DYNAMODB permissions
+        "Statement": {              constrainged to just a given table
+          "Effect": "Allow",        in a given ddbb        └────┬────┘
+          "Action": "dynamodb:*",        └──┬─────┘      ┌──────┘          
+          "Resource":                  ┌────┴─────┐ ┌────┴─────┐
+          "arn:aws:dynamodb::us-east-2:123456789012:table/Books" 
+          "Condition": ... ← Optional. conditionally apply policy based on "RUNTIME" 
+        }                    req.attributes (IP address, time of day,..). They can be:
+      }                      • global ("aws:...") | • service-specific ("ec2:InstanceType:...")
+                             e.g: { "StringEquals" : { "aws:username" : "johndoe" }}
+    ● STEP 2) Attach policies to Principals (IAM user or Role)
+      ACCOUNT        1←········→ 1 root-user 1 ←····→ N IAM use   N ←········┐ Direct attachment of
+      · account name                                    N                    · IAM users to policies is
+      · email-address                                   ^                    · discouraged. Prefer indirect
+    ┌→· AWS-account-ID (12-digit number) *1             ·                    · access through groups to
+    | · root-user password                              ·                    · simplify management.
+    | · root-user access-keys                           v                    ·
+    | ----------------------                            M                    v               Permission 
+    | ● Billing                                   IAM group    M ←····→ N   Policy  1 ←····→N Attributes 
+    | * NOTE: Account can be member of            └──-v-──┘
+    |   an AWS Organization where the              it can represent a department/project/...
+    |   organizational administrator used      
+    |   a service control policy (SCP)         
+    |   can limit permissions.                 
+    | • WARN: If Account credentials are they can NOT be recoved.
+    └ *1: IAM-users also use it to sign to AWS Mng. Console (Alt. using account alias).
+          - Embedded also in many Amazon Resource Names (ARNs).
+          - Log-in into Console to retrieve it following:
+            Canonical-user-ID: obfuscated form of AWS-account-ID.
+            (ex: 79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be)
+            - Useful to "link" to real account when granting cross-account access to S3 buckets|objects.
+            To retrieve the AWS-account-ID|Cannocical-user-ID:
+            $ $ aws sts get-caller-identity --query Account --output text  or through web console:
+            · (root user) → Console → "account name" → "My Security Credentials" → "Account identifiers"
+            · (IAM  user) → Console →                → "My Security Credentials" → "Account details"
+                                                 (Not available when signed as federated user -vs IAM user-)
+  ● ROLES HOW-TO:
+    $ aws iam create-role        ...       
+    $ aws iam attach-role-policy ...        ← Attach managed permissions policy
+    $ aws iam put-role-policy    ...        ← create inlime  permissions policy
+    $ aws iam tag-role           ...        ← (optional) add custom attr. attaching tags
+    $ aws iam put-role-permission-boundary  ← (optional) Control max. permsissions allowed for role
+  
+  ● Ex: common steps for creating a cross-account role.
+    ● STEP 1). attach 'trust-policy' to role in "$ aws iam create-role"
+      $ ROLE_FILE="Test-UserAccess-Role"                       
+      $ POLICY_FILE="trust_policy_for_acct_123456789012.json"  
+      $ cat trust_policy_for_acct_123456789012.json    ← save as customer-managed-policy in AWS
+      { "Version": "2012-10-17",                         with name "PolicyForRole".
+        "Statement": [ {
+            "Effect"   : "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::123456789012:root" ← allow all users in 123456789012 account
+            },                                            
+            "Action"   : "sts:AssumeRole",              ← to assume the role
+            "Condition": { "Bool":
+              { "aws:MultiFactorAuthPresent": "true" }  ← when user provide MFA authentication
+             }                                            (using SerialNumber and TokenCode params)
+          } ] }
+      $ $ aws iam create-role \                       
+      $   --role-name ${ROLE_FILE} \                  
+      $   --assume-role-policy-document $POLICY_FILE   ← Create role attaching trust-policy
+  
+    ● STEP 2) attach an existing 'permission-managed policy' to the role.
+      { "Version": "2012-10-17",
+        "Statement": [ {
+          "Effect": "Allow",             ← allows anyone who assumes the role to perform:
+          "Action": "s3:ListBucket",       ← ListBucket action on resource:
+          "Resource": "arn:aws:s3::bck01"   ← S3 bck01 bucket
+        } ]
+      }
+      POLICY_ARN="arn:aws:iam::123456789012:role/PolicyForRole"
+      $ $ aws iam attach-role-policy \                 ← Attach permissions policy
+      $   --role-name ${ROLE_FILE} \                     (managed-policy in example)
+      $   --policy-arn ${POLICY_ARN}                     to role to set its alowed permissions
+  
+    ● STEP 3) Ussage: give individual users in trusted-account the permissions to 
+      switch to the role.  At this stage any users in '123456789012' account can assume the role.
+  
+    MANAGE PERMISSIONS AT SCALE WITH TAGS   [TODO] 
+  @[https://www.infoq.com/news/2019/02/iam-tags-attribute-based-access]
+    - Starting 2018-10, IAM users and roles can be managed through tags.
+    - The release also includes the ability to embrace attribute-based
+      access control (ABAC) and match AWS resources with IAM principals
+      dynamically to "simplify permissions management at scale"
+  
+    IDENTITY FEDERATION   [TODO] 
+  @[https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#%23intro-identity-federation]
+  
+    ##################### 
+    # Resource Policies # 
+    ##################### 
+  @[https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html]
+  
+    •  Ex: resource-policy ←·············→  S3 BucketA (owned by Account A)
+           ───────────────                  ───────────────
+           - Allow AccountB:                resource
+               full access to S3 BucketA
+           - Allow IAM-user2:
+               read access to S3 BucketA
+  
+    A subset of AWS resources  *1  types support attaching a resource-policy directly
+    (vs using proxy-role) granting direct access to external-account-principals.
+  
+   • Main advantage (vs role access) : Principals still work in "its" trusted account
+                    without giving up its permissions  (as is the case when incarnating
+                    a role). This allows for example for tasks like copying information
+                    to/from resource1 to resouce2.
+  
+    *1 : S3 buckets, SNS, Lambda, ECR, EFS, Secret Manager, KMS, CloudWatch, ...
+          Full list is available at:
+        @[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html]
+    See also IAM-roles vs resouce-policies comparative at:
+    @[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html] [TODO]
+  
+  ● attribute-based access control (ABAC):
+    Tags: enable to add customizable key-value attributes to (many) supported resource types.
+          (2018+) IAM principals can also be added key-value attributes/tags (e.g.: project-name,...)
+          Roles are marked with tags and users with matching tags will automatically be assigned 
+          those roles (with no explicit "assumeRole" declaration).
+  
+  
+    TWO NEW CONDITION CONTEXT KEYS were added in 2018 to ENABLE TAGGING IAM USERS and ROLES.
+                                                         ==================================
+  
+    management of IAM entities by ENABLING THE DELEGATION OF TAGGING RIGHTS AND ENFORCEMENT
+    of (to?) tagging schemes.
+  @[https://www.infoq.com/news/2019/02/iam-tags-attribute-based-access]
+    DYNAMICALLY match CURRENT/FUTURE resource-instansces with Principals (Roles/IAM users):
+    1) XX:ResourceTag/$keyname  : targeted-resource, with XX := ec2 | s3 | ...
+    2) aws:PrincipalTag/$keyname: checks principal attached tag in request matches
+                                  specified key name and value.
+  
+    • { "Version": "2012-10-17",               ← Example USE-CASE 1: dynamic grants
+        "Statement": [ {
+            "Effect": "Allow",                 ← allow policy
+            "Resource": "*",                   ← ... to targeted resources (all in this example)
+            "Action": [                        ← ... to targeted (allowed) actions
+              "ec2:RebootInstances",
+              "ec2:StartInstances",
+              "ec2:StopInstances" ],
+            "Condition": {                       to all IAM users/roles  "aws:PrincipalTag/team"
+              "StringEquals": {                  tag attribute.
+                "ec2:ResourceTag/team01" :     ← dynamically target resource.
+                   "${aws:PrincipalTag/team01}"← dynamically target Principal.
+              }                                  In a future ec2:ResourceTag/team01 can be allowed
+            }                                    to aws:PrinciplTag/team02
+        } ]
+   
+    • { "Version": "2012-10-17",               ← Example USE-CASE 2: Allow to dynamically assume IAM roles
+      "Statement": [ {                             (Simplify Roles management in multi-account scenarios) *1
+        "Effect": "Allow",                    ← Allows (principal) to
+        "Action": "sts:AssumeRole",             ← assume each role (for a security audit)
+        "Resource": "*",                      ← ... to all ('*') targeted resources 
+        "Condition": {                        
+          "Bool": {                           ← if-and-only-if 
+            "iam:ResourceTag/audit": "true"   ← role has an 'audit' tag with a value of 'true':
+          }                                      
+        }                                 *1: Previously, A (repetitive) 'AssumeRole' statement was needed
+        }                                     FOR EACH NEW ROLE that EACH IAM principal was granted access
+      ]                                       for EACH role-specific ARN targeted.
+    }
+  
+  
+  ● Security Token Service (STS): sort of UNIX "sudo"
+    Allow lambdas/processes running as a given rol to swith to some other (allowed-by-policy) role 
+    at runtime. Commonly used to access resource in third-party AWS account by incarnanting a target 
+    role in recipient account.
+
+[[}]]
+
+● EC2 (Summary): VM service [[{1_iaas.vm.ec2]]
+  $ aws ec2 ... (start|stop|reboot|terminate|attach volumes, ENIs, ...) 
+                        │               └─ WARN: Terminate: deletes instance + its root storage.
+                        │                        Enable Termination protection to avoid accidental termination. 
+                        └───────────────── Use stop to be able to reboot later.
+                        EBS backed instances can be stopped (vs terminated) and restarted without data loss.
+                        associated EBS volumes are still charged while the VM is off [[{1_price.101}]]
+
+  - M5d.xlarge  <- EC2 name explanation.
+    │││ └─┬──┘
+    │││   └─ Instance size. For each family vCPU/RAM/price scales linearly. [[{1_price}]]
+    ││└ additional capabilites
+    │└ Intance generation. It changes over time.
+    └ Intances family ("M": "Memory" optimized).  
+      Mnemonic   | Category           | Description                     | Use-cases         [[{escalability]]
+      --------   | --------           | -----------                     | ---------
+      (M)ain/ ···· General purpose ···· Balance of CPU/mem/net ·········· General
+      (M)edium   
+      (C)ompute ·· Compute optimized ·· Advanced CPUs  ·················· Modeling, ddbbs
+      (H)DD ······ Storage optimized ·· Local HDD storage ··············· Map reduce
+      (R)am ······ Memory Optimized  ·· More ram per $  ················· In-memory caching
+      (X)treme ··· Memory Optimized ··· Terabytes of RAM and SSD ········ In-memory ddbbs
+      (I)ops ····· IO optimized ······· Local SSD storage, High IOPS ···· NoSQL ddbbs
+      (G)PU ······ GPU Graphics ······· GPUs with video encoders ········ 3D rendering
+      (P)ictures · GPU Compute ········ GPUs with tensor cores ·········· ML
+      (F)ield ···· Accelerated Comp. ·· FPGA, Custom hardw .............. Genomics,Fin.analytics
+      (t)iny ····· Burstable, Shared ·· Web servers 
+      (T)urbo ···· CPUs, lowest cost: *WARN*: T2/T3 unlimited provides *unlimited burst*
+                   but extra pays if going over credit balance.
+      [[}]]
+
+     - Pricing options [[{1_price.101]]
+       - On-Demand: No upfront cost
+       - Reserved : Up to 75% cheaper if used frequently for long time      
+       - Spot     : Cheapest ones. Use-case: tolerant to interruption apps.
+                    WARN: VM deallocated when another customer pays more for it.
+       - t2.micro == is free tier. [[{1_price.101}]]
+       [[}]]
+
+    *WARN*: $0.01/GB for transfer among availability zones [[{1_price.101}]]
+
+  - AMI == Amazon Machine Image == raw/VHD/VMDK/OVA file with: OS, software, configuration
+    - published by: AWS | custom private (Uploaded+imported) | market place
+    - NOTE: AWS Official linux AMIs default to user "ec2-user" [[{security.aaa}]]
+  
+  - AKI == Amazon Kernel Image (AKI) [[{0_PM.TODO]]
+  - ARI == Amazon Ramdisk Image (ARI)[[}]]
+
+  - Instance IP and DNS name change on reboot.   [[{1_IAAS.VM.EC2.network,troubleshooting.network]]
+    "Elastic IP" (lifetime independent of VM) must be reserved and assigned to the instance.
+    "Elastic IP" is *free of charge*. [[{1_PRICE.free}]]
+    }]]
+  
+  - EC2 Security Groups == "Virtual firewalls. Capabilites depends: [[{security.101.SG]]
+                 
+        Sec.Group Type       │ Capabilites
+      ───────────────────────┼─────────────────────────────────
+       EC2-Classic Sec.Group │ Control    out instance traffic
+      ───────────────────────┼─────────────────────────────────
+       VPC         Sec.Group │ Control in/out instance traffic
+      ───────────────────────────────────────────────────────── 
+    [[}]]
+
+  - http://169.254.169.254/latest/meta-data/ URL allows running VM collect data about itself 
+    (associated security groups, instance ID/type, AMI). Ex:
+    Get IAM credentials: 
+    http://169.254.169.254/latest/meta-data/iam/security-credentials/$iam_role_name
+  - CloudWatch  can be used to monitor/alert about EC2 instances.       [[{security.monitoring}}]]
+
+  - Tenancy Options
+    - Shared tenancy     : (def). host 1←→ N Customers/M VMs
+    - Dedicated instances:        host 1←→ 1 Customer /M VMs
+    - Dedicated host     :        host 1←→ 1 Customer /1 host (useful to fix licence issues)
+
+  Expected load and Instance type reservation
+  ^
+  │       o           b           o              Lecture:
+  │      ooo          b          ooo      b      r: Reserved   : manage normal loads
+  │     oooooo        b         oooooo    b      o: on-demand  : manage load peaks
+  │rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr  b: batch tasks: short time recoverable task 
+  │rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+  ┼──────────────────────────────────────────
+    → time
+
+  • Ext. Links:
+    - @[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/virtualization_types.html]
+  [[}]]
+
+● ECS Summary: [[{1_IAAS.VM.ECS,devops.containerization,0_PM.WiP]]
+  @[https://aws.amazon.com/es/ecs/]
+  - ECS: Elastic Container Service
+  - Foundational pillar for key AWS  services, integrating with
+    AWS Route 53, Secrets Manager, IAM, CloudWatch,...
+
+    CLUSTER   1 <-········-> N   SERVICE/S  1<-···················> 1+  TASK/S (definition)
+    ======================       ===================================    =================
+    "Pool" of VMs(CPU/Mem)     - Schedule containers into available     - 1+ container configs. 
+    - Use by services to         EC2 instances in Cluster ("Pool")      - Docker image to run 
+      reach "desired state"    - Optionally, adds load balancers and    - exposed Ports
+    - e.g.: Cluster1             dynamically updates it according to    - allocated CPU/memory
+      AZ 1  |   AZ 2             live placement of containers in EC2    - log collect config.
+     -------+--------            instances.                             - ENV.VAR to inject 
+     EC2_01 |  EC2_01          - Defines the desired state.
+     EC2_02 |  EC2_02            e.g: "at least one live Task running   TASK-GROUP:
+                                      for each Availability Zones (AZ)" ===========
+                                 e.g: "Also use load balancer and       - hint to Service to indicate
+                                 dynamically un/register EC2 instances"   RELATED-CONTAINERS (in task)
+                               - Monitors live containers.                that must scheduled in same  
+                                                                          EC2 instance.
+   NOTE:
+   - Launch containers by directly running a Task for short-running jobs.
+   - Launch containers with a Service for long-running jobs with expected SLA.
+
+                                                                     ● ECS PRE-SETUP: IAM
+  $ POLICY_FILE="file://task-execution-assume-role.json"             
+  $ aws iam --region $REGION create-role \                             └ CREATING IAM ROLE FOR TASK
+      --role-name ecsTaskExecutionRole \                               ·
+      --assume-role-policy-document ${POLICY_FILE}                     ·
+                                                                       ·
+  $ ARN="arn:aws:iam::123456789012:policy/service-role"                └ Attach service-role POLICY  to role 
+  $ ARN="${ARN}/AmazonECSTaskExecutionRolePolicy"                    
+  $ aws iam --region $REGION attach-role-policy \                    
+      --role-name ecsTaskExecutionRole \                             
+      --policy-arn ${ARN}                                            
+
+  $ aws logs create-log-group \                                      ● ECS PRE-SETUP: Create log group
+  $   --log-group-name /ecs/project01 \                              
+  $   --tags system-name=zonpro,environment=POC                      
+
+  $ aws ecr create-repository \                                      ● ECS PRE-SETUP: Create OCI image repo
+        --repository-name $REPO_NS/$DOCKER_IMAGE_NAME \                Elastic Container Registry 
+        --image-tag-mutability MUTABLE                               @[https://aws.amazon.com/ecr/]
+
+  $ aws ecs create-cluster --cluster-name cluster01 \                ●  ECS: CREATING A CLUSTER
+  $   --tags key=system-name,value=zonpro key=environment,value=POC  
+
+
+  $ AWS_VPC_CONFIG="{"                                               
+  $ AWS_VPC_CONFIG="${AWS_VPC_CONFIG}subnets=[subnet-0....]"         
+  $ AWS_VPC_CONFIG="${AWS_VPC_CONFIG},securityGroups=[sg-0..]"       
+  $ AWS_VPC_CONFIG="${AWS_VPC_CONFIG},assignPublicIp=ENABLED"        
+  $ AWS_VPC_CONFIG="}"                                               
+
+  $ aws ecs register-task-definition \                               ● ECS: REGISTER TASK
+       --cli-input-json file://./task.json                           
+  $ aws ecs list-task-definitions # check definition
+
+  $ aws ecs create-service --cluster cluster01 \                     ● ECS: CREATING SERVICE
+       --service-name zonpro-service01 \                             
+       --task-definition project01:4 --desired-count 1 \             
+       --launch-type "SERVICE01" \                                   
+       --network-configuration ${AWS_VPC_CONFIG}                     
+
+  $ aws ecs describe-services --cluster cluster01 \                  
+       --services zonpro-service01                     
+
+  $ aws ecs list-tasks --cluster cluster01                           ● ECS: Check state of tasks
+  $ aws ecs describe-tasks --cluster cluster01 --tasks $taskId       
+
+  $ aws logs describe-log-streams \                                  ● ECS: Dump running containers logs 
+       --log-group-name /ecs/project01                               
+  $ aws logs get-log-events --log-group-name /ecs/project01          
+       --log-stream-name ecs/middleware/034ec756-36d0-8384-...       
+
+  $ aws sts get-caller-identity                                      ● "sudo" to get-caller-identity
+
+  $ aws ecs deregister-task-definition \                             ● CLEAR ECS resources
+      --task-definition project01:1                                  
+  $ aws ecs delete-service --cluster cluster01 \                     
+      --service zonpro-service01 --force                             
+  $ aws ecs delete-cluster --cluster cluster01                       
+  $ aws logs delete-log-group --log-group-name /ecs/project01        
+[[}]]
+
+● S3 Object Storage. [[{1_iaas.storage.blob.s3]]
+  - 99.999999999% object durability over a year, 99.99% availability.
+  - EVENTUALLY CONSISTENT: Read data can be stale due to propagation time of S3 replicas within a AWS region.
+  - UPDATES ARE ATOMIC: Either new or old data is read. Never mixed.
+  - Reduced Redundancy Storage (RRS) can be used for lower-cost non-critical data [[{1_price}]] 
+  - Object storage (vs block and file storage)
+    http.//bucket01.s3.amazonaws.com/dir1/dir2/object1
+           └──┬───┘                  └──────┬────────┘
+              │                      Object Key ("Unique ID"), Up to 1024 bytes UTF-9 chars.
+              │                      dir1/dir2/ is just a useful string prefix, not real directories.
+              │                      since REST API support search-by-prefix 
+              │
+              └─ up to 63 lowercase [a-z][0-9][\/-.], unique name independent of any server or 
+                 aws account.
+
+    S3 objects = data (Up to 5TB) + metadata (key<string>:value<string>)   
+                                    ──────── 
+                                    system: AWS standard metadata like  last-mod-time, size, Content-type,...
+                                    user  : Client/Project "Custom" metadata
+
+  - Access through HTTP verbs Range-GET/GET/PUT/POST/DELETE.
+    - Multipart Upload API allows to pause/retry/resume upload. [[{escalability.storage}]]
+      Recomended for 100MB+. Forced for 5GB+.
+    - MF Auth. can be activated to protect DELETE operations.
+    - OBJECT CREATION STEPS: Initialization -> upload of part -> completion.
+    
+  - pre-signed URLs can be created indicating the bucket name, object key, HTTP methods 
+    and expiration date+time.
+
+  - Cross-region replica: asynchronously copy src_bucket_reg1 → dst_bucket_reg2 [[{security.backup}]]
+                                              ^(data,metadata,ACLs)
+
+    Useful to decrease read latency, backups, ... [[{escalability.local_data}]]
+    - PRE-SETUP.1): Enable versioning in src/dst buckets 
+    - PRE-SETUP.2): IAM policy with AWS S3 perm. to replicate on owner's behalf.
+
+  - PUT/POST/COPY/Multipart-Completion/DELETE/ *Events* can be activated     [[{arch.event_stream}]]
+    at bucket level, filtering by keys (or key-prefixes) and sent as input to
+    SNS/SQS/Lambdas.
+  
+  - Versioning can be enabled for buckets affecting all its objects 
+    WARN : once activated it can be suspended, but not removed.
+
+  - Access logs can be enabled for a bucket, indicating the destination
+    bucket for new logs. Best practice: add a "logs/" prefix.
+  
+  • S3 STORAGE CLASSES:
+    - standard: high durability+availability, low (fist-byte) latency
+                (general purpose data).
+    - standard-infrequent access:  (long lived data), As standar but with lower
+                GB/month storage cost.
+    - Reduced Redundancy Storage (RRS): Lower durability (4 nines)/
+               lower costs. (easy to reproduce data) [[{1_price}]]
+    - Glacier: "cold data"
+      - Extremenly low cost.
+      - Can be used as S3 storage class or independent service.
+      - Issue a "RESTORE" command and wait 3-5 hours to put data back in S3 RRS.
+  
+  • S3 STORAGE CLASSES Lifecycle policies:
+    - Help to migrate to appropiate class with NO CODE CHANGES. Ex:
+      1) "hot" storage (S3 Standard)
+      2) "warn" (S3 infrequent access) 30 days later
+      3) "cold" (Glacier)              90 days later
+      4) "delete"                   3x365 days later
+  
+  • S3 AAA:
+    - By default only owner is allowed access.
+    - Access to third parties through:
+      - ACLs (legacy) READ/WRITE/FULL CONTROL coarse-grain Access to objects|buckets.
+      - ┌─ bucket policies fine─grain Access ───────────────────────
+        │ - WHO CAN ACCESS
+        │ - FROM WHERE (IP OR CLASSLESS INTER-DOMAIN ROUTING CIDR)
+        │ - TIME OF DAY.
+        │ Similar to Identity and Access Management IAM policies but:
+        │ - linked to buckets (vs IAMs principals).
+        │ - include an explicit ref. to the IAM principal. This principal
+        │   can be associated to different AWS accounts.
+        └───────────────────────────────────────────────────────────
+  
+  • Data At rest encryption: [[{security.encryption]]
+    - Server-side encryption (SSE):  encrypts S3 objects (256 AES). 
+      (Client side encryption can also be used).
+    - SSE-S3 AWS managed keys: Let AWS manage keys. Every object is encrypted
+      with a unique key followed by a master key later.
+      - AWS rotates master keys (at least) montly.
+    - SSE-KMS keys: AWS handles key-management. User handles keys.
+      It also provides auditing: "who used a given key to access which object".
+    - SSE-C (Custome-provided keys): Use encryption keys without implementing
+      client-side encryption libraries. AWS does encrypt/decrypt with keys
+      out of AWS control.
+    - Client-side encryption options:
+      - use AWS KMS-managed customer master key.
+      - use client-side master key.
+    [[}]]
+  
+  • Static Website Hosting with S3:
+    → Create bucket → Upload static files → make files public (world readable)
+      →  Enable static website hosting for bucket :
+         → set index and error page objects.
+         → Create "friendly" DNS name using to 
+           ${bucket}.s3-website-${region}.amazonaws.com
+           -     standard CNAME DNS registry
+           - non-standard alias DNS registry (Amazon Route 53 only)
+  
+  • Glacier:
+    - Vault ← Up to 1000 vaults per AWS account
+      └ lock ← used to deploy/enforce compliance controls through policies. *1 
+      └ archive1-UUID ← encrypted, immutable, Up to 40TB,
+      └ archive2-UUID ← Unique (non-friendly) ID created by AWS at creation time
+      └ ...
+      *1  ex: Write Once, read Many. Policies can be locked (for always).
+   - Up to 5% of data can be retrieved each month [price]
+     Up to ??? daily. Beyond that, fee is incurred.
+   - Glacie  can be used as an S3 storage class to get most of the features .
+  
+  [[{]][[}]]
+  ● simple serverless Java app illustrating AWS S3 "Select" SQL query on CSVs@S3
+  @[https://github.com/aws-samples/s3-select-phonebook-search]  [[{0_PM.low_code}]]
+    - No database server required.
+    - S3 Select (2018+) and Amazon S3 Glacier Select allow customers to
+      run SQL queries directly on data stored in S3 and Amazon S3 Glacier.
+    - By retrieving only a subset of the data, customers reduce the amount of [[{1_price]]
+      data that Amazon S3 transfers, which reduces the cost and latency to
+      retrieve this data.[[}]]
+    - Compatible with CSV, JSON, or Apache Parquet format.
+  
+  • Elastic File System(EFS) [[{1_iaas.storage.fs,0_PM.TODO]]
+  - simple, scalable, fully managed elastic NFS file system  (Cloud and on-premises)
+    - simple, scalable, elastic FS for *Linux-based workloads* in Cloud|on-premises.     
+    - Scales on demand to petabytes without disrupting apps, shrinking [[{escalability}]]  
+      when removing files.
+  - TODO: @[https://www.infoq.com/news/2020/01/aws-efs-iam-access-points/]
+  [[}]]
+  
+  ● Lake Formation: [[{1_iaas.storage,Arch.data_lake,0_PM.TODO}]]
+   @[https://www.infoq.com/news/2019/08/aws-lake-formation-ga/]
+  - fully managed service that makes it much easier for customers
+     to build, secure, and manage data lakes.
+
+  • s5cmd S3 cli: [[1_iaas.storage.blob.s3,1_iaas.storage.troubleshooting]
+    @[https://github.com/peak/s5cmd]
+    - very fast S3 and local filesystem execution tool.
+    - supports wide range of object management tasks both cloud and local FSs.
+    - List buckets and objects
+    - Upload/download/delete, Move/copy/rename objects
+    - Set Server Side Encryption using AWS Key Management Service (KMS)
+    - Set ACLs for objects/files on the upload, copy, move.
+    - Print object contents to STDOUT.
+    - Summarize objects sizes, grouping by storage class.
+    - Wildcard support.
+    - Multiple arguments support for delete operation
+    - batch-file support: running commands at (very) high execution speeds
+    - Dry run support.
+    - S3 Transfer Acceleration support.
+    - Google Cloud Storage (and any other S3 API compatible service) support
+    - Structured logging for querying command outputs
+    - Shell auto-completion
+[[}]]
+  
+  ● EC2 In detail: [[{1_iaas.vm.ec2]]
+  <!-- @ma page 106: http://127.0.0.1:8000/Cloud/AWS-Certified-Solutions-Architect-Official-Study-Guide.pdf.pdf -->
+    Placement Group 
+    - Place instance on same placement group (same hardware) for High bandwidth I/O [networking][performance]
+    - When creating a placement group, we must switch among two strategies:
+      - Cluster: place instances into low-latency group in a single Availability Zone
+                 - Same rack →   If the rack fails, all instances fails at the same time. 
+      - Spread : place instances across underlying hardware (max 7 instances per group per AZ)
+                 - Ensures all instances are located in different hardware.
+                 - Can span across multi AZ.
+                 - Minimizes failure risks.
+      - Partition: Spreads instances across many different partitions
+                   (which rely on different sets of racks) within an AZ.
+                   - Use cases: HDFS, HBase, Cassandra, Kafka
+    - Use als  Enhanced networking to provide high-performance in a single root     [networking][performance]
+               I/O virtualization (SR-IOV) and lower latency/jitter in supported
+               instances (C4,C3,D2,I2,I3,H1,C5,M4,X1,M5,R3,...)
+               enhanced networking is free of charge                                [price]
+               -  Limitations :
+                 - Instances must be launched in a VPC
+                 - Instances must be launched from a HVM AMI
+               - Elastic Network Adapter: High performance
+               - Elastic Fabric Adapter: High Performance Computing (Linux only)
+  
+  
+  Ex: Install Ubuntu from EC2 image repository
+    - Enter EC2 Console then "Launch Instance".
+    · - Choose "Ubuntu HVM version" (looks to have better performance)
+    ·   only t1.micro is available for "Free tier" 
+    · - Review setup and "Launch"
+    └ → Adapt Security Settings
+        · - click on "Edit security groups"
+        ·   - From the drop down list of the Source, select "My IP",
+        ·     then press "Review and Launch".
+        · - review instance data again and "Launch"
+        └→ Create and download  SSH Key Pai  
+           · - call the key "AWS_SSH_key" and download the generated PEM file
+           └ → Check Instance Status
+               - go to instnce and check that "Status Checks" are being performed.
+               - Public IP and DNS name (FQDN) will be displayed too.
+  
+  
+  - virtualization types:
+    - Hardware Virtual Machine (HVM), prefered, take advantage of HW extensions.   [performance]
+    - Paravirtual (PV)
+  
+    Monitoring Instances                                                           [monitoring]
+    - Use CloudWatch: collect logs, monitor logs, set alarms.                      [troubleshooting]
+    - basic monitoring by default free of cost, capturing data every 5 minutes     [price]
+      Up to 2 weeks of history recorded.
+    - detailed monitoring, every minute. Has non free cost
+    - alarms: receive notifications or automated actions when crossing thresholds. [notification.automation]
+              Alarms can be simulated with AWS cli.
+  
+    Backup and Recovery 
+    - Regularly: create an AMI from EC2 running instance as template to quickly restory custom config.
+    - Regularly: back up EBS volumes using snapshots in Amazon S3. 
+    - deploy critical components across multiple Availability Zones (AZs).
+    - Attach manually an Elastic IP address or network interface to an alternate EC2 instance for recovery purposes
+    - Regularly: test the process of recovering your instances from volume fail.
+    - incremental backups is done through "Snapshots".
+  
+    Elastic Network Interface (ENI) 
+    - 1 default ENI per instance with:
+      - one primary private IPv4 (optionally 2+)
+      - one  Elastic IP  (static IP) per private IPv4 (optional)
+      - one public IPv4
+      - one or more IPv6
+      - one or more security group
+      - a mac address
+      - source destination check flag
+      - description of ENI
+  
+  - An instance may immediately terminate if:                      [troubleshooting]
+    - EBS volume limit reached or snapshot is corrupt
+    - Missing permissions to access the KMS key for EBS volume decryption
+  
+  - TODO: Hibernating
+  
+    EC2 User Data                                                  [automation][vagrant]
+  - Simple alternative to Vagrant.
+  - Enables to bootstrap instances using EC2 data script.
+    -  bootstrapping  means launching commands when a machine starts
+    → Create EC2 → Configure Instance → Advanced Details → User data
+      → Paste commands:
+        #!/bin/bash
+        ...
+  
+    SESSION MANAGER: 
+    - fully managed and auditable Manager to manage EC2/on-premises/VMs
+      access, through an interactive one-click browser-based shell or through
+      AWS cli.
+    -  No need to open inbound ports, maintain bastion hosts, or manage SSH  
+       keys. PREFERRED TO SSH!!!. 
+    - Requires to have ssm installed on EC2
+  
+• Key Mng Srv.    : Management of cryptographic secrets for Apps and AWS resources.
+• Glacier         : "Backup" storage.
+• EFS             : Elastic File system
+• EBS             : Elastic Block Storage (to be managed directly by OS or DDBB).
+● SQS             : Simple Queue Service [[{arch.message_queue]]
+  - Automanaged messaging cluster.
+  - Sort of buffer between procuder and consumer.
+  
+  |Producer| ···(push to)···→ |SQS| ←···(pull from)··· |Consumer|
+  - WARN: most of the times message is delivered only-once but *CONSUMER MUST BE IDEMPOTENT*.
+  - WARN : First In, First Out is not guaranteed except for queues marked as FIFO 
+           message-sequence info must be added to message to help consumer order data.
+  
+   visible ^                     
+   messages│   ┌─────┐           SQS node A  [[{0_doc_has.diagram]]
+   in queue│ ──┘  ·  └───···
+           └────────────────···→ time
+   visible ^   ·  ·  ·           
+   messages│   ┌─────┐           SQS node B
+   in queue│ ──┘  ·  └───···
+           └────────────────···→ time
+   visible ^   ·  ·  ·          
+   messages│   ·  ·  ·          SQS node C does NOT receive MessageA in time
+   in queue│ ───────────···
+           └──┬──┬──┬──────···→ time
+              t0 t1 t2
+               ^  ^  ^
+               │  │  └─ Consumer 1 deletes from queue
+               │  └──── Consumer 1 retrieves MessageA and start processing it
+               └─────── Producer 1 sends MessageA   [[}]]
+               Between t1 and t2 (Consumer 1 is processing the message)
+               other consumers can read the same messageA.
+• Lambdas         : "Serverless"
+• RDS             : Relational Database
+• DynamoDB        : NoSQL Database
+• Redshift        : scalable data warehouse service.
+• ElastiCache     : in-memory caching with microsecond latency.
+● CloudWatch monitoring and observability service: [[{101,troubleshooting,monitoring,0_PM.TODO]]
+  @[https://aws.amazon.com/cloudwatch/]
+  - built for: DevOps engineers, developers, site reliability engineers (SREs), IT managers.
+  - Cloud and on-premises
+  - CloudWatch provides data and actionable insights to:
+    - monitor applications/resources/services.
+    - respond to system-wide performance changes.
+    - optimize resource utilization.
+    - get a unified view of operational health.
+  - INPUT : Data collected as logs, metrics, and events.
+    OUTPUT: unified view of operational health.
+    PROCESSING: Detect anomalous behavior, set alarms.
+                Example alarms include:
+                - "Null" appearance in logs. ("Billion Dollar Mistake")
+                - HTTP 404 exceeds N-per-minute.
+  - See also:
+    - @[#guard_duty]
+    - CWL: @[https://github.com/PoeBlu/cwl]
+      CloudWatch Logs CLI, helping to monitor CloudWatch logs on the command line.
+      "... AWS CLI displays logs in JSON format, and while that can be processed
+       with another tool like jq, it's a bit of a pain. cwl simplify parameters,
+       choosing sane defaults..."
+
+● Elastic Cache: Manager redis/memcache cluster [[{arch.data.cache,0_PM.TODO]]
+ @[https://aws.amazon.com/elasticache/]
+  • Managed service for popular OOSS compatible in-memory data stores.
+  • boost performance of databases by retrieving data from high throughput/low-latency 
+    in-memory data stores.
+  • popular choice for real-time use cases like Caching, Session Stores, [[{troubleshooting.performance}]]
+    Gaming, Geospatial Services, Real-Time Analytics, and Queuing.
+    requiring sub-millisecond response times.
+
+• CloudTrail      : Auditing of governance, compliance, operational-and-risk management for IAM users/roles
+                    or AWS services actions in AWS CLI, Web Console, SDK or APIs. 
+                    Event-stream based.
+                    Services include: View, search, download, archive, analysis and notification alarms.
+                    WARN: Not free!
+● SNS: Simple Notification Service [[{QA.UX.notification,arch.event_stream,arch.async/reactive]]
+  │Publisher│               │ SNS │              │Subscriber│ [[{0_doc_has.diagram]]
+  │Producer │ → (push to) → │topic│ → (push to) →│Consumer  │
+                 ^^^^^^^                          ^^^^^^^^^^
+   push can be made through SQS,                 (Android, Apple,
+   HTTP/S, email, SMS, labmdas                    Win, Lambda,...)
+
+  - Uses cases:
+    - monitoring apps.
+    - workflow systems.
+    - time-sensitive info update
+    - mobile apps.
+    - ...
+● SES: Simple eMail Service [[{QA.UX.notification]]
+  @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/quick-start.html]
+  @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-getting-started.html]
+  - $0.10 per thousand emailmessages. [[{1_price}]]
+    - first 62,000 of month are free.
+  - Supports SMTP (standard) and AWS REST API ("Simplified?"/non-standard) interface
+
+  - USE CASES:
+    OUTGOING:                     INCOMMING:
+    =========                     ==========
+    - marketing emails.           - autoresponders.
+    - transactional emails        - unsubscribe systems.
+      (order confirmations,...)   - applications generating support tickets
+    - newsletters
+    - ...
+  - All industry-standard authentication mechanisms supported:
+   @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication.html]
+     - Domain Keys Identified Mail (DKIM)
+     - Sender Policy Framework (SPF)
+     - Domain-based Message Authentication, Reporting and Conformance (DMARC).
+  
+  - PRE-SETUP:
+    → Verify your email address with Amazon SES
+      (you must verify that you own the sender's email address.)
+      → Create a shared credentials file.
+        https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html
+  
+  - Easy integration with Spring Boot.
+    com.amazonaws:aws-java-sdk-bom:1.11.394
+   @[https://attacomsian.com/blog/amazon-ses-integration-with-spring-boot/]
+- Directory Serv. : "LDAP" and Active Directory User management.
+- SWF             : state tracker+task coordinator to build and run background jobs
+                    with parallel|sequential steps.
+                    "...If your app's steps take more than 500 milliseconds to complete, 
+                     you need to track the state of processing, and you need to recover
+                     or retry if a task fails..."
+                    Alternative: AWS Step Functions. 
+                    low-code visual process flow service to orchestrate AWS services,
+                    automate business processes, or build serverless applications.
+- Elas.MapReduce  :
+- Kinesis Streams : collect/process/analyze real-time, streaming data.
+                    data: multimedia, app.logs, website clickstreams, IoT telemetry data, training data, ...
+- Snowball        : Petabyte-scale data transport with on-board storage and compute capabilities.
+- AWS Support     :
+
+● Network Core Services:
+  ├─ Route 53     : DNS  (IPv4 and IPv6)
+  ├─ ENI          : (logical) elastic network interface "inside" VPC.
+  │ @[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html]
+  │                  Main attributes:
+  │                  - description
+  │                  - primary      private IPv4 address in VPC range
+  │                  - 0+ secondary private IPv4 address in VPC range
+  │                  - 1 Elastic IP address (IPv4) per private IPv4 address
+  │                  - 1 public IPv4 address
+  │                  - 1+ IPv6 addresses
+  │                  - 1+ security groups
+  │                  - 1 MAC address
+  │                  - A source/destination check flag
+  ├─ VPC            : Virtual Private Cloud: logically isolated IPv4/IPv6 Cloud.
+  │                   with complete control over your virtual networking
+  │                   environment ( IP address range, subnets, route tables
+  │                   and network gateways).
+  ├─ ELB            : Elastic Load Balancing. 
+  │ distributes incoming traffic across multiple targets(EC2 instances,
+  │ containers, IP addresses, Lambda functions,...) in 1+ Availability Zones.
+  │ - 3 types of load-balancers:
+  ├─ Direct Connect: service solution to setup dedicated network connection 
+  │                  from premises to AWS.
+  └─ CloudFront     : Content Delivery Network
+<hr/>
+<span title>Who is who</span>
+(Forcibely incomplete but still pertinent unordered list of "core" people):
+● Danilo Poccia: @[https://twitter.com/danilop]
+  - Principal Evangelist, Serverless @AWSCloud.
+  - Author of AWS Lambda in Action from Manning.
+  
+● Jeff Barr:
+  - Chief Evangelist for AWS. Author of blog
+   @[https://aws.amazon.com/blogs/aws/author/jbarr/] (Since 2004)
+  
+● Varun Jewalikar, Software Engineer at Prime Video (See AWS Chaos Engineering)
+● Adrian Hornsby: Principal Developer Advocate (Architecture) at AWS
+
+● DevOps Essential @[https://github.com/PoeBlu/aws-devops-essential] [[{101,devops,0_PM.TODO}]]
+
+• Price Calculator         [[{1_price.calculator]]
+  - Simple Monthly Calculator: @[https://calculator.s3.amazonaws.com/index.html]
+    Real/current cost can be seen in AWS's billing page:
+    "bottom of the page" -> "Set your first billing alarm" -> set email alarms.
+
+    ┌─ WARN: for users that are not in the East of the US: ──────────────
+    │ """ I was a little bit confused that the  "Set your first billing alarm"
+    │     link @[https://console.aws.amazon.com/cloudwatch/home?region= us-east-1 &#s=Alarms&alarmAction=ListBillingAlarms]
+    │     contains a variable 'region=us-east-1', while I am using resources in 'eu-central-1' only.
+    │     The corresponding link https://eu-central-1.console.aws....?region=eu-central-1...
+    │     does NOT allow to set any billing alarms.
+    │     I assume that billing for all regions is performed centrally in US East for all regions (I hope).
+    └──────────────────────────────────────────────────────────────────────
+[[}]]
+
+[[{1_price.101]]
+● AWS Free Tier: sign into @[https://aws.amazon.com/]
+  -> scroll down -> push the "Get Started for Free"  -> free tier trial account
+    - up to 12 months
+    - up to two time 750 hrs of computing time;
+    - Linux/Windows 2012 server on a small VM:
+        WARN :
+      - t1.micro is free tier
+      - t2.nano  is *NOT* free tier
+[[}]]
+
+● Arch. 101: OnPremise vs AWS 
+  REF:@[https://www.wowslides.com/users/bahadirhalil/projects/AWS-Core-Services-1]
+            TRADITIONAL                                    AWS
+         INFRASTRUCTURE                         INFRASTRUCTURE
+  ┌────────────────────────────────┬────────────────────────────────────────┐
+  │ Firewalls,ACLs,Admins          │   Security Groups/Network ACLs/AWS IAM │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ Router,Network Pipeline,Switch │   ELB, VPC                             │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ On─Premises Servers            │   AMI ──→ EC2 Instances                │
+  ├────────────────────────────────┼────────────────────────────────────────┤
+  │ DAS, SAN, NAS  RDBMS           │   EBS   EFS    S3   RDS                │
+  └────────────────────────────────┴────────────────────────────────────────┘
+
+
+● AWS CLI  [[{101]]
+  - TODO: Installation:
+  - POST-INSTALLATION: (generates ~/.aws/config )
+    $ aws configure
+    AWS Access Key ID [****************FJMQ]:
+    AWS Secret Access Key [****************DVVn]:
+    Default region name [eu-central-1a]: eu-central-1
+    Default output format [None]:
+    (Dynamic methods also exist to retrieve ~/.aws/config temporal tokens from SAML/OAuth2/... session)
+
+    $ aws ec2 describe-key-pairs --key-name AWS_SSH_Key  <- CHECK INSTALL Example:
+
+  - AWS CLI v2 @[https://www.infoq.com/news/2020/02/AWS-CLI-V2/ ]
+    Includes SSO and Interactive Usability Features.
+
+● AWS Security  : [[{ security.101,0_PM.TODO ]]
+  -  User, Group, and Role management with IAM and Policies.
+  -  Audit trails with CloudTrail.
+  -  Threat detection and intelligence with GuardDuty.
+  -  Encryption with KMS.
+
+●  KMS: (K)ey (M)anagement (S)ervice [[{security.secret_mng]]
+@[https://aws.amazon.com/kms/]
+https://docs.aws.amazon.com/kms/latest/developerguide/overview.html
+https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html
+https://docs.aws.amazon.com/kms/latest/developerguide/viewing-keys.html
+https://docs.aws.amazon.com/kms/latest/developerguide/editing-keys.html
+https://docs.aws.amazon.com/kms/latest/developerguide/tagging-keys.html
+https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html
+https://docs.aws.amazon.com/kms/latest/developerguide/download-public-key.html
+https://docs.aws.amazon.com/kms/latest/developerguide/kms-alias.html
+https://docs.aws.amazon.com/cli/latest/reference/kms/index.html
+
+• CORE KMS API Operations
+  - Encrypt
+  - Decrypt
+  - GenerateDataKey
+  - GenerateDataKeyWithoutPlaintext
+
+• create and control  customer master keys (CMKs) ,
+  FIPS 140-2 Validated HSMs (except China/Beijing, China/Ningxia).
+
+· aws kms create-key \                ← DescribeKey | ListKeys | ScheduleKeyDeletion
+    --key-usage ...                     ← ENCRYPT_DECRYPT* | ENCRYPT_DECRYPT | SIGN_VERIFY .
+    --policy ...                        ← (optional) See official doc for policy requirements
+    --tags TagKey=key,TagValue=val01 \  ← pairs of key/value. (Valid for any resource not just kms)
+                                          AWS will generate usage/costs cost-allocation-reports
+                                          aggregated by tags. Ex:
+                                          --tags TagKey=project,TagValue=project01 \
+                                          --tags TagKey=component,TagValue=wallet
+    --description "Development test key"
+    --customer-master-key-spec        ← SYMMETRIC_DEFAULT | RSA_             | ECC_NIST_P     | ECC_NIST_P  | ECC_NIST_P521 | ECC_SECG_P256K1
+                                         (AES-256-GCM)    | (2048|3072|4096) | (secp(256|     |(secp384r1)  | (secp521r1)   | (secp256k1)
+                                                          |                  | 384|521)r1)    |             |               |
+                                         ENCRYPT_DECRYPT  | ENCRYPT_DECRYPT  |                |             |               |
+                                                          | SIGN_VERIFY      |  SIGN_VERIFY   | SIGN_VERIFY | SIGN_VERIFY   | SIGN_VERIFY
+
+    --origin ...                      ← source of key material for CMK
+                                        AWS_KMS: (Created by AWS KMS)
+                                        EXTERNAL:(Imported)
+                                        AWS_CLOUDHSM:     CMK  created in an AWS KMS custom key store
+                                                      and keys created in associated AWS CloudHSM cluster
+                                                      ( only for symmetric CMKs.)
+    --custom-key-store-id ...         ←  obligatory for --origin AWS_CLOUDHSM
+    --(no-)bypass-policy-lockout-safety-check ←   if true: risk of CMK becoming 
+                                           unmanageable increases 
+    --cli-input-json ...       ← aternative JSON to "--XXX" flags
+                                 (overrided by matching "--XXX" flags)
+    --generate-cli-skeleton ...← Dumps to STDOUT JSON skeleton without sending an API request.
+                                 TIP: ☞ If provided with no value , it prints a sample input
+                                        JSON that can be used as an argument for
+                                        --cli-input-json.
+    --description "..."        ← "Human description (purpose, contact, ...)"
+
+  (Output will be similar to)
+  {
+    "KeyMetadata": {
+      "AWSAccountId": "123456789012",
+      "KeyId": "1234abcd-12ab-34cd-56ef-1234567890ab",  ← globally unique ID for CMK
+      "Arn": "arn:aws:kms::us-west-2:123456789012:key/   ← Amazon Resource Name (ARN) of the CMK.
+              1234abcd-12ab-34cd-56ef-1234567890ab",
+      "CreationDate": 1566160362.664,
+      "Enabled": true, 
+      "Description": "Development test key",
+      "KeyUsage": "ENCRYPT_DECRYPT",
+      "KeyState": "Enabled",
+      "Origin": "AWS_KMS",                  ← Source of CMK's key material.
+                                              AWS_KMS  : created by AWS_KMS.
+                                              EXTERNAL: imported from existing key management infrastructure
+                                                        or key material still missing.
+                                              AWS_CLOUDHSM: created in AWS CloudHSM cluster associated with
+                                                         a custom key store.
+      "KeyManager": "CUSTOMER"              ← AWS | CUSTOMER
+      ...                                    ← DeletionDate, only visible when key is pending-deletion
+                                               ValidTo (Expiration time)
+                                               CustomKeyStoreId:  (if it applies)
+    }                                          CloudHsmClusterId: (if it applies)
+  }                                            ExpirationModel (only when Origin is EXTERNAL)
+                                               CustomerMasterKeySpec → for CMF
+                                               EncryptionAlgorithms  → for CMK (list)
+                                               SigningAlgorithms     → for CMK (list)
+
+
+- Symmetric CMKs: 256-bit sym key never leaves AWS KMS unencrypted .
+  - used t  encrypt/decrypt small amounts of data 
+    (generate data keys, data keys pairs)
+    - See  GenerateDataKey and GenerateDataKeyPair .
+  - Creation:
+    1)  "CustomerMasterKeySpec" param is always SYMMETRIC_DEFAULT
+    2) use "KeyUsage"           param is always ENCRYPT_DECRYPT
+
+- Asymmetric CMKs key pairs can be:
+  - RSA: used to encrypt/decrypt data and sign/verify messages (but not both).
+  - ECC: used to                          sign/verify messages.
+  - private key never leaves AWS KMS unencrypted .
+  - GetPublicKey used to download Pub.Key.
+  - Creation:
+    1) use "CustomerMasterKeySpec" param to specify the type of key material in the CMK.
+    2) use "KeyUsage"              param to set ussage (encrypt/decrypt vs sign/verify).
+
+
+- Custom Key Stores can be specified in CustomKeyStoreId parameter
+  - Origin parameter must be AWS_CLOUDHSM
+  - AWS CloudHSM cluster associated must have 2+ active HSMs in different AZ.
+  - asymmetric CMK  can NOT  be created
+
+   ☞TIP:  CMK applies the default-key-policy :
+        @[https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html#key-policy-default]
+          - Use 'get-key-policy' to see    it.
+          - Use 'put-key-policy' to change it.
+
+  - After creating the key, an alias can be createed pointing to the new CMK with
+    'create-alias'.
+
+  FULL LIST OF COMMANDS 
+- CRYPTO. OPERATIONS: (once keys are in place)
+                      encrypt | re-encrypt | decrypt | sign | verify
+- KEY Management:     (create|describe|disable|enable)-key | list-keys
+                      (schedule|cancel)-key-deletion
+                      (enable|disable)-key-rotation | get-key-rotation-status
+                      generate-data-(key|key-pair)
+                      generate-data-(key|key-pair)-without-plaintext
+                       get-public-key
+  - update-key-description
+- RANDOM            : generate-random
+- TAGS              :  (tag|untag)-resource | list-resource-tags
+- GRANTS            : (create|retire|revoke)-grant | (list|list-retirable)-grants
+- POLICIES          : (get|put)-key-policy | list-key-policies
+- ALIASES           : (create|update|delete|list)-alias
+- IMPORT EXTERN.KEYS:  get-parameters-for-import | (import|delete-imported)-key-material
+- CUSTOM KEY STORE  : (create|update|delete|connect|disconnect|describe)-custom-key-store
+[[}]]
+
+● Secret Manager @[https://aws.amazon.com/secrets-manager/] [[{security.101,0_PM.TODO,security.secret_mng]]
+  - protect secrets enabling to create/update/rotate retrieve credentials, API keys,...
+  - Enables fine-grained permissions and audit secret rotation 
+  - Pay as you go
+  - Launched on 2018
+  @[https://www.infoq.com/news/2018/04/aws-secret-manager-manage]
+
+[[}]]
+
+● CloudTrail: @[https://aws.amazon.com/cloudtrail/] [[{audit,security.auditing,0_PM.TODO]]
+  - service enabling governance, compliance, operational auditing, and risk
+    auditing of your AWS account.
+  - log, continuously monitor, and retain account activity related to actions
+    across AWS infrastructure.
+  - Event history of your AWS account activity, including actions taken through
+    the AWS Management Console, AWS SDKs, command line tools, and other AWS services.
+  - This event history simplifies security analysis, resource change tracking, and troubleshooting.
+[[}]]
+● GuardDuty @[https://aws.amazon.com/guardduty/] threat detection service [[{security.monitoring,0_PM.low_code]] 
+  - continuously monitoring for malicious activity/unauthorized behavior.
+  - continuously analyze event log data for potential threats using
+    machine learning, anomaly detection, and integrated threat intelligence.
+  - GuardDuty analyzes tens of billions of events across multiple AWS data
+    sources, such as AWS CloudTrail, Amazon VPC Flow Logs, and DNS logs.
+  - No software or hardware to deploy or maintain. 
+  - Integrates inpur from AWS CloudWatch Events. 
+  - @[https://www.infoq.com/news/2019/02/aws-guardduty-threat-detections]
+    "Amazon has added another set of new threat detections to its GuardDuty service
+     in AWS. The three new threat detections are two new penetration testing
+     detections and one policy violation detection."
+[[}]]
+
+● PolicyUniverse [[{governance.policy,0_PM.qa,troubleshooting,0_PM.TODO ]]
+  @[https://github.com/Netflix-Skunkworks/policyuniverse]
+  - Package providing classes to parse AWS IAM and Resource Policies.
+  - Additionally, it can expand wildcards in Policies using permissions
+    obtained from the AWS Policy Generator.  [[}]]
+[[}]]
+
+● Storage Matrix @[https://aws.amazon.com/products/storage/] [[{1_iaas.storage]]
+  • Elastic Block Store(EBS)          • Simple Storage Service ("S3")
+    Persistent local storage for:       - scalable, durable platform to make data
+    - EC2                                 accessible from Internet for
+    - DDBBs                               user-generated content, active archive,
+    - data warehousing                    serverless computing, Big Data storage
+    - enterprise applications             backup and recovery
+    - Big Data processing
+    - Backup/recovery.
+
+  • FSx for Lustre: Fully managed FS optimized for compute-intensive workloads(IA, 
+    media data processing, ...) seamlessly integrated with S3   
+
+  • S3 Glacier/Glacier Deep-Archive      • AWS Storage Gateway
+   - Highly affordable long-term storage   hybrid storage cloud augmenting
+     classes that can replace tape for     *on-premises* environment
+     archive and regulatory compliance      for bursting, tiering or migration.
+
+  • Cloud Data Migration Services        • AWS Backup
+    - services portfolio to help simplify  - fully managed backup service that
+      moving data of all types and sizes     makes it easy to centralize and automate
+      into and out of the AWS cloud          the back up of data across AWS services
+                                             in cloud/Storage-gateway
+
+● Vagrant [[{devops.IaC,0_PM.TODO]]
+  @[https://vocon-it.com/2016/04/01/aws-automation-using-vagrant-a-hello-world-example/]
+
+  - potentially allows for more sophisticated provisioning tasks when compared
+    to AWS CLI commands like Software Installation and upload and execution of
+    ARBITRARY shell scripts.
+
+  - Vagrant creates a local dummy Vagrant box supporting the AWS provider,
+    used only to spin up a remote AWS (AMI) image in the cloud.
+    No Vagrant box is uploaded during the process.
+
+    $ export http_proxy='http://myproxy.dns.name:8080'    ● PRE-SETUP) Optional
+    $ export https_proxy=$http_proxy
+  
+    $ vagrant plugin install vagrant-aws                  ● PRE-SETUP) AWS plugin install
+  
+    $ vagrant box add dummy https://github.com/↵ ● Download dummy box
+       mitchellh/vagrant-aws/raw/master/dummy.box
+
+    $ mkdir MyVagrantBox                                  ● "init vagrant enviroment"
+    $ cd    MyVagrantBox
+    $ vagrant init                                        ← Create template Vagrantfile
+  
+    - Add next lines to "Vagrantfile"
+    + Vagrant.configure(2) do |config|
+    +  config.vm.provider :aws do |aws, override|
+    +    aws.access_key_id = ENV['AWS_KEY']
+    +    aws.secret_access_key = ENV['AWS_SECRET']
+    +    aws.keypair_name = ENV['AWS_KEYNAME']
+    +    aws.ami = "ami-87564feb"                         ← See ami list in EC2 web console
+    +    aws.region = "us-west-1"                         ← adapt to your (signed in) region
+    +    aws.instance_type = "t2.micro"
+  
+    +    override.vm.box = "dummy"                        ←  PROBLEM: Most boxes do not support AWS.
+    +                                                        WORK AROUND: load dummy box with AWS provider
+    +                                                        and override the image that spin up in the Cloud
+  
+    +    override.ssh.username = "ubuntu"
+    +    override.ssh.private_key_path = ENV['AWS_KEYPATH']  ← EC2 console/Net.Sec/Key Pairs
+    +  end
+  
+    ● Add IAM user with appropriate permissions
+      - if not already done, create new user on the AWS IAM Users page.
+      - Assign required access rights to user like:
+        → @[https://console.aws.amazon.com/iam/home?region=eu-central-1#policies]
+                                                           ^ replace  ^
+          → ... list of policies and a filter field:
+            → search for "AmazonEC2FullAccess"
+              → Select → go to tab "Attached Identities" → "Attach":
+                attach main user.
+  
+  
+    #!/bin/sh                                            ● create launch_aws.sh script like:
+    export AWS_KEY=...
+    export AWS_SECRET=...
+    export AWS_KEYNAME=...
+    export AWS_KEYPATH=...
+    vagrant up --provider=aws
+  
+    ● ./launch_aws.sh
+      Bringing machine 'default' up with 'aws' provider...
+      ==> ...
+      ==> default: Waiting for SSH to become available...
+      ...   (can take up to 20 minutes in free-tier) 
+      ==> default: Machine is booted and ready for use!
+  
+    ● Update EC2 instance security group (manually, ...) to allow SSH access.
+      → EC2 console → Network&Security → Sec.Groups,
+        → inbound rule: (allow current source IP address, ...)
+  
+    $ vagrant destroy                                   ● Destroy Instance (save money!!!)  
+  
+[[}]]
+
+● EC2 / ECS-Task / DynamoDB / Aurora Rep autoscaling: [[{escalability.101,0_PM.TODO}]]
+  @[https://aws.amazon.com/autoscaling/]
+  • AWS Auto Scaling monitors applications to automatically adjusts
+    capacity to desired predictable performance at lowest possible cost. [[{1_price}]]
+[[]]
+
+● EC2, ssh over SSM [[{security.101,0_PM.TODO}]]
+  - AWS session manager allow to replace ssh
+  - SSH over AWS SSM allows SSH user management through IAM.
+    No requirement to store SSH keys locally or on server.
+   @[https://github.com/PoeBlu/ssh-over-ssm]
+
+● Firecracker Ligthweight Virtualization: [[{1_iaas.vm,0_PM.TODO,1_price,arch.serverless,}]]
+@[http://www.eweek.com/security/aws-boosts-serverless-security-with-firecracker-microvms]
+  - Virtualization technology based on KVM that can launch microVMs in non-virtualized
+    environments in less than 125 ms and thousands of new instances per seconds.
+  - Battle-tested, power high-volume AWS services like AWS Lambda and AWS Fargate.
+  - Open Source(written in Rust).
+  - Low Overhead: ~5 MiB RAM per microVM:
+    - Simple Guest Model to minimize device model:
+      [1 network device, 1 block I/O device, 1 Programmable Interval Timer, 1 KVM clock,
+       1 serial console, 1 partial keyboard enough to allow microVM resets].
+    - Firecracker Static Linked process jailed with cgroups and seccomp BPF.
+  @[https://firecracker-microvm.github.io]
+  - Base stack for Fargate, the cheap alternative to EC2 when load is below 20% of CPU. [[{1_price}]]
+
+<div groupv>
+<span title>monitor, troubleshoot, and optimize</span>
+● AWS Troubleshooting Basics:
+  - Check aws.region!!!!
+
+
+● RDS proxy [[{arch.data.rdms}]]
+  @[https://aws.amazon.com/rds/proxy/]
+  @[https://www.infoq.com/news/2020/07/aws-rds-proxy/]
+  - managed DATABASE PROXY for MySQL and PostgreSQL running on AWS RDS and Aurora.
+  - Tailored to architectures opening/closing database connections at a high rate   [[{troubleshooting.performance}]]
+    (lambdas/Serverless,...).
+  - RDS Proxy allows apps to pool and share connections established with the database.
+  - Avoid exhausting database memory and compute resources.
+  - Corey Quinn, cloud economist and author of the  Last Week in AWS newsletter,
+    summarized: "...This solves the '10,000 Lambda functions just hugged your  
+    database to death’ problem"...' 
+
+
+● CodeStar App.Development [[{devops.git,devops.low_code,0_PM.low_code,0_PM.TODO]]
+ [https://aws.amazon.com/codestar/]
+  - Centralize development activities:
+    backlog -> "tickets" -> Project ->  commits    -> builds, -> deployments [[{qa}]]
+    └── based on JIRA ─┘    Templates   monitoring    tests      └ Lambda, ┘
+                                                               EC2, Beanstalk
+
+  - project access management with built-in role-based policies:
+    [ owners, contributors, viewers ]
+  
+  - Integrates with ● CodeDeploy and ● CloudFormation
+  
+  -  ZERO COST                                                     [[{1_price.free}]]
+
+  - Charged only for AWS resources provisioned for devel/run apps.
+  
+  - Source Control alternatives: AWS CodeCommit, GitHub, ...
+[[}]]
+
+● AWS CodeCommit  [[{devops.git]]
+  - See also CodeStar for a global solution.
+  - "Github" like fully-managed build service ( build, test, and integrate code more frequently.
+  - High Availability and Durability (S3+DynamoDB as storage backend).
+  - Encrypted data redundantly stored across multiple facilities.
+  - up to 1,000 repositories by default and no limits upon request.
+  - AWS SNS Notifications and Custom Scripts.
+    notifications include status message + link to resource
+  - Amazon SNS HTTP webhooks or Lambda functions reactive programming
+  • CodeCommit Access Setup: 
+    @[https://docs.aws.amazon.com/codecommit/latest/userguide/setting-up-gc.html?icmpid=docs_acc_console_connect_np]
+    - simplest way: 
+      1) → Setup IAM User credentials for CodeCommit:
+      ·    → https://console.aws.amazon.com/iam/ → Users → IAM user for CodeCommit:
+      ·      → Check no policies expressly deny KMS (needed for encryption). 
+      ·        → Add Permissions
+      ·          → select AWSCodeCommitPowerUser Policy
+      ·            (or alternative managed policy with CodeCommit access).
+      ·            → Review → Confirm
+      2) → use them credentials for HTTPS connections.
+  
+  • Ussage:
+    ┌─ @ AWS Web Console ──────────────────────────
+    │ → Open https://console.aws.amazon.com/codesuite/codecommit/home
+    │   → Find + choose appropiate repository → Clone URL  → choose protocol → copy URL
+    ┌─ @ Local PC ───────────────────────────────────
+    │ $ git clone https://git-codecommit.us-east-2.amazonaws.com\
+    │             /v1/repos/MyDemoRepo my-demo-repo
+  
+    - See also:
+      https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-share-repository.html
+      https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control.html
+
+  ● AWS CodeBuild : fully-managed build service (build, test, integrate)
+
+  ● AWS CodePipeline : CI/CD service.
+  - Each project comes pre-configured with an automated pipeline
+    that continuously builds, tests, and deploys your code with
+    each commit.
+[[}]]
+
+● AWS Elastic Beanstalk: deploy+scale webapps/services in Java/.NET/Node/Python/Go/Docker
+  on familiar servers such as Apache/Nginx/Passenger/.. 
+@[https://aws.amazon.com/elasticbeanstalk/]
+
+● AWS-PlantUML sprites, macros, stereotypes, ... for AWS components. 
+ @[https://github.com/milo-minderbinder/AWS-PlantUML]
+
+● AWS (REST+WebSocket) API Gateway: [[{arch.api_mng,0_PM.TODO]]
+@[https://aws.amazon.com/api-gateway/]
+  - Create, maintain, and secure APIs at any scale.
+    (create/publish/version/monitor/secure APIs).
+  - Hides developer from traffic management, CORS support, AAA, throttling,
+    monitoring, and API version management.
+  - No minimum fees or startup costs!!!.   [[{1_price}]]
+    pay for API calls received and amount-of-data transferred out
+
+  ---------------------------------------------------------
+  ● Labmda Authorizer:
+  @[https://www.theguild.nl/enriching-requests-with-an-aws-lambda-authorizer/]
+  - When placed on an Amazon API-Gateway it can provide authorization 
+    on requests, but did you know it can also enrich the request with
+    additional session information?
+[[}]]
+
+● Chaos Engineering [[{qa.101,0_PM.TODO]]
+@[https://www.infoq.com/news/2020/08/aws-chaos-engineering/]
+  • Varun Jewalikar, Software Engineer at Prime Video, and Adrian
+    Hornsby, Principal Developer Advocate (Architecture) at AWS, write
+    that typical chaos engineering experiments include simulating
+    resource exhaustion and a failed or slow network. There are
+    countermeasures for such scenarios but "they are rarely adequately
+    tested, as unit or integration tests generally can't validate them
+    with high confidence".
+  
+  • AWS Systems Manager is a tool that can perform various operational
+    tasks across AWS resources with an agent component called SSM Agent.
+    The agent - pre-installed by default on certain Windows and Linux
+    AMIs - has the concept of "Documents" which are similar to runbooks
+    that can be executed. It can run simple shell scripts too, a feature
+    leveraged by the AWSSSMChaosRunner. The SendCommand API in SSM
+    enables running commands across multiple instances, which can be
+    filtered by AWS tags. CloudWatch can be used to view logs from all
+    the instances in a single place.
+[[}]]
+
+
+● Is AWS Free Tier Really Free? [[{"1_price.free.101,0_PM.TODO]]
+@[https://www.infoq.com/news/2020/09/aws-free-tier/]
+  ""... The AWS Free Tier is free in the same way that a table saw is
+  childproof. If you blindly rush in to use an AWS service with the
+  expectation that you won’t be charged, you’re likely to lose a
+  hand in the process...""
+  
+  - three different offers depending on the product used:
+  - "always free":
+    - 1 million requests per month on AWS Lambda
+    - 25GB of storage on DynamoDB.
+  - "12 months free":
+    - Amazon EC2
+    - RDS
+  -  short-term "trials":
+    - Amazon Inspector
+    - GuardDuty.
+  
+  - long term risk associated with this complexity:
+  
+  """..It seems pretty sensible to spin up your free EC2 instance in a
+    private subnet—and then you're very reasonably surprised when you  
+    get charged almost $80 a month for the Managed NAT Gateway attached  
+    to that subnet. This has an unfortunate side effect of teaching  
+    beginners to use AWS services in ways that won't serve them well in  
+    corporate environments. 
+  
+     Oracle, Azure, and GCP have all mastered this problem in a far more 
+    comprehensive, less user-hostile way. 
+  
+     Azure free account includes 12 months of popular services and $200
+    credit, the Google Cloud free program offers 20+ products and $300
+    credit.   An important difference with AWS is the ability to not be  
+    charged until the user manually switches to a paid account. 
+  
+    Corey Quinn closes with an advice for users who receive unexpected bills:
+  
+     Open a ticket with AWS Support. ...    If it’s your first time with an 
+    overage, they will almost universally waive the fee. 
+[[}]]
+
+● honeycode.aws: Build form-like apps in "minutes"!!! [[{0_PM.low_code,0_PM.TODO}]]
+@[https://www.honeycode.aws/]
+
+● AWS Cloud Shell CLI v2 in browser[[{101.cli}]]
+@[https://aws.amazon.com/cloudshell/]
+  - Target: admins and dev/DevOps engineers.
+    main value: """... you're on a machine that isn't your normal work machine
+                   and you want quick access to the CLI... """ .
+
+  - preconfigured with Bash/Zsh/PowerShell/editors/Git/npm+pip,
+  - file uploads up to 1GB to $HOME (persisted between sessions).
+    (1 GB of persistent storage per AWS region)
+  - root access provided.
+  - outbound connections allowed, inbound connections rejected.
+  - Up to 10 concurrent shells in each region at no charge :
+
+  Note: Microsoft and GCP offer Cloud Shell since 2017 (5GB persistence storage)
+  See also: unofficial AWS CloudShell plugin for VS Code:
+            https://github.com/iann0036/vscode-aws-cloudshell
+
+● Open Policy Agent (OPA): [[{security.101.aaa,k8s,standards.security,0_PM.QA,0_PM.TODO"]]
+  • OOSS, GENERAL-PURPOSE policy engine that unifies policy enforcement 
+    across the stack using a high-level declarative language. 
+  • It lets you specify policy as code and simple APIs to offload
+    policy decision-making from your software.
+    OPA can be used to enforce policies in microservices, Kubernetes,
+    CI/CD pipelines, API gateways, ...
+  • OPA DECOUPLES POLICY DECISION-MAKING FROM POLICY ENFORCEMENT.
+  • When your software needs to make policy decisions it queries OPA
+    and supplies structured data (e.g., JSON) as input. OPA accepts 
+    arbitrary structured data as input.
+  
+    Request → Service  → |query: JSON value|   → OPA  • Policy (Rego lang)
+    (|Event)           ← |Decision (JSON value|←┘     • Data (JSON)
+    
+    • E.g.: Kafka Authorization with OPERATOR
+   
+     client → OAuth2 A.Ser: Request token                                           
+     client ← OAuth2 A.Ser: JWT token 
+     client → kakfa       : Topic generation + JWT token
+     kakfa  → OPA         : Auth request f (operation, principal)
+     OPA    → OAuth2 A.Ser: Check JWT signature
+     OPA    → OPA         : Authorize f(operation, user_claims, policy)
+     OPA    → kafka       : Auth response
+  
+  • See also K8s Gatekeeper to provide a k8s-native way to enforce OPA 
+    policies: @[../DevOps/kubernetes_map.html#gatekeeper_summary]
+[[}]]
+
+
+● AWS Amazon MQ (2017+) [[{arch.message_queue,0_PM.TODO}]] 
+  - managed message broker Apache ActiveMQ, compatibl with most
+    "industry-standard" protocols like JMS, NMS, AMQP 1.0 and 0-9-1, STOMP,
+    MQTT, and WebSocket.
+  - Vertical scaling, throughput-optimized message brokers
+  - 99.9% Service Level Agreement (SLA).
+  -  LDAP Authentication and Authorization.
+  - Support for RabbitMQ (popular OOSS message broker) announced.
+  @[https://www.infoq.com/news/2020/11/aws-amazon-mq-rabbitmq/]
+[[}]]
+
+● AWS Lambda is Not a Magic Reliability Wand   [[{arch.serverless.101,0_doc_has.comparative}]]
+ by Karl Pickett | Jul, 2020 | Medium
+@[https://medium.com/@karl.pickett/aws-lambda-is-not-a-magic-reliability-wand-91da728acba]
+
+● 99designs AWS Vault: [[{security.secrets}]]
+ @[https://github.com/99designs/aws-vault]
+  - tool to securely store and access AWS credentials in dev. environments.
+    by storing them in OS'secure keystore and then generating temporary credentials
+    from those to expose to shell and apps.
+  -  Complementary to AWS CLI tools, suppoting profiles and configuration in ~/.aws/config.
+
+#################
+AWS : Diagrama resumen Red.!!!
+https://github.com/undergroundwires/AWS-in-bullet-points @ma
+https://github.com/undergroundwires/AWS-in-bullet-points/blob/master/saa/img/iam/iam-entities.png AWS IAM entities !!!
+############
+AWS CodeGuru
+Amazon CodeGuru Reviewer—launched in general availability in June
+2020— uses ML and automated reasoning to automatically identify
+critical issues, security vulnerabilities, and hard-to-find bugs
+during application development
+
+As a service, it is faster than any manual code review process,
+and can scan 1M lines of code in 30 mins.
+it provides recommendations on how to fix the issues it finds.
+
+########################
+Cloud, AWS: S3 strong consistency  [SLA]
+https://www.allthingsdistributed.com/2021/04/s3-strong-consistency.html
+
+https://netflixtechblog.com/s3mper-consistency-in-the-cloud-b6a1076aa4f8
+############################33
+Why AWS Lambda Pricing Has to Change for the Enterprise
+https://www.infoq.com/articles/aws-lambda-price-change/
+#####################
+AWS Introduces EC2 Serial Console: Troubleshoot Boot and Networking Issues
+https://www.infoq.com/news/2021/04/aws-ec2-serial-console/
+###########################
+AWS Launches Amazon DevOps Guru
+https://www.infoq.com/news/2021/01/aws-devops-guru
+###########################
+AWS,payments:
+Starting from 17 December 2020, we are streamlining the invoicing
+experience for accounts invoiced by Amazon Web Services EMEA SARL
+("AWS Europe"). Your tax invoices will contain the information you
+currently see in the Request for Payment (RFP), such as additional
+purchase details for your Reserve Instance (RI) and Savings Plan (SP)
+purchases, a summary by services, a summary by linked account, as
+well as additional details on any discounts or credits. You will no
+longer receive RFPs.
+##########################
+2021,06, AWS Annuance general availability of Proton:
+https://www.infoq.com/news/2021/06/aws-proton-container-ga/
+
+AWS Proton brings together customers' infrastructure as code, CI/CD
+pipeline, and observability into a single interface, so developers
+can quickly go from code in a repo to a production application.
+Developers rely on AWS Proton's self-service capabilities to deploy
+code quickly and securely without having to become experts on each of
+the underlying services involved, while the central infrastructure
+team can be assured that the apps deployed by their developers using
+AWS Proton meet the standards they have set for their business.
+
+https://www.infoq.com/news/2022/01/proton-terraform-git/
+
+################################
+Cloud: AWS Announces the General Availability of Amazon ECS Anywhere
+https://www.infoq.com/news/2021/06/amazon-ecs-anywhere-ga/
+
+
+#################
+Low_code, AWS Amplify: App Dev. accelerator.
+
+[[{governance,security,0_PM.radar]]
+<span xsmall>Cloud Custodian</span>
+@[https://cloudcustodian.io/]
+@[https://manheim-c7n-tools.readthedocs.io/en/latest/]
+- Opensource Cloud Security, Governance, and Management
+  The Path to a Well Managed Cloud
+
+- Cloud Custodian enables users to be well managed in the cloud. The simple YAML
+  DSL allows you to easily define rules to enable a well-managed cloud
+  infrastructure, that's both secure and cost optimized. It consolidates many of
+  the ad-hoc scripts organizations have into a lightweight and flexible tool,
+  with unified metrics and reporting.
+[[}]]
+
+● TODO / Non-Classified
+  • Automate Sec.Rule Update:
+  - STEP 1: Verify that AWS user has the needed rights/permissions for AmazonEC2FullAccess policy
+  
+  - STEP 2: Test that you can see the security policies
+            Example output
+            $ aws ec2 describe-security-groups
+            → {
+            →   "SecurityGroups": [
+            →     {
+            →       "IpPermissionsEgress": [
+            →         ...(egress rules)...
+            →       ],
+            →       "Description": "default VPC security group",
+            →       "IpPermissions": [
+            →         ...(ingress rules)...
+            →       ],
+            →
+            →       "GroupName": "default",
+            →       "VpcId": "vpc-a6e13ecf",
+            →       "OwnerId": "923026411698",
+            →       "GroupId": "sg-0433846d"
+            →     },
+            → ...(other security groups)...
+            → }
+  
+  - STEP 3:
+    Test adding/removing new ingress rules:
+    $ EXTERNAL_IP01=$(wget http://ipinfo.io/ip -qO -)
+    $ CidrIp01="${EXTERNAL_IP01}/32"
+    $ IP_PERMISSIONS=$(cat << EOF
+        "IpProtocol": "tcp",
+        "FromPort"  : 22," "ToPort"    : 22, 
+        "IpRanges"  : [{"CidrIp": "${CidrIp01}"}]
+        }
+      EOF
+    $ SG_ID="sg-0123456d"
+  
+    $ aws ec2 authorize-security-group-ingress --group-id ${SG_ID} \
+          --dry-run \                            ← Check changes. Do not update
+          --ip-permissions '${IP_PERMISSIONS}'
+      ^^^^^^^
+      remove like:
+    $ aws ec2    revoke-security-group-ingress --group-id ${SG_ID} \
+          --ip-permissions '${IP_PERMISSIONS}'
+
+
+  • AWS CI flow "==" CodePipeline + CodeBuild.
+    Ex. Dev Pipeline:                                Flux CD scans every 2
+                                                     minutes the Registry
+                                                     for new images
+                                                          ┌─────────┐
+                                     AWS CodeBuild        v         │
+    │Dev│ → git   → │Git        │ →  (run Buildspec) →  │AWS│     │AWS│
+             push   │- ...      │    - test *1          │ECR│     │EKS│
+                    │- Buildspec│    - package            │        ^
+                                     - build OCI image    └────────┘
+                                                       On new image detected
+                                                       trigger new deployment
+    
+                                                             └────┬────┘
+                                                           Integration with
+                                                         ECR will be similar
+     *1:  Run unit tests, Sonarqube(QA), ...
+          Deploying sources to the S3 Repository of artifacts.
+
+    Buildspec:
+      - build (stages) specification YAML file
+      - collection of build commands and related settings
+      - it can be placed in source code or s3.
+      - note:  if 'install' or 'pre_build' fails, build stops.
+               if build fails, post_build is still executed.
+
+
+  • ECS vs EKS [[{0_PM.TODO}]]
+  @[https://www.missioncloud.com/blog/amazon-ecs-vs-eks-which-service-is-right-for-you]
+
+
+ • Vagrant+Docker:
+  @[https://vocon-it.com/2016/04/06/aws-automation-using-vagrant-part-3-creating-a-docker-host-on-aws-in-10-minutes-using-vagrant/]
+
+ • Graviton EC2 instances: [[{1_price,0_PM.radar}]]
+   @[https://www.infoq.com/news/2021/12/amazon-ec2-graviton3-arm/]
+   @[https://www.infoq.com/news/2020/09/aws-ec2-t4g-instances/]
+   @[https://www.datacenterknowledge.com/amazon/aws-launches-cloud-instances-powered-custom-arm-chips]
+   @[https://aws.amazon.com/es/blogs/aws/new-ec2-instances-a1-powered-by-arm-based-aws-graviton-processors/]
+    - processor-based to optimize workloads on performance and costs.
+    - latest addition to the Graviton2-based instances is the low cost 
+      burstable general-purpose T4g instances. 
+    - In the past, AWS released EC2 T3g instances for general-purpose
+      workloads in a very cost-effective manner. 
+      T4g: increased peak performance at a low cost. 
+    - powered by AWS Graviton2, custom-built with 64-bit Arm Neoverse cores.
+
+  • Quarkus+Lambdas @[https://quarkus.io/guides/amazon-lambda-http]
+
+  • AWS CDK (INFRASTRUCTURE as CODE, deprecates CloudFormation)
+    - A 10 lines AWS-CDK produces a 500 lines CloudFormation config file.
+    @[https://docs.aws.amazon.com/cdk/latest/guide/home.html]
+
+    - Cloud Development Kit (CDK) for Terraform: 
+      By AWS, HashiCorp, and Terrastack 
+    @[https://www.infoq.com/news/2020/07/cdk-terraform/]
+      |Python    |
+      |Typescript| -> cdktf -> |terraform json| -> terraform apply
+      cdktf also supports to deploy resources to AWS, Azure, Google Cloud.
+
+
+    Home   @[https://aws.amazon.com/cdk/]
+    Doc    @[https://docs.aws.amazon.com/cdk/latest/guide/home.html]
+    GitHub @[https://github.com/aws/aws-cdk]
+    Gitter @[https://gitter.im/awslabs/aws-cdk]
+    StackO @[https://stackoverflow.com/questions/tagged/aws-cdk]
+    - JAVA API Ref: 
+    @[https://docs.aws.amazon.com/cdk/api/latest/java/index.html]
+    
+    - TypeScript and Python:
+    @[https://aws.amazon.com/blogs/aws/aws-cloud-development-kit-cdk-typescript-and-python-are-now-generally-available/]
+
+    - Alternatives includ Terraform, Sceptre, https://serverless.com/framework...
+    @[https://www.reddit.com/r/aws/comments/bfh7mj/how_to_be_more_productive_with_cloudformation/]
+
+  • AWS Outposts: Hybrid Data Center Architectures [[{arch.hybrid}]]
+  @[https://www.infoq.com/news/2020/01/AWS-Outposts-Hybrid/]
+    Amazon Releases AWS Outposts, Enabling Hybrid Data Center Architectures
+  - based upon Amazon public cloud compute architecture but hosted 
+    @customer data center addressing local processing and low latency
+    requirements. Customers place infrastructure orders online, Amazon
+    will then ship the modular compute rack and a trained AWS technician
+    will connect, set up and validate the installation.
+
+  • Systems Manager:
+  @[https://blogs.sequoiainc.com/raspberry-pi-remote-management-with-aws-ec2-systems-manager/]
+    - Remote Management agent based platform for configuring, controlling,
+      and governing on premise servers from within the EC2 console.
+      How-To: 
+    - install Systems Manager agent on on-premises server, then
+      execute commands remotely, ensure servers remain in specific state,
+      and enforce configuration management requirements.
+
+  • EventBridge Schema Registry: [[{arch.event_stream,0_PM.TODO}]]
+    - developers can store the event structure-or schema-in a shared 
+      central location and map those schemas to code for Java/Python/Typescript,
+      using events as objects in their code.
+    - Alternatives include Microsoft EventGrid (including advanced features like
+      filtering, retry policies, and support for CloudEvents but missing a schema
+      registry capability), Triggermesh's EveryBridge (event bus that can consume
+      events from various sources and trigger multi-cloud lambdas).
+
+  • Kendra: accurate and easy-to-use enterprise search service powered NLP  [[{use_case.search}]]
+   @[https://aws.amazon.com/es/kendra/]
+    - content added from: - file systems, SharePoint, intranet sites,
+      file sharing services, ... into centralized location.
+
+  • What typical 100% Serverless Architecture looks like in AWS! [[{arch.serverless.101,0_doc_has.diagram,0_PM.TODO}]]
+  @[https://medium.com/serverless-transformation/what-a-typical-100-serverless-architecture-looks-like-in-aws-40f252cd0ecb]
+
+  • donnemartin/saws: supercharged AWS command line interface (CLI).  [[{qa.UX}]]
+    @[https://github.com/donnemartin/saws]
+
+
+  • Access Analyzer:  [[{security.auditing}]]
+    https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html
+
+
+  • https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
+
+  •JDK JAVA + maven:
+   https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-project-maven.html#configuring-maven-individual-components
