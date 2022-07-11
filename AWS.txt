@@ -1,69 +1,125 @@
-• AWS Nomenclature:
-  - high_availability: Service is respondent maybe in degraded mode  [[{qa,escalability]]
-  - Fault-tolerant   : high_availability + compliant SLA            [[}]]
-  - availability zone: (AZ) Equivalent to a "local network". If two instances
+[[{101]]
+● AWS Nomenclature:
+  - HIGH_AVAILABILITY: Service is respondent maybe in degraded mode                          [[{qa.ha]]
+  - FAULT-TOLERANT   : high_availability + compliant SLA     
+  - AVAILABILITY ZONE: (AZ) Equivalent to a "local network". If two instances
      are in the same AZ, they can just put the MAC address of the target
      computer on it, and then the packet will get to the right place.
      It doesn't matter what IP address is on the packet!
+  - AWS REGION       : (Multi) Data center in some World geographical place with 2 or more 
+                       availabilities zones.                                                 [[}]]
 
-• https://github.com/localstack/localstack                                 [[{dev_stack}]]
-  - easy-to-use test/mocking framework for developing Cloud applications.
-  - focus is primarily on supporting the AWS cloud stack.
+● AWS Troubleshooting Basics: Check aws.region!!!!
 
-
-
-[[{101]]
 ● IAM / Governance Hierarchy Summary: [[{security.101]]
 @[https://aws.amazon.com/iam/]
 @[https://docs.aws.amazon.com/general/latest/gr/aws-security-credentials.html]
 
-  ● USER TYPES (both are linked to security credential)
+  • USER TYPES (both are linked to security credential)
     ========== 
-    ● AWS root: Use ONLY to sig-up to AWS (email/password) and create IAM admin users.
-      - created at account creation.
-      - WARN: It can skip over any IAM deny-policies.  only AWS Organizations
-              service control policy (SCP)  can limit its permissions.           
-      ┌─ KEY POINT ──────────────────────────────────────────────────────────────
-      │ • Delegate admin tasks to (new) IAM-admin-user granting full access.   
-      │ • lock away the access keys for the root user for anything except "closing account" ...
-  
-    ● IAM User: (I)dentity and (A)ccess (M)anagement User
-      - created by root user                              
-      - primary account-level feature to securely manage fine-grained resouces
-        access control Permissions to services/resources can be added/revoked     
-       Ex: user1 → IAM user 01 → resource  01,05,10,...    
-           user2 → IAM user 02 → resource  03,07,23,...    
-  
-    ● IAM role: Similar to IAM-user but
-      · IAM users can incarnate it. (user "has permissions over Role")
-      · NO long-term credentials allowed, just temporal for session.
-      · Use case: Delegate temporal resource-access to (maybe external)
+    └ AWS root: Use ONLY to sig-up to AWS (email/password) and create IAM admin users.
+    · - created at account creation.
+    · - WARN: It can skip over any IAM deny-policies.  only AWS Organizations
+    ·       service control policy (SCP)  can limit its permissions.           
+    · ● KEY POINT:
+    ·   • Delegate admin tasks to (new) IAM-admin-user granting full access.   
+    ·   • lock away the Access keys for anything except "closing account" ...
+    └ IAM-User: (I)dentity and (A)ccess (M)anagement User
+    · - created by root user                              
+    · - primary account-level feature to securely manage fine-grained resouces
+    ·   access control Permissions to services/resources can be added/revoked     
+    ·  Ex: user1 -> IAM user 01 -> resource 01,05,10,...    
+    ·      user2 -> IAM user 02 -> resource 03,07,23,...    
+    └ IAM-role: Similar to IAM-user but just TEMPORAL FOR RUNNING SESSION.
+      - IAM users can incarnate it dynamically
+      - Used to delegate temporal resource-access to (maybe external)
         users/apps/lambdas/ec2 VMs/containers/services/...
-      · e.g.: IAM user1 has permissions over RoleA, and RoleA over RoleB then:
+      - e.g.: IAM user1 has permissions over RoleA, and RoleA over RoleB then:
               IAM user1 can incarnate RoleA (aws ami assume-role) for 12 hours max.
-              RoleA can tehn assume (chained) RoleB (for 1 hour max).
-      · Session tags used to keep trace of assigned roles.
+              RoleA can then assume (chained) RoleB (for 1 hour max).
+      - Session tags used to keep trace of assigned roles.
       @[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html]
   
-  ● ┌ SECURITY CREDENTIAL TYPES ────────┐┌ Access keys are injected in code like:         
+  • ┌ SECURITY CREDENTIAL TYPES ────────┐┌ Access keys are injected in code like:         
     │   Cred. Type   │ Used For         │| (alt 1) ENV. VARs:           
-    ├────────────────┼──────────────────┤|  · AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY|  
+    ├────────────────┼──────────────────┤|  · AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY or
     │ username/pass  │ · AWS Mng Console│|    AWS_SESSION_TOKEN                         
     ├────────────────┼──────────────────┤| (alt 2) ${HOME}/.aws/credentials ($ aws configure)
-    │  Access keys   │ · API calls      ←┘  | [default]                   
+    │  Access keys   │ · API calls      ←┘  | [default]
     │   ^            │ · AWS cli        │   | aws_access_key_id = ...     
     └────────────────┴──────────────────┘   | aws_secret_access_key = ... 
   
-  ● KEY POINT: A Principal can be can := AWS root-account │ IAM-user │ IAM-role
-    Permissions of Principals over resources is defined by:
+    ● KEY POINT: A Principal can be can := AWS root-account │ IAM-user │ IAM-role
+                 Permissions (defined by policies) are applied to principals.
+      (AWS resource unique WorldWide) ID for principals example:
+      arn:aws:iam::123456789012:root            ← Root account
+      arn:aws:iam::123456789012:user/user01     ← user01
+      arn:aws:iam::123456789012:user/user02     ← user02
+      arn:aws:iam::123456789012:role/Role01     ← Role01
+      arn:aws:iam::123456789012:role/Role02     ← Role02
+
+      arn:aws:iam::123456789012:policy/Policy01 ← Policy01
+
+  • POLICIES:  Define permissions over resources Principals gains permissions/denials
+    =========  over resources when attached a set of policies.
+    - Policies authorize/deny requests.
+    - Defined as JSON documents. 
+    • TYPES-OF-POLICIES: 
+      └ IAM      policy: "Normal" policies that can be attached to Principals 
+      ·          (usually defined by developers who wants to obtain "enough"
+      ·          permissions for a lambda/EC2 instance/... to use a resource)
+      ·  
+      ·      Organization            ┌··(directly attaching users···┐
+      ·  ┌ 1 account (optional)      ·   to policies discouraged)   ·
+      ·  ·                           v                              v
+      ·  ·                           N                              M 
+      ·  └· N  root-user 1 <·····> N IAM  N <··> M IAM   N <···> M IAM   1 <··> N Permission
+      ·        Billing Account *1   user *2       group            Policy         Atributes
+      ·                                    (department/project/...) ·
+      ·                                                             ·
+      ·                                                             ·
+      ·               EC2/Lambdas/...  ·····(run as)··> IAM  N <····┘
+      ·                                                 role 
+      ·                                               (temp. credential)
+      · 
+      ·   *1 WARN: If Account credentials are lost they can NOT be recoved.
+      ·   *2: root-users and IAM users are identified with a 12number AWS ACCOUNT ID.
+      ·       IAM-users also use the root AWS Account ID to sign to AWS Mng. Console (Alt. using account alias).
+      ·       
+      ·       • Canonical-user-ID: obfuscated form of AWS-account-ID. 
+      ·         (ex: 79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be)
+      ·         - Useful to "link" to real account when granting cross-account access to S3 buckets|objects.
+      ·         - To retrieve the AWS-account-ID|Cannocical-user-ID:
+      ·           $ aws sts get-caller-identity --query Account --output text  <- Alt 1: cli
+      ·
+      ·         · (root user) → Console → "account name"                       <- Alt 2: Web Console
+      ·           → "My Security Credentials" → "Account identifiers"             (Not available when signed as 
+      ·         · (IAM  user) → Console → (Skip "account name")                    federated user -vs IAM user-)
+      ·           → "My Security Credentials" → "Account details"
+      ·         
+      └ Resource policy: popular to grant x-account access.
+      └ Boundary policy: Apply restrictions independently of any other policy. 
+      ·                  defined by the security team.
+      └ Service control policy (SCP): Established by Organization administrator to further
+      ·                               restrict policies to root ("Billing") Accounts.
+      └ Session  policy: TODO
+        
+  • POLICIES AUTHORIZATION RULES:
+    =============================
+   1) By default, all requests are denied.
+   2) An explicit "allow" in any policy overrides the default.
+   3) Organizations SCP, IAM permissions boundary, or session policy
+      overrides the effective policy.
+      If any of them is exists, values default to "deny". An explicit 
+      "allow" must be set on them for the request to be allowed.
+   4) If a single permissions policy includes a denied action, 
+      request is denied.
   
-    arn:aws:iam::123456789012:root            ← Root account  ─┐
-    arn:aws:iam::123456789012:user/user01     ← user01         │  Example of principals       
-    arn:aws:iam::123456789012:user/user02     ← user02         ├─ with Amazon Resource Name
-    arn:aws:iam::123456789012:role/Role01     ← Role01         │  (arn used to univocally identify
-    arn:aws:iam::123456789012:role/Role02     ← Role02        ─┘  any AWS resource WorldWide)
-    arn:aws:iam::123456789012:policy/Policy01 ← Policy01
-  
+  • POLICY JSON DOCUMENT: TODO
+    =====================
+
+  • POLICY CONDITIONS:
+   ==================
   @[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html]
     ● STEP 1) Define permissions within policies. (set of attributes). Ex:
       { "Version": "2012-10-17",  ← Allow all DYNAMODB permissions
@@ -76,40 +132,16 @@
         }                    req.attributes (IP address, time of day,..). They can be:
       }                      • global ("aws:...") | • service-specific ("ec2:InstanceType:...")
                              e.g: { "StringEquals" : { "aws:username" : "johndoe" }}
-    ● STEP 2) Attach policies to Principals (IAM user or Role)
-      ACCOUNT        1←········→ 1 root-user 1 ←····→ N IAM use   N ←········┐ Direct attachment of
-      · account name                                    N                    · IAM users to policies is
-      · email-address                                   ^                    · discouraged. Prefer indirect
-    ┌→· AWS-account-ID (12-digit number) *1             ·                    · access through groups to
-    | · root-user password                              ·                    · simplify management.
-    | · root-user access-keys                           v                    ·
-    | ----------------------                            M                    v               Permission 
-    | ● Billing                                   IAM group    M ←····→ N   Policy  1 ←····→N Attributes 
-    | * NOTE: Account can be member of            └──-v-──┘
-    |   an AWS Organization where the              it can represent a department/project/...
-    |   organizational administrator used      
-    |   a service control policy (SCP)         
-    |   can limit permissions.                 
-    | • WARN: If Account credentials are they can NOT be recoved.
-    └ *1: IAM-users also use it to sign to AWS Mng. Console (Alt. using account alias).
-          - Embedded also in many Amazon Resource Names (ARNs).
-          - Log-in into Console to retrieve it following:
-            Canonical-user-ID: obfuscated form of AWS-account-ID.
-            (ex: 79a59df900b949e55d96a1e698fbacedfd6e09d98eacf8f8d5218e7cd47ef2be)
-            - Useful to "link" to real account when granting cross-account access to S3 buckets|objects.
-            To retrieve the AWS-account-ID|Cannocical-user-ID:
-            $ $ aws sts get-caller-identity --query Account --output text  or through web console:
-            · (root user) → Console → "account name" → "My Security Credentials" → "Account identifiers"
-            · (IAM  user) → Console →                → "My Security Credentials" → "Account details"
-                                                 (Not available when signed as federated user -vs IAM user-)
-  ● ROLES HOW-TO:
-    $ aws iam create-role        ...       
+
+  ● ROLES NORMAL FLOW:
+    $ aws iam create-role        ...        ← Create role for EC2 instance/Lambda/...
     $ aws iam attach-role-policy ...        ← Attach managed permissions policy
-    $ aws iam put-role-policy    ...        ← create inlime  permissions policy
+    $ aws iam put-role-policy    ...        ← (optional) create inlime  permissions policy
+                                              "singleton" policy that applies just to this role.
     $ aws iam tag-role           ...        ← (optional) add custom attr. attaching tags
     $ aws iam put-role-permission-boundary  ← (optional) Control max. permsissions allowed for role
   
-  ● Ex: common steps for creating a cross-account role.
+  ● CROSS-ACCOUNT ROLE NORMAL FLOW: (Used as a "sudo" among AWS accounts)
     ● STEP 1). attach 'trust-policy' to role in "$ aws iam create-role"
       $ ROLE_FILE="Test-UserAccess-Role"                       
       $ POLICY_FILE="trust_policy_for_acct_123456789012.json"  
@@ -145,14 +177,15 @@
     ● STEP 3) Ussage: give individual users in trusted-account the permissions to 
       switch to the role.  At this stage any users in '123456789012' account can assume the role.
   
-    MANAGE PERMISSIONS AT SCALE WITH TAGS   [TODO] 
+  ● MANAGE PERMISSIONS AT SCALE WITH TAGS   [TODO] 
   @[https://www.infoq.com/news/2019/02/iam-tags-attribute-based-access]
     - Starting 2018-10, IAM users and roles can be managed through tags.
     - The release also includes the ability to embrace attribute-based
       access control (ABAC) and match AWS resources with IAM principals
       dynamically to "simplify permissions management at scale"
   
-    IDENTITY FEDERATION   [TODO] 
+  ● IDENTITY FEDERATION [[{0_PM.TODO,security.AAA}]] 
+    - Allow to map "Active Directory"/... identities to federated-IAM-users.
   @[https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#%23intro-identity-federation]
   
     ##################### 
@@ -179,7 +212,7 @@
           Full list is available at:
         @[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-services-that-work-with-iam.html]
     See also IAM-roles vs resouce-policies comparative at:
-    @[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html] [TODO]
+    @[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_compare-resource-policies.html] [[{0_PM.TODO}]]
   
   ● attribute-based access control (ABAC):
     Tags: enable to add customizable key-value attributes to (many) supported resource types.
@@ -214,6 +247,7 @@
               }                                  In a future ec2:ResourceTag/team01 can be allowed
             }                                    to aws:PrinciplTag/team02
         } ]
+      }
    
     • { "Version": "2012-10-17",               ← Example USE-CASE 2: Allow to dynamically assume IAM roles
       "Statement": [ {                             (Simplify Roles management in multi-account scenarios) *1
@@ -562,9 +596,251 @@
     - Google Cloud Storage (and any other S3 API compatible service) support
     - Structured logging for querying command outputs
     - Shell auto-completion
-[[}]]
   
-  ● EC2 In detail: [[{1_iaas.vm.ec2]]
+● Key Mng Srv(KMS): Management of cryptographic secrets for Apps and AWS resources.
+● Glacier         : "Backup" storage.
+● Elastic File system (EFS): Fully managed NFS for *Linux workloads* (Cloud|on-premises) [[{1_iaas.storage.fs,0_PM.TODO]]
+  - Scales on demand *TO PETABYTES* without disrupting apps with Strong FS consistency across 3 AZ [[{escalability}]]  
+  - Automatically shrinks when removing files.
+
+  • EFS Infrequent Access (IA) storage class: reduce costs by setting up life cycle [[{1_price.storage}]]
+    mng. policies to move files that haven’t been accessed for a certain amount of
+    days to the cheaper EFS IA storage tier.
+
+  • IAM authorization for NFS: (2020-07+):  Identify clients and use IAM policies to manage permissions.
+     AWS CloudTrail console logs an appropriate event, making the process auditable.
+  • EFS Access Points: Enforce use of OS user and group, optionally restricting access to a directory in the FS.
+[[}]]
+
+● EBS             : Elastic Block Storage (to be managed directly by OS or DDBB).
+
+● Network Core Services:
+  •  Route 53     : DNS  (IPv4 and IPv6)
+  •  ENI          : (logical) elastic network interface "inside" VPC.
+  │ @[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html]
+  │                  Main attributes:
+  │                  - description
+  │                  - primary      private IPv4 address in VPC range
+  │                  - 0+ secondary private IPv4 address in VPC range
+  │                  - 1 Elastic IP address (IPv4) per private IPv4 address
+  │                  - 1 public IPv4 address
+  │                  - 1+ IPv6 addresses
+  │                  - 1+ security groups
+  │                  - 1 MAC address
+  │                  - A source/destination check flag
+  • VPC  : Virtual Private Cloud: logically isolated IPv4/IPv6 Cloud.
+  │        with complete control over your virtual networking environment.
+  │        ( IP address range, subnets, route tables and network gateways).
+  •─ ELB : Elastic Load Balancing. 
+  │ distributes incoming traffic across multiple targets(EC2 instances,
+  │ containers, IP addresses, Lambda functions,...) in 1+ Availability Zones.
+  │ - 3 types of load-balancers:
+  •─ Direct Connect: service solution to setup dedicated network connection 
+  │                  from premises to AWS.
+  •─ Security Groups (SG): "Firewalls" for services (EC2, lambdas, ...)
+  │
+  •─ CloudFront     : Content Delivery Network
+
+
+● SQS             : Simple Queue Service [[{arch.message_queue]]
+  - Automanaged messaging cluster.
+  - Sort of buffer between procuder and consumer.
+  
+  |Producer| ···(push to)···→ |SQS| ←···(pull from)··· |Consumer|
+  - WARN: most of the times message is delivered only-once but *CONSUMER MUST BE IDEMPOTENT*.
+  - WARN : First In, First Out is not guaranteed except for queues marked as FIFO 
+           message-sequence info must be added to message to help consumer order data.
+  
+   visible ^                     
+   messages│   ┌─────┐           SQS node A  [[{0_doc_has.diagram]]
+   in queue│ ──┘  ·  └───···
+           └────────────────···→ time
+   visible ^   ·  ·  ·           
+   messages│   ┌─────┐           SQS node B
+   in queue│ ──┘  ·  └───···
+           └────────────────···→ time
+   visible ^   ·  ·  ·          
+   messages│   ·  ·  ·          SQS node C does NOT receive MessageA in time
+   in queue│ ───────────···
+           └──┬──┬──┬──────···→ time
+              t0 t1 t2
+               ^  ^  ^
+               │  │  └─ Consumer 1 deletes from queue
+               │  └──── Consumer 1 retrieves MessageA and start processing it
+               └─────── Producer 1 sends MessageA   [[}]]
+               Between t1 and t2 (Consumer 1 is processing the message)
+               other consumers can read the same messageA.
+[[}]]
+● Lambdas         : "Serverless" (sort of CGI, do not consume CPU/Memory when not running)
+  - Triggered in response to (JSON) events. The lambda (function) acts as an event handler.
+  - Ideal to protect "sensitive" code with AWS roles and policies.
+  - Designed to run short-live running code (~ 3secs with max. allowed of 900sec/15min.)
+  - PRE-SETUP: create execution role for lambda. E.g:
+    $ aws iam attach-role-policy --role-name .... 
+    {
+      ... {
+        "AssumeRolePolicyDocumnet" : {
+          "Statement" : [ {
+             "Effect": "Allow",
+             "Principal": { "Service": "lambda.amazonaws.com"},  ← Role must include policy to allow lambda service
+             "Action": "sts:AssumeRole"                            to assume this role.
+          } ]
+        }
+      }
+    }
+    - At a minimum the role needs also access to CloudWatch log.
+    - To grant permissions to execute the lambda to another AWS Account use something like:
+      $ aws lambda add-permission \
+            --function-name XXX:v1 \             <- The optional ':v1' restricts access to just v1.
+            --statement-id xaccountV1 \
+            --action lambda:InvokeFunction \
+            --principal $ANOTHER_AWS_ACCT_ID \   <- Or arn:aws:iam::$ANOTHER_AWS_ACC_ID:role/role01
+            --output text                              for fine-grained tunning 
+      (Permissions to use layer libraries to other accounts is also possible).
+    - Lambdas can also be forced to use a given VPC, subnet and security group to even further restrict 
+      and control its permissions.
+     
+  - lambdas can be versioned. (myFunction:v1, myFunction:v2, ...) 
+  - Triggers include AWS resources (S3 updates, API-Gateway requests, SQS queues  ...) using EVENT-SOURCE-MAPPINGS 
+    or custom configuration. A single event can contains "hundreds" of source events batched in a single request 
+    to the lambda.
+  - Troubleshooting: Enabling X-Ray tracing allows to examine initialization vs execution times.
+  - Functions have access to local storage in "/tmp" directory.
+  - STDOUT/STDERR is sent to (configurable) CloudWatch logs.
+  - LAYERS: AWS mechanism to distribute (reusable/shared) libraries to different lambdas.
+  - Lambda execution sacle automatically in response to number of requests.  [[{escalability.101,troubleshooting]]
+    - To avoid a peak of request to overpass the "MAX. AVAILABLE CONCURRENCY FOR A AWS ACCOUNT"
+      use "reserved concurrency", allowing to splits the available concurrency into subsets.
+    - To avoid fluctuations in latency, use PROVISIONED-CONCURRENCY, allowing to pre-initialize lambda
+      instances.  [[}]]
+  - Lambdas can be executed asynchronously (preferred) or synchronously (wait for response). 
+
+  
+● RDS             : Relational Database
+● DynamoDB        : NoSQL Database
+● Redshift        : scalable data warehouse service.
+● ElastiCache     : in-memory caching with microsecond latency.
+● CloudWatch monitoring and observability service: [[{101,troubleshooting,monitoring,0_PM.TODO]]
+  @[https://aws.amazon.com/cloudwatch/]
+  - built for: DevOps engineers, developers, site reliability engineers (SREs), IT managers.
+  - Cloud and on-premises
+  - CloudWatch provides data and actionable insights to:
+    - monitor applications/resources/services.
+    - respond to system-wide performance changes.
+    - optimize resource utilization.
+    - get a unified view of operational health.
+  - INPUT : Data collected as logs, metrics, and events.
+    OUTPUT: unified view of operational health.
+    PROCESSING: Detect anomalous behavior, set alarms.
+                Example alarms include:
+                - "Null" appearance in logs. ("Billion Dollar Mistake")
+                - HTTP 404 exceeds N-per-minute.
+  - See also:
+    - @[#guard_duty]
+    - CWL: @[https://github.com/PoeBlu/cwl]
+      CloudWatch Logs CLI, helping to monitor CloudWatch logs on the command line.
+      "... AWS CLI displays logs in JSON format, and while that can be processed
+       with another tool like jq, it's a bit of a pain. cwl simplify parameters,
+       choosing sane defaults..."
+[[}]]
+
+● Elastic Cache: Manager redis/memcache cluster [[{arch.data.cache,arch.real_time,0_PM.TODO]]
+ @[https://aws.amazon.com/elasticache/]
+  • Managed service for popular OOSS compatible in-memory data stores.
+  • boost performance of databases by retrieving data from high throughput/low-latency 
+    in-memory data stores.
+  • popular choice for real-time use cases like Caching, Session Stores, [[{troubleshooting.performance}]]
+    Gaming, Geospatial Services, Real-Time Analytics, and Queuing.
+    requiring sub-millisecond response times.
+[[}]]
+
+● CloudTrail      : Auditing of governance, compliance, operational-and-risk management for IAM users/roles
+                    or AWS services actions in AWS CLI, Web Console, SDK or APIs. 
+                    Event-stream based.
+                    Services include: View, search, download, archive, analysis and notification alarms.
+                    WARN: Not free!
+
+● SNS: Simple Notification Service [[{QA.UX.notification,arch.event_stream,arch.async/reactive]]
+  │Publisher│               │ SNS │              │Subscriber│ [[{0_doc_has.diagram]]
+  │Producer │ → (push to) → │topic│ → (push to) →│Consumer  │
+                 ^^^^^^^                          ^^^^^^^^^^
+   push can be made through SQS,                 (Android, Apple,
+   HTTP/S, email, SMS, labmdas                    Win, Lambda,...) [[}]]
+
+  - Uses cases:
+    - monitoring apps.
+    - workflow systems.
+    - time-sensitive info update
+    - mobile apps.
+    - ...
+[[}]]
+● SES: Simple eMail Service [[{QA.UX.notification]]
+  @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/quick-start.html]
+  @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-getting-started.html]
+  - $0.10 per thousand emailmessages. [[{1_price}]]
+    - first 62,000 of month are free.
+  - Supports SMTP (standard) and AWS REST API ("Simplified?"/non-standard) interface
+
+  - USE CASES:
+    OUTGOING:                     INCOMMING:
+    =========                     ==========
+    - marketing emails.           - autoresponders.
+    - transactional emails        - unsubscribe systems.
+      (order confirmations,...)   - applications generating support tickets
+    - newsletters
+    - ...
+  - All industry-standard authentication mechanisms supported:
+   @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication.html]
+     - Domain Keys Identified Mail (DKIM)
+     - Sender Policy Framework (SPF)
+     - Domain-based Message Authentication, Reporting and Conformance (DMARC).
+  
+  - PRE-SETUP:
+    → Verify your email address with Amazon SES
+      (you must verify that you own the sender's email address.)
+      → Create a shared credentials file.
+        https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html
+  
+  - Easy integration with Spring Boot.
+    com.amazonaws:aws-java-sdk-bom:1.11.394
+   @[https://attacomsian.com/blog/amazon-ses-integration-with-spring-boot/]
+[[}]]
+● Directory Serv. : "LDAP" and Active Directory User management.
+● SWF: state tracker+task coordinator to build and run background jobs with parallel|sequential steps.
+       "...If your app's steps take more than 500 milliseconds to complete, you need to
+           track the state of processing, and you need to recover or retry if a task fails..."
+       Alternative: AWS Step Functions. 
+       - low-code visual process flow service to orchestrate AWS services,
+       - automate business processes, or build serverless applications.
+● Elastic MapReduce  :
+● Kinesis Streams : collect/process/analyze real-time, streaming data.
+  data: multimedia, app.logs, website clickstreams, IoT telemetry data, training data, ...
+● Snowball        : Petabyte-scale data transport with on-board storage and compute capabilities. 
+
+● Price Calculator and Free Tier [[{1_price.101.calculator]]
+  - Simple Monthly Calculator: @[https://calculator.s3.amazonaws.com/index.html]
+    Real/current cost can be seen in AWS's billing page:
+    "bottom of the page" -> "Set your first billing alarm" -> set email alarms.
+
+    ┌─ WARN: for users that are not in the East of the US: ──────────────
+    │ """ I was a little bit confused that the  "Set your first billing alarm"
+    │     link @[https://console.aws.amazon.com/cloudwatch/home?region= us-east-1 &#s=Alarms&alarmAction=ListBillingAlarms]
+    │     contains a variable 'region=us-east-1', while I am using resources in 'eu-central-1' only.
+    │     The corresponding link https://eu-central-1.console.aws....?region=eu-central-1...
+    │     does NOT allow to set any billing alarms.
+    │     I assume that billing for all regions is performed centrally in US East for all regions (I hope).
+    └──────────────────────────────────────────────────────────────────────
+  • FREE TIER:
+  @[https://aws.amazon.com/] -> scroll down -> push the "Get Started for Free"  -> free tier trial account
+    - up to 12 months
+    - up to two time 750 hrs of computing time;
+    - Linux/Windows 2012 server on a small VM:
+        WARN :
+      - t1.micro is free tier
+      - t2.nano  is *NOT* free tier 
+[[}]]
+
+● EC2 In detail: [[{1_iaas.vm.ec2]]
   <!-- @ma page 106: http://127.0.0.1:8000/Cloud/AWS-Certified-Solutions-Architect-Official-Study-Guide.pdf.pdf -->
     Placement Group 
     - Place instance on same placement group (same hardware) for High bandwidth I/O [networking][performance]
@@ -659,245 +935,9 @@
     -  No need to open inbound ports, maintain bastion hosts, or manage SSH  
        keys. PREFERRED TO SSH!!!. 
     - Requires to have ssm installed on EC2
-  
-● Key Mng Srv(KMS): Management of cryptographic secrets for Apps and AWS resources.
-● Glacier         : "Backup" storage.
-● Elastic File system (EFS): Fully managed NFS for *Linux workloads* (Cloud|on-premises) [[{1_iaas.storage.fs,0_PM.TODO]]
-  - Scales on demand *TO PETABYTES* without disrupting apps with Strong FS consistency across 3 AZ [[{escalability}]]  
-  - Automatically shrinks when removing files.
-
-  • EFS Infrequent Access (IA) storage class: reduce costs by setting up life cycle [[{1_price.storage}]]
-    mng. policies to move files that haven’t been accessed for a certain amount of
-    days to the cheaper EFS IA storage tier.
-
-  • IAM authorization for NFS: (2020-07+):  Identify clients and use IAM policies to manage permissions.
-     AWS CloudTrail console logs an appropriate event, making the process auditable.
-  • EFS Access Points: Enforce use of OS user and group, optionally restricting access to a directory in the FS.
-
-
-● EBS             : Elastic Block Storage (to be managed directly by OS or DDBB).
-
-● Network Core Services:
-  •  Route 53     : DNS  (IPv4 and IPv6)
-  •  ENI          : (logical) elastic network interface "inside" VPC.
-  │ @[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html]
-  │                  Main attributes:
-  │                  - description
-  │                  - primary      private IPv4 address in VPC range
-  │                  - 0+ secondary private IPv4 address in VPC range
-  │                  - 1 Elastic IP address (IPv4) per private IPv4 address
-  │                  - 1 public IPv4 address
-  │                  - 1+ IPv6 addresses
-  │                  - 1+ security groups
-  │                  - 1 MAC address
-  │                  - A source/destination check flag
-  • VPC  : Virtual Private Cloud: logically isolated IPv4/IPv6 Cloud.
-  │        with complete control over your virtual networking environment.
-  │        ( IP address range, subnets, route tables and network gateways).
-  •─ ELB : Elastic Load Balancing. 
-  │ distributes incoming traffic across multiple targets(EC2 instances,
-  │ containers, IP addresses, Lambda functions,...) in 1+ Availability Zones.
-  │ - 3 types of load-balancers:
-  •─ Direct Connect: service solution to setup dedicated network connection 
-  │                  from premises to AWS.
-  •─ Security Groups (SG): "Firewalls" for services (EC2, lambdas, ...)
-  │
-  •─ CloudFront     : Content Delivery Network
-
-
-● SQS             : Simple Queue Service [[{arch.message_queue]]
-  - Automanaged messaging cluster.
-  - Sort of buffer between procuder and consumer.
-  
-  |Producer| ···(push to)···→ |SQS| ←···(pull from)··· |Consumer|
-  - WARN: most of the times message is delivered only-once but *CONSUMER MUST BE IDEMPOTENT*.
-  - WARN : First In, First Out is not guaranteed except for queues marked as FIFO 
-           message-sequence info must be added to message to help consumer order data.
-  
-   visible ^                     
-   messages│   ┌─────┐           SQS node A  [[{0_doc_has.diagram]]
-   in queue│ ──┘  ·  └───···
-           └────────────────···→ time
-   visible ^   ·  ·  ·           
-   messages│   ┌─────┐           SQS node B
-   in queue│ ──┘  ·  └───···
-           └────────────────···→ time
-   visible ^   ·  ·  ·          
-   messages│   ·  ·  ·          SQS node C does NOT receive MessageA in time
-   in queue│ ───────────···
-           └──┬──┬──┬──────···→ time
-              t0 t1 t2
-               ^  ^  ^
-               │  │  └─ Consumer 1 deletes from queue
-               │  └──── Consumer 1 retrieves MessageA and start processing it
-               └─────── Producer 1 sends MessageA   [[}]]
-               Between t1 and t2 (Consumer 1 is processing the message)
-               other consumers can read the same messageA.
-● Lambdas         : "Serverless" (sort of CGI, do not consume CPU/Memory when not running)
-  - Triggered in response to (JSON) events. The lambda (function) acts as an event handler.
-  - Ideal to protect "sensitive" code with AWS roles and policies.
-  - Designed to run short-live running code (~ 3secs with max. allowed of 900sec/15min.)
-  - PRE-SETUP: create execution role for lambda. E.g:
-    $ aws iam attach-role-policy --role-name .... 
-    {
-      ... {
-      "AssumeRolePolicyDocumnet" : {
-        "Statement" : [ {
-           "Effect": "Allow",
-           "Principal": { "Service": "lambda.amazonaws.com"},  ← Role must include policy to allow lambda service
-           "Action": "sts:AssumeRole"                            to assume this role.
-        } ]
-      }
-    }
-    - At a minimum the role needs also access to CloudWatch log.
-    - To grant permissions to execute the lambda to another AWS Account use something like:
-      $ aws lambda add-permission \
-            --function-name XXX:v1 \             <- The optional ':v1' restricts access to just v1.
-            --statement-id xaccountV1 \
-            --action lambda:InvokeFunction \
-            --principal $ANOTHER_AWS_ACCT_ID \   <- Or arn:aws:iam::$ANOTHER_AWS_ACC_ID:role/role01
-            --output text                              for fine-grained tunning 
-      (Permissions to use layer libraries to other accounts is also possible).
-    - Lambdas can also be forced to use a given VPC, subnet and security group to even further restrict 
-      and control its permissions.
-     
-  - lambdas can be versioned. (myFunction:v1, myFunction:v2, ...) 
-  - Triggers include AWS resources (S3 updates, API-Gateway requests, SQS queues  ...) using EVENT-SOURCE-MAPPINGS 
-    or custom configuration. A single event can contains "hundreds" of source events batched in a single request 
-    to the lambda.
-  - Troubleshooting: Enabling X-Ray tracing allows to examine initialization vs execution times.
-  - Functions have access to local storage in "/tmp" directory.
-  - STDOUT/STDERR is sent to (configurable) CloudWatch logs.
-  - LAYERS: AWS mechanism to distribute (reusable/shared) libraries to different lambdas.
-  - Lambda execution sacle automatically in response to number of requests.  [[{escalability.101,troubleshooting]]
-    - To avoid a peak of request to overpass the "MAX. AVAILABLE CONCURRENCY FOR A AWS ACCOUNT"
-      use "reserved concurrency", allowing to splits the available concurrency into subsets.
-    - To avoid fluctuations in latency, use PROVISIONED-CONCURRENCY, allowing to pre-initialize lambda
-      instances.  [[}]]
-  - Lambdas can be executed asynchronously (preferred) or synchronously (wait for response). 
-
-  
-● RDS             : Relational Database
-● DynamoDB        : NoSQL Database
-● Redshift        : scalable data warehouse service.
-● ElastiCache     : in-memory caching with microsecond latency.
-● CloudWatch monitoring and observability service: [[{101,troubleshooting,monitoring,0_PM.TODO]]
-  @[https://aws.amazon.com/cloudwatch/]
-  - built for: DevOps engineers, developers, site reliability engineers (SREs), IT managers.
-  - Cloud and on-premises
-  - CloudWatch provides data and actionable insights to:
-    - monitor applications/resources/services.
-    - respond to system-wide performance changes.
-    - optimize resource utilization.
-    - get a unified view of operational health.
-  - INPUT : Data collected as logs, metrics, and events.
-    OUTPUT: unified view of operational health.
-    PROCESSING: Detect anomalous behavior, set alarms.
-                Example alarms include:
-                - "Null" appearance in logs. ("Billion Dollar Mistake")
-                - HTTP 404 exceeds N-per-minute.
-  - See also:
-    - @[#guard_duty]
-    - CWL: @[https://github.com/PoeBlu/cwl]
-      CloudWatch Logs CLI, helping to monitor CloudWatch logs on the command line.
-      "... AWS CLI displays logs in JSON format, and while that can be processed
-       with another tool like jq, it's a bit of a pain. cwl simplify parameters,
-       choosing sane defaults..."
-
-● Elastic Cache: Manager redis/memcache cluster [[{arch.data.cache,arch.real_time,0_PM.TODO]]
- @[https://aws.amazon.com/elasticache/]
-  • Managed service for popular OOSS compatible in-memory data stores.
-  • boost performance of databases by retrieving data from high throughput/low-latency 
-    in-memory data stores.
-  • popular choice for real-time use cases like Caching, Session Stores, [[{troubleshooting.performance}]]
-    Gaming, Geospatial Services, Real-Time Analytics, and Queuing.
-    requiring sub-millisecond response times.
 [[}]]
-
-● CloudTrail      : Auditing of governance, compliance, operational-and-risk management for IAM users/roles
-                    or AWS services actions in AWS CLI, Web Console, SDK or APIs. 
-                    Event-stream based.
-                    Services include: View, search, download, archive, analysis and notification alarms.
-                    WARN: Not free!
-
-● SNS: Simple Notification Service [[{QA.UX.notification,arch.event_stream,arch.async/reactive]]
-  │Publisher│               │ SNS │              │Subscriber│ [[{0_doc_has.diagram]]
-  │Producer │ → (push to) → │topic│ → (push to) →│Consumer  │
-                 ^^^^^^^                          ^^^^^^^^^^
-   push can be made through SQS,                 (Android, Apple,
-   HTTP/S, email, SMS, labmdas                    Win, Lambda,...) [[}]]
-
-  - Uses cases:
-    - monitoring apps.
-    - workflow systems.
-    - time-sensitive info update
-    - mobile apps.
-    - ...
-● SES: Simple eMail Service [[{QA.UX.notification]]
-  @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/quick-start.html]
-  @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-getting-started.html]
-  - $0.10 per thousand emailmessages. [[{1_price}]]
-    - first 62,000 of month are free.
-  - Supports SMTP (standard) and AWS REST API ("Simplified?"/non-standard) interface
-
-  - USE CASES:
-    OUTGOING:                     INCOMMING:
-    =========                     ==========
-    - marketing emails.           - autoresponders.
-    - transactional emails        - unsubscribe systems.
-      (order confirmations,...)   - applications generating support tickets
-    - newsletters
-    - ...
-  - All industry-standard authentication mechanisms supported:
-   @[https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication.html]
-     - Domain Keys Identified Mail (DKIM)
-     - Sender Policy Framework (SPF)
-     - Domain-based Message Authentication, Reporting and Conformance (DMARC).
   
-  - PRE-SETUP:
-    → Verify your email address with Amazon SES
-      (you must verify that you own the sender's email address.)
-      → Create a shared credentials file.
-        https://docs.aws.amazon.com/ses/latest/DeveloperGuide/create-shared-credentials-file.html
-  
-  - Easy integration with Spring Boot.
-    com.amazonaws:aws-java-sdk-bom:1.11.394
-   @[https://attacomsian.com/blog/amazon-ses-integration-with-spring-boot/]
-[[}]]
-● Directory Serv. : "LDAP" and Active Directory User management.
-● SWF: state tracker+task coordinator to build and run background jobs with parallel|sequential steps.
-       "...If your app's steps take more than 500 milliseconds to complete, you need to
-           track the state of processing, and you need to recover or retry if a task fails..."
-       Alternative: AWS Step Functions. 
-       - low-code visual process flow service to orchestrate AWS services,
-       - automate business processes, or build serverless applications.
-● Elastic MapReduce  :
-● Kinesis Streams : collect/process/analyze real-time, streaming data.
-  data: multimedia, app.logs, website clickstreams, IoT telemetry data, training data, ...
-● Snowball        : Petabyte-scale data transport with on-board storage and compute capabilities. 
 
-● Price Calculator         [[{1_price.101.calculator]]
-  - Simple Monthly Calculator: @[https://calculator.s3.amazonaws.com/index.html]
-    Real/current cost can be seen in AWS's billing page:
-    "bottom of the page" -> "Set your first billing alarm" -> set email alarms.
-
-    ┌─ WARN: for users that are not in the East of the US: ──────────────
-    │ """ I was a little bit confused that the  "Set your first billing alarm"
-    │     link @[https://console.aws.amazon.com/cloudwatch/home?region= us-east-1 &#s=Alarms&alarmAction=ListBillingAlarms]
-    │     contains a variable 'region=us-east-1', while I am using resources in 'eu-central-1' only.
-    │     The corresponding link https://eu-central-1.console.aws....?region=eu-central-1...
-    │     does NOT allow to set any billing alarms.
-    │     I assume that billing for all regions is performed centrally in US East for all regions (I hope).
-    └──────────────────────────────────────────────────────────────────────
-● AWS Free Tier: sign into @[https://aws.amazon.com/]
-  -> scroll down -> push the "Get Started for Free"  -> free tier trial account
-    - up to 12 months
-    - up to two time 750 hrs of computing time;
-    - Linux/Windows 2012 server on a small VM:
-        WARN :
-      - t1.micro is free tier
-      - t2.nano  is *NOT* free tier
-[[}]]
 
 ● AWS Who is Who:
   (Forcibely incomplete but still pertinent unordered list of "core" people):
@@ -1249,11 +1289,6 @@ https://docs.aws.amazon.com/cli/latest/reference/kms/index.html
     - Firecracker Static Linked process jailed with cgroups and seccomp BPF.
   @[https://firecracker-microvm.github.io]
   - Base stack for Fargate, the cheap alternative to EC2 when load is below 20% of CPU. [[{1_price}]]
-
-<div groupv>
-<span title>monitor, troubleshoot, and optimize</span>
-● AWS Troubleshooting Basics:
-  - Check aws.region!!!!
 
 
 ● RDS proxy [[{arch.data.rdms}]]
@@ -1738,5 +1773,10 @@ Low_code, AWS Amplify: App Dev. accelerator.
     https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/ 
 
   • TODO: @[https://www.infoq.com/news/2020/01/aws-efs-iam-access-points/]
+
+  • LocalStack:
+    - easy-to-use test/mocking framework for developing Cloud applications.
+    - focus is primarily on supporting the AWS cloud stack.
+  @[https://github.com/localstack/localstack]
 
 
