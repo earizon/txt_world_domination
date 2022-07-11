@@ -537,12 +537,6 @@
       retrieve this data.[[}]]
     - Compatible with CSV, JSON, or Apache Parquet format.
   
-  • Elastic File System(EFS) [[{1_iaas.storage.fs,0_PM.TODO]]
-  - simple, scalable, fully managed elastic NFS file system  (Cloud and on-premises)
-    - simple, scalable, elastic FS for *Linux-based workloads* in Cloud|on-premises.     
-    - Scales on demand to petabytes without disrupting apps, shrinking [[{escalability}]]  
-      when removing files.
-  - TODO: @[https://www.infoq.com/news/2020/01/aws-efs-iam-access-points/]
   [[}]]
   
   ● Lake Formation: [[{1_iaas.storage,Arch.data_lake,0_PM.TODO}]]
@@ -666,10 +660,51 @@
        keys. PREFERRED TO SSH!!!. 
     - Requires to have ssm installed on EC2
   
-• Key Mng Srv.    : Management of cryptographic secrets for Apps and AWS resources.
-• Glacier         : "Backup" storage.
-• EFS             : Elastic File system
-• EBS             : Elastic Block Storage (to be managed directly by OS or DDBB).
+● Key Mng Srv(KMS): Management of cryptographic secrets for Apps and AWS resources.
+● Glacier         : "Backup" storage.
+● Elastic File system (EFS): Fully managed NFS for *Linux workloads* (Cloud|on-premises) [[{1_iaas.storage.fs,0_PM.TODO]]
+  - Scales on demand *TO PETABYTES* without disrupting apps with Strong FS consistency across 3 AZ [[{escalability}]]  
+  - Automatically shrinks when removing files.
+
+  • EFS Infrequent Access (IA) storage class: reduce costs by setting up life cycle [[{1_price.storage}]]
+    mng. policies to move files that haven’t been accessed for a certain amount of
+    days to the cheaper EFS IA storage tier.
+
+  • IAM authorization for NFS: (2020-07+):  Identify clients and use IAM policies to manage permissions.
+     AWS CloudTrail console logs an appropriate event, making the process auditable.
+  • EFS Access Points: Enforce use of OS user and group, optionally restricting access to a directory in the FS.
+
+
+● EBS             : Elastic Block Storage (to be managed directly by OS or DDBB).
+
+● Network Core Services:
+  •  Route 53     : DNS  (IPv4 and IPv6)
+  •  ENI          : (logical) elastic network interface "inside" VPC.
+  │ @[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html]
+  │                  Main attributes:
+  │                  - description
+  │                  - primary      private IPv4 address in VPC range
+  │                  - 0+ secondary private IPv4 address in VPC range
+  │                  - 1 Elastic IP address (IPv4) per private IPv4 address
+  │                  - 1 public IPv4 address
+  │                  - 1+ IPv6 addresses
+  │                  - 1+ security groups
+  │                  - 1 MAC address
+  │                  - A source/destination check flag
+  • VPC  : Virtual Private Cloud: logically isolated IPv4/IPv6 Cloud.
+  │        with complete control over your virtual networking environment.
+  │        ( IP address range, subnets, route tables and network gateways).
+  •─ ELB : Elastic Load Balancing. 
+  │ distributes incoming traffic across multiple targets(EC2 instances,
+  │ containers, IP addresses, Lambda functions,...) in 1+ Availability Zones.
+  │ - 3 types of load-balancers:
+  •─ Direct Connect: service solution to setup dedicated network connection 
+  │                  from premises to AWS.
+  •─ Security Groups (SG): "Firewalls" for services (EC2, lambdas, ...)
+  │
+  •─ CloudFront     : Content Delivery Network
+
+
 ● SQS             : Simple Queue Service [[{arch.message_queue]]
   - Automanaged messaging cluster.
   - Sort of buffer between procuder and consumer.
@@ -698,11 +733,54 @@
                └─────── Producer 1 sends MessageA   [[}]]
                Between t1 and t2 (Consumer 1 is processing the message)
                other consumers can read the same messageA.
-• Lambdas         : "Serverless"
-• RDS             : Relational Database
-• DynamoDB        : NoSQL Database
-• Redshift        : scalable data warehouse service.
-• ElastiCache     : in-memory caching with microsecond latency.
+● Lambdas         : "Serverless" (sort of CGI, do not consume CPU/Memory when not running)
+  - Triggered in response to (JSON) events. The lambda (function) acts as an event handler.
+  - Ideal to protect "sensitive" code with AWS roles and policies.
+  - Designed to run short-live running code (~ 3secs with max. allowed of 900sec/15min.)
+  - PRE-SETUP: create execution role for lambda. E.g:
+    $ aws iam attach-role-policy --role-name .... 
+    {
+      ... {
+      "AssumeRolePolicyDocumnet" : {
+        "Statement" : [ {
+           "Effect": "Allow",
+           "Principal": { "Service": "lambda.amazonaws.com"},  ← Role must include policy to allow lambda service
+           "Action": "sts:AssumeRole"                            to assume this role.
+        } ]
+      }
+    }
+    - At a minimum the role needs also access to CloudWatch log.
+    - To grant permissions to execute the lambda to another AWS Account use something like:
+      $ aws lambda add-permission \
+            --function-name XXX:v1 \             <- The optional ':v1' restricts access to just v1.
+            --statement-id xaccountV1 \
+            --action lambda:InvokeFunction \
+            --principal $ANOTHER_AWS_ACCT_ID \   <- Or arn:aws:iam::$ANOTHER_AWS_ACC_ID:role/role01
+            --output text                              for fine-grained tunning 
+      (Permissions to use layer libraries to other accounts is also possible).
+    - Lambdas can also be forced to use a given VPC, subnet and security group to even further restrict 
+      and control its permissions.
+     
+  - lambdas can be versioned. (myFunction:v1, myFunction:v2, ...) 
+  - Triggers include AWS resources (S3 updates, API-Gateway requests, SQS queues  ...) using EVENT-SOURCE-MAPPINGS 
+    or custom configuration. A single event can contains "hundreds" of source events batched in a single request 
+    to the lambda.
+  - Troubleshooting: Enabling X-Ray tracing allows to examine initialization vs execution times.
+  - Functions have access to local storage in "/tmp" directory.
+  - STDOUT/STDERR is sent to (configurable) CloudWatch logs.
+  - LAYERS: AWS mechanism to distribute (reusable/shared) libraries to different lambdas.
+  - Lambda execution sacle automatically in response to number of requests.  [[{escalability.101,troubleshooting]]
+    - To avoid a peak of request to overpass the "MAX. AVAILABLE CONCURRENCY FOR A AWS ACCOUNT"
+      use "reserved concurrency", allowing to splits the available concurrency into subsets.
+    - To avoid fluctuations in latency, use PROVISIONED-CONCURRENCY, allowing to pre-initialize lambda
+      instances.  [[}]]
+  - Lambdas can be executed asynchronously (preferred) or synchronously (wait for response). 
+
+  
+● RDS             : Relational Database
+● DynamoDB        : NoSQL Database
+● Redshift        : scalable data warehouse service.
+● ElastiCache     : in-memory caching with microsecond latency.
 ● CloudWatch monitoring and observability service: [[{101,troubleshooting,monitoring,0_PM.TODO]]
   @[https://aws.amazon.com/cloudwatch/]
   - built for: DevOps engineers, developers, site reliability engineers (SREs), IT managers.
@@ -726,7 +804,7 @@
        with another tool like jq, it's a bit of a pain. cwl simplify parameters,
        choosing sane defaults..."
 
-● Elastic Cache: Manager redis/memcache cluster [[{arch.data.cache,0_PM.TODO]]
+● Elastic Cache: Manager redis/memcache cluster [[{arch.data.cache,arch.real_time,0_PM.TODO]]
  @[https://aws.amazon.com/elasticache/]
   • Managed service for popular OOSS compatible in-memory data stores.
   • boost performance of databases by retrieving data from high throughput/low-latency 
@@ -734,18 +812,20 @@
   • popular choice for real-time use cases like Caching, Session Stores, [[{troubleshooting.performance}]]
     Gaming, Geospatial Services, Real-Time Analytics, and Queuing.
     requiring sub-millisecond response times.
+[[}]]
 
-• CloudTrail      : Auditing of governance, compliance, operational-and-risk management for IAM users/roles
+● CloudTrail      : Auditing of governance, compliance, operational-and-risk management for IAM users/roles
                     or AWS services actions in AWS CLI, Web Console, SDK or APIs. 
                     Event-stream based.
                     Services include: View, search, download, archive, analysis and notification alarms.
                     WARN: Not free!
+
 ● SNS: Simple Notification Service [[{QA.UX.notification,arch.event_stream,arch.async/reactive]]
   │Publisher│               │ SNS │              │Subscriber│ [[{0_doc_has.diagram]]
   │Producer │ → (push to) → │topic│ → (push to) →│Consumer  │
                  ^^^^^^^                          ^^^^^^^^^^
    push can be made through SQS,                 (Android, Apple,
-   HTTP/S, email, SMS, labmdas                    Win, Lambda,...)
+   HTTP/S, email, SMS, labmdas                    Win, Lambda,...) [[}]]
 
   - Uses cases:
     - monitoring apps.
@@ -783,63 +863,20 @@
   - Easy integration with Spring Boot.
     com.amazonaws:aws-java-sdk-bom:1.11.394
    @[https://attacomsian.com/blog/amazon-ses-integration-with-spring-boot/]
-- Directory Serv. : "LDAP" and Active Directory User management.
-- SWF             : state tracker+task coordinator to build and run background jobs
-                    with parallel|sequential steps.
-                    "...If your app's steps take more than 500 milliseconds to complete, 
-                     you need to track the state of processing, and you need to recover
-                     or retry if a task fails..."
-                    Alternative: AWS Step Functions. 
-                    low-code visual process flow service to orchestrate AWS services,
-                    automate business processes, or build serverless applications.
-- Elas.MapReduce  :
-- Kinesis Streams : collect/process/analyze real-time, streaming data.
-                    data: multimedia, app.logs, website clickstreams, IoT telemetry data, training data, ...
-- Snowball        : Petabyte-scale data transport with on-board storage and compute capabilities.
-- AWS Support     :
+[[}]]
+● Directory Serv. : "LDAP" and Active Directory User management.
+● SWF: state tracker+task coordinator to build and run background jobs with parallel|sequential steps.
+       "...If your app's steps take more than 500 milliseconds to complete, you need to
+           track the state of processing, and you need to recover or retry if a task fails..."
+       Alternative: AWS Step Functions. 
+       - low-code visual process flow service to orchestrate AWS services,
+       - automate business processes, or build serverless applications.
+● Elastic MapReduce  :
+● Kinesis Streams : collect/process/analyze real-time, streaming data.
+  data: multimedia, app.logs, website clickstreams, IoT telemetry data, training data, ...
+● Snowball        : Petabyte-scale data transport with on-board storage and compute capabilities. 
 
-● Network Core Services:
-  ├─ Route 53     : DNS  (IPv4 and IPv6)
-  ├─ ENI          : (logical) elastic network interface "inside" VPC.
-  │ @[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html]
-  │                  Main attributes:
-  │                  - description
-  │                  - primary      private IPv4 address in VPC range
-  │                  - 0+ secondary private IPv4 address in VPC range
-  │                  - 1 Elastic IP address (IPv4) per private IPv4 address
-  │                  - 1 public IPv4 address
-  │                  - 1+ IPv6 addresses
-  │                  - 1+ security groups
-  │                  - 1 MAC address
-  │                  - A source/destination check flag
-  ├─ VPC            : Virtual Private Cloud: logically isolated IPv4/IPv6 Cloud.
-  │                   with complete control over your virtual networking
-  │                   environment ( IP address range, subnets, route tables
-  │                   and network gateways).
-  ├─ ELB            : Elastic Load Balancing. 
-  │ distributes incoming traffic across multiple targets(EC2 instances,
-  │ containers, IP addresses, Lambda functions,...) in 1+ Availability Zones.
-  │ - 3 types of load-balancers:
-  ├─ Direct Connect: service solution to setup dedicated network connection 
-  │                  from premises to AWS.
-  └─ CloudFront     : Content Delivery Network
-<hr/>
-<span title>Who is who</span>
-(Forcibely incomplete but still pertinent unordered list of "core" people):
-● Danilo Poccia: @[https://twitter.com/danilop]
-  - Principal Evangelist, Serverless @AWSCloud.
-  - Author of AWS Lambda in Action from Manning.
-  
-● Jeff Barr:
-  - Chief Evangelist for AWS. Author of blog
-   @[https://aws.amazon.com/blogs/aws/author/jbarr/] (Since 2004)
-  
-● Varun Jewalikar, Software Engineer at Prime Video (See AWS Chaos Engineering)
-● Adrian Hornsby: Principal Developer Advocate (Architecture) at AWS
-
-● DevOps Essential @[https://github.com/PoeBlu/aws-devops-essential] [[{101,devops,0_PM.TODO}]]
-
-• Price Calculator         [[{1_price.calculator]]
+● Price Calculator         [[{1_price.101.calculator]]
   - Simple Monthly Calculator: @[https://calculator.s3.amazonaws.com/index.html]
     Real/current cost can be seen in AWS's billing page:
     "bottom of the page" -> "Set your first billing alarm" -> set email alarms.
@@ -852,9 +889,6 @@
     │     does NOT allow to set any billing alarms.
     │     I assume that billing for all regions is performed centrally in US East for all regions (I hope).
     └──────────────────────────────────────────────────────────────────────
-[[}]]
-
-[[{1_price.101]]
 ● AWS Free Tier: sign into @[https://aws.amazon.com/]
   -> scroll down -> push the "Get Started for Free"  -> free tier trial account
     - up to 12 months
@@ -865,8 +899,28 @@
       - t2.nano  is *NOT* free tier
 [[}]]
 
-● Arch. 101: OnPremise vs AWS 
+● AWS Who is Who:
+  (Forcibely incomplete but still pertinent unordered list of "core" people):
+  - Danilo Poccia: @[https://twitter.com/danilop]
+    - Principal Evangelist, Serverless @AWSCloud.
+    - Author of AWS Lambda in Action from Manning.
+    
+  - Jeff Barr:
+    - Chief Evangelist for AWS. Author of blog
+     @[https://aws.amazon.com/blogs/aws/author/jbarr/] (Since 2004)
+    
+  - Varun Jewalikar, Software Engineer at Prime Video (See AWS Chaos Engineering)
+  - Adrian Hornsby: Principal Developer Advocate (Architecture) at AWS
+  
+  - DevOps Essential @[https://github.com/PoeBlu/aws-devops-essential] [[{101,devops,0_PM.TODO}]]
+
+
+
+
+
+• Arch. 101: OnPremise vs AWS 
   REF:@[https://www.wowslides.com/users/bahadirhalil/projects/AWS-Core-Services-1]
+
             TRADITIONAL                                    AWS
          INFRASTRUCTURE                         INFRASTRUCTURE
   ┌────────────────────────────────┬────────────────────────────────────────┐
@@ -874,7 +928,7 @@
   ├────────────────────────────────┼────────────────────────────────────────┤
   │ Router,Network Pipeline,Switch │   ELB, VPC                             │
   ├────────────────────────────────┼────────────────────────────────────────┤
-  │ On─Premises Servers            │   AMI ──→ EC2 Instances                │
+  │ On-Premises Servers            │   EC2 Instances                        │
   ├────────────────────────────────┼────────────────────────────────────────┤
   │ DAS, SAN, NAS  RDBMS           │   EBS   EFS    S3   RDS                │
   └────────────────────────────────┴────────────────────────────────────────┘
@@ -1206,7 +1260,7 @@ https://docs.aws.amazon.com/cli/latest/reference/kms/index.html
   @[https://aws.amazon.com/rds/proxy/]
   @[https://www.infoq.com/news/2020/07/aws-rds-proxy/]
   - managed DATABASE PROXY for MySQL and PostgreSQL running on AWS RDS and Aurora.
-  - Tailored to architectures opening/closing database connections at a high rate   [[{troubleshooting.performance}]]
+  - Tailored to architectures opening/closing database connections at a high rate   [[{escalability,troubleshooting.performance}]]
     (lambdas/Serverless,...).
   - RDS Proxy allows apps to pool and share connections established with the database.
   - Avoid exhausting database memory and compute resources.
@@ -1677,5 +1731,12 @@ Low_code, AWS Amplify: App Dev. accelerator.
 
   • https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
 
-  •JDK JAVA + maven:
+  • JDK JAVA + maven:
    https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-project-maven.html#configuring-maven-individual-components
+
+  • Troubleshooting AWS Access Denied
+    https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/ 
+
+  • TODO: @[https://www.infoq.com/news/2020/01/aws-efs-iam-access-points/]
+
+

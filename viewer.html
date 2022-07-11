@@ -64,11 +64,18 @@ pre[fontSize=s2]{ font-size: 1.5em }
 pre[fontSize=s3]{ font-size: 2.0em }
 pre[fontSize=s4]{ font-size: 2.5em }
 
+body {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 #idControlPanel {
     margin: 0; padding 0.1em;
     border-bottom: 1px solid black; 
-    position: sticky;
-    top: 0;
+    position: fixed; top: 0; left: 0; right: 0;
     background-color: white;
     box-shadow: 0 0 3px 3px grey;
     max-height: 25em;
@@ -83,8 +90,8 @@ pre[fontSize=s4]{ font-size: 2.5em }
   display: none;
 }
 #idControlPanel[size=s2] { }
-#idControlPanel[size=s3] { max-height: 2.0em; height: 2em; }
-#idControlPanel[size=s1] { max-height: 95%  ; height: 95%; }
+#idControlPanel[size=s3] { max-height: 1.5em; height: 1.5em; }
+#idControlPanel[size=s1] { max-height: fit-content  ; height: fit-content; }
 
 @media print {
   #idControlPanel { display: none; }
@@ -99,8 +106,12 @@ pre[fontSize=s4]{ font-size: 2.5em }
     max-height: 20em;
     margin: 0;
 }
+
+#idTableIndex {
+    font-size: 0.8em;
+}
 #idTableTopics[size=s1], #idTableIndex[size=s1] {
-    max-height: 70%;
+    max-height: fit-content;
 }
 
 #dbEngineOutput[background=b1] { 

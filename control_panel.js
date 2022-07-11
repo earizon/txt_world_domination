@@ -246,7 +246,7 @@ console.log(new_value);
           }
           ${ this.state.showTopics &&
              html`
-               <span onclick=${() => this.switchTopicView()} zoom="z1.5"> [▾▵ topics]</span>
+               <span onclick=${() => this.switchTopicView()} zoom="z1.5"> [▾▵ topics]</span><br/>
                <pre id="idTableTopics" size=s2>
                <span>  </span>Match parents up to:
                  <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
@@ -270,12 +270,11 @@ console.log(new_value);
              `
           }
           ${ ! this.state.showTopics && 
-             html` <span onclick=${() => this.switchTopicView()} zoom="z1.5"> 
-                  [▿▴ topics]</span><br/>`
+             html` <span onclick=${() => this.switchTopicView()} zoom="z1.5">[▿▴ topics]</span><br/>`
           }
           ${ this.state.showIndex && 
              html`
-               <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵ Index]</span>
+               <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵ Index]</span><br/>
                <pre id="idTableIndex" size=s2>
                ${ this.getIndexTable().map( (line) => {
                     return html`${line}<br/>`
@@ -285,7 +284,7 @@ console.log(new_value);
              `
             }
           ${ ! this.state.showIndex && 
-             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5">[▿▴ index]<br/></span>
+             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▿▴ index]<br/></span>
                <span>  </span>`
           }
       `);
