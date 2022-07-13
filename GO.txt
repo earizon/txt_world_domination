@@ -1929,11 +1929,3 @@ CREDITS                                                         *go-credits*
        - test.wasm
     that you can deploy to your HTTP server or load directly into a browser.
     The js package can be used for DOM manipulation.
-
-    - See also: @[https://www.vugu.org/]   [[{0_PM.RADAR]]
-      - Pure Go targeting WebAssembly (and/or server).
-      - Modern browsers supported. 
-      -  Experimental, for now. Really cool. 
-      - First Vugu program successfully compiles with Tinygo.
-      @[https://tinygo.org/docs/reference/lang-support/] [[}]]
-    [[}]]
