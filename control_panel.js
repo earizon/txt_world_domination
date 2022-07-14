@@ -98,6 +98,14 @@ class ControlPanel extends Component {
             .setAttribute("font","font"+new_value);
     }
 
+    switchColorStyle = ()=> {
+        const new_value = this.state.color_style == 6 ? 1 : this.state.color_style+1;
+        this.setState ( { color_style : new_value });
+        document.getElementById("dbEngineOutput")
+            .setAttribute("colorstyle","s"+new_value);
+    }
+
+
     switchBackground = ()=> {
         const new_value = this.state.bckg_texture == 4 ? 1 : this.state.bckg_texture+1;
 console.log(new_value);
@@ -141,6 +149,7 @@ console.log(new_value);
       this.state.settings_secsRefreshInterval = 300;
       this.state.settings_menuSize = 2;
       this.state.settings_font = 0;
+      this.state.color_style = 1;
       this.state.bckg_texture = 1;
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 2;
@@ -234,7 +243,8 @@ console.log(new_value);
                </input> secs <br/>
                <span>  ● Font: <span onClick=${() => this.switchTypeWritterFont() }>[type ${this.state.settings_font}]</span> </span>
                <span>, <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span><br/>
-               <span>  ● <span onClick=${() => this.switchBackground()      }>[BCK ${this.state.bckg_texture}]</span> </span><br/>
+               <span>  ● Style: <span onClick=${() => this.switchBackground()      }>[BCK ${this.state.bckg_texture}]</span> </span>
+               <span>, <span onClick=${() => this.switchColorStyle() }>[Color ${this.state.color_style}]</span> </span> <br/>
                <span>  ● Line: <span onClick=${() => this.switchLineHeight()      }>[height ${this.state.settings_lineheight}]</span> </span>
                <span>, <span onClick=${() => this.switchLineBreak()}  class='${this.state.settings_linebreak?"selected":""}'>[line break]</span> </span><br/>
              `
