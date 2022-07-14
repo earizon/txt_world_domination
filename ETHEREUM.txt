@@ -3078,22 +3078,20 @@ string memory bar = string(abi.encodePacked(foo));
 [[}]]
 
 ● Solidity: Date/Time [[{_solidity.101.date_time]]
-// DateTime is stored as uint
+  - DateTime is stored as uint
+  - now (uint) == block.timestamp
+  - Next keyword constants are defined: 
+    minutes, hours, days, weeks
 
-// "  now " returns the (uint) current block timestamp (alias for block.timestamp)
+    constructor(...) {
+      this.time_origin = now;
+    }
+    uint timeOutWindow  =  3 days; // (vs 3*days)
 
-uint   timeOutWindow  =   _inputTimeOutWindow      1 minutes || 30 days*;
-                                                   ^^^^^^^^^^^^^^^^^^^^^^
-                                                   1 minutes == 60 seconds
-                                                   1 hours == 60 minutes
-                                                   1 days == 24 hours
-                                                   1 weeks == 7 days
-
-function myTimeOutDependentFunction(...) returns (...) {
-    ...
-    if (  now  > (  time_origin + timeOutWindow ) throw;
-    ... Do something ...
-}
+    function myTimeOutDependentFunction(...) returns (...) {
+        if (  now  > (  time_origin + timeOutWindow )) throw;
+        ... Do something ...
+    }
 [[}]]
 
 ● SOLIDITY FUNCTION MODIFIERS: [[{101,_solidity.101.functions,evm.gas" id="solidity_functions_summary]]
@@ -4071,147 +4069,185 @@ contract Test {
     - @[https://github.com/duaraghav8/Solium]
 [[}]]
 
-[[{}]]"101,security,_solidity.qa,0_PM.TODO">
-<span xsmall>Security Best Practices</span>
-@[https://consensys.github.io/smart-contract-best-practices/]
-</pre>
+[[{101,evm.101,0_PM.SLC.debugging,_solidity.troubleshooting]]
+● fixing "stack too deep" error:
+  - Problem Context: Compiler tries to access a variable var1 that is beyond 
+    "16 depth in stack".  Compilation fails with error "stack too deep".
+    EVM stack can be bigger than 16 elements, but OPCODES just can work with the closer 16 
+    due to opcode limitations (DUP1, DUP2, ... DUP16).
+  
+  - Solution 1: 
+    Starting with Solidity 0.8+ ABIv2 is considered establed and we can use it to invoque 
+    functions using structs that groups a bunch of imput parameters saving stack space.
+  
+    ABIv1                        ABIv2
+    ======                       =====
+    function XXX(                struct InputParams{
+         param1_in_stack,             param1, 
+         param2_in_stack,             param2,
+         param3_in_stack,             param3,
+         ... ) {                      ...  
+    }                            }
+                                  
+                                 function XXX (InputParams param1_in_stack )
 
-[[{}]]"101,evm.101,0_PM.SLC.debugging,_solidity.troubleshooting,0_PM.TODO" bgorange id="stack_too_deep_summary">
-<span xsmall>fixing "stack too deep" error</span>
-• TODO: See updated oficial documentation about the problem:
-  https://soliditydeveloper.com/stacktoodeep  <!-- @ma -->
-
-• Problem Context: Compiler tries to access a variable var1 that is beyond 
-  "16 depth in stack".  Compilation fails with error "stack too deep".
-  EVM stack can be bigger than 16 elements, but OPCODES just can work with the closer 16 
-  due to opcode limitations (DUP1, DUP2, ... DUP16).
-
-• Solution 1: 
-  Starting with Solidity 0.8+ ABIv2 is considered establed and we can use it to invoque 
-  functions using structs that groups a bunch of imput parameters saving stack space.
-
-  ABIv1                        ABIv2
-  ======                       =====
-  function XXX(                struct InputParams(
-       param1_in_stack,             param1, 
-       param2_in_stack,             param2,
-       param3_in_stack,             param3,
-       ... ) {                      ... 
-  }                            }
-                                
-                               function XXX (InputParams param1_in_stack )
-
-
-• Solution 2: ("Patchy" but it works when nothing else does).
-  When var1 is still accesible, copy it again to var1_clone like
-  function XXXX(uint param1_in_stack, ..., ... ,....)  {
+ 
+  - Solution 2: ("Patchy" but it works when nothing else does).
+    When var1 is still accesible, copy it again to var1_clone like
+    function XXXX(uint param1_in_stack, ..., ... ,....)  {
+       ...
+       uint var1_clone = param1_in_stack;
+       ...
+       someMap[var1_clone] = ...; // ← At this point var1_clone is still on the stack
+                                       but param1_in_stack is "too far away"
+    }
+  
+       FUNCTION
+       STACK FRAME
+       -----------
+     0 local var3  ←  Copy, for. ex, input arg1 here to have access once stacks grows "too much"
+     1 local var2
+     2 local var1
      ...
-     uint var1_clone = param1_in_stack;
-     ...
-     someMap[var1_clone] = ...; // ← At this point var1_clone is still on the stack
-                                     but param1_in_stack is "too far away"
-  }
+    15 input  arg3 ┐  Created at function call. Since those are the deepest in
+    16 input  arg2 ├─ the stack, they are the first to cause "stack too deep" problems
+    17 input  arg1 ┘
+    17 'return value' ← return statement cleans the stack and places result values here
+  
+    - Opcodes use arguments at different levels in the stack. Deeper levels are pushed first. 
+      If an argument is pushed after another, it should appear in the function signature      
+      after the former as well, otherwise it would push the other one down the                
+      stack before it could be used.                                                          
+  
+    WARN:  (@[https://blog.aventus.io/stack-too-deep-error-in-solidity-5b8861891bae])
+    "...more difficult cases arise when calling functions in othe  
+     contracts or libraries , since the opcodes CALL and DELEGATECALL take
+     7 or 6 input arguments each, with a lot more possibilities of
+     interaction between the opcode and function arguments..."
 
-     FUNCTION
-     STACK FRAME
-     -----------
-   0 local var3  ←  Copy, for. ex, input arg1 here to have access once stacks grows "too much"
-   1 local var2
-   2 local var1
-   ...
-  15 input  arg3 ┐  Created at function call. Since those are the deepest in
-  16 input  arg2 ├─ the stack, they are the first to cause "stack too deep" problems
-  17 input  arg1 ┘
-  17 'return value' ← return statement cleans the stack and places result values here
+  - Other solutions: C&P from: https://soliditydeveloper.com/stacktoodeep 
 
-  - Opcodes use arguments at different levels in the stack. Deeper levels are pushed first. 
-    If an argument is pushed after another, it should appear in the function signature      
-    after the former as well, otherwise it would push the other one down the                
-    stack before it could be used.                                                          
+    // SPDX-License-Identifier: MIT
+    pragma solidity 0.7.1;
+    
+    contract StackTooDeepTest1 {
+       function addUintsUsingInternalFunc(
+            uint256 a,uint256 b,uint256 c,
+            uint256 d,uint256 e,uint256 f,
+            uint256 g,uint256 h,uint256 i
+        ) external pure returns(uint256) {    
+            return _addThreeUints(a,b,c)    <··┐
+                 + _addThreeUints(d,e,f)    <··┤
+                 + _addThreeUints(g,h,i);   <··┤
+        }                                      ·
+                                               ·
+        function _addThreeUints             <··· Solution 3: Create auxiliar
+           (uint256 a, uint256 b, uint256 c)      internal function
+          private pure returns(uint256) {
+            return a+b+c;
+        }
+    
+        function addUintsUsingBlockScoping(
+            uint256 a,uint256 b,uint256 c,
+            uint256 d,uint256 e,uint256 f,
+            uint256 g,uint256 h,uint256 i
+        ) external pure returns(uint256) {
+            uint256 result = 0;
+            { result = a+b+c+d+e; }       <-··· Solution 4. Use block scoping.
+            { result = result+f+g+h+i; }
+            return result;
+        }
+    }
+[[}]]
 
-  WARN:  (@[https://blog.aventus.io/stack-too-deep-error-in-solidity-5b8861891bae])
-  "...more difficult cases arise when calling functions in othe  
-   contracts or libraries , since the opcodes CALL and DELEGATECALL take
-   7 or 6 input arguments each, with a lot more possibilities of
-   interaction between the opcode and function arguments..."
-</pre>
-</div>
-
-<div groupv>
-<span title>Full Examples:</span>
-[[{}]]"101,_solidity">
-<span xsmall>Voting</span>
+● Solidty Voting Example: [[{_solidity.101]]
 @[https://github.com/ethereum/go-ethereum/wiki/Contract-Tutorial]
   contract Voting {
-    uint       public   MIN_QUORUM   ;
-    uint       public   DEBATING_PERIOD  ;
+    uint       public   MIN_QUORUM      ;
+    uint       public   DEBATING_PERIOD ;
     address    public   FOUNDE          ;
-    Proposal[] public proposals      ;
-    uint       public numProposals   ;
+    Proposal[] public proposals         ;
+    uint       public numProposals      ;
   
-    struct   Vote     { int UpOrDown; address voter; } 
+    struct   Vote { 
+      int UpOrDown;
+      address voter;
+    } 
+
     struct Proposal {
-        Vote[]  votes       ; mapping (address => bool) voted;
-      bytes32 data        ; string  description;
-      uint    creationDate; bool    active     ;
+      Vote[]  votes       ; 
+      mapping (address  
+            => bool) voted;
+      bytes32 data        ; 
+      string  description ;
+      uint    creationDate;
+      bool    active     ;
       boolean result;
     }
   
-    constructor(uint _minimumQuorum, uint _debating_period) {
+    constructor(
+      uint _minQuorum, uint _debating_period) {
         FOUNDE            = msg.sender;
-        MIN_QUORUM       = _minimumQuorum || 10;
-        DEBATING_PERIOD  = _debating_period * 1 minutes || 30 days;
+        MIN_QUORUM       = _minQuorum || 10;
+        DEBATING_PERIOD  = _debating_period * 1 minutes
+                           || 30 days;
     }
   
-    function newProposal(bytes32 _data, string _descrip) returns (uint Y proposalID ) {
-        Y proposalID      = proposals.length++;
+    function newProposal(
+      bytes32 _data, string _descrip)
+    returns (uint Y proposalID ) {
+        Y proposalID   = proposals.length++;
         Proposal p     = proposals[Y proposalID ];
         p.data         = _data;
-        p.description  = _descrip  ;    p.creationDate = now;
-        p.active       = true      ;    numProposals   = Y proposalID +1;
+        p.description  = _descrip  ;
+        p.creationDate = now;
+        p.active       = true      ;
+        numProposals   = Y proposalID +1;
     }
   
-    function vote(uint _Y proposalID , int _UpOrDown /*+1|-1*/) returns (uint   voteID ){
-        if (_UpOrDown < -1 ⅋⅋ _UpOrDown > 1 ) revert("UpOrDown is not valid") ;
-        Proposal p = proposals[_Y proposalID ];
-        if (p.voted[msg.sender] == true) return;
-          voteID  = p.  votes .length++;
-        p.  votes[  voteID ] = /*new*/Vote({UpOrDown: _UpOrDown, voter: msg.sender}) ;
-        p.voted[msg.sender] = true;
+    function vote(
+      uint _Y proposalID ,
+      int _UpOrDown /*+1|-1*/)
+    returns (uint   voteID ){
+      if (_UpOrDown < -1 ⅋⅋ _UpOrDown > 1 )
+        revert("UpOrDown is not valid") ;
+      Proposal p = proposals[_Y proposalID ];
+      if (p.voted[msg.sender] == true) return;
+        voteID  = p.  votes .length++;
+      p.  votes[  voteID ] = 
+        /*new*/Vote( {
+           UpOrDown: _UpOrDown,
+           voter: msg.sender} ) ;
+      p.voted[msg.sender] = true;
     }
   
-    function executeProposal(uint _Y proposalID ) returns (int   result ) {
-        Proposal proposal = proposals[_Y proposalID ];
-        if (/*timeout?*/ now > (proposal.creationDate +   DEBATING_PERIOD ) &amp;&amp; proposal.active){
-            uint quorum = 0;
-            for (uint i = 0; i <  proposal.  votes .length; ++i) {
-                Vote v = proposal.  votes [i];
-                quorum += 1;
-                  result  += v.UpOrDown;
-            }
-            if (quorum &gt;   MIN_QUORUM ) {
-                proposal.active = false;
-                proposal.result = result &gt;=0 ? true : false;
-            }
-        }
+    function executeProposal(
+      uint _Y proposalID ) 
+    returns (int   result ) {
+      Proposal proposal = proposals[_Y proposalID ];
+      if (   now > (proposal.creationDate + DEBATING_PERIOD ) 
+          && proposal.active ){
+         uint quorum = 0;
+         for (uint i = 0; i <  proposal.  votes .length; ++i) {
+           Vote v = proposal.  votes [i];
+           quorum += 1;
+           result += v.UpOrDown;
+         }
+         if (quorum < MIN_QUORUM ) {
+           proposal.active = false;
+           proposal.result = result &gt;=0 ? true : false;
+         }
+      }
     }
   }
-</pre>
+[[}]]
 
-</div>
 
-</div><!-- solidity -->
-
-<div group bgblue>
-<span title>Libraries,Tokens,...</span><br/>
-<div groupv>
-<span title>Asset Tokens</span>
-[[{}]]"security.aaa,standards.tokens,standards.X_509_Cert,integration.PKI,_solidity.tokens,signature.multisignature,use_case.finance,0_PM.WiP"
-  id="universal_token_summary">
-<span title>Universal Token</span><!-- @ma -->
+[[{tokens]]
+● Universal Token: [[{security.aaa,standards.TLS,integration.PKI,signature.multisignature,use_case.finance,0_PM.WiP]] @ma
 @[https://github.com/ConsenSys/UniversalToken]
 - "A Unique Standard for Centralized and Decentralized Finance Use Cases"
-- Actively maintained as 2021-10
+- Actively maintained as 2022-03-14
 - Inspired by ERC-2020 and Hash Time Locked Contract and (HTLC) implementations.
 
 - Certificate-based token transfers:
@@ -4298,11 +4334,8 @@ contract Test {
     @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-827.md]
       - ERC-20 extension for tokens with methods that allows the
         execution of calls inside transfer and approvals.
-
-  ######################## 
-  # NON-FUNGIBLE TOKENS: # 
-  ######################## 
-  └ ERC-721 :
+[[}]]
+● ERC-721 NFT [[{]]
   @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md]
     - Standard interface for non-fungible ("deed") tokens,
       represent the ownership right/obligation over digital or
@@ -4324,13 +4357,144 @@ contract Test {
           - Proxy re-encryption to secure data and protect privacy
           - The Ethereum blockchain to keep track of the informed consents
       """
+[[}]]
+● ERC-1155 MultiToken (NFTs + FT + batch transactions) [[{security.aaa,standards.tokens,use_case.nft_marketplace,_solidity.tokens]]
+ @[https://blog.enjincoin.io/erc-1155-the-crypto-item-standard-ac9cf1c5a226]
+ - Standard interface for contracts managing multiple token types.
 
-  ################# 
-  # MULTI-TOKENS: # 
-  ################# 
-  └ ERC-1155 :
-  Standard interface for contracts managing multiple token types.
-  See @[#ERC_1155_summary]
+                 ┌·>     4000  Gold Coins , non-inflactionary ┐
+                 ├·>    10000  FIAT Coins ,     inflactionary │ FT Tokens can be used as
+                 ├·>     3000       Bonus , non-inflcationary ├ payments mechanism in different
+                 ├·>      ...                                 │ legal contexts.                 
+                 ├·>      ...                                 ┘ 
+    ERC-1155  1 ←│  
+                 ├·>  100 NFT type 1      ,                   ┐ 100 NFT are still unique.
+                 ├·>    1 NFT type 2      ,                   │ in the sense that each of
+                 ├·>    1 NFT type 2      ,                   ├ them can have a distinct
+                 ├·>      ...                                 │ traceable history (or Serial
+                                                              ┘ number)
+                                                                           
+  - NOTE: Some Multiplayer Games Have LOTS of different Items/Tokens
+          - Runescape: 35,000+
+          - World of Warcraft: 100,000+ different items!
+          - Overwatch, Team Fortress 2: 1000's of skins + items.
+ 
+  - Without ERC-1155:
+    - for each token and item type we require deploying a separate contract 
+      (74000+ deployed tokens since 2015).
+    - Fungible and non-fungible tokens are not very compatible with each other.
+
+  - With    ERC-1155:
+    - configuration data per Token ID.
+    - Atomic Multi-Transfers / Swaps get much simpler.
+    - functions 'transfer','approve','melt','trade' take arrays as
+      parameters allowing for tens/hundreds of operations in a single TX.                                 
+
+  - compliant implementations MUST aslo implement ERC-165 "supports" Interface
+    function and return "true" for 0xd9b67a26 interfaceID argument.
+
+   @[https://eips.ethereum.org/EIPS/eip-1155]
+     - NOTE 1: `_operator`: address of an account/contract approved to make the transfer (SHOULD be msg.sender)
+     interface ERC1155 /* is ERC165 */ {
+         event TransferSingle( address indexed _operator, address indexed _from, address indexed _to,
+                               uint256 _id              , uint256 _value );
+         event TransferBatch ( address indexed _operator, address indexed _from, address indexed _to,
+                               uint256[] _ids           , uint256[] _values);
+
+         event ApprovalForAll( address indexed _owner, address indexed _operator, bool _approved );
+
+         event URI( string _value, uint256 indexed _id);
+
+         function safeTransferFrom(
+           address _from, address _to,
+           uint256 _id, uint256 _value,
+           bytes calldata _data
+         ) external;
+
+         function safeBatchTransferFrom(
+           address _from, address _to,
+           uint256[] calldata _ids, uint256[] calldata _values,
+           bytes calldata _data
+         ) external;
+
+         function setApprovalForAll(
+           address _operator, bool _approved
+         ) external;
+
+         // VIEW:
+         
+         function balanceOf( address _owner, uint256 _id )
+         external view returns (uint256);
+
+         function balanceOfBatch(
+                  address[] calldata _owners, uint256[] calldata _ids )
+         external view returns (uint256[] memory);
+
+         function isApprovedForAll( address _owner, address _operator )
+         external view returns (bool);
+     }
+
+     ERC-1155 Token Receiver : MUST be implemented by S.C. accepting transfers.
+     // ERC-165 identifier: 0x4e2312e0.
+
+     interface ERC1155TokenReceiver {  // Receiver "hook" 
+       function onERC1155Received(
+         address _operator, address _from, 
+         uint256 _id, uint256 _value,
+         bytes calldata _data)
+       external returns(bytes4);
+
+       function onERC1155BatchReceived(
+         address _operator, address _from,
+         uint256[] calldata _ids, uint256[] calldata _values,
+         bytes calldata _data
+       ) external returns(bytes4);       
+     }
+
+  • ERC-1155 MICRO-HOW TO:
+    * PRESETUP) Get test ethers: 
+      ▸ https://faucet.rinkeby.io
+        ▸ click "Give me ethers" (Follow instruction in page)
+    
+    * STEP 1) Create standard metadata (needed by wallets, marketplaces, ...)
+      accesible from public URL:  
+      ▸ https://"meta"/.../0000...(64 hex zero-left padded) ..0000000001.json 
+        {
+           "name" : "MY_FUNGIBLE_OR_NFT_TOKEN_NAME_1" ,
+           "description" : "Lorem Ipsum ..." ,
+           "image" : "https://imageURL/MY_FUNGIBLE_OR_NFT_TOKEN_NAME_1.png"
+        }
+    
+      ▸ https://"meta"/.../0000...(64 hex zero-left padded) ..0000000002.json
+        {
+           "name" : "MY_FUNGIBLE_OR_NFT_TOKEN_NAME_1" ,
+           "description" : "Lorem Ipsum ..." ,
+           "image" : "https://imageURL/MY_FUNGIBLE_OR_NFT_TOKEN_NAME_2.png"
+        }
+    
+    * STEP 2) Create Solidity code: (Example implementation with OpenZepellin)
+      ▸ REF: https://www.youtube.com/watch?v=SXp0sWmtuPc
+      
+        │ // SPDX-Licence-Identifier: MIT
+        │ pragma solidity >=0.8 <0.9.0;
+        │
+        │ import "@openzepellin/contracts/token/ERC1155/ERC1155.sol";
+        │
+        │ contract MyCollectibles is ERC1155 {
+        │   constructor() ERC1155("https://.../{id}.json") {
+        │     _mint( msg.sender, 1 /* Id NFT Type 1 */, 10 /* Cantidad */, "");
+        │     _mint( msg.sender, 2 /* Id NFT Type 2 */, 20 /* Quantity */, "");
+        │   }
+        │ }
+    
+    ▸ STEP 3) Use remix+Metamask or truffle deployments or ... to deploy to 
+      Rinkeby | MainNet | Private Net | ...
+    
+    ▸ STEP 4) Use some existing or custom "marketplace" to see the tokens.
+      e.g:
+      - @[https://rinkeby.rarible.com]
+      - @[https://testnets.opensea.io/]  (Rinkeby)
+[[}]]
 
   ############################# 
   # SECURITY TOKENS: ERC-1400 # 
@@ -4353,7 +4517,7 @@ contract Test {
                   issuance / redemption semantics
       - ERC-1643: document / legend management
       - ERC-1644: controller operations (force transfer)
-</pre>
+[[standards.tokens}]]
 
 [[{}]]"_solidity,signature.multisignature,0_PM.WiP" >
 <span title>Checking Signatures On-Chain</span>
@@ -4409,159 +4573,7 @@ contract Test {
 
 
 
-[[{}]]"security.aaa,standards.tokens,use_case.nft_marketplace,_solidity.tokens" id="ERC_1155_summary">
-<span title>ERC-1155</span>
-@[https://blog.enjincoin.io/erc-1155-the-crypto-item-standard-ac9cf1c5a226]
-  - Standard interface for contracts managing multiple token types.
 
-                 ┌─ N → fungible-token: 
-                 │      in economic fungibility is the property
-                 │      of a good or a commodity whose individual 
-                 │      units are essentially interchangeable.
-                 │      e.g: ERC-20, ERC-621, ERC-827
-                 │
-    ERC-1155  1 ←┼─ M → non-fungible-token "NFT" type 1
-                 │      e.g: ERC-721: "games" NFT with Serial Number 
-                 │      ("CryptoKitties",...)
-                 │
-                 ├─ O → non-fungible-token "NFT"  type 2
-                 │
-                 ├─ K → XXX (e.g, semi-fungible tokens)
-
-  - NOTE: Some Multiplayer Games Have LOTS of different Items/Tokens
-          - Runescape: 35,000+
-          - World of Warcraft: 100,000+ different items!
-          - Overwatch, Team Fortress 2: 1000's of skins + items.
- 
-  - Without ERC-1155:
-    for each token and item type we require deploying a separate contract 
-    (74000+ deployed tokens since 2015).
-    Fungible and non-fungible tokens are not very compatible with each other.
-
-  - With    ERC-1155:
-      - configuration data per Token ID.
-      - Atomic Multi-Transfers / Swaps :
-      - functions 'transfer','approve','melt','trade' take       
-        arrays as parameters allowing for 100 to 200 operations  
-        in a single transaction.                                 
-
-   - ERC-1155 compliant MUST implement ERC-165 "supports" Interface
-     function and return "true" for 0xd9b67a26 interfaceID argument.
-
-   @[https://eips.ethereum.org/EIPS/eip-1155]
-     - NOTE 1: `_operator`: address of an account/contract approved to make the transfer (SHOULD be msg.sender)
-     interface ERC1155 /* is ERC165 */ {
-         event TransferSingle( address indexed _operator, address indexed _from, address indexed _to, uint256 _id   , uint256 _value );
-         event TransferBatch ( address indexed _operator, address indexed _from, address indexed _to, uint256[] _ids, uint256[] _values);
-         event ApprovalForAll(
-           address indexed _owner,
-           address indexed _operator,
-           bool _approved
-         );
-         event URI( string _value, uint256 indexed _id);
-
-         function safeTransferFrom(
-           address _from, address _to,
-           uint256 _id, uint256 _value,
-           bytes calldata _data
-         ) external;
-
-         function safeBatchTransferFrom(
-           address _from, address _to,
-           uint256[] calldata _ids, uint256[] calldata _values,
-           bytes calldata _data
-         ) external;
-
-         function setApprovalForAll(
-           address _operator, bool _approved
-         ) external;
-
-         // VIEW:
-         
-         function balanceOf( address _owner, uint256 _id )
-         external view returns (uint256);
-
-         function balanceOfBatch(
-                  address[] calldata _owners, uint256[] calldata _ids )
-         external view returns (uint256[] memory);
-
-         function isApprovedForAll( address _owner, address _operator )
-         external view returns (bool);
-     }
-
-     ERC-1155 Token Receiver : MUST be implemented by S.C. accepting transfers.
-     // ERC-165 identifier: 0x4e2312e0.
-
-     pragma solidity ^0.5.9;
-
-     interface ERC1155TokenReceiver {  // Receiver "hook" 
-       function onERC1155Received(
-         address _operator,
-         address _from, 
-         uint256 _id, uint256 _value,
-         bytes calldata _data)
-       external returns(bytes4);
-
-       function onERC1155BatchReceived(
-         address _operator,
-         address _from,
-         uint256[] calldata _ids,
-         uint256[] calldata _values,
-         bytes calldata _data
-       ) external returns(bytes4);       
-     }
-
-<hr/>
-<span title>ERC-1155 how to</span>
--  PRESETUP:
-   Get test tokens:
-   → https://faucet.rinkeby.io
-     → click "Give me ethers" (Follow instruction in page)
-
--  STEP 1. Create standard metadata (needed by wallets, marketplaces, ...).
-    
-  ┌ https://"meta"/.../0000...(64 hex zero-left padded) ..0000000001.json ┐
-  │{                                                                      │
-  │   "name" : "MY_FUNGIBLE_OR_NFT_TOKEN_NAME_1" ,                        │
-  │   "description" : "Lorem Ipsum ..." ,                                 │
-  │   "image" : "https://imageURL/MY_FUNGIBLE_OR_NFT_TOKEN_NAME_1.png"    │
-  │}                                                                      │
-  └───────────────────────────────────────────────────────────────────────┘
-
-  ┌ https://"meta"/.../0000...(64 hex zero-left padded) ..0000000002.json ┐
-  │{                                                                      │
-  │   "name" : "MY_FUNGIBLE_OR_NFT_TOKEN_NAME_1" ,                        │
-  │   "description" : "Lorem Ipsum ..." ,                                 │
-  │   "image" : "https://imageURL/MY_FUNGIBLE_OR_NFT_TOKEN_NAME_2.png"    │
-  │}                                                                      │
-  └───────────────────────────────────────────────────────────────────────┘
-
--  STEP 2. Create Solidity code: 
-   (Example implementation with OpenZepellin)
-  ┌─ REF: https://www.youtube.com/watch?v=SXp0sWmtuPc ───────────────────┐
-  │                                                                      │
-  │ // SPDX-Licence-Identifier: MIT                                      │
-  │ pragma solidity >=0.8 <0.9.0;                                        │
-  │                                                                      │
-  │ import "@openzepellin/contracts/token/ERC1155/ERC1155.sol";          │
-  │                                                                      │
-  │ contract MyCollectibles is ERC1155 {                                 │
-  │   constructor() ERC1155("https://.../{id}.json") {                   │
-  │     _mint( msg.sender, 1 /* Id NFT Type 1 */, 10 /* Cantidad */, "");│
-  │     _mint( msg.sender, 2 /* Id NFT Type 2 */, 20 /* Quantity */, "");│
-  │                                                                      │
-  │   }                                                                  │
-  │ }                                                                    │
-  └──────────────────────────────────────────────────────────────────────┘
-
-- Step 3: Use remix+Metamask or truffle deployments or ... to deploy to 
-  Rinkeby | MainNet | Private Net | ...
-
-- Step 4: Use some existing or custom "marketplace" to see the tokens.
-  e.g:
-  - @[https://rinkeby.rarible.com]
-  - @[https://testnets.opensea.io/]  (Rinkeby)
-</pre>
 
 [[{}]]"security.aaa,standards.eip/erc,use_case.nft_marketplace.royalty,_solidity.tokens," id="ERC_1155_summary">
 <span title>EIP-2981 ("Royalty Payments")</span>
@@ -13202,5 +13214,23 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     logic issues.
   - It is NOT equivalent to formal verification.
 
+ • Security Best Practices [[{101,security,_solidity.qa}]]
+  @[https://consensys.github.io/smart-contract-best-practices/]
+  
+ • Example ussage of msg.data: Imagine we pass 2xuint256 as msg.data:
+    To use them:
+      function sum() ... {
+        uint256 op1;
+        uint256 op2;
+        uint256 result;
+        bytes memory data = msg.data;
+        assembly {
+            op1 := mload(add(data, 36)) <- 36 (not 32) because First 4 bytes of
+            op2 := mload(add(data, 68))     the msg.data is the func.selector data.
+            result  := add(op1, op2)
+        }
+      }
+  }
 
+ 
 
