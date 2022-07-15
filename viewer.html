@@ -47,6 +47,7 @@ pre {
 #dbEngineOutput{ 
   padding-top: 1.5em; 
   overflow: auto;
+  background-attachment: fixed;
 }
 #dbEngineOutput[font=font0]{ font-family:'font0', monospace, console; }
 #dbEngineOutput[font=font1]{ font-family:'font1', monospace, console; }
@@ -73,6 +74,25 @@ pre {
 #dbEngineOutput[colorstyle=s5] a {                         color: #0FF;}
 #dbEngineOutput[colorstyle=s6]{ background-color: #AAA   ; color: #033;}
 #dbEngineOutput[colorstyle=s6] a {                         color: #033;}
+
+#dbEngineOutput[background=b1] { }
+#dbEngineOutput[background=b2] { 
+  background-image: linear-gradient( 0deg, #AAA 0.5px, transparent 1px), 
+                    linear-gradient(90deg, #AAA 0.5px, transparent 1px);
+  background-size: 4.0em 4.0em;
+}
+
+#dbEngineOutput[background=b3] { 
+  background-image: linear-gradient( 0deg, #AAA 0.5px, transparent 1px); 
+  background-size: 2.2em 2.2em;
+}
+
+#dbEngineOutput[background=b4] { 
+  background-image: linear-gradient(90deg, #AAA 0.5px, transparent 1px); 
+  background-size: 2.2em 2.2em;
+}
+
+
 
 pre[fontSize=s0]{ font-size: 0.7em }
 pre[fontSize=s1]{ font-size: 1.0em }
@@ -146,23 +166,6 @@ body {
 }
 #idTableTopics[size=s1], #idTableIndex[size=s1] {
     max-height: 80vh;
-}
-
-#dbEngineOutput[background=b1] { 
-  background-image: linear-gradient( 0deg, #AAA 1px, transparent 1px), 
-                    linear-gradient(90deg, #AAA 1px, transparent 1px);
-  background-size: 2rem 2rem;
-}
-#dbEngineOutput[background=b2] { }
-
-#dbEngineOutput[background=b3] { 
-  background-image: linear-gradient( 0deg, #AAA 1px, transparent 1px); 
-  background-size: 2rem 2rem;
-}
-
-#dbEngineOutput[background=b4] { 
-  background-image: linear-gradient(90deg, #AAA 1px, transparent 1px); 
-  background-size: 2rem 2rem;
 }
 
 .topicClass {
