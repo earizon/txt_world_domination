@@ -262,8 +262,8 @@
   be displayed in topics menu.
 
 --------------------------------------------
- <span id="internalLink1" />
- internalLink1 must link here.
+ .................
+ #[internalLink1] must link here.
 
 
 
@@ -284,8 +284,7 @@
 
 
 --------------------------------------------
- <span id="internalLink2" />
- internalLink2 must link here.
+ #[internalLink2] must link here.
 
 
 

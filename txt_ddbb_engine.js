@@ -234,15 +234,22 @@ class TXTDBEngine {
          // NEXT) replace html scape chars 
          H = H.replaceAll('<','&lt;') 
               .replaceAll('>','&gt;')
+
+         // NEXT) replace anchors link
+         H = H.replace(
+             /[#]\[([^\]]*)\]/g,
+             "▹<span id='$1'>#$1</span>◃")
+
          // NEXT) replace External links
          H = H.replace(
              /@\[((http|[.][/]).?[^\]]*)\]/g,
-             " ▶<a target='_blank' href='$1'>$1</a>◀")   
-      
+             " ▶<a target='_blank' href='$1'>$1</a>◀")
+     
          // NEXT) replace relative (to page) link
          H = H.replace(
              /@\[([^\]]*)\]/g,
              " ▷<a href='$1'>$1</a>◁")
+
          return H
       }
       this.cachePayload     = doTxtPreProcessing(payload) // TODO:(qa) Cache just source URL???
