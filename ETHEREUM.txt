@@ -552,21 +552,17 @@
 [[}]
 
 
-[[{standards.tokens,0_PM.ext_resource,0_PM.TODO]]
+[[{standards,0_PM.ext_resource,_doc_has.taxonomy,0_PM.TODO]]
 ● Related Taxonomies:
-  • TokenTaxonomyFramework
+  - TokenTaxonomyFramework
   @[https://github.com/InterWorkAlliance/TokenTaxonomyFramework]
   @[https://interwork.org/real-world-tokens-a-seven-step-journey-into-the-ttf/]
 
-  • Laws Taxonomy
-  @[https://law.stackexchange.com/tags]
-
-  • Economics Taxonomy
-  @[https://economics.stackexchange.com/tags]
+  - Laws/Legal Taxonomy: @[https://law.stackexchange.com/tags]
+  - Economics  Taxonomy: @[https://economics.stackexchange.com/tags]
 [[}]]
 
-
-● EVM {{{ [[{evm,0_PM.ext_resource}]]
+● EVM {{{ [[{evm,0_PM.ext_resource]]
  • External Refs:
   @[https://github.com/ethereum/yellowpaper]
   @[https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial]
@@ -816,6 +812,7 @@
    
    - Replaces   deprecated CALLCODE  fixing bug since CALLCODE did not
      preserve msg.sender and msg.value.
+[}]
 
  • EVM Summary [[{evm.101,evm.i/o,evm.gas]]
    - Ethereum Virtual Machine Opcodes low level reference to EVM:
@@ -992,7 +989,6 @@
                      |    |    |    | (v.Constantinople+/EIP-1014). Creates child contract with deterministic address
 
 [[}]]
-
 
 ● EVM ABI Spec: [[{evm.abi]]
   Full reference:@[https://solidity.readthedocs.io/en/latest/abi-spec.html]
@@ -1296,7 +1292,7 @@ REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-sto
     ...
   }
 [[}]]
-}}}
+[}]
 
 ● TRANSACTIONS [[{101,transaction.101,signature.ecdsa_secp256k1]]
   NOTE: a client Transaction in blockchain is an INTENTION to modify the state of the ddbb.
@@ -3094,7 +3090,7 @@ string memory bar = string(abi.encodePacked(foo));
     }
 [[}]]
 
-● SOLIDITY FUNCTION MODIFIERS: [[{101,_solidity.101.functions,evm.gas" id="solidity_functions_summary]]
+● SOLIDITY FUNCTION MODIFIERS: [[{101,_solidity.101.functions,evm.gas]] #[solidity_functions_summary]
 - Syntax sugar for function precondition checks:
 @[https://en.wikipedia.org/wiki/Precondition]
 - Commonly used to check basic "value security rules" 
@@ -3351,7 +3347,7 @@ this.confirmPurchase(...) # External call
     }
 [[}]]
 
-● Solidity Best Patterns [[{_solidity.101,qa.error_control,_doc_has.tutorial,0_PM.WiP" id="solidity_dev_patterns]]
+● Solidity Best Patterns [[{_solidity.101,qa.error_control,_doc_has.tutorial,0_PM.WiP]]
   • Coding Convention List
     This section covers a series of recomendations in order to develop 
     Solidity smart-contracts in order to improve the quality of code 
@@ -4243,123 +4239,121 @@ contract Test {
 [[}]]
 
 
-[[{tokens]]
-● Universal Token: [[{security.aaa,standards.TLS,integration.PKI,signature.multisignature,use_case.finance,0_PM.WiP]] @ma
-@[https://github.com/ConsenSys/UniversalToken]
+[[{tokens]] 
+● Universal Token: [[{security.aaa,use_case.finance,0_PM.WiP]]
+@[https://github.com/ConsenSys/UniversalToken] #[universal_token]
 - "A Unique Standard for Centralized and Decentralized Finance Use Cases"
 - Actively maintained as 2022-03-14
 - Inspired by ERC-2020 and Hash Time Locked Contract and (HTLC) implementations.
 
-- Certificate-based token transfers:
+- Certificate-based token transfers: [[{standards.TLS,integration.PKI,signature.multisignature]] @ma
 @[https://github.com/ConsenSys/UniversalToken/blob/master/contracts/certificate/README.md]
-  - ERC-1400 extends ERC-20 by allowing an extra "data" payload.
-  - Codefi Assets uses the data to send a certificate generated off-chain by the issuer.
-    At (Solidity) TX execution, 'ec-recover' is used to recover the
-    signature of the certificate signer and then compared to the list
-    of signatures authorized by the contract.
-  -  Sort of multi-signature within 1 transaction. ← !!! 
+  - Codefi Assets is an extension to ERC-1400 (extension to ERC-20) using the  data" payload
+    to send a TLS CERTIFICATE GENERATED OFF-CHAIN:
+    - At (EVM) TX execution, 'ec-recover' is used to recover the
+      signature of the TLS certificate signer and then compared
+      to the list of signatures authorized by the contract.
+  -  Sort of multi-signature within 1 transaction. ← !!!   [[{qa.UX}]]
       signature of the investor (ethereum transaction signature)
-    + signature of the issuer   (embedded certificate signature)
+    + signature of the issuer   (embedded certificate signature) [[}]]
 
   - Designed to enable issuance of  ANY type of asset or financial instrument : 
-      - DeFi derivative.
-      - loan
-      - mortgage
-      - retail
-      - wholesale CBDC,
-      - ...
-      - invoice
-      - contract
-      - gaming asset.
-
-  - compatible with ERC20 and ERC1400.
+      - DeFi derivative. - wholesale CBDC  - gaming asset.
+      - loan             - ...             - Fund issuance
+      - mortgage         - invoice         - ...
+      - retail           - contract             
 
 - Delivery-vs-payment:
 @[https://github.com/ConsenSys/UniversalToken/blob/master/contracts/tools/DVP.md]
   Use-case: allow secure token transfers/exchanges between 2 stakeholders 
   ("holder1" and "holder2" in secondary market assets transfers.
 
-- Fund issuance:
-
-  #################### 
-  # FUNGIBLE TOKENS: # 
-  #################### 
-  └ ERC-20 Fungible Token :
-    - REF:
-      -@[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md]
-      -@[https://theethereum.wiki/w/index.php/ERC20_Token_Standard]
-      - Problems with the Standard:
-      @[https://edcon.io/ppt/two/Dmitry%20Khovratovich_Secure%20Token%20Development%20and%20Deployment_EDCON.pdf]
-    - Standard interface to Fungible Assets Contracts that
-      different wallets  will understand out-of-the-box. A list of
-      ERC20 compliant wallets can be found at:
-    @[https://tokenmarket.net/what-is/ethereum-token-wallets/]
-
-    └ ERC-777 Fungible Token (ERC-20 Extension) :
-      - extension backward compatible with ERC-20 including:
-        - operators to send tokens on behalf of another contract|external acct.
-        - send/receive hooks to offer token holders extended control.
-      - It takes advantage of ERC-820 to find out whether and where to
-        notify contracts|external-acct when they receive tokens as
-        well as to allow compatibility with already-deployed contracts.
-      - Master Tessis @[https://github.com/0xjac/master-thesis]
-
-    └ ERC-223 (ERC-20 Extension) :
-      - REF: @[https://github.com/ethereum/EIPs/issues/223]
-      - "...ERC20 token standard is leading to money losses for end users.
-         The main problem is lack of possibility to handle incoming ERC20 transactions,
-         that were performed via transfer function of ERC20 token..."
-      
-         "A" SENDING     CONTRACT send  1 Ether      , 1   Token       to "B"
-         "B" DESTINATION CONTRACT is  NON-Ether aware, NON-Token aware.
-         Result:
-         A  →  B: 1ETH   ←   OK , rejected
-         A  →  B: 1TOKEN ←   K  , possibly accepted since "B" can NOT recognize
-                                  incoming TX.
-                                  tokens stuck at the "B" balance 
-    └ ERC-1400 (ERC-20 Extension) :
-      - Allows to send arbitrary extra data. This data is used for example by
-        Consensys "Universal Token" to attach an X.509 certificate as explained in
-        @[#universal_token_summary]
-
-    └ ERC-621 (ERC-20 Extension) :
-      - REF @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-621.md]
-      - ERC-20 extension.
-      - Two additional functions added to increase/decrease liquidity:
-        - increaseSupply 
-        - decreaseSupply 
-        ( ERC-20 allows a single token issuance event)
-
-    └ ERC-827 (ERC-20 Extension) :
-    @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-827.md]
-      - ERC-20 extension for tokens with methods that allows the
-        execution of calls inside transfer and approvals.
 [[}]]
-● ERC-721 NFT [[{]]
+
+● ERC-20 Fungible Token: [[{tokens.ERC20]]
+  - REF:
+    -@[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20-token-standard.md]
+    -@[https://theethereum.wiki/w/index.php/ERC20_Token_Standard]
+    - Problems with the Standard:
+    @[https://edcon.io/ppt/two/Dmitry%20Khovratovich_Secure%20Token%20Development%20and%20Deployment_EDCON.pdf]
+  - Standard interface to Fungible Assets Contracts that
+    different wallets  will understand out-of-the-box. A list of
+    ERC20 compliant wallets can be found at:
+  @[https://tokenmarket.net/what-is/ethereum-token-wallets/]
+
+  • ERC-777 Fungible Token (ERC-20 Extension) :
+    - extension backward compatible with ERC-20 including:
+      - operators to send tokens on behalf of another contract|external acct.
+      - send/receive hooks to offer token holders extended control, eg:
+        allow holder to reject|ban tokens from given addresses.
+    - It takes advantage of ERC-820 to find out whether and where to
+      notify contracts|external-acct when they receive tokens as
+      well as to allow compatibility with already-deployed contracts.
+    - Master Tessis @[https://github.com/0xjac/master-thesis]
+
+    - introduced to establish an evolved Token standard which learned 
+      from misconceptions like approve() with a value and the 
+      send-tokens-to-contract-issue.
+
+    - Makes use of new standard ERC-820:
+      Pseudo-introspection using a registry contract which allows for
+      registering meta-data for contracts to provide a simple type of
+      introspection. This allows for backwards compatibility and other
+      functionality extensions, depending on the ITokenRecipient returned
+      by a EIP-820 lookup on the to address, and the functions implemented
+      by the target contract.
+    
+    - Adds lot of learnings from using ERC-20 Tokens, eg.
+      white-listed operators, providing Ether-compliant interfaces with
+      send(...), using ERC-820 (universal registry) to override and
+      adapt functionality.
+
+  • ERC-223 (ERC-20 Extension) :
+    - REF: @[https://github.com/ethereum/EIPs/issues/223]
+    - "...ERC20 token standard is leading to money losses for end users.
+       The main problem is lack of possibility to handle incoming ERC20 transactions,
+       that were performed via transfer function of ERC20 token..."
+    
+       "A" SENDING     CONTRACT send  1 Ether      , 1   Token       to "B"
+       "B" DESTINATION CONTRACT is  NON-Ether aware, NON-Token aware.
+       Result:
+       A  →  B: 1ETH   ←   OK , rejected
+       A  →  B: 1TOKEN ←   K  , possibly accepted since "B" can NOT recognize
+                                incoming TX.
+                                tokens stuck at the "B" balance 
+
+  • ERC-1400: ERC-20 Extension allowing to send arbitrary extra data. (ex. X.509 cert,
+              used by Consensys "Universal Token". More info at See @[#universal_token])
+
+  • ERC-621: ERC-20 + [increaseSupply,decreaseSupply] extension (vs original single issuance)
+    - REF @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-621.md]
+
+  • ERC-827: ERC-20 Extension allowing executions of calls inside transfers/approvals.
+  @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-827.md]
+[[}]]
+● ERC-721 NFT [[{tokens.ERC721]]
   @[https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md]
-    - Standard interface for non-fungible ("deed") tokens,
-      represent the ownership right/obligation over digital or
-      physical assets. Ex:
-      - house ownership rights.
-      - loans obligations.
-    
-    - ERC-721 rights/obligations can be consigned to third party
-      brokers/wallets/auctioneers ("operators").
-    
-    - Genobank.io Example:
-      """ Daniel Uribe from Genobank.io will talk about their mission of
-          building a secure and decentralized P2P Genomic Network on the
-          Ethereum blockchain.
-           He will describe how they are using ERC721 and ERC1155 to record
-          unique genomic variants along with the use of IPFS and proxy
-          re-encryption to allow for private and secure sharing of DNA data.
-          - ERC721 and ERC1155 for recording and transmitting genomic data
-          - Proxy re-encryption to secure data and protect privacy
-          - The Ethereum blockchain to keep track of the informed consents
-      """
+- Standard interface for non-fungible ("deed") tokens, represent the
+  ownership right/obligation over digital or physical asset. Ex:
+  - house ownership rights.
+  - loans obligations.
+
+- ERC-721 rights/obligations can be consigned to third party
+  brokers/wallets/auctioneers ("operators").
+
+- Genobank.io Example:
+  """ Daniel Uribe from Genobank.io will talk about their mission of
+      building a secure and decentralized P2P Genomic Network on the
+      Ethereum blockchain.
+       He will describe how they are using ERC721 and ERC1155 to record
+      unique genomic variants along with the use of IPFS and proxy
+      re-encryption to allow for private and secure sharing of DNA data.
+      - ERC721 and ERC1155 for recording and transmitting genomic data
+      - Proxy re-encryption to secure data and protect privacy
+      - The Ethereum blockchain to keep track of the informed consents
+  """
 [[}]]
-● ERC-1155 MultiToken (NFTs + FT + batch transactions) [[{security.aaa,standards.tokens,use_case.nft_marketplace,_solidity.tokens]]
- @[https://blog.enjincoin.io/erc-1155-the-crypto-item-standard-ac9cf1c5a226]
+● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,use_case.nft_marketplace,_solidity.tokens]]
  - Standard interface for contracts managing multiple token types.
 
                  ┌·>     4000  Gold Coins , non-inflactionary ┐
@@ -4378,6 +4372,8 @@ contract Test {
           - Runescape: 35,000+
           - World of Warcraft: 100,000+ different items!
           - Overwatch, Team Fortress 2: 1000's of skins + items.
+
+  - Natively supported by MetaMask (probably other wallets)
  
   - Without ERC-1155:
     - for each token and item type we require deploying a separate contract 
@@ -4496,51 +4492,32 @@ contract Test {
       - @[https://testnets.opensea.io/]  (Rinkeby)
 [[}]]
 
-  ############################# 
-  # SECURITY TOKENS: ERC-1400 # 
-  ############################# 
-  - library of standards for security tokens on Ethereum.
-  
-    In aggregate provides a suite of standard interfaces for issuing /
-    redeeming security tokens, managing their ownership and transfer
-    restrictions and providing transparency to token holders on how
-    different subsets of their token balance behave with   respect to  
-    transfer restrictions, rights and obligations. 
-  
-    - Standards should be backwards compatible with ERC-20 (#20) and
-      easily extended to be compatible with ERC-777 (#777).
-  
-    - Depends on:
-      - ERC-1410: differentiated ownership / transparent restrictions
-      - ERC-1594: on-chain restriction checking with error
-                  signalling, off-chain data injection for transfer restrictions and
-                  issuance / redemption semantics
-      - ERC-1643: document / legend management
-      - ERC-1644: controller operations (force transfer)
-[[standards.tokens}]]
+[[tokens}]]
 
-[[{}]]"_solidity,signature.multisignature,0_PM.WiP" >
-<span title>Checking Signatures On-Chain</span>
-- ECDSA provides functions for recovering and managing Ethereum account
-  ECDSA signatures. These are often generated via web3.eth.sign, and
-  are a 65 byte array (of type bytes in Solidity) arranged the following
-  way: [[v (1)], [r (32)], [s (32)]].
+● Checking Signatures On-Chain [[{_solidity,signature.multisignature,0_PM.WiP,qa.UX]]
+- ECDSA signature == 65 byte array ( v (1), r (32), s (32) ).
+  - web3.eth.sign (and others) can be used to insert extra signatures 
+    in a new transaction (other than the signed transaction itself)
+  - OpenZepellin "recover(bytes32 hash, bytes signature) → address" allows 
+    to recover the original public address and apply any dessired 
+    business logic.  (e.g, deny transaction if less than N correct 
+    signatures are in place, ...)
+   @[https://docs.openzeppelin.com/contracts/2.x/api/cryptography#ECDSA]
 
-- The data signer can be recovered with ECDSA.recover, and its address
-  compared to verify the signature. Most wallets will hash the data to
-  sign and add the prefix '\x19Ethereum Signed Message:\n', so when
-  attempting to recover the signer of an Ethereum signed message hash,
-  you’ll want to use toEthSignedMessageHash.
-
+  NOTE:  Most wallets will hash the data to sign and add the prefix 
+    '\x19Ethereum Signed Message:\n'. When attempting to recover
+    the signer of an Ethereum signed message hash, 'toEthSignedMessageHash'
+    is preferred.
   WARN :
-- Getting signature verification right is not trivial: make sure you
-  fully read and understand ECDSA's documentation.
-@[https://docs.openzeppelin.com/contracts/2.x/api/cryptography#ECDSA]
-</pre>
+[[}]]
 
-[[{}]]"signature.*," id="eip-1271" >
-<span title>EIP-1271</span>
+[[{signature.multisignature,qa.UX]]
+● EIP-1271
 @[https://github.com/ethereum/EIPs/issues/1271]
+- It should be implemented by contracts which desire to sign messages
+ ("wallets", DAOs, multisignature wallets, etc.).
+  Applications will call this method if signer is a contract (vs EOA).
+
 - External "Dapps" can allow users to sign off-chain messages
   vs  directly requesting users to do an on-chain transaction.
   - Examples include decentralized exchanges with off-chain orderbooks
@@ -4554,30 +4531,24 @@ contract Test {
   from interacting with them, since contracts do not possess private keys
   and therefore can not directly sign messages.
 
-- The proposal here outlines a standard way for contracts to verify if a
-   provided signature is valid when the account is a contract.
+- This proposal outlines a standard way for contracts to verify if a
+  provided signature is valid when the account is a contract:
 
-- Realizing that this is more than just validating signatures; we're actually
-  asking the question "given this action, does the caller have the ability
-  to it, given this proof"?
+  - this is more than just validating signatures. We are actually
+  asking the question:
+  "GIVEN THIS ACTION, DOES THE CALLER HAVE THE ABILITY TO IT,
+   GIVEN THIS PROOF?"
 
-- The standard defines an interface 'isValidSignature'. Implementations
-  can call arbitrary methods to validate a given signature, which 
-  could be context dependent (e.g. time based, state based), EOA dependent 
-  (e.g. signers authorization level within smart wallet), signature scheme  
-  Dependent (e.g. ECDSA, multisig, BLS), etc.
-   It should be implemented by contracts which desire to sign messages
-  ("wallets", DAOs, multisignature wallets, etc.).
-  Applications will can this method if signer is a contract (vs EOA).
-</pre>
+  - 'isValidSignature':
+     Implementations can call arbitrary methods to validate a given signature.
+    which COULD BE CONTEXT DEPENDENT (e.g. time based, state based,...).
+    SIGNATURE SCHEME DEPENDENT (e.g. ECDSA, multisig, BLS), etc.
+[[}]]
 
 
-
-
-
-[[{}]]"security.aaa,standards.eip/erc,use_case.nft_marketplace.royalty,_solidity.tokens," id="ERC_1155_summary">
-<span title>EIP-2981 ("Royalty Payments")</span>
-• Current state (no-standard):
+● EIP-2981: NFT Royalty Payments [[{use_case.royalty,tokens.ERC1155,tokens.ERC721]]
+#[ERC_1155_summary]
+- Current state (no-standard):
   Artist → MarketPlace: "Do you support royalty payments?"
   Artist ← MarketPlace: "Yes we do, but if your NFT is sold
                          on another marketplace then we cannot
@@ -4590,7 +4561,7 @@ contract Test {
       will assess the royalty payment as a factor when making NFT 
       purchasing decisions. """
 
-• Standard proposal designed to support ongoing funding of original 
+- Standard proposal designed to support ongoing funding of original 
   NFT-creator or rights-holder to receive some quantity in future 
   re-sales of its art-work.
   interface IERC2981 is IERC165 {
@@ -4602,13 +4573,13 @@ contract Test {
   }
   NOTE: it's not restricted to any other standard appart of ERC-165.
 
-• ROYALTY PAYMENT MUST BE VOLUNTARY (by Marketplace), vs triggered by 
+- ROYALTY PAYMENT MUST BE VOLUNTARY (by Marketplace), vs triggered by 
   "transferFrom()" like mechanism, since such transfer can just mean 
   movement to a different wallet of the same owner (vs new sale or 
   change of ownership).
 
-• Marketplaces → SC: royaltyInfo()?
-• Marketplaces ← SC: royalty payment information 
+- Marketplaces → SC: royaltyInfo()?
+- Marketplaces ← SC: royalty payment information 
                      ===========================
                      - royaltyAmount to pay for a given sale price.
                        as a (calculated) percentage of _salePrice.
@@ -4627,36 +4598,11 @@ contract Test {
    - It can be a fixed inmutable percentage.for any future sale.
    - Percentage drops linearly over time.
    - Based on min/max thresholds.
-</pre>
+[[}]]
 
-
-[[{}]]"_solidity.tokens,standards.tokens,_doc_has.comparative,0_PM.backlog">
-<span xsmall>ERC 777: Advanced Token Standard</span>
-@[https://medium.com/coinmonks/erc-777-a-new-advanced-token-standard-c841788ab3cb]
-- Deprecated? in favor of ERC-1155.
-- ERC-20 extension:
-- introduced to establish an evolved Token standard which learned 
-  from misconceptions like approve() with a value and the 
-  send-tokens-to-contract-issue.
-
-- Makes use of new standard ERC-820:
-  Pseudo-introspection using a registry contract which allows for
-  registering meta-data for contracts to provide a simple type of
-  introspection. This allows for backwards compatibility and other
-  functionality extensions, depending on the ITokenRecipient returned
-  by a EIP-820 lookup on the to address, and the functions implemented
-  by the target contract.
-
-- Adds lot of learnings from using ERC-20 Tokens, eg.
-  white-listed operators, providing Ether-compliant interfaces with
-  send(...), using the ERC-820 to override and adapt functionality.
-</pre>
-
-<span title>Identity+Governance</span>
-[[{}]]"use_case.identity,standards.EIP/ERC,standards.W3C_DID,0_PM.TODO">
-<span xsmall>EIP 1056: Lightweight Identity</span>
-WARN: Unstable, likely to change.
-""" ...As we have been developing identity systems for the last couple of 
+● EIP 1056: Lightweight Identity [[{use_case.identity,standards.W3C_DID,0_PM.TODO]]
+ -  WARN: Unstable, likely to change.
+  """ ...As we have been developing identity systems for the last couple of 
   years at uPort it has become apparent that the cost of identity 
   creation is a large issue. The previous Identity proposal ERC-725 
   faces this exact issue. Our requirements when creating this ERC is 
@@ -4665,215 +4611,127 @@ WARN: Unstable, likely to change.
   also be possible to rotate keys without changing the primary 
   identifier of the identity. The identity system should be fit to use 
   off-chain as well as on-chain..."""
+[[}]]
 
-<hr/>
-<span xsmall>ERC725 Identity</span>
-
-Note: Current Identity Systems in Ethereum include
-(ref: https://w3c-ccg.github.io/did-method-registry/#the-registry)
-did:erc725:    PROVISIONAL  Ethereum    Markus Sabadello, Fabian Vogelsteller, Peter Kolarov    erc725 DID Method
-did:uport:     DEPRECATED   Ethereum    uPort
-did:ethr:      PROVISIONAL  Ethereum    uPort   ETHR DID Method
-did:dom:       PROVISIONAL  Ethereum    Dominode
-did:jolo:      PROVISIONAL  Ethereum    Jolocom     Jolocom DID Method
-did:selfkey:   PROVISIONAL  Ethereum    SelfKey     SelfKey DID Method
-did:pistis:    PROVISIONAL  Ethereum    Andrea Taglia, Matteo Sinico    Pistis DID Method
-did:vaultie:   PROVISIONAL  Ethereum    Vaultie Inc.    Vaultie DID Method
-did:gatc:      PROVISIONAL  Ethereum,   Gataca  Gataca DID Method
-                            Fabric,
-                            Alastria
-did:signor:    PROVISIONAL  Ethereum
-                            Hashgraph   Cryptonics  Signor DID Method
+● ERC-725: Lightweight Identity [[{use_case.identity,standards.W3C_DID,0_PM.TODO]]
 @[https://erc725alliance.org/]
-ERC-725 Identity Std: TODO:
-@[https://erc725alliance.org/]
+- Note: Current Identity Systems in Ethereum include
+  (ref: https://w3c-ccg.github.io/did-method-registry/#the-registry)
+  · did:erc725:    PROVISIONAL  Ethereum    Markus Sabadello,
+                                            Fabian Vogelsteller
+                                            Peter Kolarov
+  · did:uport:     DEPRECATED   Ethereum    uPort
+  · did:ethr:      PROVISIONAL  Ethereum    uPort
+  · did:dom:       PROVISIONAL  Ethereum    Dominode
+  · did:jolo:      PROVISIONAL  Ethereum    Jolocom
+  · did:selfkey:   PROVISIONAL  Ethereum    SelfKey
+  · did:pistis:    PROVISIONAL  Ethereum    Andrea Taglia
+                                            Matteo Sinico
+  · did:vaultie:   PROVISIONAL  Ethereum    Vaultie Inc.
+  · did:gatc:      PROVISIONAL  Ethereum,   Gataca
+                                Fabric,
+                                Alastria
+  · did:signor:    PROVISIONAL  Ethereum
+                                Hashgraph   Cryptonics  Signor DID Method
 - What is ERC 725?
-  ERC 725 is a proposed standard for blockchain-based identity
-  authored by Fabian Vogelsteller, creator of ERC 20 and Web3.js. ERC
-  725 describes proxy smart contracts that can be controlled by
-  multiple keys and other smart contracts. ERC 735 is an associated
-  standard to add and remove claims to an ERC 725 identity smart
-  contract. These identity smart contracts can describe humans, groups
-  , objects, and machines. ERC 725 lives on the Ethereum
-  blockchain.
+  Proposed standard for self-sovereign identity (superseeded by EIP 1056?)
+  - Identity is described by a proxy-SC that can be controlled by
+    multiple keys and other smart contracts describing humans,
+    groups, objects and machines.
+  - ERC 735: associated standard to add|remove claims to an ERC-725 SC.
+[[}]]
 
-
-- Why ERC 725?
-  ERC 725 allows for self-sovereign identity. Users should be able to
-  own and manage their identity instead of ceding ownership of
-  identity to centralized organizations. We have seen the negative
-  effects of having centralized identity with damaging leaks and
-  unfair selling of user data and identity. An open, portable
-  standard for identities will enable decentralized reputation,
-  governance, and more. Users will be able to take their identity
-  across different Dapps and platforms that support this standard.
-<span xsmall>Ex:Minimun</span>
-<span xsmall>Signature number</span>
-@[https://gist.githubusercontent.com/mingderwang/33994fddda49a45671e093b321912cbd/raw/eeec75f34f1b311d88337f2e0ce6d8fa58ed175a/wallet.sol]
-Inheritable "property" contract:
- enables methods to be protected by requiring the acquiescence of either a 
- single, or, crucially, each of a number of, designated owners. 
-// REF: <a href="https://gist.githubusercontent.com/mingderwang/33994fddda49a45671e093b321912cbd/raw/eeec75f34f1b311d88337f2e0ce6d8fa58ed175a/wallet.sol">Wallet.sol gist</a>
-// @authors: Gav Wood <g@ethdev.com>
-contract multiowned {
-    struct PendingState { uint yetNeeded; uint ownersDone; uint index; }
-    mapping(bytes32 /* operation_hash */ => PendingState)   mapPendingOps ; // ongoing ops
-    uint public minimum_required; // minimum owners confirmations for same operation
-
-    mapping(address => uint /*  bit idx */)   mapOwner2Idx ; //  allow reverse lookup 
-    bytes32[] m_pendingIndex;
-
-    modifier onlyOwner { if (  mapOwner2Idx [msg.sender] == 0) throw ; _ }
-
-       /* same operation hash must be signed/accepted by a minimum number
-        * of the set of owners (specified in the constructor) before execution */
-       modifier    onlyMany/*¡¡SIGNATURE!!*/Owners (bytes32 _operation_hash) { 
-        if (!  confirmAndCheck (_operation_hash)) throw ;  _ } 
-
-       constructor(address[] _owners,  // ← "who" can confirm,
-      *    uint minimum_required { // ← minimum. confirmations
-          mapOwner2Idx [msg.sender] = 1;
-        for (uint i = 0; i < _owners.length; ++i)
-            {   mapOwner2Idx [_owners[i]] = 2 + i; }
-        minimum_required = minimum_required;
-    }
-
-    function  hasConfirmed(bytes32 _operation_hash, address _owner)  constant returns (bool) {
-        var pending =   mapPendingOps [_operation_hash];
-        uint ownerIndex =   mapOwner2Idx [_owner];
-        uint   ownerIdxBit  = 2  ownerIndex; // determine bit to set
-        return (pending.ownersDone ⅋  ownerIdxBit  == 0) ? false : true;
-    }
-
-    function   confirmAndCheck (bytes32 _operation_hash) internal returns (bool) {
-        uint ownerIndex =   mapOwner2Idx [msg.sender]; // get idx for msg.sender
-        var pending =   mapPendingOps [_operation_hash];
-        if (pending.yetNeeded == 0) {
-            pending.yetNeeded = minimum_required; // reset confirmations needed
-            pending.ownersDone = 0; // reset owners confirmed to none (bitmap→0)
-            pending.index = m_pendingIndex.length++;
-            m_pendingIndex[pending.index] = _operation_hash;
-        }
-        uint   ownerIdxBit  = 2  ownerIndex; // determine the bit to set
-        if (pending.ownersDone ⅋   ownerIdxBit  == 0) {
-            // ok - check if count is enough to go ahead.
-            if (pending.yetNeeded <= 1 /* enough confirmations. reset→run*/) {
-                delete m_pendingIndex[  mapPendingOps [_operation_hash].index];
-                delete   mapPendingOps [_operation_hash];
-                return true;
-            } else {
-                pending.yetNeeded--;
-                pending.ownersDone |=   ownerIdxBit ;
-                return false;
-            }
-        }
-    }
-}
-</pre>
-
-[[{}]]"use_case.identity,standards.eip/erc,0_PM.backlog">
-<span xsmall>ERC 780: Ethereum Claims Registry </span>
+● ERC 780: Ethereum Claims Registry [[{use_case.identity,0_PM.backlog]]"
 - proposal to allows persons, smart contracts, and machines to issue 
   claims about each other, as well as self issued claims with the aim 
   of providing a central point of reference for on-chain claims on 
   Ethereum.
-</pre>
+[[}]]
 
-</div>
+● EIP-1484: Digital Identity Aggregator [[{0_PM.backlog]]
+  Identity management and aggregation framework.
+  - Identities are represented via a singular Identity Registry SC.
+    that can be associated to Ethereum addresses in a variety of
+    meaningful ways. 
+  - Enables arbitrarily complex identity-related functionality.
+  - They can natively support ERC-725 and ERC-1056 identities,
+    and can be fully powered by meta-transactions.
+[[}]]
 
-<div groupv>
-<span title>Libraries</span>
-[[{}]]"solidity.101.libraries">
-<span xsmall>About Libraries:</span>
+● EVM/Solidity libraries: [[{_solidity.101]]
 @[https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736]
-Library benefits:
+- Library benefits:
   - saving substantial amounts of gas
   - can make for a more secure environment (if reused libraries are audited).
 
 - In Solidity, a library is a different type of contract
   (library myLib {...} vs contract myContract {...}) ,
-  doesn't have any storage and cannot hold ether:
-  - It doesn't allow payable functions and cannot have a
-    fallback function, enforced by the compiler.
+  - It doesn't have any storage or ether.
+  - It doesn't allow payable functions or  fallback functions.
 
-- It can be seen as a sort of a singleton in the EVM:
-  a piece of code that can be called from any contract
-  without the need to deploy it again.
-
-- It can also be seen as implicit base contracts of
-   the contracts that use them
+  - It can be seen as a sort of a reusable code deployed at a 
+    given well-known address in the EVM that can called by
+    any contract without the need to deploy it again.
 
 - EVM DELEGATECALL instruction is used to call the function,
   causing the calling context to be passed to the library,
   as if it was code running in the contract itself.
 
-  context kept by library:
-  | this       ← address of the contract invoquing the library not the
-  |              library context
-  | msg.sender ← sender address sing
-  | msg.value
-  | msg.sig
-  | msg.data
-  | msg.gas
+  context kept by delegatecall:
+  · this       <- address of calling-contract-invoquing-the-function.
+  · msg.sender 
+  · msg.value
+  · msg.sig
+  · msg.data
+  · msg.gas
 
- - Library  linkin   happens at the bytecode level (compile
-   phase) and not at storage level so once setted it's lined
-   for always:
+ - Library linking happens at deploy time (vs storage level):
+   - once setted it's linked for always:
 
-   When contract A is compiled, it leaves a   placeholde   for
-   the library address in this way:
+   STEP 1) Compilation phase:
+        contract A is compiled, leaving a placeholder for the lib.address:
 
     0073  __ C  _____________________________________ 630dbe671f
              C                                          ^^^^^^^
              C                                          0dbe671f is the function
              C                                          signature for a()
 
-    * At compile time (before deploying the contract) the placeholder must be
-      replaced with the address of the deployed library in the blockchain.
+    * Before deploying the contract the placeholder must be
+      replaced with the address of the deployed library in
+      the blockchain.
 
-
-PROBLEM With Events sent by Libraries:
+- PROBLEM With Events sent by Libraries:
   Only problem is, right now (March 2017), the contract ABI does
   not reflect the events that the libraries it uses may emit.
    This confuses clients such as web3, that won't be able to
   decode what event was called or figure out how to decode its
   arguments.
-
-HACK:  defining the event both in the contract and the library
-  will trick clients into thinking that it was actually the
-  main contract who sent the event and not the library.
-
-See also:
-<a TODO href="https://github.com/bkrem/awesome-solidity#libraries">Awesome Sol.Libs</a>
-</pre>
+  HACK: duplicate event definition in contracts.
 
 
-[[{}]]"_solidity,persistence.data_structure,0_PM.TODO">
-<span xsmall>Modular-Network Libs</span>
-@[https://github.com/modular-network/ethereum-libraries]
-- ArrayUtilsLib
-- BasicMathLib
-- CrowdsaleLib
-- LinkedListLib
-- StringUtilsLib
-- TokenLib
-- VestingLib
-- WalletLib
-</pre>
+● Popular libraries: 
+  • Modular network: [[{persistence.data_structure,_solidity.strings]]
+  @[https://github.com/modular-network/ethereum-libraries]
+   - ArrayUtils, BasicMath, CrowdSale, 
+     LinkedList, StringUtils,
+     Token, Vesting and Wallet.
 
-</div>
-</div> <!-- libraries, tokens, ... -->
+   - OpenZeppelin: Roles, ECDSA, MerkleProof, SafeERC20,
+     ERC165Checker, Math, SafeMath, Address, Arrays.
+   @[https://github.com/OpenZeppelin/openzeppelin-solidity]
 
-<div group bgbrown >
-<span title>Development Tools</span><a href="https://ethereum.org/developers/#other-tools">[See also!!!]</a>
-<br/>
-<div groupv>
-[[{}]]"">
-<span xsmall>External Links</span>
-@[https://github.com/ConsenSys/ethereum-developer-tools-list/blob/master/README.md]
-@[https://www.reddit.com/r/ethdev/comments/9jw839/long_list_of_ethereum_developer_tools_frameworks/]
-</pre>
+   - Dapp-bin: 
+   @[https://github.com/ethereum/dapp-bin/blob/master/library/]
+     - IterableMapping :
+     - DoublyLinkedList:
+     - StringUtils [[{_solidity.strings}]]
+   [[}]]
+[[}]]
 
+● Development Tools List:
+ @[https://ethereum.org/developers/#other-tools]
+ @[https://github.com/ConsenSys/ethereum-developer-tools-list/blob/master/README.md]
+ @[https://www.reddit.com/r/ethdev/comments/9jw839/long_list_of_ethereum_developer_tools_frameworks/]
 
 [[{}]]"dev_framework.remix,dev_framework.ide,0_PM.SLC.debugging,_solidity">
 <span xsmall TODO>Remix IDE</span>
@@ -10094,314 +9952,39 @@ $ besu [OPTIONS] [COMMAND]
   --fast-sync-min-peers=integer                     # Minimum peer number before start fast-sync. Default is 5.
 </pre>
 
-[[{}]]"implementation.besu,integration.graphql">
-<span xsmall>Besus GraphQL Schema </span>
+● Besus GraphQL Schema [[{implementation.besu,integration.graphql]]
 @[https://github.com/hyperledger/besu/blob/master/ethereum/api/src/main/resources/schema.graphqls]
-# Bytes32 is a 32 byte binary string, represented as 0x-prefixed hexadecimal.
-scalar Bytes32
-# Address is a 20 byte Ethereum address, represented as 0x-prefixed hexadecimal.
-scalar Address
-# Bytes is an arbitrary length binary string, represented as 0x-prefixed hexadecimal.
-# An empty byte string is represented as '0x'. Byte strings must have
-# an even number of hexadecimal nybbles.
-scalar Bytes
-# BigInt is a large integer. Input is accepted as either a JSON number or as a string.
-# Strings may be either decimal or 0x-prefixed hexadecimal. Output values are all
-# 0x-prefixed hexadecimal.
-scalar BigInt
-# Long is a 64 bit unsigned integer.
-scalar Long
 
 schema {
     query: Query
     mutation: Mutation
 }
 
-# Account is an Ethereum account at a particular block.
-type Account {
-    # Address is the address owning the account.
-    address: Address!
-    # Balance is the balance of the account, in wei.
-    balance: BigInt!
-    # TransactionCount is the number of transactions sent from this account,
-    # or in the case of a contract, the number of contracts created. Otherwise
-    # known as the nonce.
-    transactionCount: Long!
-    # Code contains the smart contract code for this account, if the account
-    # is a (non-self-destructed) contract.
-    code: Bytes!
-    # Storage provides access to the storage of a contract account, indexed
-    # by its 32 byte slot identifier.
-    storage(slot: Bytes32!): Bytes32!
-}
-
-# Log is an Ethereum event log.
-type Log {
-    # Index is the index of this log in the block.
-    index: Int!
-    # Account is the account which generated this log - this will always
-    # be a contract account.
-    account(block: Long): Account!
-    # Topics is a list of 0-4 indexed topics for the log.
-    topics: [Bytes32!]!
-    # Data is unindexed data for this log.
-    data: Bytes!
-    # Transaction is the transaction that generated this log entry.
-    transaction: Transaction!
-}
-
-# Transaction is an Ethereum transaction.
-type Transaction {
-    # Hash is the hash of this transaction.
-    hash: Bytes32!
-    # Nonce is the nonce of the account this transaction was generated with.
-    nonce: Long!
-    # Index is the index of this transaction in the parent block. This will
-    # be null if the transaction has not yet been mined.
-    index: Int
-    # From is the account that sent this transaction - this will always be
-    # an externally owned account.
-    from(block: Long): Account!
-    # To is the account the transaction was sent to. This is null for
-    # contract-creating transactions.
-    to(block: Long): Account
-    # Value is the value, in wei, sent along with this transaction.
-    value: BigInt!
-    # GasPrice is the price offered to miners for gas, in wei per unit.
-    gasPrice: BigInt!
-    # Gas is the maximum amount of gas this transaction can consume.
-    gas: Long!
-    # InputData is the data supplied to the target of the transaction.
-    inputData: Bytes!
-    # Block is the block this transaction was mined in. This will be null if
-    # the transaction has not yet been mined.
-    block: Block
-
-    # Status is the return status of the transaction. This will be 1 if the
-    # transaction succeeded, or 0 if it failed (due to a revert, or due to
-    # running out of gas). If the transaction has not yet been mined, this
-    # field will be null.
-    status: Long
-    # GasUsed is the amount of gas that was used processing this transaction.
-    # If the transaction has not yet been mined, this field will be null.
-    gasUsed: Long
-    # CumulativeGasUsed is the total gas used in the block up to and including
-    # this transaction. If the transaction has not yet been mined, this field
-    # will be null.
-    cumulativeGasUsed: Long
-    # CreatedContract is the account that was created by a contract creation
-    # transaction. If the transaction was not a contract creation transaction,
-    # or it has not yet been mined, this field will be null.
-    createdContract(block: Long): Account
-    # Logs is a list of log entries emitted by this transaction. If the
-    # transaction has not yet been mined, this field will be null.
-    logs: [Log!]
-}
-
-# BlockFilterCriteria encapsulates log filter criteria for a filter applied
-# to a single block.
-input BlockFilterCriteria {
-    # Addresses is list of addresses that are of interest. If this list is
-    # empty, results will not be filtered by address.
-    addresses: [Address!]
-    # Topics list restricts matches to particular event topics. Each event has a list
-  # of topics. Topics matches a prefix of that list. An empty element array matches any
-  # topic. Non-empty elements represent an alternative that matches any of the
-  # contained topics.
-  #
-  # Examples:
-  #  - [] or nil          matches any topic list
-  #  - [[A]]              matches topic A in first position
-  #  - [[], [B]]          matches any topic in first position, B in second position
-  #  - [[A], [B]]         matches topic A in first position, B in second position
-  #  - [[A, B]], [C, D]]  matches topic (A OR B) in first position, (C OR D) in second position
-    topics: [[Bytes32!]!]
-}
-
-# Block is an Ethereum block.
-type Block {
-    # Number is the number of this block, starting at 0 for the genesis block.
-    number: Long!
-    # Hash is the block hash of this block.
-    hash: Bytes32!
-    # Parent is the parent block of this block.
-    parent: Block
-    # Nonce is the block nonce, an 8 byte sequence determined by the miner.
-    nonce: Bytes!
-    # TransactionsRoot is the keccak256 hash of the root of the trie of transactions in this block.
-    transactionsRoot: Bytes32!
-    # TransactionCount is the number of transactions in this block. if
-    # transactions are not available for this block, this field will be null.
-    transactionCount: Int
-    # StateRoot is the keccak256 hash of the state trie after this block was processed.
-    stateRoot: Bytes32!
-    # ReceiptsRoot is the keccak256 hash of the trie of transaction receipts in this block.
-    receiptsRoot: Bytes32!
-    # Miner is the account that mined this block.
-    miner(block: Long): Account!
-    # ExtraData is an arbitrary data field supplied by the miner.
-    extraData: Bytes!
-    # GasLimit is the maximum amount of gas that was available to transactions in this block.
-    gasLimit: Long!
-    # GasUsed is the amount of gas that was used executing transactions in this block.
-    gasUsed: Long!
-    # Timestamp is the unix timestamp at which this block was mined.
-    timestamp: BigInt!
-    # LogsBloom is a bloom filter that can be used to check if a block may
-    # contain log entries matching a filter.
-    logsBloom: Bytes!
-    # MixHash is the hash that was used as an input to the PoW process.
-    mixHash: Bytes32!
-    # Difficulty is a measure of the difficulty of mining this block.
-    difficulty: BigInt!
-    # TotalDifficulty is the sum of all difficulty values up to and including
-    # this block.
-    totalDifficulty: BigInt!
-    # OmmerCount is the number of ommers (AKA uncles) associated with this
-    # block. If ommers are unavailable, this field will be null.
-    ommerCount: Int
-    # Ommers is a list of ommer (AKA uncle) blocks associated with this block.
-    # If ommers are unavailable, this field will be null. Depending on your
-    # node, the transactions, transactionAt, transactionCount, ommers,
-    # ommerCount and ommerAt fields may not be available on any ommer blocks.
-    ommers: [Block]
-    # OmmerAt returns the ommer (AKA uncle) at the specified index. If ommers
-    # are unavailable, or the index is out of bounds, this field will be null.
-    ommerAt(index: Int!): Block
-    # OmmerHash is the keccak256 hash of all the ommers (AKA uncles)
-    # associated with this block.
-    ommerHash: Bytes32!
-    # Transactions is a list of transactions associated with this block. If
-    # transactions are unavailable for this block, this field will be null.
-    transactions: [Transaction!]
-    # TransactionAt returns the transaction at the specified index. If
-    # transactions are unavailable for this block, or if the index is out of
-    # bounds, this field will be null.
-    transactionAt(index: Int!): Transaction
-    # Logs returns a filtered set of logs from this block.
-    logs(filter: BlockFilterCriteria!): [Log!]!
-    # Account fetches an Ethereum account at the current block's state.
-    account(address: Address!): Account!
-    # Call executes a local call operation at the current block's state.
-    call(data: CallData!): CallResult
-    # EstimateGas estimates the amount of gas that will be required for
-    # successful execution of a transaction at the current block's state.
-    estimateGas(data: CallData!): Long!
-}
-
-# CallData represents the data associated with a local contract call.
-# All fields are optional.
-input CallData {
-    # From is the address making the call.
-    from: Address
-    # To is the address the call is sent to.
-    to: Address
-    # Gas is the amount of gas sent with the call.
-    gas: Long
-    # GasPrice is the price, in wei, offered for each unit of gas.
-    gasPrice: BigInt
-    # Value is the value, in wei, sent along with the call.
-    value: BigInt
-    # Data is the data sent to the callee.
-    data: Bytes
-}
-
-# CallResult is the result of a local call operation.
-type CallResult {
-    # Data is the return data of the called contract.
-    data: Bytes!
-    # GasUsed is the amount of gas used by the call, after any refunds.
-    gasUsed: Long!
-    # Status is the result of the call - 1 for success or 0 for failure.
-    status: Long!
-}
-
-# FilterCriteria encapsulates log filter criteria for searching log entries.
-input FilterCriteria {
-    # FromBlock is the block at which to start searching, inclusive. Defaults
-    # to the latest block if not supplied.
-    fromBlock: Long
-    # ToBlock is the block at which to stop searching, inclusive. Defaults
-    # to the latest block if not supplied.
-    toBlock: Long
-    # Addresses is a list of addresses that are of interest. If this list is
-    # empty, results will not be filtered by address.
-    addresses: [Address!]
-    # Topics list restricts matches to particular event topics. Each event has a list
-  # of topics. Topics matches a prefix of that list. An empty element array matches any
-  # topic. Non-empty elements represent an alternative that matches any of the
-  # contained topics.
-  #
-  # Examples:
-  #  - [] or nil          matches any topic list
-  #  - [[A]]              matches topic A in first position
-  #  - [[], [B]]          matches any topic in first position, B in second position
-  #  - [[A], [B]]         matches topic A in first position, B in second position
-  #  - [[A, B]], [C, D]]  matches topic (A OR B) in first position, (C OR D) in second position
-    topics: [[Bytes32!]!]
-}
-
-# SyncState contains the current synchronisation state of the client.
-type SyncState{
-    # StartingBlock is the block number at which synchronisation started.
-    startingBlock: Long!
-    # CurrentBlock is the point at which synchronisation has presently reached.
-    currentBlock: Long!
-    # HighestBlock is the latest known block number.
-    highestBlock: Long!
-    # PulledStates is the number of state entries fetched so far, or null
-    # if this is not known or not relevant.
-    pulledStates: Long
-    # KnownStates is the number of states the node knows of so far, or null
-    # if this is not known or not relevant.
-    knownStates: Long
-}
-
-# Pending represents the current pending state.
-type Pending {
-  # TransactionCount is the number of transactions in the pending state.
-  transactionCount: Int!
-  # Transactions is a list of transactions in the current pending state.
-  transactions: [Transaction!]
-  # Account fetches an Ethereum account for the pending state.
-  account(address: Address!): Account!
-  # Call executes a local call operation for the pending state.
-  call(data: CallData!): CallResult
-  # EstimateGas estimates the amount of gas that will be required for
-  # successful execution of a transaction for the pending state.
-  estimateGas(data: CallData!): Long!
-}
+TYPES: 
+ - Query, Account, Log, Transaction, Block,
+ - CallResult, SyncState, Pending  (State) 
 
 type Query {
-    # Account fetches an Ethereum account at the specified block number.
-    # If blockNumber is not provided, it defaults to the most recent block.
     account(address: Address!, blockNumber: Long): Account!
-    # Block fetches an Ethereum block by number or by hash. If neither is
-    # supplied, the most recent known block is returned.
     block(number: Long, hash: Bytes32): Block!
-    # Blocks returns all the blocks between two numbers, inclusive. If
-    # to is not supplied, it defaults to the most recent known block.
     blocks(from: Long!, to: Long): [Block!]!
-    # Pending returns the current pending state.
     pending: Pending!
-    # Transaction returns a transaction specified by its hash.
     transaction(hash: Bytes32!): Transaction
-    # Logs returns log entries matching the provided filter.
     logs(filter: FilterCriteria!): [Log!]!
-    # GasPrice returns the node's estimate of a gas price sufficient to
-    # ensure a transaction is mined in a timely fashion.
     gasPrice: BigInt!
-    # ProtocolVersion returns the current wire protocol version number.
     protocolVersion: Int!
-    # Syncing returns information on the current synchronisation state.
     syncing: SyncState
 }
 
 type Mutation {
-    # SendRawTransaction sends an RLP-encoded transaction to the network.
     sendRawTransaction(data: Bytes!): Bytes32!
 }
-</pre>
+
+INPUTS: 
+  - BlockFilterCriteria: (filter applied to a single block)
+  - CallData
+  - FilterCriteria : Filter applied from block to block)
+[[}]]
 
 [[{}]]"implementation.besu,">
 <span xsmall>What's New</span>
@@ -13232,5 +12815,31 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       }
   }
 
+ • library of standards for security tokens ("Obligation to pay") on Ethereum. @ma
+   suite of standard interfaces for:
+   - issuing / redeeming security tokens
+   - managing ownership and transfer restrictions.
+   - providing transparency on how different subsets
+     of their token balance behave with respect to  
+     transfer restrictions, rights and obligations. 
+   - Standards should be backwards compatible with ERC-20 (#20).
+   - Depends on:
+     - ERC-1410: differentiated ownership / transparent restrictions
+     - ERC-1594:  on-chain restriction checking with error-signalling.
+                 off-chain data injection for transfer restrictions and
+                 issuance / redemption semantics
+     - ERC-1643: document / legend management
+     - ERC-1644: controller operations (force transfer)
+
+ • https://docs.openzeppelin.com/contracts/2.x/api/cryptography#MerkleProof
+   verify(bytes32[] proof, bytes32 root, bytes32 leaf) -> bool
+
+   Returns true if leaf can be proved to be a part of a Merkle tree
+   defined by root when supplied with a proof.
+   proof = sibling hashes in branch from leaf-to-root.
+           Each pair of leaves and each pair of pre-images 
+           are assumed to be sorted.
  
+  • Awesome Solidity Libraries:
+    @[https://github.com/bkrem/awesome-solidity#libraries]
 
