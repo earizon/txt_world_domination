@@ -44,7 +44,10 @@ pre {
     'font0',monospace, console; 
 }
 
-#dbEngineOutput{ padding-top: 1.5em; }
+#dbEngineOutput{ 
+  padding-top: 1.5em; 
+  overflow: auto;
+}
 #dbEngineOutput[font=font0]{ font-family:'font0', monospace, console; }
 #dbEngineOutput[font=font1]{ font-family:'font1', monospace, console; }
 #dbEngineOutput[font=font2]{ font-family:'font2', monospace, console; }
@@ -100,7 +103,15 @@ body {
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;     /* Firefox */
     background-color: #CCC;
+    font-size: 2.0em;
+    white-space: break-spaces;
 }
+@media only screen and (pointer  : coarse) {
+ #idControlPanel {
+    font-size: 1.2em;
+  } 
+}
+
 #idControlPanel::-webkit-scrollbar {
    /* Hide scrollbar for Chrome, Safari and Opera, but keep overflow: auto to enable scrolling */
   display: none;
@@ -150,14 +161,21 @@ body {
 .topicClass {
   margin: 0px;
   padding: 0px;
-  padding-left: 10em;
-  text-indent :-10em; /* un-indent 1st line */
+/*padding-left: 10em;
+  text-indent :-10em; */ /* un-indent 1st line */
   white-space:pre-line;
   border-bottom: 1px solid grey;
 }
 .topicClass > .topic {
   float:left;
   min-width: 10em;
+  text-overflow: ellipsis;
+  font-weight: bold;
+}
+@media only screen and (pointer  : coarse) {
+ .topicClass > .topic {
+    min-width: 6em;
+  } 
 }
 
 .selected { background-color:black; color: white ; }
@@ -207,7 +225,7 @@ window.addEventListener('load', bootstrap )
 </script>
 </head>
 <body>
-<pre id="idControlPanel" class="textSelectOff" fontSize="s3" size=s2 >
+<pre id="idControlPanel" class="textSelectOff">
 </pre>
 <pre id="dbEngineOutput" lineheight="height1" fontSize="s2" background="b1" colorstyle="s1" >
 </pre>
