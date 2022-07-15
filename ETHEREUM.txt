@@ -1,6 +1,11 @@
 - Topics Acronyms:
   - PM  : Project Management
   - SLC : software life cycle 
+  - QA  : Quality Assurance. Everything realated to removing errors, 
+          passing unit/functional/acceptance tests, Service Level Agreements (SLAs), ...
+  - 101 : (pronounced ONE-oh-ONE). Slang term for the most basic knowledge in 
+          some subject. @[https://en.wikipedia.org/wiki/101_(slang)]
+  - EVM : Ethereum Virtual Machine. 
 
 ● External Links
   @[https://github.com/ethereum/wiki/wiki/White-Paper]
@@ -552,7 +557,7 @@
 [[}]
 
 
-[[{standards,0_PM.ext_resource,_doc_has.taxonomy,0_PM.TODO]]
+[[{standards,00_PM.ext_resource,01_doc_has.taxonomy,00_PM.TODO]]
 ● Related Taxonomies:
   - TokenTaxonomyFramework
   @[https://github.com/InterWorkAlliance/TokenTaxonomyFramework]
@@ -562,13 +567,13 @@
   - Economics  Taxonomy: @[https://economics.stackexchange.com/tags]
 [[}]]
 
-● EVM {{{ [[{evm,0_PM.ext_resource]]
+● EVM {{{ [[{10_EVM,00_PM.ext_resource]]
  • External Refs:
   @[https://github.com/ethereum/yellowpaper]
   @[https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial]
   @[http://ethdocs.org/en/latest/contracts-and-transactions/developer-tools.html#the-evm]
 
- • Patricia tree [[{101,evm.101,persistence.blockchain,,infrastructure.storage,infrastructure.network}]]
+ • Patricia tree [[{101,10_EVM.101,persistence.blockchain,,infrastructure.storage,infrastructure.network}]]
 @[https://eth.wiki/en/fundamentals/patricia-tree] 
   - cryptographically fully deterministic "key/value":
     A Patricia trie: cryptographycally protected (key,value) store with 
@@ -677,7 +682,7 @@
           a partial path is prefixed with a flag for odd-cases.
           (See original post for more info)
 
-• EVM Accounts [[{_solidity,evm.101,_doc_has.diagram" id="evm_accounts_summary}]]
+• EVM Accounts [[{12_SOLidity,10_EVM.101,01_doc_has.diagram" id="evm_accounts_summary}]]
 @[http://www.ethdocs.org/en/latest/contracts-and-transactions/account-types-gas-and-transactions.html]
   Account   ← same address space both for contract and normal accounts
   ┌─────────────────────────┐
@@ -736,7 +741,7 @@
   it is possible to send multiple versions of a transaction with the same nonce,
   however, once mined, any subsequent submissions will be rejected.
 
-• EVM Message Calls (CALL opcode) [[{evm.101,qa.error_control,_doc_has.diagram]]
+• EVM Message Calls (CALL opcode) [[{10_EVM.101,20_QA.error_control,01_doc_has.diagram]]
   - Contracts can user message calls to call other contracts or send Ether to
     non-contract accounts.
   
@@ -814,7 +819,7 @@
      preserve msg.sender and msg.value.
 [}]
 
- • EVM Summary [[{evm.101,evm.i/o,evm.gas]]
+ • EVM Summary [[{10_EVM.101,10_EVM.i/o,10_EVM.gas]]
    - Ethereum Virtual Machine Opcodes low level reference to EVM:
     @[https://ethervm.io/]
    - EVM Illustrated (TODO)
@@ -990,7 +995,7 @@
 
 [[}]]
 
-● EVM ABI Spec: [[{evm.abi]]
+● EVM ABI Spec: [[{10_EVM.abi]]
   Full reference:@[https://solidity.readthedocs.io/en/latest/abi-spec.html]
 
   - The encoding is not self describing and thus requires a schema in order to decode.
@@ -1145,7 +1150,7 @@
                              fields for full functionallity.                                   
 [[}]]
 
-• EVM Events ⅋ LOGS [[{evm.101,evm.events]]
+• EVM Events ⅋ LOGS [[{10_EVM.101,10_EVM.events]]
   - In the wild, there are three main uses for event logs:
     - As external apps return values, because a transaction does not record a
       method's return values, only the hash confirming the transaction.
@@ -1185,7 +1190,7 @@
   - NOTE: Internally Ethereum nodes use bloom indexes/filters to implement topics and
           topic search in order to speed up search-by-topic.
 
-  - External clients must be able to restore current contract state [[{qa.BEST PATTERNS]]
+  - External clients must be able to restore current contract state [[{20_QA.BEST PATTERNS]]
     by just reading events.
   - Ethereum can return just a very limited information in each
     read-only query. (Up to 7 fields). That means that reports and
@@ -1242,7 +1247,7 @@
   myEventMonitor.stopWatching()          // ← Stop watching
 [[}]]
 
-● Solidity to storage address [[{evm,persistence.contract_state,_solidity,0_PM.SLC.troubleshooting,0_PM.SLC.debugging]]
+● Solidity to storage address [[{10_EVM,persistence.contract_state,12_SOLidity,13_SLC.troubleshooting,13_SLC.debugging]]
 REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-storage]
   contract BlockVoting {
     Period[] dynArray01;        ← Idx 0x00..32bytes/64 hex-digits ...00
@@ -1389,7 +1394,7 @@ REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-sto
 
 [[}]]
 
-● EIP-191: Signed Data Standard (Multisignature TXs) [[{signature.multisignature,use_case.identity,standards.eip/erc.191,0_PM.TODO]]
+● EIP-191: Signed Data Standard (Multisignature TXs) [[{signature.multisignature,use_case.identity,standards.eip/erc.191,00_PM.TODO]]
 @[https://eips.ethereum.org/EIPS/eip-191]
 @[https://github.com/ethereum/EIPs/issues/191]
 - See also @[#eip-712]
@@ -1415,7 +1420,7 @@ REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-sto
 Example code:
 @[https://github.com/0xsequence/erc-1155/blob/master/SPECIFICATIONS.md#meta-transactions]
 
-  • EIP-4361: Using EIP-191 for Offchain client Auth.: [[{qa.UX}]]
+  • EIP-4361: Using EIP-191 for Offchain client Auth.: [[{20_QA.UX}]]
   @[https://github.com/spruceid/EIPs/blob/eip-4361/EIPS/eip-4361.md]
   @[https://ethereum-magicians.org/t/eip-4361-sign-in-with-ethereum/7263/2]
   
@@ -1440,7 +1445,7 @@ Example code:
 [[}]]
 
 
-● TX Gas Price [[{101,transaction,evm.gas_price,evm.events,privacy.zksnark,scalability.consensus}]]
+● TX Gas Price [[{101,transaction,10_EVM.gas_price,10_EVM.events,privacy.zksnark,scalability.consensus}]]
 • REFs:
   @[https://github.com/ethereum/wiki/wiki/Design-Rationale#gas-and-fees]
   @[http://www.ethdocs.org/en/latest/contracts-and-transactions/account-types-gas-and-transactions.html?highlight=gas#what-is-gas]
@@ -1611,7 +1616,7 @@ Example code:
         call the Safe Gas Price:
       @[https://medium.com/@ethgasstation/the-safe-low-gas-price-fb44fdc85b91]
 
-● EIP 1559: [[{scalability,evm.gas_price]]
+● EIP 1559: [[{scalability,10_EVM.gas_price]]
   @[https://blog.ethereum.org/2020/06/16/eth1x-1559/]
   • Problem Context:
     • TX gas price can spike when block ussage is close to full. 
@@ -1708,7 +1713,7 @@ Example code:
                        in internal storage.   78.125 times cheaper per byte !! 
                                                FIX TX cost not included        
 }}}
-● EVM: Calls vs TXs: [[{comparative,101,evm.101]]
+● EVM: Calls vs TXs: [[{01_doc_has.comparative,101,10_EVM.101]]
   Imagine a solidity code similar to:
   
     contract Voting {
@@ -1761,7 +1766,7 @@ Example code:
   EVM stack.
 [[}]]
 
-● EVM State transition function [[{transaction.101,evm.101]]
+● EVM State transition function [[{transaction.101,10_EVM.101]]
 APPLY (S, TX) → S'  ← S : initial global state
                     ← S': final   global state
  can be defined as follows:
@@ -1799,7 +1804,7 @@ network node.                                 |   (but offline clients can also 
 The signed TX is then sent to the network.    |   hacked)
 [[}]]
 
-● EIP-2535 Diamons: [[{101,evm,persistence.contract_state,persistence.data_structure,qa.UX,qa.solidity,_solidity.upgradable_contracts,0_PM.SLC.troubleshooting,standards.eip/erc.2535]]
+● EIP-2535 Diamons: [[{101,10_EVM,persistence.contract_state,persistence.data_structure,20_QA.UX,20_QA.solidity,12_SOLidity.upgradable_contracts,13_SLC.troubleshooting,standards.eip/erc.2535]]
 @[https://eips.ethereum.org/EIPS/eip-2535]
   - About EIP-170 24K Max Contract Size
     @[https://ethereum-magicians.org/t/removing-or-increasing-the-contract-size-limit/3045]
@@ -2106,7 +2111,7 @@ The signed TX is then sent to the network.    |   hacked)
 @[https://github.com/OpenZeppelin/openzeppelin-contracts/issues/2537]
 [[}]]
 
-● Ether.Addresses [[{evm,qa.UX]]
+● Ether.Addresses [[{10_EVM,20_QA.UX]]
   - Issues:
     REF: @[https://ethereum.stackexchange.com/questions/267/why-dont-ethereum-addresses-have-checksums]
     Initial Ethereum design didn't have support for address checksum.
@@ -2160,7 +2165,7 @@ The signed TX is then sent to the network.    |   hacked)
           but widely adopted -Metamask,...-)
 [[}]]
 
-● Ethereum Name Service: [[{standards.eip/erc,qa.UX]]
+● Ethereum Name Service: [[{standards.eip/erc,20_QA.UX]]
 @[https://ens.domains/]
 """No more long addresses: ENS eliminates the need to copy - and worse,
    type - long hexadecimal addresses ...
@@ -2263,7 +2268,7 @@ The signed TX is then sent to the network.    |   hacked)
   @[https://ethfiddle.com/]
   @[https://github.com/ConsenSys/smart-contract-best-practices']
 
-● Solidty: What's New [[{_solidity]]
+● Solidty: What's New [[{12_SOLidity]]
   Solidity 0.8 Breaking changes 
 @[https://github.com/ethereum/solidity/blob/develop/docs/080-breaking-changes.rst]
 
@@ -2377,7 +2382,7 @@ The signed TX is then sent to the network.    |   hacked)
 @[https://blog.ethereum.org/2020/01/29/solidity-0.6-try-catch/]
 [[}]]
 
-● solc (Solidity Compiler) [[{101,_solidity.solc,qa.formal_verification,qa.auditing,0_PM.SLC.debugging,0_PM.WiP]]
+● solc (Solidity Compiler) [[{101,12_SOLidity.solc,20_QA.formal_verification,20_QA.auditing,13_SLC.debugging,00_PM.WiP]]
   • svm: Solidity compiler Version Manager, similar to Node nvm,..
   @[https://github.com/web3j/svm]
   $ $ svm install 0.6.2   ← install|uninstall|deactivate
@@ -2506,7 +2511,7 @@ The signed TX is then sent to the network.    |   hacked)
           "*": {             abi, ast, devdoc, userdoc, metadata, ir/irOptimized(Yul),
             "*": [ "abi" ] ← storageLayout(Slots/offsets/types of contract's vars),
           }                   evm.assembly, evm.bytecode.*, evm.methodIdentifiers
-        }                      ,evm.gasEstimates, ewasm.wast, ewasm.wasm
+        }                      ,10_EVM.gasEstimates, ewasm.wast, ewasm.wasm
       "modelChecker":{...} ← experimental/subject to changes (Formal Probes)
       } 
     }
@@ -2575,7 +2580,7 @@ The signed TX is then sent to the network.    |   hacked)
   @[https://contract-library.com/contracts/Ethereum/42A1CA0A79A9E7D83AEE9012D21920B02F9FC2C6]
 [[}]]
 
-● Solidity 101: [[{101,_solidity.101,persistence.data_structure,qa,0_PM.WiP]]
+● Solidity 101: [[{101,12_SOLidity.101,persistence.data_structure,20_QA,00_PM.WiP]]
 (Initial version from @[https://learnxinyminutes.com/docs/solidity/] 
  with "lot of extras")
 ● EVENT-STREAM ORIENTED: 
@@ -2848,7 +2853,7 @@ The signed TX is then sent to the network.    |   hacked)
 
 [[}]]
 
-● Retrieving events quickly: [[{_solidity,evm.events,scalability.solidity,dev_lang.js]]
+● Retrieving events quickly: [[{12_SOLidity,10_EVM.events,scalability.solidity,dev_framework.js]]
 - Imagine the COMMON PROBLEM:
   - A given contract emits a given event sparsely, with
     an average of 1 event each 10.000 blocks.
@@ -2899,7 +2904,7 @@ contract MyContract {
 [[}]]
 
 
-● SOLIDITY GLOBALS: [[{_solidity.101]]
+● SOLIDITY GLOBALS: [[{12_SOLidity.101]]
  GLOBAL METHODS: 
 block.blockhash(uint blockNumber)
   returns (bytes32):
@@ -2971,7 +2976,7 @@ ecrecover
 [[}]]
 
 
-● Solidity String Manipulation: [[{101,_solidity.strings]]
+● Solidity String Manipulation: [[{101,12_SOLidity.strings]]
 - Can be used as keys for mappings
 - Concatenating strings str01, str02, str03, ...:
   string memory result = string(abi.encodePacked(str01, str02, str03, ...);
@@ -3034,7 +3039,7 @@ string memory bar = string(abi.encodePacked(foo));
 
 
  • STRING LIBRARIES:
-  WARN: String manipulation inside contracts is discouraged. It wastes lot of   [[{qa.101}]]
+  WARN: String manipulation inside contracts is discouraged. It wastes lot of   [[{20_QA.101}]]
          gas and is error-prone. Use them as last-resort.
   
   - @[https://github.com/Arachnid/solidity-stringutils]
@@ -3073,7 +3078,7 @@ string memory bar = string(abi.encodePacked(foo));
     uintToString   (uint          input) pure returns (string str)
 [[}]]
 
-● Solidity: Date/Time [[{_solidity.101.date_time]]
+● Solidity: Date/Time [[{12_SOLidity.101.date_time]]
   - DateTime is stored as uint
   - now (uint) == block.timestamp
   - Next keyword constants are defined: 
@@ -3090,7 +3095,7 @@ string memory bar = string(abi.encodePacked(foo));
     }
 [[}]]
 
-● SOLIDITY FUNCTION MODIFIERS: [[{101,_solidity.101.functions,evm.gas]] #[solidity_functions_summary]
+● SOLIDITY FUNCTION MODIFIERS: [[{101,12_SOLidity.101.functions,10_EVM.gas]] #[solidity_functions_summary]
 - Syntax sugar for function precondition checks:
 @[https://en.wikipedia.org/wiki/Precondition]
 - Commonly used to check basic "value security rules" 
@@ -3138,7 +3143,7 @@ Note:
 this.confirmPurchase(...) # External call
 [[}]]
 
-● ERROR CONTROL [[{_solidity.error_control,transaction,evm.101,_doc_has.diagram,0_PM.SLC.debugging,implementation.besu,evm.events,0_PM.SLC.testing,transaction,dev_framework.web3j,qa.error_control]]
+● ERROR CONTROL [[{12_SOLidity.error_control,transaction,10_EVM.101,01_doc_has.diagram,13_SLC.debugging,10_EVM.implementation.besu,10_EVM.events,13_SLC.testing,transaction,dev_framework.web3j,20_QA.error_control]]
 @[https://solidity.readthedocs.io/en/v0.4.24/control-structures.html#error-handling-assert-require-revert-and-exceptions]
 
   Error Management: 
@@ -3347,7 +3352,7 @@ this.confirmPurchase(...) # External call
     }
 [[}]]
 
-● Solidity Best Patterns [[{_solidity.101,qa.error_control,_doc_has.tutorial,0_PM.WiP]]
+● Solidity Best Patterns [[{12_SOLidity.101,20_QA.error_control,01_doc_has.tutorial,00_PM.WiP]]
   • Coding Convention List
     This section covers a series of recomendations in order to develop 
     Solidity smart-contracts in order to improve the quality of code 
@@ -3499,7 +3504,7 @@ this.confirmPurchase(...) # External call
     smaller ones. In practice, component injection is done manually in the 
     deployment scripts.
 
-  • Solidity (EVM actually) Limitations: [[{evm.101]]
+  • Solidity (EVM actually) Limitations: [[{10_EVM.101]]
     - Stack effective size and EVM design by extension is very limited.
       When it grows beyond 16 elements old elements are not accesible
       anymore (compilation fails).
@@ -3511,7 +3516,7 @@ this.confirmPurchase(...) # External call
     [[}]]
 [[}]]
 
-● Solidty storage patterns [[{solidity.101,persistence.data_structure,qa.solidity,_solidity.persistence]]
+● Solidty storage patterns [[{solidity.101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
 @[https://ethereum.stackexchange.com/questions/13167/are-there-well-solved-and-simple-storage-patterns-for-solidity]
 Context:
    Simple and appropriate data organization can challenge Solidity newcomers.
@@ -3624,7 +3629,7 @@ contract EntityDDBB {        contract EntityDDBB {     contract EntityDDBB {    
    Source Code          @[https://bitbucket.org/rhitchens2/soliditycrud/src/83703dcaf4d0c4b0d6adc0377455c4f257aa29a7/contracts/?at=master]
 [[}]]
 
-● Composed-keys in maps: [[{101,persistence.data_structure,qa.solidity,_solidity.persistence]]
+● Composed-keys in maps: [[{101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
 @[https://ethereum.stackexchange.com/questions/69727/map-multikey-how-to]
   • Alt1: create key like hash of N input composing keys
     Use events to trace input requests. e.j:
@@ -3647,7 +3652,7 @@ contract EntityDDBB {        contract EntityDDBB {     contract EntityDDBB {    
     );
 [[}]]
 
-● Sorted Linked List: [[{101,persistence.data_structure,qa.solidity,_solidity.persistence]]
+● Sorted Linked List: [[{101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
 @[https://github.com/vittominacori/solidity-linked-list]
 • utility library for using sorted linked list data structures.
 • Well maintained as of 2022-01
@@ -3659,10 +3664,10 @@ contract EntityDDBB {        contract EntityDDBB {     contract EntityDDBB {    
   popFront  | popBack
 [[}]] 
 
-• EnumerableSet: [[{101,persistence.data_structure,qa.solidity,_solidity.persistence]]
+• EnumerableSet: [[{101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
 @[https://docs.openzeppelin.com/contracts/2.x/api/utils#EnumerableSet] [[}]]
 
-● Iterable map (arachnid gist) [[{101,persistence.data_structure,qa,_solidity.persistence]]
+● Iterable map (arachnid gist) [[{101,persistence.data_structure,20_QA,12_SOLidity.persistence]]
 @[https://gist.github.com/ethers/7e6d443818cbc9ad2c38efa7c0f363d1]
 library itmap {
     struct entry {
@@ -3737,7 +3742,7 @@ contract Test {
 }
 [[}]]
 
-● QA: Static/Dyn. Code analysis [[{_doc_has.comparative,security.101,_solidity.qa]]
+● QA: Static/Dyn. Code analysis [[{01_doc_has.comparative,security.101,12_SOLidity.qa]]
   by QuillAudits, security Firm
   @[https://blog.quillhash.com/static-and-dynamic-analysis-of-smart-contracts-vulnerabilities/]
   @[https://audits.quillhash.com]
@@ -3876,7 +3881,7 @@ contract Test {
   @[https://arxiv.org/pdf/1807.07875.pdf]
 [[}]]
 
-● QA: FORMAL PROOFs [[{qa.formal_verification,_solidity.qa,0_PM.WiP]]
+● QA: FORMAL PROOFs [[{20_QA.formal_verification,12_SOLidity.qa,00_PM.WiP]]
 • External Links
   • @[https://github.com/pirapira/eth-isabelle]
   • @[https://github.com/pirapira/ethereum-formal-verification-overview]
@@ -3970,7 +3975,7 @@ contract Test {
       @[http://www.cs.umd.edu/~aseem/solidetherplas.pdf]
 [[}]]
 
-● QA: (Py)Slither Solidity source analyzer [[{security,qa,_solidity]] @ma
+● QA: (Py)Slither Solidity source analyzer [[{security,20_QA,12_SOLidity]] @ma
   @[https://github.com/crytic/slither]
   - Detects vulnerables with LOW FALSE POSITIVES.
   - Identifies where the error condition occurs in the source code
@@ -3993,7 +3998,7 @@ contract Test {
     $ slither .../Contract01.sol # Single solidity file:
 [[}]]
 
-● QA MythX SYMBOLIC/DYNAMIC/STATIC/FUZZING ANALYSIS into Truffle/VS.Code/Embark/Remix  [[{security,_solidity.qa]] @ma
+● QA MythX SYMBOLIC/DYNAMIC/STATIC/FUZZING ANALYSIS into Truffle/VS.Code/Embark/Remix  [[{security,12_SOLidity.qa]] @ma
   - WHOLE SET OF MICRO-SERVICES TO HANDLE 
     LINTING AND OTHER CHECKS. 
   - @[https://docs.mythx.io/en/latest/index.html#]
@@ -4018,7 +4023,7 @@ contract Test {
     @[https://github.com/dmuhs/PythX]
 [[}]]
 
-● Sec.Tool Index(consensys) [[{security.101,_solidity.qa,security,0_PM.WiP]]
+● Sec.Tool Index(consensys) [[{security.101,12_SOLidity.qa,security,00_PM.WiP]]
 @[https://consensys.github.io/smart-contract-best-practices/security_tools/]
   • Visualization  @ma
     - @[https://github.com/ConsenSys/surya]: displays a number of visual outputs
@@ -4065,7 +4070,7 @@ contract Test {
     - @[https://github.com/duaraghav8/Solium]
 [[}]]
 
-[[{101,evm.101,0_PM.SLC.debugging,_solidity.troubleshooting]]
+[[{101,10_EVM.101,13_SLC.debugging,12_SOLidity.troubleshooting]]
 ● fixing "stack too deep" error:
   - Problem Context: Compiler tries to access a variable var1 that is beyond 
     "16 depth in stack".  Compilation fails with error "stack too deep".
@@ -4156,7 +4161,7 @@ contract Test {
     }
 [[}]]
 
-● Solidty Voting Example: [[{_solidity.101]]
+● Solidty Voting Example: [[{12_SOLidity.101]]
 @[https://github.com/ethereum/go-ethereum/wiki/Contract-Tutorial]
   contract Voting {
     uint       public   MIN_QUORUM      ;
@@ -4240,7 +4245,7 @@ contract Test {
 
 
 [[{tokens]] 
-● Universal Token: [[{security.aaa,use_case.finance,0_PM.WiP]]
+● Universal Token: [[{security.aaa,use_case.finance,00_PM.WiP]]
 @[https://github.com/ConsenSys/UniversalToken] #[universal_token]
 - "A Unique Standard for Centralized and Decentralized Finance Use Cases"
 - Actively maintained as 2022-03-14
@@ -4253,7 +4258,7 @@ contract Test {
     - At (EVM) TX execution, 'ec-recover' is used to recover the
       signature of the TLS certificate signer and then compared
       to the list of signatures authorized by the contract.
-  -  Sort of multi-signature within 1 transaction. ← !!!   [[{qa.UX}]]
+  -  Sort of multi-signature within 1 transaction. ← !!!   [[{20_QA.UX}]]
       signature of the investor (ethereum transaction signature)
     + signature of the issuer   (embedded certificate signature) [[}]]
 
@@ -4353,7 +4358,7 @@ contract Test {
       - The Ethereum blockchain to keep track of the informed consents
   """
 [[}]]
-● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,use_case.nft_marketplace,_solidity.tokens]]
+● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,use_case.nft_marketplace,12_SOLidity.tokens]]
  - Standard interface for contracts managing multiple token types.
 
                  ┌·>     4000  Gold Coins , non-inflactionary ┐
@@ -4494,7 +4499,7 @@ contract Test {
 
 [[tokens}]]
 
-● Checking Signatures On-Chain [[{_solidity,signature.multisignature,0_PM.WiP,qa.UX]]
+● Checking Signatures On-Chain [[{12_SOLidity,signature.multisignature,00_PM.WiP,20_QA.UX]]
 - ECDSA signature == 65 byte array ( v (1), r (32), s (32) ).
   - web3.eth.sign (and others) can be used to insert extra signatures 
     in a new transaction (other than the signed transaction itself)
@@ -4511,7 +4516,7 @@ contract Test {
   WARN :
 [[}]]
 
-[[{signature.multisignature,qa.UX]]
+[[{signature.multisignature,20_QA.UX]]
 ● EIP-1271
 @[https://github.com/ethereum/EIPs/issues/1271]
 - It should be implemented by contracts which desire to sign messages
@@ -4600,7 +4605,7 @@ contract Test {
    - Based on min/max thresholds.
 [[}]]
 
-● EIP 1056: Lightweight Identity [[{use_case.identity,standards.W3C_DID,0_PM.TODO]]
+● EIP 1056: Lightweight Identity [[{use_case.identity,standards.W3C_DID,00_PM.TODO]]
  -  WARN: Unstable, likely to change.
   """ ...As we have been developing identity systems for the last couple of 
   years at uPort it has become apparent that the cost of identity 
@@ -4613,7 +4618,7 @@ contract Test {
   off-chain as well as on-chain..."""
 [[}]]
 
-● ERC-725: Lightweight Identity [[{use_case.identity,standards.W3C_DID,0_PM.TODO]]
+● ERC-725: Lightweight Identity [[{use_case.identity,standards.W3C_DID,00_PM.TODO]]
 @[https://erc725alliance.org/]
 - Note: Current Identity Systems in Ethereum include
   (ref: https://w3c-ccg.github.io/did-method-registry/#the-registry)
@@ -4641,14 +4646,14 @@ contract Test {
   - ERC 735: associated standard to add|remove claims to an ERC-725 SC.
 [[}]]
 
-● ERC 780: Ethereum Claims Registry [[{use_case.identity,0_PM.backlog]]"
+● ERC 780: Ethereum Claims Registry [[{use_case.identity,00_PM.backlog]]"
 - proposal to allows persons, smart contracts, and machines to issue 
   claims about each other, as well as self issued claims with the aim 
   of providing a central point of reference for on-chain claims on 
   Ethereum.
 [[}]]
 
-● EIP-1484: Digital Identity Aggregator [[{0_PM.backlog]]
+● EIP-1484: Digital Identity Aggregator [[{00_PM.backlog]]
   Identity management and aggregation framework.
   - Identities are represented via a singular Identity Registry SC.
     that can be associated to Ethereum addresses in a variety of
@@ -4658,7 +4663,7 @@ contract Test {
     and can be fully powered by meta-transactions.
 [[}]]
 
-● EVM/Solidity libraries: [[{_solidity.101]]
+● EVM/Solidity libraries: [[{12_SOLidity.101]]
 @[https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736]
 - Library benefits:
   - saving substantial amounts of gas
@@ -4710,7 +4715,7 @@ contract Test {
 
 
 ● Popular libraries: 
-  • Modular network: [[{persistence.data_structure,_solidity.strings]]
+  • Modular network: [[{persistence.data_structure,12_SOLidity.strings]]
   @[https://github.com/modular-network/ethereum-libraries]
    - ArrayUtils, BasicMath, CrowdSale, 
      LinkedList, StringUtils,
@@ -4724,7 +4729,7 @@ contract Test {
    @[https://github.com/ethereum/dapp-bin/blob/master/library/]
      - IterableMapping :
      - DoublyLinkedList:
-     - StringUtils [[{_solidity.strings}]]
+     - StringUtils [[{12_SOLidity.strings}]]
    [[}]]
 [[}]]
 
@@ -4733,7 +4738,7 @@ contract Test {
  @[https://github.com/ConsenSys/ethereum-developer-tools-list/blob/master/README.md]
  @[https://www.reddit.com/r/ethdev/comments/9jw839/long_list_of_ethereum_developer_tools_frameworks/]
 
-[[{}]]"dev_framework.remix,dev_framework.ide,0_PM.SLC.debugging,_solidity">
+[[{}]]"dev_framework.remix,dev_framework.ide,13_SLC.debugging,12_SOLidity">
 <span xsmall TODO>Remix IDE</span>
 @[https://remix-ide.readthedocs.io/en/latest/]
 @[https://medium.com/remix-ide/remix-ide-renewal-release-0-8-4a55da933b70]
@@ -4743,7 +4748,7 @@ contract Test {
   https://remix.ethereum.org/#version=soljson-v0.7.2+commit.51b20bc0.js&optimize=false&gist=65747824fd972fcde14bac5101489032&evmVersion=null
 </pre>
 
-[[{}]]"wallet.metamask,dev_lang.js,security.aaa">
+[[{}]]"wallet.metamask,dev_framework.js,security.aaa">
 <span xsmall>MetaMask Plugin</span>
 
   WARN,WARN,WARN:  (Update 2019-12) Metamask management problems:
@@ -4900,7 +4905,7 @@ function onGUIButtonCliced (miniToken) {
 [[}]]
 
 <pre zoom
-  labels="security,qa.UX,wallet.standards,wallet.metamask,standards.eip/erc,persistence.data_structure,0_PM.TODO"
+  labels="security,20_QA.UX,wallet.standards,wallet.metamask,standards.eip/erc,persistence.data_structure,00_PM.TODO"
   bgorange id="eip-712" >
 <span xsmall>EIP-712 (Typed human-friendly signing)</span>
 - EIP-712: Ethereum typed structured data hashing and signing 
@@ -4932,7 +4937,7 @@ function onGUIButtonCliced (miniToken) {
   hashes.
 </pre>
 
-[[{}]]"qa.UX,wallet.metamask,evm.gas,transaction,0_PM.TODO">
+[[{}]]"qa.UX,wallet.metamask,10_EVM.gas,transaction,00_PM.TODO">
 <span xsmall>meta-transactions</span>
 @[https://defirate.com/meta-transactions/]
 In essence, meta transactions allow users to interact with a public
@@ -4953,7 +4958,7 @@ this feature brings the ecosystem closer to a frictionless user
 experience when accessing web 3.0 and DeFi.
 </pre>
 
-[[{}]]"wallet.hsm,qa.UX,security,0_PM.TODO">
+[[{}]]"wallet.hsm,20_QA.UX,security,00_PM.TODO">
 <span xsmall>LedgerHQ</span>
 @[https://github.com/LedgerHQ]
 Ledger wallets, designed with the highest security standards
@@ -4984,7 +4989,7 @@ High activity on Github, including:
 - ledgerctl: Python, Library to control Ledger devices
 </pre>
 
-[[{}]]"dev_lang.js,dev_framework.web3_js">
+[[{}]]"dev_framework.js,dev_framework.web3_js">
 <span xsmall>Web3JS API</span>
 Example ussage (works on browser/browser js console,  web3.js v1+):
 
@@ -5041,7 +5046,7 @@ eth_getTransactionByBlockNumberAndIndex                web3_sha3
   Convert input String  to ABI representation 
   web3.eth.abi.encodeParameter("bytes32",web3.utils.fromAscii( inputStrin  ))
 </pre>
-[[{}]]"dev_framework.web3_js,dev_framework.eth js,dev_lang.js,_doc_has.comparative,0_PM.TODO">
+[[{}]]"dev_framework.web3_js,dev_framework.eth js,dev_framework.js,01_doc_has.comparative,00_PM.TODO">
 <span xsmall>web3.js vs eth.js</span>
 https://blog.infura.io/ethereum-javascript-libraries-web3-js-vs-ethers-js-part-i/?utm_medium=www.oficina24x7.com
 Ethereum JavaScript Libraries: web3.js vs. ethers.js (Part I)
@@ -5152,7 +5157,7 @@ Ethers.js: extensive API ref, Good “Getting Started”  ← Winner
 
 <div groupv>
 <span title>Truffle</span>
-[[{}]]"dev_framework.truffle,0_PM.ext_resource,_solidity,dev_lang.js,0_PM.SLC.testing,qa,0_PM.SLC.debugging">
+[[{}]]"dev_framework.truffle,00_PM.ext_resource,12_SOLidity,dev_framework.js,13_SLC.testing,20_QA,13_SLC.debugging">
 Slack Channel: @[https://truffle-community.slack.com/join/shared_invite/zt-8wab0bnl-KcugRAqsY9yeNJYcnanfLA]
 <span xsmall>"Full Journey"</span>
 @[https://www.truffleframework.com/]
@@ -5324,7 +5329,7 @@ NOTE: bytecode vs deployedBytecode
 
 </pre>
 
-[[{}]]"dev_framework.truffle,_solidity,devops.smart_contract.migration,dev_lang.js">
+[[{}]]"dev_framework.truffle,12_SOLidity,devops.smart_contract.migration,dev_framework.js">
 <span xsmall>Migrations Explained</span>
 - truffle migrations explained (Linking libraries, ...):
 
@@ -5470,7 +5475,7 @@ truffle-workflow-compile
 truffle
 </pre>
 
-[[{}]]"dev_framework.truffle,_solidity,0_PM.SLC.testing,evm.events">
+[[{}]]"dev_framework.truffle,12_SOLidity,13_SLC.testing,10_EVM.events">
 <span xsmall>Testing events</span>
 @[https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/events.js#L118-L143]
 var assert = require("chai").assert;
@@ -5634,7 +5639,7 @@ describe("Events", function() {
 <a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/separation.js"     >test:separation.js      </a>
 <a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/util.js"           >test:util.js            </a>
 </pre>
-[[{}]]"dev_framework.truffle,security,qa,0_PM.TODO">
+[[{}]]"dev_framework.truffle,security,20_QA,00_PM.TODO">
   <span xsmall>Security</span>
 @[https://github.com/ConsenSys/truffle-security]
 - MythX Security Analysis Plugin for Truffle Framework
@@ -5643,13 +5648,13 @@ describe("Events", function() {
 - Compatible with Truffle 4.0 or higher.
 </pre>
 
-[[{}]]"scalability.offchain,infrastructure.storage.offchain,0_PM.TODO">
+[[{}]]"scalability.offchain,infrastructure.storage.offchain,00_PM.TODO">
 <span xsmall>Truffle IPFS/Filecoin</span>
 @[https://www.trufflesuite.com/blog/announcing-collaboration-with-filecoin]
 </pre>
 
 
-[[{}]]"dev_lang.js,">
+[[{}]]"dev_framework.js,">
 <span xsmall TODO>(migrating to) web3 v1.0</span>
 @[https://medium.com/@adrianmcli/migrating-your-truffle-project-to-web3-v1-0-ed3a56f11a4]
 
@@ -5670,7 +5675,7 @@ is easier to work with (like PromiEvents, I’ll talk about this below)
 
 <div groupv>
 <span title>JAVA</span>
-[[{}]]"dev_framework.web3j,dev_lang.java,evm.events">
+[[{}]]"dev_framework.web3j,dev_framework.java,10_EVM.events">
 <span xsmall>Web3J</span>
 @[https://docs.web3j.io/]
 <a href="https://docs.web3j.io/getting_started.html">pom / gradle dependencies</a>
@@ -5830,7 +5835,7 @@ See Also:
 </pre>
 
 <span title>GO</span>
-[[{}]]"dev_lang.go,evm.events,0_PM.TODO">
+[[{}]]"dev_framework.go,10_EVM.events,00_PM.TODO">
 <span title>Web3 GOLang</span>
   =================================================== 
 • ethclient package. Connecting to node (ws/http/ipc) 
@@ -6029,7 +6034,7 @@ See Also:
     (simulate TXs dropped from TX pool).
 </pre>
 <span title>C#</span>
-[[{}]]"dev_lang.C#">
+[[{}]]"dev_framework.C#">
 <span xsmall>Nethereum</span>
 @[https://nethereum.readthedocs.io/en/latest/]
 PRE-SETUP
@@ -6070,7 +6075,7 @@ var TX = await TXManager
  //    toAddress, Web3.Convert.ToWei(1), 2);
 </pre>
 
-[[{}]]"dev_lang.C#,evm.events">
+[[{}]]"dev_framework.C#,10_EVM.events">
 <span xsmall>Handling Events</span>
 @[https://nethereum.readthedocs.io/en/latest/nethereum-events-gettingstarted/]
 - Events ("emit" in solidity code) write data to the transaction receipt logs.
@@ -6105,7 +6110,7 @@ var   fromToIndextFilterID  = await   transferEventHandle  .CreateFilterAsync(fr
 var allNewEventsFromTo   = await   transferEventHandle  .GetFilterChanges(  fromToIndextFilterID );
 </pre>
 
-[[{}]]"dev_lang.C#,devops.C#">
+[[{}]]"dev_framework.C#,devops.C#">
 <span xsmall>Nuget packages</span>
 @[https://nethereum.readthedocs.io/en/latest/nugets/]
 - Standalone packages targeting Netstandard 1.1, net451, Netstandard 2.0, Netcoreapp 2.1
@@ -6163,11 +6168,11 @@ Nethereum UI wallet sample      Cross platform wallet example using Nethereum, X
 </pre>
 
 <span title>Python</span>
-[[{}]]"dev_lang.python,0_PM.TODO">
+[[{}]]"dev_framework.python,00_PM.TODO">
 <span xsmall>web3.py</span>
 @[https://github.com/ethereum/web3.py]
 </pre>
-[[{}]]"dev_lang.python,0_PM.SLC.testing,qa,0_PM.TODO">
+[[{}]]"dev_framework.python,13_SLC.testing,20_QA,00_PM.TODO">
 <span xsmall>Brownie</span>
 @[https://eth-brownie.readthedocs.io/en/latest/]
 @[https://eth-brownie.readthedocs.io/en/stable/tests-hypothesis-property.html]
@@ -6183,7 +6188,7 @@ See Also:
 @[https://medium.com/coinmonks/effective-smart-contract-testing-developer-revert-comments-c7a6f250df0f]
 </pre>
 
-[[{}]]"dev_lang.python,0_PM.low_code,0_PM.TODO">
+[[{}]]"dev_framework.python,00_PM.low_code,00_PM.TODO">
 <span xsmall>TextUI (Console Prototyping)</span>
 @[https://github.com/kayagoban/shadowlands]
 - Python based, TextUI rapid prototyping platform for Eth apps which breaks
@@ -6201,7 +6206,7 @@ See Also:
     <span title>Scalability</span><br/>
 <div groupv>
 <pre zoom 
-  labels="101,scalability.zkp,privacy.zkp,scalability.layer2,dev_framework.ide,dev_framework.remix,_doc_has.diagram,layer2.rollup.optimistic,layer2.rollup.zk,0_PM.WiP,"
+  labels="101,scalability.zkp,privacy.zkp,scalability.layer2,dev_framework.ide,dev_framework.remix,01_doc_has.diagram,layer2.rollup.optimistic,layer2.rollup.zk,00_PM.WiP,"
   id="layer2_scalability_summary" >
 
 • Layer 1 Scalability Solutions include:
@@ -6471,7 +6476,7 @@ $ $ istanbul encode --config ./config.toml
   }
 </pre>
 
-[[{}]]"scalability.consensus.ethereum2,_doc_has.comparative,">
+[[{}]]"scalability.consensus.ethereum2,01_doc_has.comparative,">
 <span xsmall>Casper PoS (Ethereum 2)</span>
 PoS: Proof-of-Stake:
 @[https://consensys.net/blog/blockchain-explained/what-is-ethereum-2/]
@@ -6546,7 +6551,7 @@ PoS: Proof-of-Stake:
 
 </pre>
 
-[[{}]]"scalability.layer2,layer2.rollup.optimistic,layer2.polygon,0_PM.TODO" id="polygon_summary">
+[[{}]]"scalability.layer2,layer2.rollup.optimistic,layer2.polygon,00_PM.TODO" id="polygon_summary">
 <span title>polygon.Network</span>
 @[https://polygonscan.com/]
 • Polygon solves pain points associated with Blockchains, like high gas 
@@ -6581,7 +6586,7 @@ PoS: Proof-of-Stake:
 
 
 <span title>Plasma</span>
-[[{}]]"scalability.layer2,layer2.plasma,0_PM.TODO">
+[[{}]]"scalability.layer2,layer2.plasma,00_PM.TODO">
 <span xsmall>Plasma.io</span>
 @[https://plasma.io/]
 Authors: Joseph Poon and Vitalik Buterin
@@ -6637,7 +6642,7 @@ and consensus fidelity.
 @[https://ethresear.ch/t/minimal-viable-plasma/426]
 </pre>
 
-[[{}]]"scalability.plasma,_doc_has.comparative,0_PM.TODO">
+[[{}]]"scalability.plasma,01_doc_has.comparative,00_PM.TODO">
 <span xsmall TODO>Lead DAO</span>
 @[https://leapdao.org/]
 - More Viable Plasma design with smart contract like functionality.
@@ -6649,7 +6654,7 @@ and consensus fidelity.
 <div group bgyellow>
 <span title>Enterprise Integration</span><br/>
 <div groupv>
-[[{}]]"standards.eea,_doc_has.diagram,integration.*">
+[[{}]]"standards.eea,01_doc_has.diagram,integration.*">
   <span xsmall>Integration Layout</span>
 REF: https://medium.com/@bibryam/enterprise-integration-for-ethereum-fa67a1577d43
 ____________________________________________________________________________________________
@@ -6733,7 +6738,7 @@ ________________________________________________________________________________
    Standard RBAC in EEA/Quorum expected for mid/late 2019
 </pre>
 
-[[{}]]"qa.auditing,0_PM.SLC.monitoring,security,integration.data">
+[[{}]]"qa.auditing,13_SLC.monitoring,security,integration.data">
 <span xsmall>Alethio,Rakr</span>
 <span xsmall>(IA auditing)</span>
 @[https://aleth.io]
@@ -7033,7 +7038,7 @@ required to handle duplicate messages gracefully, as each
 instance will broadcast the same events.
 </pre>
 
-[[{}]]"evm.events,integration.data,dev_lang.java,0_PM.TODO">
+[[{}]]"evm.events,integration.data,dev_framework.java,00_PM.TODO">
 <span TODO xsmall>Camel Connector</span>
 @[https://github.com/bibryam/camel-web3j]
 @[https://github.com/apache/camel/blob/main/components/camel-web3j/src/main/docs/web3j-component.adoc]
@@ -7062,7 +7067,7 @@ instance will broadcast the same events.
 
 </pre>
 
-[[{}]]"scalability.offchain,_doc_has.comparative,dev_framework.ipfs,infrastructure.storage.offchain,privacy.offchain,scalability.offchain,0_PM.TODO">
+[[{}]]"scalability.offchain,01_doc_has.comparative,dev_framework.ipfs,infrastructure.storage.offchain,privacy.offchain,scalability.offchain,00_PM.TODO">
 <span xsmall TODO>EXTERNAL STORAGE (IPFS,...)</span>
 TODO: Compare with alternative Storage "providers": IPFS , Maidsafe, Storj
 - IPFS is just a protocol like http. It is unmotivated (don't have tokens).
@@ -7102,14 +7107,14 @@ humans) and contract accounts which are controlled by the code stored
 together with the account.
 </pre>
 
-[[{}]]"scalability.offchain,dev_framework.ipfs,qa.UX,0_PM.TODO">
+[[{}]]"scalability.offchain,dev_framework.ipfs,20_QA.UX,00_PM.TODO">
 <span xsmall>Vue+Eth+IPFS</span>
 @[https://github.com/redacademy/vue-ethereum-ipfs]
   Distributed Application Starter:
 - Vue front-end, Ethereum / IPFS Backend
 </pre>
 
-[[{}]]"101,integration.*,evm.i/o.oracles,_solidity,use_case.*,use_case.finance.*,security,use_case.integrity,0_PM.WiP">
+[[{}]]"101,integration.*,10_EVM.i/o.oracles,12_SOLidity,use_case.*,use_case.finance.*,security,use_case.integrity,00_PM.WiP">
 <span xsmall>External Inputs (Oracles)</span>
 • The evm and SmartContract by extension just have access to 
   internal (current-state) blockchain data. Oracles are used when we 
@@ -7149,7 +7154,7 @@ and insurance into decentralization.
   and connects real-world data and APIs to smart contracts.
 </pre>
 
-[[{}]]"privacy.offchain,architecture,scalability.offchain,0_PM.TODO">
+[[{}]]"privacy.offchain,architecture,scalability.offchain,00_PM.TODO">
  <span xsmall>Whisper Dapp Protocol</span>
 @[https://github.com/ethereum/wiki/wiki/Whisper]
 - communication protocol to communicate DApps with each other for off-chain Data.
@@ -7187,13 +7192,13 @@ and insurance into decentralization.
 </pre>
 </div>
 <div groupv>
-[[{}]]"integration.data,scalability.offchain,0_PM.TODO">
+[[{}]]"integration.data,scalability.offchain,00_PM.TODO">
 <span xsmall>EtherQuery</span>
 @[https://github.com/Arachnid/etherquery]
 Custom ethereum client that uploads blockchain data to BigQuery
 </pre>
 
-[[{}]]"integration.data,integration.graphql,architecture,0_PM.TODO" >
+[[{}]]"integration.data,integration.graphql,architecture,00_PM.TODO" >
 <span xsmall>GraphQL</span>
 - Extracted from @[https://graphql.org/]
   """GraphQL is a  query language  for APIs and a runtime
@@ -7352,7 +7357,7 @@ curl -X POST -H "Content-Type: application/json" \
  http://localhost:8547/graphql
 </pre>
 
-[[{}]]"integration.graphql,scalability.graph,evm.events,0_PM.low_code,dev_framework.the_graph,qa.UX,0_PM.backlog">
+[[{}]]"integration.graphql,scalability.graph,10_EVM.events,00_PM.low_code,dev_framework.the_graph,20_QA.UX,00_PM.backlog">
 <span xsmall>TheGraph Protocol</span>
 • "Before The Graph, teams had to develop and operate proprietary 
   indexing servers. This required significant engineering and hardware 
@@ -7614,7 +7619,7 @@ Note: Whenever the Ethereum network has been reseted
         current ethereum network.
 </pre>
 
-[[{}]]"devops,infrastructure.cloud.aws,infrastructure.cloud,0_PM.TODO">
+[[{}]]"devops,infrastructure.cloud.aws,infrastructure.cloud,00_PM.TODO">
 <span xsmall>AWS Lambda → Eth.RPC</span>
 @[https://blogs.sequoiainc.com/blockchain-dev-part-2-ethereum-rpc-from-aws-lambda/]
   how to interact with that node via RPC using an AWS Lambda function. This
@@ -7646,7 +7651,7 @@ Note: Whenever the Ethereum network has been reseted
 
 <div groupv>
 <span title>Geth</span>
-[[{}]]"implementation.geth,devops.network.bootstrap">
+[[{}]]"evm.implementation.geth,devops.network.bootstrap">
 <span xsmall>Setup Node</span>
 <a href="https://github.com/ethereum/go-ethereum">REF</a>
 STEP 1 :                              │STEP 2:             │STEP 3: (optional)
@@ -7752,7 +7757,7 @@ $ geth import 'filename'         ← Import form binary file
  wnode
 </pre>
 
-[[{}]]"implementation.geth,architecture.geth,_doc_has.diagram,0_PM.TODO">
+[[{}]]"evm.implementation.geth,architecture.geth,01_doc_has.diagram,00_PM.TODO">
 <span xsmall>Geth Arch</span>
 <a href="https://www.mycryptopedia.com/ethereum-geth-installing-and-running-a-node/">REF</a>
        ┌────────┐              ┌───────┐
@@ -7799,7 +7804,7 @@ $ geth import 'filename'         ← Import form binary file
 <a TODO href="https://medium.com/coinmonks/data-structure-in-ethereum-episode-4-diving-by-examples-f6a4cbd8c329">Data structure in Ethereum</a>
 </pre>
 
-[[{}]]"implementation.geth,0_PM.TODO">
+[[{}]]"evm.implementation.geth,00_PM.TODO">
 <span xsmall>Understanding Geth Code</span>
  @[https://github.com/Agzs/geth-pbft-study/wiki/Blockchain-Structure]
 
@@ -7962,7 +7967,7 @@ $ geth import 'filename'         ← Import form binary file
   }
 </pre>
 
-[[{}]]"implementation.geth,security.secret_mng,">
+[[{}]]"evm.implementation.geth,security.secret_mng,">
 <span xsmall>Geth Key Handling</span>
 - Keys are stored under <DATADIR>/keystore(backup regularly)
 - keyfiles format(2017-05): UTC--<created_at UTC ISO8601>-<address hex>
@@ -8012,7 +8017,7 @@ using account NON-interactively (not connected to a geth node):
    $ KEYLIST="${KEYLIST},e470b1a7d2c9c5c6f03bbaa8fa20db6d404a0c32"
    $ geth --unlock "${KEYLIST}"
 </pre>
-[[{}]]"implementation.geth,devops.geth">
+[[{}]]"evm.implementation.geth,devops.geth">
 <span xsmall>Geth Console</span>
 @[https://github.com/ethereum/go-ethereum/wiki/JavaScript-Console]
 - JS command line console to control geth.
@@ -8042,7 +8047,7 @@ using account NON-interactively (not connected to a geth node):
 └────────────────────────────────────────┴───────────────────────────────────────────────────
 </pre>
 
-[[{}]]"implementation.geth,0_PM.SLC.troubleshooting,devops.network.bootstrap" >
+[[{}]]"evm.implementation.geth,13_SLC.troubleshooting,devops.network.bootstrap" >
 <span xsmall>Config Trouble-shoot</span>
 <a href="https://web3js.readthedocs.io/en/1.0/index.html">Full 1.0 API</a>
 console.dir(eth) does NOT work but all that needed is enter the object name in the prompt
@@ -8177,7 +8182,7 @@ REF: @[https://blog.ethereum.org/2019/07/10/geth-v1-9-0/]
 </pre>
 
 
-[[{}]]"implementation.geth,devops,0_PM.SLC.monitoring">
+[[{}]]"evm.implementation.geth,devops,13_SLC.monitoring">
 <span xsmall>Monitoring &amp; Metrics</span>
 @[https://github.com/ethereum/go-ethereum/wiki/Metrics-and-Monitoring]
 
@@ -8221,7 +8226,7 @@ Available metrics (use geth monitor for full list)
         pauses: time spent in the garbage collector
 </pre>
 
-[[{}]]"implementation.geth,devops,integration.graphql,evm.i/o,0_PM.SLC.monitoring,wallet.cloud">
+[[{}]]"evm.implementation.geth,devops,integration.graphql,10_EVM.i/o,13_SLC.monitoring,wallet.cloud">
 <span xsmall>Release Notes</span>
 <span xsmall>1.9</span>
 @[https://blog.ethereum.org/2019/07/10/geth-v1-9-0/]
@@ -8588,7 +8593,7 @@ Warning: We’ve tried our best to squash all the bugs, but as with all major
 <div group bgbrown>
 <span title>EEA</span><br/><!-- EEA {{{ -->
 <div groupv>
-[[{}]]"standards.eea,scalability.consensus,scalability.offchain,integration.*,0_PM.ext_resource">
+[[{}]]"standards.eea,scalability.consensus,scalability.offchain,integration.*,00_PM.ext_resource">
   <span xsmall>EEA Summary</span>
 • External resources:
   • @[https://entethalliance.org/]
@@ -8647,7 +8652,7 @@ Warning: We’ve tried our best to squash all the bugs, but as with all major
       (if any)can affect transaction ordering, and what the effects are.
 </pre>
 
-[[{}]]"standards.eea,implementation.geth,implementation.parity,devops,architecture">
+[[{}]]"standards.eea,10_EVM.implementation.geth,implementation.parity,devops,architecture">
 <span xsmall>Net Protocol Sublayer</span>
 (enodes, ...)
 - Nodes MUST be identified and advertised using the
@@ -8687,7 +8692,7 @@ Warning: We’ve tried our best to squash all the bugs, but as with all major
   You DO need to delete from the blockchain and create a new private contract
 </pre>
 
-[[{}]]"standards.eea,architecture,consensus.eea,0_PM.TODO">
+[[{}]]"standards.eea,architecture,consensus.eea,00_PM.TODO">
 <span TODO xsmall>Supported Consensus</span>
 - Probe of Authority (PoA):
   @[https://github.com/ethereum/EIPs/issues/225]
@@ -8891,7 +8896,7 @@ var simple = simpleContract.new(42,
 -@[https://github.com/ewasm/benchmarking]
 </pre>
 
-[[{}]]"0_PM.SLC.profiling,qa,0_PM.TODO">
+[[{}]]"13_SLC.profiling,20_QA,00_PM.TODO">
 <span xsmall>Caliper(Benchmarks)</span>
 @[https://github.com/hyperledger/caliper] with support for:
 - blockchain performance benchmark framework.
@@ -8910,7 +8915,7 @@ var simple = simpleContract.new(42,
 
 <div groupv>
 <span title>EEA DevOps</span>
-[[{}]]"standards.eea,devops,infrastructure.network,_doc_has.diagram">
+[[{}]]"standards.eea,devops,infrastructure.network,01_doc_has.diagram">
   <span xsmall>enode HowTo</span>
   <span xsmall></span>
 Extracted from <a href="https://github.com/ethereum/devp2p/blob/master/rlpx.md#network-formation">rlpx.md</a>
@@ -9081,7 +9086,7 @@ private keys. In addition, this would be useful to generate a
 secure Ethereum account completely off chain.
 </pre>
 
-[[{}]]"implementation.geth,devops">
+[[{}]]"evm.implementation.geth,devops">
 <span xsmall>PUPPETH</span>
 @[https://www.youtube.com/watch?v=T5RcjYPTG9g]  PUPPETH  For easy deployment of networks
 - Integrated into Geth 1.9+
@@ -9102,7 +9107,7 @@ R*WARN: initial integration (e.g. due to a “bug” in Blockscout, the Puppeth
         the explorer web interface).
 </pre>
 
-[[{}]]"wallet.cloud,security,_doc_has.diagram,0_PM.TODO">
+[[{}]]"wallet.cloud,security,01_doc_has.diagram,00_PM.TODO">
 <span xsmall>Clef</span>
      @[https://github.com/ethereum/go-ethereum/blob/master/cmd/clef/tutorial.md]
 - Sign TX and data (data "==" swap/swarm).
@@ -9207,7 +9212,7 @@ scale.
 
 <div groupv>
 <span title>Quorum</span>
-[[{}]]"privacy.private_tx,privacy.private_tx.101,_doc_has.diagram,implementation.quorum,devops,0_PM.low_code" id="eea_priv_tx_summary">
+[[{}]]"privacy.private_tx,privacy.private_tx.101,01_doc_has.diagram,implementation.quorum,devops,00_PM.low_code" id="eea_priv_tx_summary">
 @[https://consensys.net/quorum/]
 • Originally developed by JP Morgan as an extension to standard geth adding 
   support for private transactions and later on adquired by Consensys
@@ -9326,7 +9331,7 @@ since secrets are more exposed to the rest of the network.
 
 </pre>
 
-[[{}]]"integration.enterprise_patterns,integration.data,dev_framework.baseline,privacy.ZKP,standards.EIP/ERC,0_PM.backlog">
+[[{}]]"integration.enterprise_patterns,integration.data,dev_framework.baseline,privacy.ZKP,standards.EIP/ERC,00_PM.backlog">
 <span title>Baseline Protocol Summary</span>
 @[https://docs.baseline-protocol.org/]
 @[https://github.com/ethereum-oasis/baseline]
@@ -9433,14 +9438,14 @@ https://medium.com/baselineprotocol/dappsuite-extends-the-salesforce-platform-to
 <div group>
 <span title>EEA-Besu</span><br/>
 <div groupv>
-[[{}]]"standards.eea,implementation.besu,0_PM.ext_resource">
+[[{}]]"standards.eea,10_EVM.implementation.besu,00_PM.ext_resource">
 <span title>External Resources</span>
 • Chat     : @[https://chat.hyperledger.org/channel/besu]
 • Releases : @[https://github.com/hyperledger/besu/releases]
 • Core Devs: @[https://github.com/hyperledger/besu/graphs/contributors?from=2021-06-01&to=2022-02-01&type=c]
 </pre>
 
-[[{}]]"standards.eea,architecture.besu,implementation.besu,architecture,devops,_doc_has.diagram" id="besu_architecture_summary">
+[[{}]]"standards.eea,architecture.besu,10_EVM.implementation.besu,architecture,devops,01_doc_has.diagram" id="besu_architecture_summary">
 (Pegasys Pantheon was renamed to Besu after joining the Hyperledger Fundation)
 <span xsmall>Introduction</span>
 - Java based, using VertX as core framework.
@@ -9691,7 +9696,7 @@ Runner: Network Startup:
 </pre>
 
 <span title>Governance</span>
-[[{}]]"standards.eea,implementation.besu,security.governance,">
+[[{}]]"standards.eea,10_EVM.implementation.besu,security.governance,">
 <span xsmall>Onchain Permissioning</span>
 @[https://besu.hyperledger.org/en/stable/Concepts/Permissioning/Onchain-Permissioning/]
 Updated on 2020-03-20
@@ -9741,7 +9746,7 @@ Updated on 2020-03-20
 
 
 
-[[{}]]"standards.eea,implementation.besu,dev_lang.java,0_PM.TODO">
+[[{}]]"standards.eea,10_EVM.implementation.besu,dev_framework.java,00_PM.TODO">
 <span xsmall>Web3J(ava)</span>
 @[https://github.com/web3j/web3j/blob/master/besu/src/test/java/org/web3j/protocol/besu/RequestTest.java]
 @[https://github.com/web3j/web3j/blob/master/besu/src/test/java/org/web3j/protocol/besu/ResponseTest.java]
@@ -9757,7 +9762,7 @@ Extracted from Initial Pull Request:
 
 </div>
 <div groupv>
-[[{}]]"standards.eea,implementation.besu,devops,0_PM.SLC.monitoring" bgblue>
+[[{}]]"standards.eea,10_EVM.implementation.besu,devops,13_SLC.monitoring" bgblue>
 <span xsmall >CLI Summary</span>
   besu  blocks import   imports blocks from file into database.
   besu  blocks export   exports a specific block, or list of blocks into file
@@ -9952,7 +9957,7 @@ $ besu [OPTIONS] [COMMAND]
   --fast-sync-min-peers=integer                     # Minimum peer number before start fast-sync. Default is 5.
 </pre>
 
-● Besus GraphQL Schema [[{implementation.besu,integration.graphql]]
+● Besus GraphQL Schema [[{10_EVM.implementation.besu,integration.graphql]]
 @[https://github.com/hyperledger/besu/blob/master/ethereum/api/src/main/resources/schema.graphqls]
 
 schema {
@@ -9986,7 +9991,7 @@ INPUTS:
   - FilterCriteria : Filter applied from block to block)
 [[}]]
 
-[[{}]]"implementation.besu,">
+[[{}]]"evm.implementation.besu,">
 <span xsmall>What's New</span>
   Quorum 21 (2021-03-09): 
   (Enhanced Ethereum Mainnet Compatibility, lower infrastructure costs and ease of use)
@@ -10111,7 +10116,7 @@ INPUTS:
 
 <div groupv>
 <span title>DevOps</span>
-[[{}]]"standards.eea,implementation.besu,devops,infrastructure.storage.offchain,0_PM.SLC.monitoring">
+[[{}]]"standards.eea,10_EVM.implementation.besu,devops,infrastructure.storage.offchain,13_SLC.monitoring">
 <span xsmall bgorange>IBFT 2.0 bootstrap</span>
  PRE-SETUP 
   Download from @[https://github.com/hyperledger/besu/releases]
@@ -10363,7 +10368,7 @@ print( ( 648 / (1024.*1024.) ) * 12      * 60       * 24)      ~  10.68 MBytes/d
 <hr/>
 <span TODO xsmall>backup, disaster recovery</span>
 </pre>
-[[{}]]"implementation.besu,0_PM.SLC.profiling,">
+[[{}]]"evm.implementation.besu,13_SLC.profiling,">
 <span xsmall>Monitoring Performance</span>
 (Prometh.+Grafana)
 FROM @[https://gitter.im/PegaSysEng/pantheon] on 2019-05-29 20:01
@@ -10498,7 +10503,7 @@ RocksDB statistics (cache,  compression, ...)
 
 </pre>
 
-[[{}]]"standards.eea,implementation.besu,security.aaa,security,devops,0_PM.TODO">
+[[{}]]"standards.eea,10_EVM.implementation.besu,security.aaa,security,devops,00_PM.TODO">
   <span xsmall>Minimum Private network</span>
 <!-- TODO: Update -->
 @[https://docs.pantheon.pegasys.tech/en/stable/Getting-Started/Run-Docker-Image/]
@@ -10538,7 +10543,7 @@ $ ./stop.sh  ← shut down private network without deleting the containers
 
 $ ./remove.sh ← Shut downa and remove all data.
 </pre>
-[[{}]]"implementation.besu">
+[[{}]]"evm.implementation.besu">
   <span xsmall>set max Contract size</span>
 - Done at the network (genesis.json) config level.
 Outdated link: https://docs.pantheon.pegasys.tech/en/stable/Configuring-Pantheon/Config-Items/
@@ -10557,7 +10562,7 @@ Outdated link: https://docs.pantheon.pegasys.tech/en/stable/Configuring-Pantheon
 
 <div groupv>
 <span title>Kaleido (SaaS Besu)</span>
-[[{}]]"infrastructure.cloud.SaaS,dev_framework.kaleido,security.governance,0_PM.SLC.troubleshooting">
+[[{}]]"infrastructure.cloud.SaaS,dev_framework.kaleido,security.governance,13_SLC.troubleshooting">
 <span xsmall>External Links</span>
 -@[https://docs.kaleido.io/getting-started/about-kaleido/]
 -@[https://github.com/kaleido-io/]
@@ -10780,7 +10785,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
 </div>
 </div> <!-- BESU -->
 
-● EthrDIDs"uPort++" [[{use_case.identity,standards.W3C_DID,architecture,0_PM.radar}]]
+● EthrDIDs"uPort++" [[{use_case.identity,standards.W3C_DID,architecture,00_PM.radar}]]
 @[https://medium.com/uport/goodbye-uport-dids-hello-ethr-dids-ea2e80256f54]
 @[https://github.com/uport-project/ethr-did-registry]
 - Goodbye uPort DIDs, Hello Ethr-DIDs
@@ -10789,7 +10794,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
   Not to worry though, your old Identity data will still be available to use
   and all verifications issued will be available
 
-● EIP 648 [[{scalability.evm,standards.EIP/ERC.648,0_PM.TODO}]]
+● EIP 648 [[{scalability.evm,standards.EIP/ERC.648,00_PM.TODO}]]
 @[https://github.com/ethereum/EIPs/issues/648] (V. Buterin)
 • Introduce new type of transaction (following same general format as #232):
   [2, network_id, startgas, to, data, ranges]
@@ -10803,7 +10808,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
   parallelize. It does this in a maximally backwards-compatible and
   non-intrusive way where old-style transactions can continue to work.
 
-● Hyperledger Avalon, Improving Performance Off-Chain [[{scalability.offchain,security,0_PM.radar}]]
+● Hyperledger Avalon, Improving Performance Off-Chain [[{scalability.offchain,security,00_PM.radar}]]
   @[https://www.infoq.com/news/2019/10/Hyperledger-Avalon-Blockchain/]
   - It aims to move blockchain processing off the main
     chain to dedicated computing resources, e.g. Intel SGX TEE.
@@ -10830,7 +10835,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
 
 
 
-● AlphaWallet TokenScripts "Smart Tokens" [[{wallet.mobile,scalability.sidechain,privacy.offchain,0_PM.radar]]
+● AlphaWallet TokenScripts "Smart Tokens" [[{wallet.mobile,scalability.sidechain,privacy.offchain,00_PM.radar]]
     In short, it's like a SECURE FRONT-END FOR TOKENS.
   - AlphaWallet is a production-ready white-label wallet that is easy to
     customize. TokenScript is similar to web frameworks used by web apps,
@@ -10871,7 +10876,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
     Teman, a co-founder at Portis, will be the presenter
 [[}]]
 
-● EIP-165: Standard Interface [[{standards.eip/erc.165,devops,_solidity.101,architecture,qa.UX]]
+● EIP-165: Standard Interface [[{standards.eip/erc.165,devops,12_SOLidity.101,architecture,20_QA.UX]]
   - NOTE: EIP-1820 improves over this standard, but EIP-165 is not 
     deprecated and still in active use (e.g, required by EIP-1155)
     as of 2021-10
@@ -10913,14 +10918,14 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
 [[}]]
 
 ● EIP-1820: EIP-165"++" @ma https://eips.ethereum.org/EIPS/eip-1820
-  [[{devops,standards.eip/erc.1820,_solidity.101,architecture,qa.UX]]
+  [[{devops,standards.eip/erc.1820,12_SOLidity.101,architecture,20_QA.UX]]
     - Pseudo-introspection Registry Contract 
     - Status: Final 
     - It improves (but does NOT replaces) EIP-165.
     - Superseed EIP-820 (universal registry)
 [[}]]
 
-● Non Classified / TODO: [[{0_PM.TODO]]
+● Non Classified / TODO: [[{00_PM.TODO]]
   • Mnemonic to Seed: [[{wallet.mnemonics}]]
   @[https://ethereum.stackexchange.com/questions/25484/could-address-reuse-leak-your-mnemonic-seed/25705#2570://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed]
 
@@ -10935,11 +10940,11 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
        only the correct one will
        make the desired wallet available
 
-  • Azure offline signing: [[{wallet.cloud,signature.ecdsa_secp256k1,security,0_PM.TODO">
+  • Azure offline signing: [[{wallet.cloud,signature.ecdsa_secp256k1,security,00_PM.TODO">
    @[https://tomislav.tech/2018-02-05-ethereum-keyvault-signing-transactions/]
 
   • EthVM OOSS Blockchain Explorer focused mainly on Ethereum
-    [[{qa.auditing,integration.*,0_PM.SLC.monitoring,0_PM.radar}]]
+    [[{20_QA.auditing,integration.*,13_SLC.monitoring,00_PM.radar}]]
     (although other networks and forks will be supported over time)
     under the SSPL license (a small variation of the GNU Affero License v3)
     and written in a mixture of different languages.
@@ -10951,10 +10956,10 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
     @[https://github.com/EthVM/EthVM/tree/develop/apps/processing/kafka-streams/src/main/kotlin/com/ethvm/kafka/streams]
 </pre>
 
-  • Solidity Security Considerations [[{_solidity,security.101}]]
+  • Solidity Security Considerations [[{12_SOLidity,security.101}]]
 @[http://solidity.readthedocs.io/en/develop/security-considerations.html#security-considerations]
 
- • Ethereum Package Registry [[{qa.solidity,_solidity,qa.UX,0_PM.radar}]]
+ • Ethereum Package Registry [[{20_QA.solidity,12_SOLidity,20_QA.UX,00_PM.radar}]]
   @[https://www.ethpm.com/]
   - A package index for Ethereum smart contract packages.
   - The Ethereum Package Registry is a package index for Ethereum smart contract
@@ -10978,7 +10983,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
  • How to build server less applications for Mist
 @[https://blog.ethereum.org/2016/07/12/build-server-less-applications-mist/]
 
- • https://buidler.dev/ (npm package) [[{_solidity}]]
+ • https://buidler.dev/ (npm package) [[{12_SOLidity}]]
    @[https://www.npmjs.com/package/@nomiclabs/buidler-ethers]
    """ Turn a mess of tricky Solidity tools into a smooth workflow """
    ...
@@ -10996,7 +11001,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
 @[https://blog.coinfabrik.com/using-the-cardcontact-smartcard-usb-hsm-in-an-ethereum-poa-chain/]
    Using the CardContact SmartCard USB HSM in an Ethereum PoA Chain
 
- • ethpm-js: [[{dev_lang.js}]] https://github.com/ethpm/ethpm-js
+ • ethpm-js: [[{dev_framework.js}]] https://github.com/ethpm/ethpm-js
    Javascript library for publishing and consuming Ethereum packages,
    on the Ethereum Package Manager specification. It is meant to be integrated
    directly into development tools to support their use of the Ethereum Package
@@ -11004,13 +11009,13 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
 
  • https://etherscan.io/pushTx : Send raw-transactions
  
- • Mine Only on Pending TXs (avoid empty blocks) [[{implementation.geth,implementation.besu,scalability.evm}]]
+ • Mine Only on Pending TXs (avoid empty blocks) [[{10_EVM.implementation.geth,10_EVM.implementation.besu,scalability.evm}]]
    @[https://ethereum.stackexchange.com/questions/3151/how-to-make-miner-to-mine-only-when-there-are-pending-transactions]
    - How to make miner to mine only when there are Pending Transactions?
      As of now the geth miner running on my system mines even empty blocks.
    - How to do that same in Besu, Parity, ...? 
 
- • Deconstructing a Sol. Contract [[{evm.debugging,_solidity}]]
+ • Deconstructing a Sol. Contract [[{10_EVM.debugging,12_SOLidity}]]
 @[https://blog.openzeppelin.com/deconstructing-a-solidity-contract-part-i-introduction-832efd2d7737/]
 
  • Ether Vault (Anti-theft) [[{wallet.cloud,security}]]
@@ -11021,13 +11026,13 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
      of it, use the vault key. After a delay the vault key can send the
      money to your hotwallet.
 
- • Ephemeral Testnet YOLO [[{0_PM.SLC.testing,qa,standards.EIP/ERC,evm}]]
+ • Ephemeral Testnet YOLO [[{13_SLC.testing,20_QA,standards.EIP/ERC,10_EVM}]]
    In preparation for the next network upgrade, Berlin, an ephemeral
    testnet called YOLO was launched with two new EIPs enabled: EIP-2315,
    which adds subroutines to the EVM, and EIP-2537, which introduces a
    new precompile for the BLS12-381 curve.
 
- • OrbitDB [[{persistence.offchain_objects,,qa.UX,architecture,scalability.offchain}]]
+ • OrbitDB [[{persistence.offchain_objects,,20_QA.UX,architecture,scalability.offchain}]]
   @[https://orbitdb.org/]
   - OrbitDB is a serverless, distributed, peer-to-peer database. OrbitDB
     uses IPFS as its data storage and IPFS Pubsub to automatically sync
@@ -11045,12 +11050,12 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
      (ERC-20), name registries (ERC-137), URI schemes (ERC-681),
      library/package formats (EIP190), and wallet formats (EIP-85).
 
- • LEGIONS: [[{0_PM.SLC,troubleshooting,persistence.contract_state,security,devops,_solidity,qa.UX}]]
+ • LEGIONS: [[{13_SLC,troubleshooting,persistence.contract_state,security,devops,12_SOLidity,20_QA.UX}]]
   @[https://diligence.consensys.net/blog/2020/06/legions-a-tool-for-seekers/]
 " Tool to poke around Geth Nodes in the terminal."
   -  Poke around a public Ethereum node JSON RPC endpoints?
   -  See if an Ethereum node is mining or not?
-  -  Read the storage of a smart contract? And maybe see how the [[{0_PM.SLC.debugging.state}]]
+  -  Read the storage of a smart contract? And maybe see how the [[{13_SLC.debugging.state}]]
      storage changed between different block numbers? 
   -  Get the bytecode of a smart contract without going to etherscan?
   -  List all ENS domains names owned by an address and their expiry dates?
@@ -11068,7 +11073,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
   
   $ $ pip install legions  
 
- • ethereum-etl: [[{integration.data,dev_lang.python,evm.events,0_PM.low_code}]]
+ • ethereum-etl: [[{integration.data,dev_framework.python,10_EVM.events,00_PM.low_code}]]
    WARN: See limitation in Github Project page.
  Export blocks and transactions (Schema, Reference):
  $ $ python export_blocks_and_transactions.py \                    
@@ -11100,7 +11105,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
  $   --output traces.csv                                           
 
 
-[[{}]]"use_case.financial.stablecoins,_doc_has.comparative,0_PM.TODO">
+[[{}]]"use_case.financial.stablecoins,01_doc_has.comparative,00_PM.TODO">
 <span xsmall>Algorithmic stablecoins</span>
 REF: @[https://frax.finance/whitepaper/]
      @[https://github.com/FraxFinance/frax-truffle/blob/master/test/Frax-Tests.js]
@@ -11127,7 +11132,7 @@ REF: @[https://frax.finance/whitepaper/]
 </pre>
 
 
-[[{}]]"_solidity,security,qa.auditing,0_PM.TODO">
+[[{}]],"12_SOLidity,security,20_QA.auditing,00_PM.TODO">
 <span xsmall>EthTrust</span>
 <a target="_blank" href="https://entethalliance.org/enterprise-ethereum-alliance-launches-ethtrust-security-initiative-to-advance-confidence-in-ethereum-as-a-global-settlement-layer-for-transactions-of-all-types/">external REF</a>
 
@@ -11150,7 +11155,7 @@ Transactions of All Types
 
 </pre>
 
-[[{}]]"implementation.besu,devops,0_PM.TODO">
+[[{}]]"evm.implementation.besu,devops,00_PM.TODO">
 <span xsmall>Besu + Docker </span>
 @[https://besu.hyperledger.org/en/stable/HowTo/Get-Started/Installation-Options/Run-Docker-Image/]
 @[https://hub.docker.com/r/hyperledger/besu/tags]
@@ -11197,7 +11202,7 @@ Problems founds:
     WARN : RocksDB is a native C++ library and there can be some JNI issue
 </pre>
 
-[[{}]]"scalability.node_storage,implementation.turbo_geth,0_PM.TODO">
+[[{}]]"scalability.node_storage,implementation.turbo_geth,00_PM.TODO">
 <span xsmall>Turbo Geth</span>
 @[https://eth.wiki/en/fundamentals/patricia-tree]
 ...  Turbo-geth is one implementation that gets to the root of the
@@ -11208,7 +11213,7 @@ variety of nifty features that can improve performance and reduce the
 load on disk when running a full node.
 </pre>
 
-[[{}]]"scalability.consensus,0_PM.TODO">
+[[{}]]"scalability.consensus,00_PM.TODO">
 <span xsmall>SKALE framework</span>
 @[https://skale.network/]
 @[https://skale.network/whitepaper] <!-- @ma -->
@@ -11332,13 +11337,13 @@ SKALE: Standard Kit for Asyncronous LEdgers.
 </pre>
 
 
- • Hapi One: https://www.hapi.one [[{use_case.finance.compliance,use_case.finance.fraud,standards,qa.auditing,_PM.RADAR}]]
+ • Hapi One: https://www.hapi.one [[{use_case.finance.compliance,use_case.finance.fraud,standards,20_QA.auditing,00_PM.RADAR}]]
    - On-Chain Cybersecurity Cross-Chain Protocol and Oracle
      data -> ML -> Oracle -> DAO
    - Monitor for frauds, stolen-wallets, ...
    - Works on Polygon.Network (cross-chain Ethereum compatible networks)
 
- • FireFly IoT Wallet [[{use_case.IoT,qa.UX}]]
+ • FireFly IoT Wallet [[{use_case.IoT,20_QA.UX}]]
   @[https://firefly.city/]
   @[https://ethereum.stackexchange.com/questions/29524/sign-raw-transaction-offline-with-c-on-arduino]
     use our Firefly Hardware Wallet (https://firefly.city) for the ATmega328 to do:
@@ -11488,7 +11493,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
  • web3j: Different privateKey generated by Mnemonic comparing to other libraries
    web3j/web3jhttps://github.com/web3j/web3j/issues/919 
 
- • Introducing LUXOR - a spreadsheet for decentralized data. [[{0_PM.RADAR}]]
+ • Introducing LUXOR - a spreadsheet for decentralized data. [[{00_PM.RADAR}]]
    https://m.youtube.com/watch?v=DmFLWpV7nGQ
 
  • Understanding Diamonds on Ethereum - DEV @ma
@@ -11727,7 +11732,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
   • Use golang to interact with Ethereum.
     https://www.programmersought.com/article/99731280412/
 
-  • devops.deployment.smartcontract,qa.UX @ma
+  • devops.deployment.smartcontract,20_QA.UX @ma
     A Buidler Plugin For Replicable Deployments And Tests
     · Created by Ronan Sandford (wighawag), a prominent smart contract developer and
       an author of the ERC-1155 standard
@@ -11845,7 +11850,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     https://etherbasics.com/the-basics/phases-of-ethereum/ 
     https://blog.ethereum.org/2015/03/03/ethereum-launch-process/
 
-  • blockapps Strato [architecture,integration.*,dev_framework.strato,0_PM.TODO]
+  • blockapps Strato [architecture,integration.*,dev_framework.strato,00_PM.TODO]
     C&P from https://docs.kaleido.io/kaleido-platform/protocol/ethereum/
     In order to address the enterprise unique needs for privacy, 
     scalability, governance and deployment options, a number of companies 
@@ -11884,7 +11889,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
 
   • https://polymath.network/
 
-  • Open Zepellin (OZ) Summary [dev_framework.zepellin,_solidity,security.aaa,qa,0_PM.TODO]
+  • Open Zepellin (OZ) Summary [dev_framework.zepellin,12_SOLidity,security.aaa,20_QA,00_PM.TODO]
     WARN: upgradable contracts, the "core" of OZ, looks to be replaced by "Diamon Standard"
     @[https://github.com/OpenZeppelin/]
     - TODO: Summary of "important" libraries
@@ -12048,7 +12053,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
  • https://ethereum-magicians.org/t/in-one-swoop-the-eth2-0-devs-destroyed-staking/7379
 
 
- • Headlong [dev_lang.java,dev_framework.headlong,evm.abi,dev_framework.web3j,_doc_has.comparative]
+ • Headlong [dev_framework.java,dev_framework.headlong,10_EVM.abi,dev_framework.web3j,01_doc_has.comparative]
    @[https://github.com/esaulpaugh/headlong]
  - A Contract ABI and Recursive Length Prefix library in Java for use on the Ethereum network.
  - Contract ABI and Recursive Length Prefix made easy in Java (or Android).
@@ -12058,7 +12063,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    ("f(uint,uint32[],bytes10,bytes)", openjdk 11.0.1)).
 
 
-  • Solidity RLP: [evm.rlp,_solidity.persistence,0_PM.TODO]
+  • Solidity RLP: [evm.rlp,12_SOLidity.persistence,00_PM.TODO]
     - @[https://github.com/hamdiallam/solidity-rlp]
       Currently support for solidity v0.5.0
     
@@ -12122,7 +12127,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     https://www.makeuseof.com/ways-reduce-ethereum-gas-fees/
 
 
-  • Inline Assembly [solidity,evm,0_PM.TODO]
+  • Inline Assembly [solidity,10_EVM,00_PM.TODO]
     https://github.com/ethereum/solidity/blob/develop/docs/assembly.rst#opcodes
 
   • YUL: language used for inline assembly.
@@ -12227,7 +12232,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    - Statically-sized memory arrays do NOT have a length field, but it
      might be added later. Do NOT rely on this.
 
-  • Proof of Auhority [consensus.PoA,0_PM.TODO]
+  • Proof of Auhority [consensus.PoA,00_PM.TODO]
   @[https://limechain.tech/blog/proof-of-authority-explained/]
     Proof of Authority is a variant of the Proof of Stake consensus 
     mechanism where instead of tokens, network participants stake their 
@@ -12258,7 +12263,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
 
   • https://notes.ethereum.org/@vbuterin/data_sharding_roadmap
 
-  • Cosmos and Tendermint: [comparative,scalability.layer2,layer2.Cosmos,layer2.Tendermint,0_PM.TODO]
+  • Cosmos and Tendermint: [comparative,scalability.layer2,layer2.Cosmos,layer2.Tendermint,00_PM.TODO]
     Cosmos is also building an ecosystem that relies on the Tendermint consensus
     mechanism that relies heavily upon Byzantine Fault Tolerance algorithms. The
     platform depends on validators that have similar roles as miners in the
@@ -12288,10 +12293,10 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    availability oracles which include Eth1, Eth2, or even Bitcoin Cash or ETC —
    providing a near term scalable EVM-like chain in layer 2.
 
- • ProgPow: ASIC resistence: [security,0_PM.TODO]
+ • ProgPow: ASIC resistence: [security,00_PM.TODO]
  @[https://journalducoin.com/altcoins/ethereum-eth-bientot-resistant-aux-asic-grace-a-progpow/
 
- • Ethereum Data Service (EDS) [[{0_PM.RADAR}]]
+ • Ethereum Data Service (EDS) [[{00_PM.RADAR}]]
    - features:
      - Insert/Update/Delete of packed type data (shallow object)
      - Insert/Update/Delete for Deep Objects, 
@@ -12323,7 +12328,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     - Pointer to other Data.
 
 
-  • Running on kubernetes [implementation.quorum,infrastructure.cloud,devops.k8s,infrastructure.cloud,0_PM.TODO]
+  • Running on kubernetes [implementation.quorum,infrastructure.cloud,devops.k8s,infrastructure.cloud,00_PM.TODO]
    @[https://github.com/majd1239/Quarum-Maker-Kubernetes]
    See also: https://github.com/synechron-finlabs/quorum-maker/issues/75
 
@@ -12402,7 +12407,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
      and threats to frequently used smart contracts.
 [[}]]
 
-[[{0_PM.BACKLOG]]
+[[{00_PM.BACKLOG]]
   • Aragon OS: Advanced deployment [[{dev_framework.aragon,use_case.financial.DAO,security.governance}]]
   @[https://aragon.one/]
   @[https://blog.aragon.one/advanced-solidity-code-deployment-techniques-dc032665f434]
@@ -12486,7 +12491,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       of extended functionality  ..."
 
  • Formal Verification for Eth2.0 (Beacon Chain)
-   [[{qa.formal_verification,scalability.consensus.ethereum2}]]
+   [[{20_QA.formal_verification,scalability.consensus.ethereum2}]]
    """ ...With my colleague Joanne Fuller, PhD at ConsenSys, we are 
     delighted to have released the first version of the formal 
     verification of the Eth2.0 (Beacon chain) specifications 
@@ -12535,12 +12540,12 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    - See also:
    @[https://blog.nucypher.com/numerology-fast-ecc-arithmetic-on-chain-5eb438a735d4]
 
- • DeepSea: [[{qa.formal_verification}]]
+ • DeepSea: [[{20_QA.formal_verification}]]
   @[https://certik.org/deepsea_blockchain.html]
    Research at Yale and Columbia to further their work on DeepSEA,
    a formally verified language that compiles to the EVM.
 
- • SandCastle_SQL [[{persistence.data_structure,qa.solidity,_solidity.persistence,_doc_has.diagram}]]
+ • SandCastle_SQL [[{persistence.data_structure,20_QA.solidity,12_SOLidity.persistence,01_doc_has.diagram}]]
   @[https://pegasys.tech/sandcastle-brings-sql-to-ethereum-smart-contracts/]
     WARN : Doesn't look to be continued.
 
@@ -12566,7 +12571,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     Plasma, etc) under a single theory and virtual machine: the OVM.
 
 
-• Quorum-Maker: [[{devops,0_PM.low_code}]]
+• Quorum-Maker: [[{devops,00_PM.low_code}]]
 @[https://github.com/synechron-finlabs/quorum-maker]
 •  WARN:  Abandoned project. Hyperledger Bevel (by Accenture) looks to replace it.
 
@@ -12677,16 +12682,16 @@ SKALE: Standard Kit for Asyncronous LEdgers.
   -  ignore nonce errors(perfect while working with Metamask fox_face)
   -  much faster (60%) than Ganache 
 
- • The Matter (500 TX/s) (Ethereum 2019 Grant) [[{scalability.zkp,0_PM.radar}]]
+ • The Matter (500 TX/s) (Ethereum 2019 Grant) [[{scalability.zkp,00_PM.radar}]]
    - @[https://thematter.io/] 
    - Productionising ‘Plasma Ignis’ code, a SNARK-driven “roll up” that can
      support up to 500 transactions per second.
 
- • verifiable delay functions [[{101,scalability.consensus.ethereum2,consensus.PoS,0_PM.radar}]]
+ • verifiable delay functions [[{101,scalability.consensus.ethereum2,consensus.PoS,00_PM.radar}]]
   - core building block for proof stake block chains and
     secure lotteries.
 
- • Bulletproofs: short of non-interactive zero-knowledge proofs that [[{privacy.zkp,0_PM.radar}]]
+ • Bulletproofs: short of non-interactive zero-knowledge proofs that [[{privacy.zkp,00_PM.radar}]]
    require no trusted setup. A bulletproof can be used to convince a 
    verifier that an encrypted plaintext is well formed. For example, 
    prove that an encrypted number is in a given range, without revealing 
@@ -12697,7 +12702,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
      and others and is used in enterprise blockchains like JP
      Morgan's quorum.
 
- • SuperSonic: zSNARK trustless setup: [[{privacy.zkp,scalability.zkp,0_PM.radar}]]
+ • SuperSonic: zSNARK trustless setup: [[{privacy.zkp,scalability.zkp,00_PM.radar}]]
    - Ben Fisch, Benedikt, and Alan Szepeniec also recently introduced
      SuperSonic, the first fully practical zero-knowledge SNARK that
      doesn't require a trusted setup.
@@ -12705,10 +12710,10 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     - ... guest speaker Brecht Devos of Loopring for a presentation and
       Q+A about scaling with ZKPs and Loopring.
 
- • Homomorphic Hashing: [[{security,0_PM.radar}]]
+ • Homomorphic Hashing: [[{security,00_PM.radar}]]
  @[http://blog.notdot.net/2012/08/Damn-Cool-Algorithms-Homomorphic-Hashing]
 
- • Status: Wallet and IM https://status.im/ [[{wallet.mobile,0_PM.radar}]]
+ • Status: Wallet and IM https://status.im/ [[{wallet.mobile,00_PM.radar}]]
  @[https://github.com/status-im/status-react]
   - currently (20??-??) in alpha:
   - can be tested on Android and iPhone.
@@ -12728,7 +12733,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       status-dev-cli add
          "{\"whisper-identity\": \"my-dapp\", \"dapp-url\": \"{DAPP_URL}\", \"name\": \"MyDAPP\"}" --ip {DEVICE_IP}
 
- • Augur Prediction Markets (Research project) [[{use_case.financial.prediction_markets,0_PM.radar}]]
+ • Augur Prediction Markets (Research project) [[{use_case.financial.prediction_markets,00_PM.radar}]]
  @[https://www.augur.net/]
   Markets for Anyone Anywhere on Anything
  - politics and elections prediction markets
@@ -12737,7 +12742,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
  - prediction markets on anything
  - ...
 
-• Zero Know. Range Pro. (ZKRP): [[{privacy.ZKP,use_case.*,0_PM.radar}]]
+• Zero Know. Range Pro. (ZKRP): [[{privacy.ZKP,use_case.*,00_PM.radar}]]
 @[https://github.com/ing-bank/zkrp]
  - ING Bank:
    ...Launched in 2017, zero-knowledge range proof (ZKRP) enabled numerical
@@ -12757,7 +12762,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    development community are able to use, access and even contribute to
    the solution.
 
- • Piet: parses *.sol, generates graphs of contracts and their relations [[{_solidity,qa.solidity}]]
+ • Piet: parses *.sol, generates graphs of contracts and their relations [[{12_SOLidity,20_QA.solidity}]]
    (inheritance structure,...).
    @[https://blog.slock.it/analyzing-solidity-smart-contracts-with-piet-6db33a733e79]
    @[https://github.com/slockit/piet]
@@ -12782,14 +12787,14 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     programming languages, such as C, C++, and Rust
   - Access to a vast developer community and the toolchain surrounding WebAssembly
 
- • Flattening code [[{_solidity}]]
+ • Flattening code [[{12_SOLidity}]]
 @[https://stackoverflow.com/questions/50137954/verify-smart-contract-code-deployed-with-truffle]
 - https://github.com/BlockCatIO/solidity-flattener
 - https://github.com/nomiclabs/buidler
 - https://github.com/nomiclabs/truffle-flattener
 - https://github.com/RyuuGan/sol-merger
 
- • QA Mythril: detects integer underflows, owner-overwrite-to-Ether-withdrawal, ...  [[{_solidity.qa,security,0_PM.backlog}]]
+ • QA Mythril: detects integer underflows, owner-overwrite-to-Ether-withdrawal, ...  [[{12_SOLidity.qa,security,00_PM.backlog}]]
   - https://github.com/ConsenSys/mythril-classic 
   - Swiss army knife for smart contract security.
   - @[https://github.com/ConsenSys/mythril/wiki]
@@ -12797,7 +12802,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     logic issues.
   - It is NOT equivalent to formal verification.
 
- • Security Best Practices [[{101,security,_solidity.qa}]]
+ • Security Best Practices [[{101,security,12_SOLidity.qa}]]
   @[https://consensys.github.io/smart-contract-best-practices/]
   
  • Example ussage of msg.data: Imagine we pass 2xuint256 as msg.data:
