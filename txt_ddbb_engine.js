@@ -238,7 +238,7 @@ class TXTDBEngine {
          // NEXT) replace anchors link
          H = H.replace(
              /[#]\[([^\]]*)\]/g,
-             "▹<span id='$1'>#$1</span>◃")
+             "◆<span id='$1'>#$1</span>◆")
 
          // NEXT) replace External links
          H = H.replace(

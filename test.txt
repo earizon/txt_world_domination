@@ -262,9 +262,12 @@
   be displayed in topics menu.
 
 --------------------------------------------
- .................
- #[internalLink1] must link here.
 
+ #[internalLink1] must link here. 
+ ^              ^ 
+ └──────────────┴ - width of original text must not change when replaced by 
+                  - html anchor.
+                  - text must be converted to anchor with correct sytles.
 
 
 
@@ -285,6 +288,10 @@
 
 --------------------------------------------
  #[internalLink2] must link here.
+ ^              ^ 
+ └──────────────┴ - width of original text must not change when replaced by 
+                  - html anchor.
+                  - text must be converted to anchor with correct sytles.
 
 
 
