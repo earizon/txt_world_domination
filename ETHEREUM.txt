@@ -682,7 +682,7 @@
           a partial path is prefixed with a flag for odd-cases.
           (See original post for more info)
 
-• EVM Accounts [[{12_SOLidity,10_EVM.101,01_doc_has.diagram" id="evm_accounts_summary}]]
+• EVM Accounts [[{12_solidity,10_EVM.101,01_doc_has.diagram]] #[evm_accounts_summary]
 @[http://www.ethdocs.org/en/latest/contracts-and-transactions/account-types-gas-and-transactions.html]
   Account   ← same address space both for contract and normal accounts
   ┌─────────────────────────┐
@@ -740,6 +740,7 @@
   transactions. A nonce can only be used once and until a transaction is mined, 
   it is possible to send multiple versions of a transaction with the same nonce,
   however, once mined, any subsequent submissions will be rejected.
+[[}]]
 
 • EVM Message Calls (CALL opcode) [[{10_EVM.101,20_QA.error_control,01_doc_has.diagram]]
   - Contracts can user message calls to call other contracts or send Ether to
@@ -819,15 +820,12 @@
      preserve msg.sender and msg.value.
 [}]
 
- • EVM Summary [[{10_EVM.101,10_EVM.i/o,10_EVM.gas]]
+ • EVM OpCodes Summary [[{10_EVM.101,10_EVM.i/o,10_EVM.gas]]
    - Ethereum Virtual Machine Opcodes low level reference to EVM:
     @[https://ethervm.io/]
-   - EVM Illustrated (TODO)
+   - EVM Illustrated [[{00_PM.TODO}]]
      @[https://takenobu-hs.github.io/downloads/ethereum_evm_illustrated.pdf]
-   - TODO: @[https://kauri.io/article/766e5d1e1ba240a7976943b659a871fc/v1/a-deep-dive-into-the-ethereum-virtual-machine-(evm)-part-2:-memory-and-storage]
-   - TODO: Awesome EVM list:
-   @[https://github.com/pirapira/awesome-ethereum-virtual-machine]
-   
+  
      Opcodes: 
    @[https://github.com/crytic/evm-opcodes]
    - EVM is a 256bit machine. It is most natural to manipulate data in chunks of 32 bytes.
@@ -1247,7 +1245,7 @@
   myEventMonitor.stopWatching()          // ← Stop watching
 [[}]]
 
-● Solidity to storage address [[{10_EVM,persistence.contract_state,12_SOLidity,13_SLC.troubleshooting,13_SLC.debugging]]
+● Solidity to storage address [[{10_EVM,persistence.contract_state,12_solidity,13_SLC.troubleshooting,13_SLC.debugging]]
 REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-storage]
   contract BlockVoting {
     Period[] dynArray01;        ← Idx 0x00..32bytes/64 hex-digits ...00
@@ -1804,7 +1802,7 @@ network node.                                 |   (but offline clients can also 
 The signed TX is then sent to the network.    |   hacked)
 [[}]]
 
-● EIP-2535 Diamons: [[{101,10_EVM,persistence.contract_state,persistence.data_structure,20_QA.UX,20_QA.solidity,12_SOLidity.upgradable_contracts,13_SLC.troubleshooting,standards.eip/erc.2535]]
+● EIP-2535 Diamons: [[{101,10_EVM,persistence.contract_state,persistence.data_structure,20_QA.UX,20_QA.solidity,12_solidity.upgradable_contracts,13_SLC.troubleshooting,standards.eip/erc.2535]]
 @[https://eips.ethereum.org/EIPS/eip-2535]
   - About EIP-170 24K Max Contract Size
     @[https://ethereum-magicians.org/t/removing-or-increasing-the-contract-size-limit/3045]
@@ -2057,7 +2055,7 @@ The signed TX is then sent to the network.    |   hacked)
       (make sure filename matches contract name in config)
       → provide contract addresses in "diamondSetter.config" *1
         (template "diamondSetter_template.config" can be used) 
-        → $ $ python diamondSetter.py set  
+        →   $ python diamondSetter.py set  
           App will automatically determine what needs upgraded/removed
           by calling the proper Diamond Standard functions.  
           diamondCutDict_removes = {}
@@ -2068,7 +2066,7 @@ The signed TX is then sent to the network.    |   hacked)
                                                   └──────────────┬────────────┘
                                                   function selectors affected in proxy diamond
     
-        → $ $ python diamondSetter.py hash diamond.storage.tutorial.properties  
+        →   $ python diamondSetter.py hash diamond.storage.tutorial.properties  
             Next assembly code gets added to your solidity smart contract:
     
           assembly { ds_slot := 0x8009ef9e316d149758ddd03fd4cb6dd67f0acee3d8cdf1372cf6f2ac6d689dbd }
@@ -2268,7 +2266,7 @@ The signed TX is then sent to the network.    |   hacked)
   @[https://ethfiddle.com/]
   @[https://github.com/ConsenSys/smart-contract-best-practices']
 
-● Solidty: What's New [[{12_SOLidity]]
+● Solidty: What's New [[{12_solidity]]
   Solidity 0.8 Breaking changes 
 @[https://github.com/ethereum/solidity/blob/develop/docs/080-breaking-changes.rst]
 
@@ -2377,18 +2375,18 @@ The signed TX is then sent to the network.    |   hacked)
     - Natspec supports multiple return parameters in developer documentation.
     - "address" → "address payable" conversion thanks to: payable(myaddress)
     - compiler now appends the `IPFS <https://ipfs.io/>`_ hash of the metadata file to the
-      end of the bytecode by default (previously swarn hash by default)
+      end of the bytecode by default (previously swarm hash by default)
 
 @[https://blog.ethereum.org/2020/01/29/solidity-0.6-try-catch/]
 [[}]]
 
-● solc (Solidity Compiler) [[{101,12_SOLidity.solc,20_QA.formal_verification,20_QA.auditing,13_SLC.debugging,00_PM.WiP]]
+● solc (Solidity Compiler) [[{101,12_solidity.solc,20_QA.formal_verification,20_QA.auditing,13_SLC.debugging,00_PM.WiP]]
   • svm: Solidity compiler Version Manager, similar to Node nvm,..
   @[https://github.com/web3j/svm]
-  $ $ svm install 0.6.2   ← install|uninstall|deactivate
-  $ $ svm use     0.6.2     use|current
-                            ls|ls-remote
-                            alias|unalias
+  $ svm install 0.6.2   ← install|uninstall|deactivate
+  $ svm use     0.6.2     use|current
+                          ls|ls-remote
+                          alias|unalias
   • COMPILING: 
   @[https://docs.soliditylang.org/en/latest/using-the-compiler.html]
   $ solc  \
@@ -2580,7 +2578,7 @@ The signed TX is then sent to the network.    |   hacked)
   @[https://contract-library.com/contracts/Ethereum/42A1CA0A79A9E7D83AEE9012D21920B02F9FC2C6]
 [[}]]
 
-● Solidity 101: [[{101,12_SOLidity.101,persistence.data_structure,20_QA,00_PM.WiP]]
+● Solidity 101: [[{101,12_solidity.101,persistence.data_structure,20_QA,00_PM.WiP]]
 (Initial version from @[https://learnxinyminutes.com/docs/solidity/] 
  with "lot of extras")
 ● EVENT-STREAM ORIENTED: 
@@ -2853,7 +2851,7 @@ The signed TX is then sent to the network.    |   hacked)
 
 [[}]]
 
-● Retrieving events quickly: [[{12_SOLidity,10_EVM.events,scalability.solidity,dev_framework.js]]
+● Retrieving events quickly: [[{12_solidity,10_EVM.events,scalability.solidity,dev_framework.js]]
 - Imagine the COMMON PROBLEM:
   - A given contract emits a given event sparsely, with
     an average of 1 event each 10.000 blocks.
@@ -2904,7 +2902,7 @@ contract MyContract {
 [[}]]
 
 
-● SOLIDITY GLOBALS: [[{12_SOLidity.101]]
+● SOLIDITY GLOBALS: [[{12_solidity.101]]
  GLOBAL METHODS: 
 block.blockhash(uint blockNumber)
   returns (bytes32):
@@ -2976,7 +2974,7 @@ ecrecover
 [[}]]
 
 
-● Solidity String Manipulation: [[{101,12_SOLidity.strings]]
+● Solidity String Manipulation: [[{101,12_solidity.strings]]
 - Can be used as keys for mappings
 - Concatenating strings str01, str02, str03, ...:
   string memory result = string(abi.encodePacked(str01, str02, str03, ...);
@@ -3078,7 +3076,7 @@ string memory bar = string(abi.encodePacked(foo));
     uintToString   (uint          input) pure returns (string str)
 [[}]]
 
-● Solidity: Date/Time [[{12_SOLidity.101.date_time]]
+● Solidity: Date/Time [[{12_solidity.101.date_time]]
   - DateTime is stored as uint
   - now (uint) == block.timestamp
   - Next keyword constants are defined: 
@@ -3095,7 +3093,7 @@ string memory bar = string(abi.encodePacked(foo));
     }
 [[}]]
 
-● SOLIDITY FUNCTION MODIFIERS: [[{101,12_SOLidity.101.functions,10_EVM.gas]] #[solidity_functions_summary]
+● SOLIDITY FUNCTION MODIFIERS: [[{101,12_solidity.101.functions,10_EVM.gas]] #[solidity_functions_summary]
 - Syntax sugar for function precondition checks:
 @[https://en.wikipedia.org/wiki/Precondition]
 - Commonly used to check basic "value security rules" 
@@ -3143,7 +3141,7 @@ Note:
 this.confirmPurchase(...) # External call
 [[}]]
 
-● ERROR CONTROL [[{12_SOLidity.error_control,transaction,10_EVM.101,01_doc_has.diagram,13_SLC.debugging,10_EVM.implementation.besu,10_EVM.events,13_SLC.testing,transaction,dev_framework.web3j,20_QA.error_control]]
+● ERROR CONTROL [[{12_solidity.error_control,transaction,10_EVM.101,01_doc_has.diagram,13_SLC.debugging,10_EVM.implementation.besu,10_EVM.events,13_SLC.testing,transaction,dev_framework.web3j,20_QA.error_control]]
 @[https://solidity.readthedocs.io/en/v0.4.24/control-structures.html#error-handling-assert-require-revert-and-exceptions]
 
   Error Management: 
@@ -3352,7 +3350,7 @@ this.confirmPurchase(...) # External call
     }
 [[}]]
 
-● Solidity Best Patterns [[{12_SOLidity.101,20_QA.error_control,01_doc_has.tutorial,00_PM.WiP]]
+● Solidity Best Patterns [[{12_solidity.101,20_QA.error_control,01_doc_has.tutorial,00_PM.WiP]]
   • Coding Convention List
     This section covers a series of recomendations in order to develop 
     Solidity smart-contracts in order to improve the quality of code 
@@ -3516,7 +3514,7 @@ this.confirmPurchase(...) # External call
     [[}]]
 [[}]]
 
-● Solidty storage patterns [[{solidity.101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
+● Solidty storage patterns [[{solidity.101,persistence.data_structure,20_QA.solidity,12_solidity.persistence]]
 @[https://ethereum.stackexchange.com/questions/13167/are-there-well-solved-and-simple-storage-patterns-for-solidity]
 Context:
    Simple and appropriate data organization can challenge Solidity newcomers.
@@ -3629,7 +3627,7 @@ contract EntityDDBB {        contract EntityDDBB {     contract EntityDDBB {    
    Source Code          @[https://bitbucket.org/rhitchens2/soliditycrud/src/83703dcaf4d0c4b0d6adc0377455c4f257aa29a7/contracts/?at=master]
 [[}]]
 
-● Composed-keys in maps: [[{101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
+● Composed-keys in maps: [[{101,persistence.data_structure,20_QA.solidity,12_solidity.persistence]]
 @[https://ethereum.stackexchange.com/questions/69727/map-multikey-how-to]
   • Alt1: create key like hash of N input composing keys
     Use events to trace input requests. e.j:
@@ -3652,7 +3650,7 @@ contract EntityDDBB {        contract EntityDDBB {     contract EntityDDBB {    
     );
 [[}]]
 
-● Sorted Linked List: [[{101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
+● Sorted Linked List: [[{101,persistence.data_structure,20_QA.solidity,12_solidity.persistence]]
 @[https://github.com/vittominacori/solidity-linked-list]
 • utility library for using sorted linked list data structures.
 • Well maintained as of 2022-01
@@ -3664,10 +3662,10 @@ contract EntityDDBB {        contract EntityDDBB {     contract EntityDDBB {    
   popFront  | popBack
 [[}]] 
 
-• EnumerableSet: [[{101,persistence.data_structure,20_QA.solidity,12_SOLidity.persistence]]
+• EnumerableSet: [[{101,persistence.data_structure,20_QA.solidity,12_solidity.persistence]]
 @[https://docs.openzeppelin.com/contracts/2.x/api/utils#EnumerableSet] [[}]]
 
-● Iterable map (arachnid gist) [[{101,persistence.data_structure,20_QA,12_SOLidity.persistence]]
+● Iterable map (arachnid gist) [[{101,persistence.data_structure,20_QA,12_solidity.persistence]]
 @[https://gist.github.com/ethers/7e6d443818cbc9ad2c38efa7c0f363d1]
 library itmap {
     struct entry {
@@ -3742,7 +3740,7 @@ contract Test {
 }
 [[}]]
 
-● QA: Static/Dyn. Code analysis [[{01_doc_has.comparative,security.101,12_SOLidity.qa]]
+● QA: Static/Dyn. Code analysis [[{01_doc_has.comparative,security.101,12_solidity.qa]]
   by QuillAudits, security Firm
   @[https://blog.quillhash.com/static-and-dynamic-analysis-of-smart-contracts-vulnerabilities/]
   @[https://audits.quillhash.com]
@@ -3881,7 +3879,7 @@ contract Test {
   @[https://arxiv.org/pdf/1807.07875.pdf]
 [[}]]
 
-● QA: FORMAL PROOFs [[{20_QA.formal_verification,12_SOLidity.qa,00_PM.WiP]]
+● QA: FORMAL PROOFs [[{20_QA.formal_verification,12_solidity.qa,00_PM.WiP]]
 • External Links
   • @[https://github.com/pirapira/eth-isabelle]
   • @[https://github.com/pirapira/ethereum-formal-verification-overview]
@@ -3975,7 +3973,7 @@ contract Test {
       @[http://www.cs.umd.edu/~aseem/solidetherplas.pdf]
 [[}]]
 
-● QA: (Py)Slither Solidity source analyzer [[{security,20_QA,12_SOLidity]] @ma
+● QA: (Py)Slither Solidity source analyzer [[{security,20_QA,12_solidity]] @ma
   @[https://github.com/crytic/slither]
   - Detects vulnerables with LOW FALSE POSITIVES.
   - Identifies where the error condition occurs in the source code
@@ -3998,7 +3996,7 @@ contract Test {
     $ slither .../Contract01.sol # Single solidity file:
 [[}]]
 
-● QA MythX SYMBOLIC/DYNAMIC/STATIC/FUZZING ANALYSIS into Truffle/VS.Code/Embark/Remix  [[{security,12_SOLidity.qa]] @ma
+● QA MythX SYMBOLIC/DYNAMIC/STATIC/FUZZING ANALYSIS into Truffle/VS.Code/Embark/Remix  [[{security,12_solidity.qa]] @ma
   - WHOLE SET OF MICRO-SERVICES TO HANDLE 
     LINTING AND OTHER CHECKS. 
   - @[https://docs.mythx.io/en/latest/index.html#]
@@ -4023,7 +4021,7 @@ contract Test {
     @[https://github.com/dmuhs/PythX]
 [[}]]
 
-● Sec.Tool Index(consensys) [[{security.101,12_SOLidity.qa,security,00_PM.WiP]]
+● Sec.Tool Index(consensys) [[{security.101,12_solidity.qa,security,00_PM.WiP]]
 @[https://consensys.github.io/smart-contract-best-practices/security_tools/]
   • Visualization  @ma
     - @[https://github.com/ConsenSys/surya]: displays a number of visual outputs
@@ -4070,7 +4068,7 @@ contract Test {
     - @[https://github.com/duaraghav8/Solium]
 [[}]]
 
-[[{101,10_EVM.101,13_SLC.debugging,12_SOLidity.troubleshooting]]
+[[{101,10_EVM.101,13_SLC.debugging,12_solidity.troubleshooting]]
 ● fixing "stack too deep" error:
   - Problem Context: Compiler tries to access a variable var1 that is beyond 
     "16 depth in stack".  Compilation fails with error "stack too deep".
@@ -4161,7 +4159,7 @@ contract Test {
     }
 [[}]]
 
-● Solidty Voting Example: [[{12_SOLidity.101]]
+● Solidty Voting Example: [[{12_solidity.101]]
 @[https://github.com/ethereum/go-ethereum/wiki/Contract-Tutorial]
   contract Voting {
     uint       public   MIN_QUORUM      ;
@@ -4358,7 +4356,7 @@ contract Test {
       - The Ethereum blockchain to keep track of the informed consents
   """
 [[}]]
-● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,use_case.nft_marketplace,12_SOLidity.tokens]]
+● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,use_case.nft_marketplace,12_solidity.tokens]]
  - Standard interface for contracts managing multiple token types.
 
                  ┌·>     4000  Gold Coins , non-inflactionary ┐
@@ -4499,7 +4497,7 @@ contract Test {
 
 [[tokens}]]
 
-● Checking Signatures On-Chain [[{12_SOLidity,signature.multisignature,00_PM.WiP,20_QA.UX]]
+● Checking Signatures On-Chain [[{12_solidity,signature.multisignature,00_PM.WiP,20_QA.UX]]
 - ECDSA signature == 65 byte array ( v (1), r (32), s (32) ).
   - web3.eth.sign (and others) can be used to insert extra signatures 
     in a new transaction (other than the signed transaction itself)
@@ -4516,8 +4514,7 @@ contract Test {
   WARN :
 [[}]]
 
-[[{signature.multisignature,20_QA.UX]]
-● EIP-1271
+● EIP-1271 [[{signature.multisignature,20_QA.UX]]
 @[https://github.com/ethereum/EIPs/issues/1271]
 - It should be implemented by contracts which desire to sign messages
  ("wallets", DAOs, multisignature wallets, etc.).
@@ -4663,7 +4660,7 @@ contract Test {
     and can be fully powered by meta-transactions.
 [[}]]
 
-● EVM/Solidity libraries: [[{12_SOLidity.101]]
+● EVM/Solidity libraries: [[{12_solidity.101]]
 @[https://blog.aragon.one/library-driven-development-in-solidity-2bebcaf88736]
 - Library benefits:
   - saving substantial amounts of gas
@@ -4715,7 +4712,7 @@ contract Test {
 
 
 ● Popular libraries: 
-  • Modular network: [[{persistence.data_structure,12_SOLidity.strings]]
+  • Modular network: [[{persistence.data_structure,12_solidity.strings]]
   @[https://github.com/modular-network/ethereum-libraries]
    - ArrayUtils, BasicMath, CrowdSale, 
      LinkedList, StringUtils,
@@ -4729,7 +4726,7 @@ contract Test {
    @[https://github.com/ethereum/dapp-bin/blob/master/library/]
      - IterableMapping :
      - DoublyLinkedList:
-     - StringUtils [[{12_SOLidity.strings}]]
+     - StringUtils [[{12_solidity.strings}]]
    [[}]]
 [[}]]
 
@@ -4738,22 +4735,13 @@ contract Test {
  @[https://github.com/ConsenSys/ethereum-developer-tools-list/blob/master/README.md]
  @[https://www.reddit.com/r/ethdev/comments/9jw839/long_list_of_ethereum_developer_tools_frameworks/]
 
-[[{}]]"dev_framework.remix,dev_framework.ide,13_SLC.debugging,12_SOLidity">
-<span xsmall TODO>Remix IDE</span>
-@[https://remix-ide.readthedocs.io/en/latest/]
-@[https://medium.com/remix-ide/remix-ide-renewal-release-0-8-4a55da933b70]
-- Features:
-- integrated smart-contract debugger.
-- Integration with Github gist. Ex:
-  https://remix.ethereum.org/#version=soljson-v0.7.2+commit.51b20bc0.js&optimize=false&gist=65747824fd972fcde14bac5101489032&evmVersion=null
-</pre>
-
-[[{}]]"wallet.metamask,dev_framework.js,security.aaa">
-<span xsmall>MetaMask Plugin</span>
-
+● MetaMask Wallet Browser/Mobile wallet [[{wallet.metamask,dev_framework.js,security.aaa]]
   WARN,WARN,WARN:  (Update 2019-12) Metamask management problems:
-   @[https://www.bitcoininsider.org/article/79962/updated-metamask-contributor-says-project-lacks-support-consensys]
-   - A contributor of major Ethereum browser extension Metamask has
+@[https://metamask.github.io/metamask-docs/]
+
+  - [[{00_PM.risks]]
+    REF: https://www.bitcoininsider.org/article/79962/updated-metamask-contributor-says-project-lacks-support-consensys
+   """... A contributor of major Ethereum browser extension Metamask has
      reported that the MetaMask team is “totally overwhelmed” and not
      being prioritized by its parent company ConsenSys.
 
@@ -4767,158 +4755,135 @@ contract Test {
       ‘meetings.’ This is not transparent. This is not decentralized.
       MetaMask is a critical value-moving piece of Ethereum. It is written
       in JavaScript, nearly completely untyped. The code is of low quality,
-      full of technical debt (both, in terms of code and architecture).”
+      full of technical debt (both, in terms of code and architecture)..."""
+   [[}]]
 
+- Injects a window.ethereum web3 provider into the current web page 
+  when the extension is enabled.  (See also notes on eip-1193 standarization).
+- It handles account management and  client-node management.
+- Support for different hardware-wallets, while isolating them from the site context.
+  (vs storing keys on central server, local storage, ..)
+- API Reference 
+  · Ethereum_Provider ← "web3 provider object"
+  · JSON_RPC_API
+  · Experimental_APIs
 
-@[https://metamask.github.io/metamask-docs/]
-- browser extension enabling browsing Ethereum blockchain enabled websites.
-- Injects a web3 provider into the window object of the web page.
-- It handles account management, ethereum client-node managements,
-- Allows users to manage accounts and their keys in a variety of ways,
-  including hardware wallets, while isolating them from the site context.
-  (vs storing the user keys on a single central server, or even in local storage)
- API Reference 
-./API_Reference/Ethereum_Provider ← "web3 provider object"
-./API_Reference/JSON_RPC_API
-./API_Reference/Experimental_APIs
-
- Calling a Contract from Web Browser with Metamask and ethjs 
+- Calling a Contract from Web Browser with Metamask and ethjs 
 @[https://medium.com/metamask/calling-a-smart-contract-with-a-button-d278b1e76705]
-(ethjs is a lightweight alternative to web3.js)
-- ethjs (or web3.js) makes use of a web3 provider object.
-  This object can be a software object, and injected object (Metamask),
-  ....
+(ethjs: lightweight alternative to web3.js)
+  - PRE-SETUP) $ npm install ethjs
 
-PRE-SETUP:
-$ npm install ethjs
+  - ethjs JS how-to)
+   const Eth = require('ethjs-query')
+   const EthContract = require('ethjs-contract')
+   const CONTRACT_ADDRESS = '0xdea...'
+   const CONTRACT_ABI = [{
+          "name": "transfer", "inputs": [ ...  ], "outputs": [ ... ],
+          ...
+        }]
+   
+   function initContract (contract) {
+     const MiniToken = contract(CONTRACT_ABI)  // <- Proxy JS object to real remote ABI
+     const miniToken = MiniToken.at(address)   // <- Point to correct address.
+   }
+   
+   function startApp(web3) {
+     const eth = new Eth( web3.currentProvider  )
+                          └──────────────────┴─ Injected by MetaMask
+     const contract = new EthContract(eth)
+     initContract(contract)
+   }
+   
+   window.addEventListener('load', function() {
+     if (typeof web3 === 'undefined') { return; }
+     startApp(web3);
+   })
+   
+   function onButtonCliced (miniToken) {
+       miniToken.transfer(
+         toAddress, value, { from: addr })
+         .then( txHash => {
+            console.log('Transaction sent')
+            console.dir(txHash)
+            waitForTxToBeMined(txHash)
+          })
+         .catch(e => { ... })
+   }
 
-BASIC JS:
-// "Webpack dependencies"
-const Eth = require('ethjs-query')
-const EthContract = require('ethjs-contract')
-const CONTRACT_ADDRESS = '0xdeadbeef123456789000000000000'
-const CONTRACT_ABI = [{
-    "name": "transfer",
-    "inputs": [ ...  ],
-    "outputs": [ ... ],
-    ...
-  }]
-
-
-function initContract (contract) {
-  const MiniToken = contract(CONTRACT_ABI)
-  const miniToken = MiniToken.at(address)
-}
-
-function startApp(web3) {
-  const eth = new Eth( web3.currentProvide  )
-                     ^^^^^^^^^^^^^^^^^^^^^^^^
-                     Injected into web page by MetaMask
-  const contract = new EthContract(eth)
-  initContract(contract)
-}
-
-window.addEventListener('load', function() {
-  if (typeof web3 === 'undefined') { return; }
-  startApp(web3);
-})
-
-
-
-function onGUIButtonCliced (miniToken) {
-    miniToken.transfer(
-      toAddress, value, { from: addr })
-      .then(
-        txHash => {
-          console.log('Transaction sent')
-          console.dir(txHash)
-          waitForTxToBeMined(txHash)
-        })
-      .catch(e => { ... })
-}
-<hr/>
-<span xsmall TODO>MetaMask Mobile</span>
+● MetaMask Mobile [[{00_PM.TODO}]]
 @[https://mobile.metamask.io/]
 
+● What's new MetaMask 
+  • ver 8 (major upgrade)
+  @[https://medium.com/metamask/announcing-metamask-version-8-9126dc2df98]
+  
+  - Unparalleled Privacy Control:
+    select one or more accounts to associate with
+    a website or create a new account just for that site .
+  - EIP-2255 (site) permissions system. [[{qa.UX]]
+       proposed standard interface for granting wallet security-sensitive 
+       asking "just once" in order to get permissions like:
+       - "Reveal wallet address to a given site".
+       - "Switch to preferred network".
+       - "Sign a cryptographic challenge".
+       - "Grant a token allowance to our contract".
+       - "Send TXs to our contract".
+       - ...
+       - Users can "uncheck" permissions individually [[}]]
+  - New features for Developers:
+    - Allow websites to en/de-crypt messages intended for Web3 users:
+      - For "Now"(20??) decryption requests require user confirmation:
+        => mostly ideal for decrypting infrequent, important messages.
+    - Enable web sites to implement custom connect buttons.
+      (e.g.: allow user to seamlessly land on a site, install MetaMask,
+       and be automatically redirected back to your application)
+  
+    - ERC-1193 Provider API:
+      for consistency across clients and applications.
+      Instead of (old) ethereum.sendAsync(options, callback)
+      pattern everywhere, you now get a nice and simple
+      const result = await ethereum.request({ method, params }).
+      If you’re a developer that relies on the window.web3 object
+      injected by MetaMask, you’ll need to implement changes before we
+      remove the injected web3 object or your site will break.
+      If you’re a developer that only relies on your own version of
+      ethers or web3, you won’t need to take any action — just keep it
+      up to date. 
+      IF CHOOSING A NEW CONVENIENCE LIBRARY, WE  RECOMMEND ETHERS. [[{01_doc_has.comparative}]]
+  
+    - Cutting Edge Security:
+      The (new) LavaMoat tool helps raise the bar of security for
+      nearly any JavaScript project by using  Secure EcmaScript
+      to confine every third-party dependency in a piece of JS 
+      code at build time.
 
-<span title>ver 8 (major upgrade)</span>
-@[https://medium.com/metamask/announcing-metamask-version-8-9126dc2df98]
-
-- Unparalleled Privacy Control
-  select one or more accounts to associate with
-  a website or   create a new account just for that site .
-- new connection indicator,
-- EIP-2255 (site) permissions system.
-  - enhanced permissions will enable powerful features like
-    decryption, access to wallet information (like your favorite
-    tokens or contacts), and paves the way for MetaMask Snaps
-    extensibility.
-- Slick, New UI
-- More Features For Developers:
-  - Web3 Encryption: two new methods to allow websites to
-    encrypt and decrypt messages intended for Web3 users.
-    - For now, these decryption requests each require user
-      confirmation, so it’s mostly ideal for decrypting infrequent,
-      important messages, like emails.
-  - New onboarding library enabling Dapps to implement their
-    own connect button.
-    (allow user to seamlessly land on your site, install MetaMask,
-     and be automatically redirected back to your application)
-
-  - ERC-1193 Provider API:
-    for consistency across clients and applications.
-    Instead of (old) ethereum.sendAsync(options, callback)
-    pattern everywhere, you now get a nice and simple
-    const result = await ethereum.request({ method, params }).
-    If you’re a developer that relies on the window.web3 object
-    injected by MetaMask, you’ll need to implement changes before we
-    remove the injected web3 object or your site will break.
-    If you’re a developer that only relies on your own version of
-    ethers or web3, you won’t need to take any action — just keep it
-    up to date.   If you are choosing a new convenience library, we  
-    recommend ethers. 
-
-  - Cutting Edge Security
-    The (new) LavaMoat tool helps raise the bar of security fo  
-    nearly any JavaScript project. 
-    LavaMoat uses Secure EcmaScript to confine every third-party
-    dependency in a piece of JavaScript code at build time.
-    We hope to eventually confine every dependency in our entire
-    wallet, greatly protecting us and our users from the category
-    of “supply chain attacks”.
-
-
-● Lattice1 Metamask Integration (2021-11) [[{wallet.hardware,wallet.metamask]]
-@[https://consensys.net/blog/news/metamask-x-lattice1-the-hardware-wallet-designed-for-ethereum-users-is-now-supported/]
-• Lattice1 (by GridPlus): hardware wallet for Ethereum users.
-• MetaMask / Lattice1 is done through Wi-FI (vs USB).
-• Lattice1 aims to solve 3 big crypto security problems: 
-  • Leaking private keys:
-    SafeCards securely back up seeds onto PIN-protected cards.
-    Every SafeCard is essentially a physical carrier of an 
-    HD wallet seed that looks like a traditional credit/debit card. 
-  • Signing messages unintentionally:
-    - big touch screen interface and human-readable markup.
-    - supports for NFTs.
-    - "enhanced" smart contract interaction. 
-  • great user experience in integrating with MetaMask.
+  • Lattice1 Metamask Integration (2021-11) [[{wallet.hardware,wallet.metamask]]
+    @[https://consensys.net/blog/news/metamask-x-lattice1-the-hardware-wallet-designed-for-ethereum-users-is-now-supported/]
+    - Lattice1 (by GridPlus): hardware wallet for Ethereum users.
+    - MetaMask / Lattice1 is done through Wi-FI (vs USB).
+    - Lattice1 aims to solve 3 big crypto security problems: 
+      - Leaking private keys:
+        SafeCards securely back up seeds onto PIN-protected cards.
+        Every SafeCard is essentially a physical carrier of an 
+        HD wallet seed that looks like a traditional credit/debit card. 
+      - Signing messages unintentionally:
+        - big touch screen interface and human-readable markup.
+        - supports for NFTs.
+        - "enhanced" smart contract interaction. 
+      - great user experience in integrating with MetaMask.
 [[}]]
 
-<pre zoom
-  labels="security,20_QA.UX,wallet.standards,wallet.metamask,standards.eip/erc,persistence.data_structure,00_PM.TODO"
-  bgorange id="eip-712" >
-<span xsmall>EIP-712 (Typed human-friendly signing)</span>
-- EIP-712: Ethereum typed structured data hashing and signing 
-@[https://eips.ethereum.org/EIPS/eip-712]
+● EIP-712 (Typed human-friendly signing): [[{20_QA.UX.wallet,wallet.metamask,wallet.lattice1,00_PM.TODO]]
+  "Ethereum typed structured data hashing and signing"
+ @[https://eips.ethereum.org/EIPS/eip-712]
 - See also @[#eip-191] 
 - Introduction by Koh Wei Jie:
 @[https://medium.com/metamask/eip712-is-coming-what-to-expect-and-how-to-use-it-bb92fd1a7a26]
   Ethereum wallets like MetaMask will soon introduce the EIP712
-  standard for typed message signing   allowing wallets to  
-  display data in signing prompts in a structured and readable format. 
-  EIP712 is a great step forward for security and usability because    [qa][usability]
-  users will no longer need to sign off on inscrutable hexadecimal     [security]
-  strings, which is a practice that can be confusing and insecure.   
+- It will ALLOWS WALLETS TO DISPLAY DATA IN SIGNING PROMPTS in
+  a structured and readable format. 
+   USERS WILL NO LONGER NEED TO SIGN OFF ON INSCRUTABLE HEXADECIMAL
+  STRINGS, WHICH IS A PRACTICE THAT CAN BE CONFUSING AND INSECURE.
 
 - Related:
   - Lattice 1 GridPlus Hardware Wallet:
@@ -4935,120 +4900,108 @@ function onGUIButtonCliced (miniToken) {
   enclave and will instead create hashes in your computer's web
   browser. Never use your hardware wallet to blindly sign unknown
   hashes.
-</pre>
+[[}]]
 
-[[{}]]"qa.UX,wallet.metamask,10_EVM.gas,transaction,00_PM.TODO">
-<span xsmall>meta-transactions</span>
+● META-TRANSACTIONS [[{wallet.metamask,10_EVM.gas,transaction,00_PM.TODO]]
 @[https://defirate.com/meta-transactions/]
-In essence, meta transactions allow users to interact with a public
-blockchain without paying a transaction fee. This leads to a more
-seamless UX as users no longer have to understand the inner workings
-of public blockchains and market dynamics for transaction fees.
+- meta transactions allow users to interact with a public
+  blockchain without paying a transaction fee: 
+  - Users no longer have to understand the inner workings  [[{qa.UX]]
+    of public blockchains and market dynamics for TX fees. [[}]]
 
-At its core, meta transactions are nearly identical to regular
-network transactions but with the addition of a proxy contract, also
-known as a relayer. With meta transactions, users still use their
-signature to send and authenticate transactions. The difference is,
-once this happens, the transaction is now managed by the relayer who
-pays the gas and sends the transaction to the receiving address.
+- At its core, they are NEARLY IDENTICAL TO REGULAR NETWORK TXS
+  BUT WITH THE ADDITION OF A PROXY CONTRACT, known as "relayer".
+- Users still use their signature to sign TXs, then 
+  the signed TX is now managed by the relayer who
+  pays the gas and sends the transaction to the 
+  receiving address.
+[[}]]
 
-By leveraging meta transactions, developers can significantly
-streamline the user experience for their applications. Ultimately,
-this feature brings the ecosystem closer to a frictionless user
-experience when accessing web 3.0 and DeFi.
-</pre>
-
-[[{}]]"wallet.hsm,20_QA.UX,security,00_PM.TODO">
-<span xsmall>LedgerHQ</span>
+● LedgerHQ Hardware Wallet: [[{wallet.hsm,20_QA.UX,security]]
 @[https://github.com/LedgerHQ]
-Ledger wallets, designed with the highest security standards
-See also LedgerJS examples:
-@[https://github.com/LedgerHQ/ledgerjs-examples]
+- LedgerJS examples: @[https://github.com/LedgerHQ/ledgerjs-examples]
+- High activity on Github, including (non-complete list):
+  - ledger-live-common : JS core for the Ledger Wallet apps
+  - lib-ledger-core    : C++
+  - TRX Ledger         : C, app-exchange
+  - SWAP application   : C
+  - ledger-wallet-daemon: Scala web server exposing Core API through
+                         simple REST API
+  - ledger-live-mobile : react-native, bluetooth
+  - ledger-live-desktop: electron
+  - wallet             : JS
+  - openpgp-card-app   : C, OpenPGP Card Application 
+  - app-terra          : C, Nano S/Nano X
+  - app-ethereum       : C, Wallet App for Ledger Blue and Nano S
+  - app-bitcoin        : C, Bitcoin wallet app for Ledger Blue and Nano S
+  - ledger-updater     : JS, Standalone firmware update / app install
+  - ledger-scala-template: template for scala projects
+  - ledger-dev-doc     : Python, Ledger developer docs.
+  - ledger-app-store-front: JS
+  - ledger-manager-chrome: Scala, Ledger Manager Chrome application
+  - ledger-wallet-chrome: JS, Ledger Wallet Chrome application
+  - ledgerctl          : Python Lib. to control Ledger devices
 
-High activity on Github, including:
-(non-complete list)
-- ledger-live-common : JS, Common ground for the Ledger Wallet apps
-- lib-ledger-core    : C++,
-- TRX Ledger : C, app-exchange
-- SWAP application: C
-- ledger-wallet-daemon: Scala, Scala web server that expose
-                        Ledger Core library through a simple REST API
-- ledger-live-mobile: react-native, bluetooth
-- ledger-live-desktop: electron,
-- wallet  : JS,
--   openpgp-card-app: C, OpenPGP Card Application 
-- app-terra: C, Nano S/Nano X
-- app-ethereum: C, Wallet App for Ledger Blue and Nano S
-- app-bitcoin: C, Bitcoin wallet app for Ledger Blue and Nano S
-- ledger-updater: JS,  Standalone firmware update / app installation tool
-- ledger-scala-template: Scala, template for scala project
-- ledger-dev-doc: Python, Ledger developer documentation
-- ledger-app-store-front: JavaScript
-- ledger-manager-chrome: Scala, Ledger Manager Chrome application
-- ledger-wallet-chrome: JS, Ledger Wallet Chrome application
-- ledgerctl: Python, Library to control Ledger devices
-</pre>
+  - Does it support EIP-712(Typed human-friendly signing) ??
+[[}]]
 
-[[{}]]"dev_framework.js,dev_framework.web3_js">
-<span xsmall>Web3JS API</span>
-Example ussage (works on browser/browser js console,  web3.js v1+):
+● Web3JS API [[{dev_framework.js.web3_js]]
+- Ussage Ex. (works on browser/browser js console, web3.js v1+):
 
- const ctr = new web3.eth.Contract(abiDefinition, ctrAddress) // ← get contract instance
- const txId = await ctr.methods.playGame().\                  // ← send TX to SC. Funct. playGame
-              send({from: sendingAccount, value: amountInWei })
+ const ctr = new web3.eth.Contract(abiDef, ctrAddress) // ← Create local JS "proxy" 
+ const txId = await ctr.methods.playGame().\           // ← playGame transparently creates
+              send({from: sendingAccount               //   JSON-RPC, signs and sends.
+                    value: amountInWei })              //   JSON-RPC, signs and sends.
 
 @[https://github.com/ethereum/wiki/wiki/JavaScript-API]
-- See also: etherlime (web3js alt)
+- See also web3 alternatives: etherlime, ethers(recomended by MetaMask)
 @[https://medium.com/limechain/etherlime-framework-8cbb270944d6]
-eth_accounts                                           eth_getTransactionCount
-eth_blockNumber                                        eth_getTransactionReceipt
-eth_call                                               eth_hashrate
-eth_coinbase                                           eth_mining
-eth_compileSolidity                                    eth_newBlockFilter
-eth_estimateGas                                        eth_newFilter (includes log/event filters)
-eth_gasPrice                                           eth_sendTransaction
-eth_getBalance                                         eth_sendRawTransaction
-eth_getBlockByNumber                                   eth_sign
-eth_getBlockByHash                                     eth_syncing
-eth_getCode (only supports block number “latest”)      eth_uninstallFilter
-eth_getCompilers                                       net_listening
-eth_getFilterChanges                                   net_peerCount
-eth_getFilterLogs                                      net_version
-eth_getLogs                                            miner_start
-eth_getStorageAt                                       miner_stop
-eth_getTransactionByHash                               rpc_modules
-eth_getTransactionByBlockHashAndIndex                  web3_clientVersion
-eth_getTransactionByBlockNumberAndIndex                web3_sha3
+  eth_accounts                                eth_getTransactionCount
+  eth_blockNumber                             eth_getTransactionReceipt
+  eth_call                                    eth_hashrate
+  eth_coinbase                                eth_mining
+  eth_compileSolidity                         eth_newBlockFilter
+  eth_estimateGas                             eth_newFilter (includes log/event filters)
+  eth_gasPrice                                eth_sendTransaction
+  eth_getBalance                              eth_sendRawTransaction
+  eth_getBlockByNumber                        eth_sign
+  eth_getBlockByHash                          eth_syncing
+  eth_getCode (only supports block "latest")  eth_uninstallFilter
+  eth_getCompilers                            net_listening
+  eth_getFilterChanges                        net_peerCount
+  eth_getFilterLogs                           net_version
+  eth_getLogs                                 miner_start
+  eth_getStorageAt                            miner_stop
+  eth_getTransactionByHash                    rpc_modules
+  eth_getTransactionByBlockHashAndIndex       web3_clientVersion
+  eth_getTransactionByBlockNumberAndIndex     web3_sha3
 
-<span xsmall>Recipes</span>
+ • Web3JS Recipe: Calc. keccak256/sha3 of N-inputs:
+   keccak256(abi.encodePacked(str1, addr1,...))   ←  Solidity (Which version is
+   keccak256(string1, address1,...            )   ←  Solidity  the correct one?)
 
-  Calculate keccak256 (hash/sha3) of N input arguments matching hash in Solidity 
-  // https://web3js.readthedocs.io/en/v1.2.0/web3-utils.html#soliditysha3
+   web3.utils.soliditySha3(                       ←  Web3.js, Alt 1 : Easiest way
+       { type: 'string',  value: myString01     },
+       { type: 'bytes32', value: myBytes32value },
+       ...
+   )
 
-  keccak256(abi.encodePacked(string1, address1,...))   ←  Solidity  Which version is the correct one?
-  keccak256(string1, address1,...                  )   ←  Solidity 
+   web3.sha3(                                     ←  Web3.js Alt 2 : Manual hard way
+      web3.utils.toHex("test1") + "0A...20 bytes.."   ← 1st arg: ensure input is equal
+                                                        to the tightly packed
+      └───────┬───────────────┘     └──────┬──────┘     args in Solidity keccak256
+     tightly pack string to Hex     Don't  pack address
+                                    or hex strings (Remove 0x)
+      ,
+      {encoding:"hex"} );                             ← 2nd argument. Encode like hex input
 
-  web3.utils.soliditySha3(                             ←  Web3.js, Alt 1 : Easiest way
-      { type: 'string',  value: myString01     },
-      { type: 'bytes32', value: myBytes32value },
-      ...
-  )
+ • Web3JS Recipe: Convert Input string to ABI representation 
+   web3.eth.abi.encodeParameter(
+      "bytes32",web3.utils.fromAscii( str01 ));
+[[}]]
 
-  web3.sha3(                                           ←  Web3.js Alt 2 : Manual hard way
-     web3.utils.toHex("test1")   + "0A...20 bytes.."   ← 1st arg: ensure input is equal to the tightly packed
-     └───────┬───────────────┘     └───────┬───────┘              args in Solidity keccak256
-    tightly pack string to Hex     Don't  pack address
-                                   or hex strings (Remove 0x)
-     ,
-     {encoding:"hex"}                                  ← 2nd argument. Encode like hex input
-  );
-
-  Convert input String  to ABI representation 
-  web3.eth.abi.encodeParameter("bytes32",web3.utils.fromAscii( inputStrin  ))
-</pre>
-[[{}]]"dev_framework.web3_js,dev_framework.eth js,dev_framework.js,01_doc_has.comparative,00_PM.TODO">
-<span xsmall>web3.js vs eth.js</span>
-https://blog.infura.io/ethereum-javascript-libraries-web3-js-vs-ethers-js-part-i/?utm_medium=www.oficina24x7.com
+● web3.js vs eth.js Comparative: [[{01_doc_has.comparative,dev_framework.js.web3_js,dev_framework.js.eth js]]
+@[https://blog.infura.io/ethereum-javascript-libraries-web3-js-vs-ethers-js-part-i/]
 Ethereum JavaScript Libraries: web3.js vs. ethers.js (Part I)
 - Both libraries work!!
 
@@ -5057,59 +5010,49 @@ Ethereum JavaScript Libraries: web3.js vs. ethers.js (Part I)
   - Ethereum Foundation Community.
   - It has a good API reference.
   - GLP v3
-  - it includes functions to communicate with nodes
-    via the JSON-RPC.
+  - Support remote JSON-RPC.
   - current (2020-06) version: 1.2.9
-  - composed of 6 modules:
-    -  web3: main class. "Core functionality"
-    - web3-eth:
-      - API to interact with smart contracts, externally-owned
-        accounts, nodes, mined blocks, and TXs. Ex:
-        - web3.eth.getBalance
-        - web3.eth.signTransaction
-        - web3.eth.sendSignedTransaction
-        - ...
-    - web3-shh:
-      Whisper protocol to broadcast messages easily and for
-      low-level asynchronous communication. Ex:
-      - web3.shh.post      ← posts whisper msg to Net.
-      - web3.shh.subscribe ← creates subscription
+  - 6 core modules:
+    - web3: main class. "Core functionality"
+    - web3-eth: API to interact with SC/EOA/nodes,
+                mined blocks/TXs. Ex:
+      - web3.eth.getBalance
+      - web3.eth.signTransaction
+      - web3.eth.sendSignedTransaction
       - ...
-    - web3-bzz
-      Swarm decentralized storage API :
-      (files, images, ...). Ex:
-      - web3.bzz.upload   ←   Upload files|folders to Swarm
-      - Web3.bzz.download ← Download files|folders from "
-    - web3-net
-      - Interact. API for Network properties of a node.
-        - web3.???.net.getID        ← return network ID
-        - web3.???.net.getPeerCount ← returns peer number
-               ^^^
-            protocol of interest: eth|shh|bzz
-    - web3-utils. Ex:
+    - web3-shh: Whisper protocol. Broadcast messages
+               for low-level asynch. communication.Ex:
+      - web3.shh.post      : posts whisper msg to Net.
+      - web3.shh.subscribe : creates subscription
+      - ...
+    - web3-bzz: Swarm decentralized storage API. Ex:
+      - web3.bzz.upload   :   Upload files|folders to Swarm
+      - Web3.bzz.download : Download files|folders from "
+    - web3-net: Fetch Net. properties of node.
+        - web3.???.net.getID       : return network ID
+        - web3.???.net.getPeerCount: returns peer number
+               └─┴─ := eth|shh|bzz
+    - web3-utils: Ex:
       - web3.utils.toWei
       - web3.utils.hexToNumberString
       - web3.utils.isAddress  ← check if string is a valid address.
 
-- Ethers.js:
-  - 2018
+- Ethers.js: (Recomended by MetaMask for new WebApps)
+  - 2018:
   - JS + TypeScript
   - small, compact library.
   - "Simple" and "intuitive".
   - large number of test cases.
   - Good "Getting Started" documentation.
-
-
-
-- current (2020-06) ver.:  5.0.3.
-- MIT License.
-- Modules:
-  - Ethers.provider
-    - abstract connection to node/network.
-    - sending signed TXs ("writes") and read-queries.
-      - ethers.providers.InfuraProvider:  Infura "client"
-      - ethers.provider.getBalance
-      - ethers.provider.resolve ← resolve ENS to address
+  - current (2020-06) ver.:  5.0.3.
+  - MIT License.
+  - Modules:
+    - Ethers.provider
+      - abstract connection to node/network.
+      - sending signed TXs ("writes") and read-queries.
+        - ethers.providers.InfuraProvider:  Infura "client"
+        - ethers.provider.getBalance
+        - ethers.provider.resolve ← resolve ENS to address
 
   - Ethers.contract
     - deploy S.C.
@@ -5141,224 +5084,67 @@ Ethereum JavaScript Libraries: web3.js vs. ethers.js (Part I)
       properly, store the private keys safely, and test TX
       receiving/sending properly before using in production!"
 
-Comparative:
-            starts|Used by|Maintainers|Test   |Size |Unpacked
-                  |(repos)|           |support|     |
--   Web3.js:~8,800|51.300 |3 of 12    |       |     |10.6MB
-- ethers.js:~1,500|18.500 |1(Richard  |"WINS" |284kb| 3.5MB
-                             Moore)
-- ethers.js has surpassed web3.js in weekly downloads
-  (even if its younger)
-Documentation:
-  Web3.js: extensive API ref, Short "Getting Started"
-Ethers.js: extensive API ref, Good “Getting Started”  ← Winner
-</pre>
-</div>
+  Comparative in STATs:
+              starts|Used by|Maintainers|Test   |Size |Unpacked
+                    |(repos)|           |support|     |
+  -   Web3.js:~8,800|51.300 |3 of 12    |       |     |10.6MB
+  - ethers.js:~1,500|18.500 |1(Richard  |"WINS" |284kb| 3.5MB
+                               Moore)
+  - ethers.js has surpassed web3.js in weekly downloads (even if its younger)
 
-<div groupv>
-<span title>Truffle</span>
-[[{}]]"dev_framework.truffle,00_PM.ext_resource,12_SOLidity,dev_framework.js,13_SLC.testing,20_QA,13_SLC.debugging">
-Slack Channel: @[https://truffle-community.slack.com/join/shared_invite/zt-8wab0bnl-KcugRAqsY9yeNJYcnanfLA]
-<span xsmall>"Full Journey"</span>
-@[https://www.truffleframework.com/]
- new bare Project 
+  Documentation:
+  -   Web3.js: extensive API ref, Short "Getting Started"
+  - Ethers.js: extensive API ref, Good “Getting Started”  ← Winner
+[[}]]
+
+● Truffle Framework [[{dev_framework.js.truffle,12_solidity,13_SLC.testing,20_QA,13_SLC.debugging]]
+  - Truffle Framework Full Journey: @[https://www.truffleframework.com/]
+  - Truffle Framework Code reference:
+    https://github.com/trufflesuite/truffle/tree/develop/packages
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/errors.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/abiV2.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/cloning.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/customoptions.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/deploy.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/deprecated_keys.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/linking.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/methods.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/networkObject.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/networks.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/separation.js
+    https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/util.js
 
 $ mkdir fibonacci
 $ cd fibonacci
-$  truffle init   # ← Create a bare truffle project:
-$ vim Smart-Contract contracts/Fibonacci.sol:
-    | pragma solidity ^0.4.22;
-    | contract Fibonacci {
-    |     // fibseries declaration outside function   │ REF:
-    |     //   => saved in storage (vs memory)        │ @[https://github.com/trufflesuite/truffle-deployer/blob/develop/index.js]
-    |     //    => triggers TX when modified          │ function Deployer(options) {
-    |     uint[] fibseries;                           │   var self = this;
-    |     // n = how many in the series to return     │   options = options || {};
-    |     function generateFib(uint n) public {       │
-    |         // set 1st and 2nd entries              │   expect.options(options, [
-    |         fibseries.push(1);                      │     "provider",
-    |         fibseries.push(1);                      │     "network",
-    |                                                 │     "network_id"
-    |         // generate subsequent entries          │   ]);
-    |         for (uint i=2; i < n ; i++) {           │
-    |             fibseries.push(fibseries[i-1] +     │   this.chain = new DeferredChain();
-    |                            fibseries[i-2]);     │   this.logger = options.logger || {log: function() {}};
-    |         }                                       │   this.known_contracts = {};
-    |     }                                           │   (options.contracts || []).forEach(function(contract) {
-    | }                                               │     self.known_contracts[contract.contract_name] = contract;
-$ vim migrations/2_deploy_contracts.js:               │   });
-WARN: ¡¡¡do not touch 1_initial_migration.js!!!       │   this.network = options.network;
-    | var Fibonacci = artifacts.require("Fibonacci"); │   this.network_id = options.network_id;
-                                                      │   this.provider = options.provider;
-    | module.exports = function(deployer) {           │   this.basePath = options.basePath || process.cwd();
-    │                           └──┬───┘              │ };
-    │                              └──────────────────┘
-    |   deployer.deploy(Fibonacci);
-    | };
-$ vim truffle-config.js:
-    | module.exports = {
-    |   networks: {
-    |     development: {
-    |       host: "127.0.0.1",  ← test geth/ganache/... IP
-    |       port: 7545,         ← test geth/ganache/... port
-    |       network_id: "*"
-    |     }
-    |   }
-    | };
-$  truffle compile 
-(compiles /contracts/*.sol → build/contracts/*.json )
-JS clients apps can then use the contract with code similar to:
-import metacoin_artifacts from '../../build/contracts/MetaCoin.json'
+$ truffle init   # ● Create NEW BARE TRUFFLE PROJECT
+          ^
+  Next files will be created.
+  ./contracts/Migrations.sol              <- WARN: DON'T TOUCH THIS FILE
+  ./migrations/1_initial_migration.js     <- WARN: DON'T TOUCH THIS FILE
+  ./truffle-config.js                     <- Config remote Nodes and wallets used for 
+    ...                                      testing and deployment. By default the test network
+    networks: {                            localhost:8545 is configured using existing wallets
+      development: {                       managed by node (probably ganache)
+        host: "127.0.0.1",
+        port: 8545,
+        network_id: "*" 
+      }
+    }
+$ editor contracts/Fibonacci.sol                       Create alphabetically ORDERED deployment script
+$ editor migrations/2_deploy_contracts.js           <- to deploy the new S.C. 
+  const LibA = artifacts.require('LibA')      ┌······· require: similar to node.js "require" but it reads
+  const B    = artifacts.require("Fibona..")  ·        *.json ABI (generated at compile time) as input and
+                         └──────┴─············┘        returns autogenerated JS proxy code in charge of
 
-Migrate to default network defined in truffle.js (localhost:8545)
-(Ussually this correspond to the testrpc daemon)
-$  truffle migrate 
-$ vim test/TestFibonacci.js
-$  truffle test 
-
-$  truffle deploy  <span TODO>Deploy to ""real""/""test"" network</span>
-                        # sends contract to the Ethe. network. Will also update
-                        # contracts.json adding the {""address"":...""} for the
-                        #deployed contract
- run multiline script 
-<a href="https://ethereum.stackexchange.com/questions/36549/how-to-run-a-multiline-script-in-truffle-console">REF</a>
- STEP 1:  Write script to 'myScript.js' file.
- STEP 2:  Use require or exec like:
-truffle(dev)→ require ('./myScript.js')  ← alt 1:
-truffle(dev)→ exec  './myScript.js'      ← alt 2:
-<hr/>
-
-<span xsmall>Debug TX</span>
-NOTE: Trufle 5.1 introduces also debugging from JS tests:
-
-<a href="https://truffleframework.com/tutorials/debugger-variable-inspection">REF</a>
-$ truffle console  # ← Will fail in test node is NOT running
-truffle(development)>  compile 
-→ Compiling .\contracts\Fibonacci.sol...
-→ Compiling .\contracts\Migrations.sol...
-→ Writing artifacts to .\build\contracts
-→ ...
-( Check for errors)
-truffle(development)>  migrate 
-→ Using network 'development'.
-→ ...
-→ Running migration: 1_initial_migration.js
-→ ...
-→ Running migration: 2_deploy_contracts.js
-→ ...
-→ ...
-→ ...
-→ ...
-(Check in geth logs|ganache console that TXs have been mined)
-
-truffle(development)> Fibonacci.deployed() 
-                      .then(instance => instance.generateFib(10)) 
-                               ^^^^^^^^
-                               JS "proxy" to
-                             newly deployed contract
-→ { tx: '  0xf47f...41c ',
-→   receipt:
-→    { transactionHash: '  0xf47f...41c ',
-→      transactionIndex: 0,
-→      blockHash: '0x88d45cb84d1f26....49a2ed',
-→      blockNumber: 5,
-→      gasUsed: 298373,
-→      cumulativeGasUsed: 298373,
-→      contractAddress: null,
-→      logs: [],
-→      status: '0x01',
-→      logsBloom: '0x000....0000' },
-→   logs: []
-→ }
-
-truffle(development)> console.dir(instance)
-→ ...
-truffle(development)>  debu     0xf47f0...1c41c 
-→ Gathering transaction data...
-→ Addresses affected:
-→  0x33b217190208f7b8d2b14d7a30ec3de7bd722ac6 - Fibonacci
-→
-→ Commands:
-→ (enter) last command entered (step next)
-→ (o) step over, (i) step into, (u) step out, (n) step next
-→ (;) step instruction, (p) print instruction, (h) print this help, (q) quit
-→ (b) toggle breakpoint, (c) continue until breakpoint
-→ (+) add watch expression (`+:<expr>`), (-) remove watch expression (-:<expr>)
-→ (?) list existing watch expressions
-→ (v) print variables and values, (:) evaluate expression - see `v`
-→
-→ Fibonacci.sol:
-→
-→ 1: pragma solidity ^0.4.22;
-→ 2:
-→ 3: contract Fibonacci {
-→    ^^^^^^^^^^^^^^^^^^^^
-debug(development:0xf47f01da...)>  n 
-→ 7:   // n = how many in the series to return
-→ 8:   function generateFib(uint n) public {
-→      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-→
-(Move until reaching the for-loop)
-debug(development:0xf47f01da...)>  v 
-→         i: 0
-→         n: 10
-→ fibseries: []
-debug(development:0xf47f01da...)>  +:{ i, fibseries }  ← watch vars (show after instruction)
-                                                         -:i to unwatch
-debug(development:0xf47f01da...)>      ← Repeat until filling the array
-→ ...
-→ fibseries: [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]
-
-<hr/>
-
-<span xsmall>Recompile-Update</span>
-truffle(development)>  compile --all 
-                              ^^^^^
-                              force recompile all
-                              of the contracts.
-→ ...
-truffle(development)>  migrate --reset 
-→ ...
-truffle(development)>  Fibonacci.deployed() 
-                       .then(instance => return instance.generateFib(10)) 
-→ ...
-NOTE: bytecode vs deployedBytecode
-      solc generates two bytecode blobs per contract that truffle relies on:
-      - bytecode includes the wrapper code necessary to init and deploy the contract
-      - deployedBytecode just contains the core, deployed code.
-
-</pre>
-
-[[{}]]"dev_framework.truffle,12_SOLidity,devops.smart_contract.migration,dev_framework.js">
-<span xsmall>Migrations Explained</span>
-- truffle migrations explained (Linking libraries, ...):
-
-
-
-- Migration "==" Javascript file to deploy smart-contracts to the blockchain.
-  A JS migration script will fetch as input the
-
-  $ truffle create \              ─────────┐
-    migration deploy_myContract            │
-                                           v
-  $ truffle \ →(generates)→ JSON →(used by)→ migrations/...deploy_myContract.js
-    compile                 artifacts                   └┬┘      
-                                                   migration (ordered) number.
-                       succesful migrations are recorded to "migration" smart-contract
-                       "truffle migrate" will start execution from the last+1 registered migration.
-
-  Ex. migration:
-  const A  = artifacts.require('PersistenceContract')  ← artifacts.require() is similar to node.js "require"
-             └─────────────────┬────────────────────┘    but it returns a contract proxy.
-             Load PersistenceContract.json, and completes
-             it will extra. info (function selector 4byte codes,..)
-             Used to generate JSON-RPC calls.
-
-  const LibA = artifacts.require('LibA')
-  const B    = artifacts.require('Logic_dependingOnA')
-
-  module.exports = function(deployer, network, accounts) { ← 'deployer', network(string) name and account array
-    if (network == "test") {                                 injected by truffle.
+  module.exports = function(      deployer, network, accounts injected by truffle at migrate-time
+        deployer,                 <- REF: https://github.com/trufflesuite
+                                            /truffle-deployer/blob/develop/index.js
+                                     Object with info about network, web3 (wallet) provider,
+                                     basePath (== options.basePath || process.cwd())                     
+        network,                  <- injected by truffle at migrate-time
+        accounts                  <- ("wallets") defined in truffle-config.js
+  ) {                                or retrieved from node 
+    if (network == "test") {     
        deployer.deploy(LibA);     ← Deploy runs synchronously. Code waits until transaction has been mined
                                     in blockchain.
        deployer.link(library, A)  ← ☞ Link must be done before deployment
@@ -5369,8 +5155,8 @@ NOTE: bytecode vs deployedBytecode
               A.address,          ← First constructor argument of B (A instance)
               { overwrite: true } ← Other options: gas, from
           );
-       } );
-    } else if (network == "test") {
+       );
+    } else if (network == "prod") {
        // Fetch A address from "somewhere"
        deployer.deploy(
            B, A.address,
@@ -5378,33 +5164,97 @@ NOTE: bytecode vs deployedBytecode
     }
   };
 
-<hr/>
-<span xsmall>Migrations.sol explained</span>
-@[https://medium.com/@blockchain101/demystifying-truffle-migrate-21afbcdf3264?utm_source=oficina24x7] by Bernard Peh
-- truffle migrate uses a Migrations.sol instance to "bookmark" last succesful migration.
+$ truffle compile                         <- Generates build/contracts/*.json, to be 
+                                             used by JS code to genetare JS "proxy" objects.
+$ truffle migrate                         <- Migrate (deploy) to default net. in truffle-config.js 
+$ editor test/TestFibonacci.js            <- test S.C. behaviour as seen by external JS clients
+                                             (front-end Dapps). Sort of "functional" tests.
+                                             test js code ussually deploy new S.C. isolated from
+                                             real ones, but any test is free to reuse already
+                                             deployed contracts, libraries, ...
+                                             The deployment JS code will mostly similar to the code
+                                             used in migrations/*js
 
-  Migrations.sol summary:
-  ...
-  contract Migrations {
-    uint public last_completed_migration;  ← On truffle console value can be check like:
-    ...                                    $ > Migrations.deployed().then(                    
-                                           $     function(sc){                                
-                                           $       sc.last_completed_migration.call().then(   
-                                           $         function(v) {  console.log(v)} )         
-                                           $     }                                            
-                                           $   )                                              
-    function setCompleted(uint completed)   ← Invoqued whenever a migration/*.js script
-    public {                                  is completed successfully.
-      last_completed_migration = completed;
+$ truffle test                            <- Execute tests. 
+$ truffle deploy                          <- Deploy contract. It will deploy Migrations.sol 
+                                             (if not yet done) to keep trace of deployments.
+• TRUFFLE: DEBUG MINED TX
+  NOTE: Trufle 5.1 introduces also debugging from JS tests: 
+  PRESETUP) node defined in truffle-config.js up-and-running
+  $ truffle console                      
+  truffle(dev)> compile --all             <- Optional. Recompile all if needed.
+
+  truffle(dev)> migrate                   <- In case of error, check also node logs for related info
+  > ...                                      (TX hash can help to match errors in truffle console with 
+  > migration: 1_initial_migration.js        node logs)
+  > ...
+  > migration: 2_deploy_contracts.js
+  > ...
+  truffle(dev)> Fibonacci.deployed() 
+       .then(instance =>                  <- instance is a JS "proxy" to a deployed contract.
+          instance.generateFib(10))       <- automatically generates signed TX + JSON/RPC remote call
+  > { tx: '0xf47f...41c',
+  >   receipt:
+  >    { transactionHash: '0x1234....',   <- Use it to identify MINED transaction.
+  >      blockHash: ...,
+  >      logs: [...],
+  >      status: '0x01',
+  >      gasUsed: 298373,
+  >      ...
+  >    },
+  >   logs: [...]                         <- logs == "emitted events"
+  > }
+  
+  truffle(dev)> debug   0x1234...         <- 0x1234... == receipt.transactionHash
+  > Gathering transaction data...
+  > Addresses affected:
+  >  0x33b217190... - Fibonacci
+  > ...
+  > Fibonacci.sol:                     ┌─ Debugger Commands───────────────────────────────────┐
+  > ...                                │ v) print vars:val  b)TOGGLE      BREAKPOINT          │
+  > 3: contract Fibonacci {            │ n) step next       c)CONTINUE to BREAKPOINT          │
+  >    ^^^^^^^^^^^^^^^^^^^^            │ o) step over       +:˂expr˃) ADD  WATCH EXPRESSION   │
+  debug(dev:0xf4...)> n                │ i) step into       -:˂expr˃) DEL  WATCH EXPRESSION   │
+  > 8:   function generateFib ... {    │ u) step out        :˂expr˃ ) EVAL       EXPRESSION   │
+  >      ^^^^^^^^^^^^^^^^^^^^^^^^^^    │                    ?       ) LIST WATCH EXPRESSION/S │
+  >                                    │                                                      │
+  (Move until reaching the for-loop)   │ ;)step  instruct.                          h) help   │
+  debug(dev:0xf4...)>  v               │ p)print instruct.                          q) quit   │
+  >         i: 0                       └──────────────────────────────────────────────────────┘
+  >         n: 10
+  > fibseries: []
+  debug(dev:0xf4...)>  +:{ i, fibseries } <- new watch expression shown after instruction
+  debug(dev:0xf4...)> n
+  > ...
+  > ...
+  > fibseries: [1, 1, 2, 3, ..., 55]
+
+• TRUFFLE RECIPES: 
+  $ truffle compile --all     <- force recompile all of the contracts.
+  $ migrate --reset           <- Reset existing migrations/migration state.
+
+
+• Truffle Migrations Explained: [[{devops.smart_contract.migration]]
+  (Summary from Bernard Peh post: https://medium.com/@blockchain101/demystifying-truffle-migrate-21afbcdf3264)
+   
+  - Migrations.sol instance is used to "bookmark" LAST SUCCESFUL MIGRATION:
+    ...                                          
+    contract Migrations {                     ┌·· On truffle console value can be check like:
+      uint public last_completed_migration; <·┘   | Migrations.deployed().then( sc =>
+      ...                                         |   sc.last_completed_migration.call()
+                                                  |   .then(v => console.log(v) ) ) 
+      function setCompleted(uint completed) <···· Invoqued whenever a migration/*.js script
+      public {                                    is completed successfully.
+        last_completed_migration = completed;
+      }
+      ... (upgrade ) ...
     }
-    ... (upgrade ) ...
-  }
 
-  1st Migration execution                            2nd UPGRADED Metacoin migration 
+  1ST MIGRATION EXECUTION                            2ND UPGRADED METACOIN MIGRATION 
   migration SETUP:                                   migration SETUP:
   └./migrations/1_initial_migration.js               └./migrations/1_initial_migration.js
   └./migrations/2_deploy_contracts.js                └./migrations/2_deploy_contracts.js
-                └───────┬────┘                       └./migrations/3_deploy_upgraded_metacoin.js
+                └───────┬────────┘                   └./migrations/3_deploy_upgraded_metacoin.js
                 ┌───────┘                                          └───────────┬───────────────┘
                 │                                        ┌─────────────────────┘
                 ...                                      ...
@@ -5414,69 +5264,32 @@ NOTE: bytecode vs deployedBytecode
 
 
   (or --reset flag added)
-$ $ truffle migrate                                  $ $ truffle migrate 
-  Compiling ...                                        ...
-  ...                                                  last_completed_migration == 2 → start at migrations/3_*.js
-  Running migration:  1_initial_migration.js         (☞Migration and ConvertLib skipped)
-    Deploying Migrations...                            Running migration:  3_deploy_upgraded_metacoin.js 
-    ... 0x68fe0...         (deploy TX hash )             Replacing MetaCoin...
-    Migrations: 0x213....  (Contract address)            ... 0xe9d0481...      (deploy TX hash )
-  Saving successful migration to network...              MetaCoin: 0xf55...    (Contract address)
-    ... 0xe2807...         (setCompleted() TX hash)    Saving successful migration to network... 
-  Saving artifacts...                                    ... 0xcf8f9...         (setCompleted TX hash)
-  Running migration:  2_deploy_contracts.js            Saving artifacts...
-    Deploying ConvertLib...
-    ... 0xce792...         (deploy TX hash )
-    ConvertLib: 0x13e...   (Contract address)
-    Linking ConvertLib to MetaCoin
-    Deploying MetaCoin...
-    ... 0x2fcab...         (deploy TX hash )
-    MetaCoin: 0x0d9...    (Contract address)
-  Saving successful migration to network... 
-    ... 0xe2807...         (setCompleted() TX hash)
-  Saving artifacts...
-</pre>
+  $ truffle migrate                               $ truffle migrate 
+  > Compiling ...                                 > ...
+  > ...                                           > last_completed_migration == 2 → start at migrations/3_*.js
+  > Running migration:  1_initial_migration.js    > (☞Migration and ConvertLib skipped)
+  >   Deploying Migrations...                     > Running migration:  3_deploy_upgraded_metacoin.js 
+  >   ... 0x68fe0...   (deploy TXhash)            > Replacing MetaCoin...
+  >   Migrations: 0x213....(Contract address)     > ... 0xe9d0481...      (deploy TX hash )
+  > Saving successful migration to network...     > MetaCoin: 0xf55...    (Contract address)
+  >   ... 0xe2807...   (setCompleted() TXhash)    > Saving successful migration to network... 
+  > Saving artifacts...                           > ... 0xcf8f9...         (setCompleted TX hash)
+  > Running migration:  2_deploy_contracts.js     > Saving artifacts...
+  >   Deploying ConvertLib...
+  >   ... 0xce792...       (deploy TXhash )
+  >   ConvertLib: 0x13e... (Contract address)
+  >   Linking ConvertLib to MetaCoin
+  >   Deploying MetaCoin...
+  >   ... 0x2fcab...       (deploy TXhash )
+  >   MetaCoin: 0x0d9...   (Contract address)
+  > Saving successful migration to network... 
+  >   ... 0xe2807...       (setCompleted() TXhash)
+  > Saving artifacts...
+[[}]]
 
-[[{}]]"dev_framework.truffle,devops.npm,">
-<span xsmall>npm pkgs list</span>
-@[https://github.com/trufflesuite/truffle/tree/develop/packages]
-truffle-artifactor :
-truffle-blockchain-utils
-truffle-box
-truffle-code-utils
-truffle-compile-vyper
-truffle-compile
-truffle-config
-truffle-contract-schema
-truffle-contract-sources
-truffle-contract
-truffle-core
-truffle-debug-utils
-truffle-debugger
-truffle-decode-utils
-truffle-decoder
-truffle-deployer
-truffle-error
-truffle-expect
-truffle-external-compile
-truffle-hdwallet-provider
-truffle-interface-adapter
-truffle-legacy-system
-truffle-migrate
-truffle-provider
-truffle-provisioner
-truffle-reporters
-truffle-require
-truffle-resolver
-truffle-sawtooth-seth-provider
-truffle-solidity-loader
-truffle-solidity-utils
-truffle-workflow-compile
-truffle
-</pre>
-
-[[{}]]"dev_framework.truffle,12_SOLidity,13_SLC.testing,10_EVM.events">
-<span xsmall>Testing events</span>
+• Truffle Framework. Testing events 
+[[{13_SLC.testing,10_EVM.events]]
+<span xsmall></span>
 @[https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/events.js#L118-L143]
 var assert = require("chai").assert;
 var util = require("./util");
@@ -5626,19 +5439,7 @@ describe("Events", function() {
     });
   });
 });
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/errors.js"         >test:errors.js          </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/abiV2.js"          >test:abiV2.js           </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/cloning.js"        >test:cloning.js         </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/customoptions.js"  >test:customoptions.js   </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/deploy.js"         >test:deploy.js          </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/deprecated_keys.js">test:deprecated_keys.js </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/linking.js"        >test:linking.js         </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/methods.js"        >test:methods.js         </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/networkObject.js"  >test:networkObject.js   </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/networks.js"       >test:networks.js        </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/separation.js"     >test:separation.js      </a>
-<a TODO href="https://github.com/trufflesuite/truffle/blob/next/packages/truffle-contract/test/util.js"           >test:util.js            </a>
-</pre>
+[[}]]
 [[{}]]"dev_framework.truffle,security,20_QA,00_PM.TODO">
   <span xsmall>Security</span>
 @[https://github.com/ConsenSys/truffle-security]
@@ -5905,9 +5706,9 @@ See Also:
 @[https://medium.com/coinmonks/web3-go-part-2-aebdcb8d926e]
   It avoid to interact manually with ABI.
   • abigen, (included in full installation of geth)
-  $ $ abigen --pkg coolcontract \           
-  $   --sol CoolContract.sol  \               ← Input solidity contract.
-  $  --out ./coolcontract/CoolContract.go     ← autogenerates (lot of useful) methods to deploy
+    $ abigen --pkg coolcontract \           
+      --sol CoolContract.sol  \               ← Input solidity contract.
+     --out ./coolcontract/CoolContract.go     ← autogenerates (lot of useful) methods to deploy
                                                 and interact with the contract.
 
 • For any interaction we need an Object implementing <<ContractBackend>>.
@@ -6206,7 +6007,7 @@ See Also:
     <span title>Scalability</span><br/>
 <div groupv>
 <pre zoom 
-  labels="101,scalability.zkp,privacy.zkp,scalability.layer2,dev_framework.ide,dev_framework.remix,01_doc_has.diagram,layer2.rollup.optimistic,layer2.rollup.zk,00_PM.WiP,"
+  labels="101,scalability.zkp,privacy.zkp,scalability.layer2,dev_framework.remix,01_doc_has.diagram,layer2.rollup.optimistic,layer2.rollup.zk,00_PM.WiP,"
   id="layer2_scalability_summary" >
 
 • Layer 1 Scalability Solutions include:
@@ -6424,9 +6225,9 @@ epoch
 
 
   RUNNING ISTANBUL BFT VALIDATORS&AMP;NODES: 
-$ $ geth  --datadir "/eth" init "/eth/genesis.json"                   // ← Initialize the data folder as (PRE-SETUP)
-$ $ geth --datadir "/eth" --mine --minerthreads 1 --syncmode "full"   // ← Start-up validators
-$ $ geth --datadir "/eth"                                             // ← Start-up regular nodes
+  $ geth  --datadir "/eth" init "/eth/genesis.json"                   // ← Initialize the data folder as (PRE-SETUP)
+  $ geth --datadir "/eth" --mine --minerthreads 1 --syncmode "full"   // ← Start-up validators
+  $ geth --datadir "/eth"                                             // ← Start-up regular nodes
 
   ISTANBUL OPTIONS: 
   --istanbul.requesttimeout value  round in milliseconds (default: 10000)
@@ -6443,7 +6244,7 @@ $ $ geth --datadir "/eth"                                             // ← Sta
   to define proposer vanity and validator set. Please refer to example.toml for
   the example. The output would be a hex string which can be put into extraData
   field directly.  Command:
-$ $ istanbul encode --config ./config.toml 
+  $ istanbul encode --config ./config.toml 
 
   Decoding: 
   Use --extradata option to give the extraData hex string. The output would show
@@ -6453,7 +6254,7 @@ $ $ istanbul encode --config ./config.toml
   to define proposer vanity and validator set. Please refer to example.toml for
   the example. The output would be a hex string which can be put into extraData
   field directly.  Command:
-$ $ istanbul encode --config ./config.toml 
+  $ istanbul encode --config ./config.toml 
 
   genesis.json 
   - config field is required, and the pbft subfield must present. Ex:
@@ -7114,7 +6915,7 @@ together with the account.
 - Vue front-end, Ethereum / IPFS Backend
 </pre>
 
-[[{}]]"101,integration.*,10_EVM.i/o.oracles,12_SOLidity,use_case.*,use_case.finance.*,security,use_case.integrity,00_PM.WiP">
+[[{}]]"101,integration.*,10_EVM.i/o.oracles,12_solidity,use_case.*,use_case.finance.*,security,use_case.integrity,00_PM.WiP">
 <span xsmall>External Inputs (Oracles)</span>
 • The evm and SmartContract by extension just have access to 
   internal (current-state) blockchain data. Oracles are used when we 
@@ -8453,9 +8254,9 @@ GraphQL:
      b) it needs to support sharing and proving checkpoints to not-yet-synced clients.
      Geth v1.9.0 ships a "checkpoint-admin" tool specifically for this contract.
      (useful to run your checkpoint oracle in a private network).
-   $ $ checkpoint-admin \                       ← query status of deployed contract
-   $     --rpc ~/.ethereum/rinkeby/geth.ipc \     can also be used to deploy/sign checkpoints
-   $     status                                
+     $ checkpoint-admin \                       ← query status of deployed contract
+     $  --rpc ~/.ethereum/rinkeby/geth.ipc \      can also be used to deploy/sign checkpoints
+     $  status                                
      Oracle => 0xebe8eFA441B9302A0d7eaECc277c09d20D684540
 
      Admin 1 => 0xD9C9Cd5f6779558b6e0eD4e6Acf6b1947E7fA1F3
@@ -9510,7 +9311,7 @@ UUID: a4c55453-c75d-4faf-91aa-ae437ef80e97
                                                   Node_A → Node_B: Find Neighbors 
                                                   Node_A ← Node_B: known-neighbors list
 
-  besu  /                              $ $ bin\besu --config=my.cfg \         
+  besu  /                                $ bin\besu --config=my.cfg \         
      ├─ bin/ (install)                 $   --data-path=/var/lib/besu/node1 \  
      ├─ lib/ (install)                 $   --genesis=my.genesis \             
      ├─ key  (run─time) eNode Priv.key $   --max-peers=5 \                    
@@ -10876,7 +10677,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
     Teman, a co-founder at Portis, will be the presenter
 [[}]]
 
-● EIP-165: Standard Interface [[{standards.eip/erc.165,devops,12_SOLidity.101,architecture,20_QA.UX]]
+● EIP-165: Standard Interface [[{standards.eip/erc.165,devops,12_solidity.101,architecture,20_QA.UX]]
   - NOTE: EIP-1820 improves over this standard, but EIP-165 is not 
     deprecated and still in active use (e.g, required by EIP-1155)
     as of 2021-10
@@ -10918,7 +10719,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
 [[}]]
 
 ● EIP-1820: EIP-165"++" @ma https://eips.ethereum.org/EIPS/eip-1820
-  [[{devops,standards.eip/erc.1820,12_SOLidity.101,architecture,20_QA.UX]]
+  [[{devops,standards.eip/erc.1820,12_solidity.101,architecture,20_QA.UX]]
     - Pseudo-introspection Registry Contract 
     - Status: Final 
     - It improves (but does NOT replaces) EIP-165.
@@ -10956,10 +10757,10 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
     @[https://github.com/EthVM/EthVM/tree/develop/apps/processing/kafka-streams/src/main/kotlin/com/ethvm/kafka/streams]
 </pre>
 
-  • Solidity Security Considerations [[{12_SOLidity,security.101}]]
+  • Solidity Security Considerations [[{12_solidity,security.101}]]
 @[http://solidity.readthedocs.io/en/develop/security-considerations.html#security-considerations]
 
- • Ethereum Package Registry [[{20_QA.solidity,12_SOLidity,20_QA.UX,00_PM.radar}]]
+ • Ethereum Package Registry [[{20_QA.solidity,12_solidity,20_QA.UX,00_PM.radar}]]
   @[https://www.ethpm.com/]
   - A package index for Ethereum smart contract packages.
   - The Ethereum Package Registry is a package index for Ethereum smart contract
@@ -10983,7 +10784,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
  • How to build server less applications for Mist
 @[https://blog.ethereum.org/2016/07/12/build-server-less-applications-mist/]
 
- • https://buidler.dev/ (npm package) [[{12_SOLidity}]]
+ • https://buidler.dev/ (npm package) [[{12_solidity}]]
    @[https://www.npmjs.com/package/@nomiclabs/buidler-ethers]
    """ Turn a mess of tricky Solidity tools into a smooth workflow """
    ...
@@ -11015,7 +10816,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
      As of now the geth miner running on my system mines even empty blocks.
    - How to do that same in Besu, Parity, ...? 
 
- • Deconstructing a Sol. Contract [[{10_EVM.debugging,12_SOLidity}]]
+ • Deconstructing a Sol. Contract [[{10_EVM.debugging,12_solidity}]]
 @[https://blog.openzeppelin.com/deconstructing-a-solidity-contract-part-i-introduction-832efd2d7737/]
 
  • Ether Vault (Anti-theft) [[{wallet.cloud,security}]]
@@ -11050,7 +10851,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
      (ERC-20), name registries (ERC-137), URI schemes (ERC-681),
      library/package formats (EIP190), and wallet formats (EIP-85).
 
- • LEGIONS: [[{13_SLC,troubleshooting,persistence.contract_state,security,devops,12_SOLidity,20_QA.UX}]]
+ • LEGIONS: [[{13_SLC,troubleshooting,persistence.contract_state,security,devops,12_solidity,20_QA.UX}]]
   @[https://diligence.consensys.net/blog/2020/06/legions-a-tool-for-seekers/]
 " Tool to poke around Geth Nodes in the terminal."
   -  Poke around a public Ethereum node JSON RPC endpoints?
@@ -11071,36 +10872,36 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
   Simply install the package for python 3.6+ and everything else should
   be easy to find with the interactive interface:
   
-  $ $ pip install legions  
+    $ pip install legions  
 
  • ethereum-etl: [[{integration.data,dev_framework.python,10_EVM.events,00_PM.low_code}]]
    WARN: See limitation in Github Project page.
  Export blocks and transactions (Schema, Reference):
- $ $ python export_blocks_and_transactions.py \                    
+   $ python export_blocks_and_transactions.py \                    
  $   --start-block 0 --end-block 500000 \                          
  $   --provider-uri https://mainnet.infura.io \                    
  $   --blocks-output blocks.csv --transactions-output \            
  $   transactions.csv                                              
  
  Export ERC20 and ERC721 transfers (Schema, Reference):
- $ $ python export_token_transfers.py \                            
+   $ python export_token_transfers.py \                            
  $   --start-block 0 --end-block 500000 \                          
  $   --provider-uri file://$HOME/Library/Ethereum/geth.ipc \       
  $   --output token_transfers.csv                                  
  
  Export receipts and logs (Schema, Reference):
- $ $ python export_receipts_and_logs.py --transaction-hashes \     
+   $ python export_receipts_and_logs.py --transaction-hashes \     
  $   transaction_hashes.txt \                                      
  $   --provider-uri https://mainnet.infura.io --receipts-output \  
  $   receipts.csv --logs-output logs.csv                           
  
  Export ERC20 and ERC721 token details (Schema, Reference):
- $ $ python export_tokens.py \                                     
+   $ python export_tokens.py \                                     
  $   --token-addresses token_addresses.csv \                       
  $   --provider-uri https://mainnet.infura.io --output tokens.csv  
  
  Export traces (Schema, Reference):
- $ $ python export_traces.py --start-block 0 --end-block 500000 \  
+   $ python export_traces.py --start-block 0 --end-block 500000 \  
  $   --provider-uri file://$HOME/Library/Ethereum/parity.ipc \     
  $   --output traces.csv                                           
 
@@ -11132,7 +10933,7 @@ REF: @[https://frax.finance/whitepaper/]
 </pre>
 
 
-[[{}]],"12_SOLidity,security,20_QA.auditing,00_PM.TODO">
+[[{}]],"12_solidity,security,20_QA.auditing,00_PM.TODO">
 <span xsmall>EthTrust</span>
 <a target="_blank" href="https://entethalliance.org/enterprise-ethereum-alliance-launches-ethtrust-security-initiative-to-advance-confidence-in-ethereum-as-a-global-settlement-layer-for-transactions-of-all-types/">external REF</a>
 
@@ -11160,7 +10961,7 @@ Transactions of All Types
 @[https://besu.hyperledger.org/en/stable/HowTo/Get-Started/Installation-Options/Run-Docker-Image/]
 @[https://hub.docker.com/r/hyperledger/besu/tags]
 
-$ $ docker run hyperledger/besu:latest 
+  $ docker run hyperledger/besu:latest 
 
   $ docker run -p $JSON_RPC:8545 \   ←  run Besu in MainNet
     -p $localportWS:8546 \
@@ -11889,7 +11690,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
 
   • https://polymath.network/
 
-  • Open Zepellin (OZ) Summary [dev_framework.zepellin,12_SOLidity,security.aaa,20_QA,00_PM.TODO]
+  • Open Zepellin (OZ) Summary [dev_framework.zepellin,12_solidity,security.aaa,20_QA,00_PM.TODO]
     WARN: upgradable contracts, the "core" of OZ, looks to be replaced by "Diamon Standard"
     @[https://github.com/OpenZeppelin/]
     - TODO: Summary of "important" libraries
@@ -12046,7 +11847,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       - GraphQL interface
       - data persisted to several backend through PouchDB. 
     - Ussage:
-    $ $ truffle db serve   ← Starts GraphQL Playground HTTP server.
+      $ truffle db serve   ← Starts GraphQL Playground HTTP server.
 
   TODO: recheck transaction subtopics.
 
@@ -12063,7 +11864,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    ("f(uint,uint32[],bytes10,bytes)", openjdk 11.0.1)).
 
 
-  • Solidity RLP: [evm.rlp,12_SOLidity.persistence,00_PM.TODO]
+  • Solidity RLP: [evm.rlp,12_solidity.persistence,00_PM.TODO]
     - @[https://github.com/hamdiallam/solidity-rlp]
       Currently support for solidity v0.5.0
     
@@ -12545,7 +12346,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    Research at Yale and Columbia to further their work on DeepSEA,
    a formally verified language that compiles to the EVM.
 
- • SandCastle_SQL [[{persistence.data_structure,20_QA.solidity,12_SOLidity.persistence,01_doc_has.diagram}]]
+ • SandCastle_SQL [[{persistence.data_structure,20_QA.solidity,12_solidity.persistence,01_doc_has.diagram}]]
   @[https://pegasys.tech/sandcastle-brings-sql-to-ethereum-smart-contracts/]
     WARN : Doesn't look to be continued.
 
@@ -12581,9 +12382,9 @@ SKALE: Standard Kit for Asyncronous LEdgers.
   - INSTALL PRE-REQUISITES)
     ✓ docker-CE ("Long Term Support") 
   - INSTALL)
-    $ $ git clone https://github.com/synechron-finlabs/quorum-maker  
+      $ git clone https://github.com/synechron-finlabs/quorum-maker  
   - USSAGE)
-    $ $ ./setup.sh --help 
+      $ ./setup.sh --help 
 
     join      Create a node and Join to existing Network
              --oip     IP address of the other(existing) node 
@@ -12618,22 +12419,22 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       --tessera Create node with Tessera Support (Optional)
      --rpc     RPC port of this node
 
-    $ $ ./setup.sh create -n master \      
+    $ ./setup.sh create -n master \      
     $   --ip 10.0.2.15 -r 22000 -w 22001 \ 
     $   -c 22002 --raft 22003 --nm 22004 \ 
     $   --ws 22005                         
 
-    $ $ ./setup.sh join -n slave1 --oip 10.0.2.15   \ 
+    $ ./setup.sh join -n slave1 --oip 10.0.2.15   \ 
     $  --onm 22004 --tip 10.0.2.15 -r 23000 -w 23001\ 
     $  -c 23002 --raft 23003 --nm 23004 --ws 23005    
 
 
-    $ $ ./setup.sh attach -n slave1 --ip 10.0.2.15  \ 
+    $ ./setup.sh attach -n slave1 --ip 10.0.2.15  \ 
     $  --pk BULe... -r 22000 --whisper 21000        \ 
     $  --constellation 9001 --raft 50401 --nm 11004 \ 
     $  --active                                       
 
-    $ $ ./setup.sh dev -p TestNetwork -n 3            
+    $ ./setup.sh dev -p TestNetwork -n 3            
 
   • Gemalto HSM [[{wallet.hsm,security}]]
     @[https://safenet.gemalto.com/data-encryption/hardware-security-modules-hsms/protectserver-security-module/]
@@ -12668,7 +12469,6 @@ SKALE: Standard Kit for Asyncronous LEdgers.
      - Highly extensible Libp2p networking
      - Rust-based primary implementation for speed and reliability
      - Javascript secondary implementation for developability
-[[}]]
 
  • Deth (Ganache alt)
 @[https://github.com/ethereum-ts/deth]
@@ -12762,7 +12562,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    development community are able to use, access and even contribute to
    the solution.
 
- • Piet: parses *.sol, generates graphs of contracts and their relations [[{12_SOLidity,20_QA.solidity}]]
+ • Piet: parses *.sol, generates graphs of contracts and their relations [[{12_solidity,20_QA.solidity}]]
    (inheritance structure,...).
    @[https://blog.slock.it/analyzing-solidity-smart-contracts-with-piet-6db33a733e79]
    @[https://github.com/slockit/piet]
@@ -12776,7 +12576,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    
      Warning: Piet has not yet undergone in-depth testing and may contain serious bugs. 
 
-  • EWASM: [[scalability.ewasm}]]
+  • EWASM: [[{scalability.ewasm}]]
   @[https://ewasm.readthedocs.io/en/mkdocs/]
   Ethereum WebAssembly is a proposed redesign of the Ethereum smart
   contract execution layer using a deterministic subset of WebAssembly.
@@ -12787,14 +12587,14 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     programming languages, such as C, C++, and Rust
   - Access to a vast developer community and the toolchain surrounding WebAssembly
 
- • Flattening code [[{12_SOLidity}]]
+ • Flattening code [[{12_solidity}]]
 @[https://stackoverflow.com/questions/50137954/verify-smart-contract-code-deployed-with-truffle]
 - https://github.com/BlockCatIO/solidity-flattener
 - https://github.com/nomiclabs/buidler
 - https://github.com/nomiclabs/truffle-flattener
 - https://github.com/RyuuGan/sol-merger
 
- • QA Mythril: detects integer underflows, owner-overwrite-to-Ether-withdrawal, ...  [[{12_SOLidity.qa,security,00_PM.backlog}]]
+ • QA Mythril: detects integer underflows, owner-overwrite-to-Ether-withdrawal, ...  [[{12_solidity.qa,security,00_PM.backlog}]]
   - https://github.com/ConsenSys/mythril-classic 
   - Swiss army knife for smart contract security.
   - @[https://github.com/ConsenSys/mythril/wiki]
@@ -12802,7 +12602,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     logic issues.
   - It is NOT equivalent to formal verification.
 
- • Security Best Practices [[{101,security,12_SOLidity.qa}]]
+ • Security Best Practices [[{101,security,12_solidity.qa}]]
   @[https://consensys.github.io/smart-contract-best-practices/]
   
  • Example ussage of msg.data: Imagine we pass 2xuint256 as msg.data:
@@ -12817,8 +12617,8 @@ SKALE: Standard Kit for Asyncronous LEdgers.
             op2 := mload(add(data, 68))     the msg.data is the func.selector data.
             result  := add(op1, op2)
         }
-      }
-  }
+     }
+ 
 
  • library of standards for security tokens ("Obligation to pay") on Ethereum. @ma
    suite of standard interfaces for:
@@ -12848,3 +12648,21 @@ SKALE: Standard Kit for Asyncronous LEdgers.
   • Awesome Solidity Libraries:
     @[https://github.com/bkrem/awesome-solidity#libraries]
 
+  • @[https://kauri.io/article/766e5d1e1ba240a7976943b659a871fc/v1/a-deep-dive-into-the-ethereum-virtual-machine-(evm)-part-2:-memory-and-storage]
+
+  • Awesome EVM list:
+   @[https://github.com/pirapira/awesome-ethereum-virtual-machine]
+
+  • truffle: run multiline scripts.
+    https://ethereum.stackexchange.com/questions/36549/how-to-run-a-multiline-script-in-truffle-console
+    STEP 1)  Write script to 'myScript.js' file.
+    STEP 2)  Use require or exec like:
+             truffle(dev)> require ('./myScript.js')  ← alt 1:
+           truffle(dev)> exec  './myScript.js'      ← alt 2:
+
+ • solc generates two related outputs: 
+   - bytecode        : wrapper code necessary to init+deploy the contract
+   - deployedBytecode: deployed code (with no extra init code)
+
+
+[[}]]
