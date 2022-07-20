@@ -261,6 +261,12 @@ class TXTDBEngine {
              /@\[([^\]\n]*)\]/g,
              " ▷<a href='$1'>$1</a>◁")
 
+         H = H.replace(
+             /(\[\[[^\]\n]*\]\])/g,
+             "<span class='txtblock'>$1</span>")
+
+
+
          return H
       }
       this.cachePayload     = doTxtPreProcessing(payload) // TODO:(qa) Cache just source URL???
