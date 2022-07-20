@@ -65,10 +65,15 @@ class TopicBlockDB { //                                                        [
    }
 
    getBlocks(tc /*topicCoordinate*/, topicParentDepth) {
-       // TODO:(0) Add all matching subtopics.
+console.log(">>>>")
+console.log(this._db[tc.dim][tc.coord])
        let result = this._db[tc.dim][tc.coord].filter(block => { 
+console.log(block.topic_d[tc.id])
+console.log(block.topic_d[tc.id]<=topicParentDepth)
            return (block.topic_d[tc.id]<=topicParentDepth);} 
        );
+console.log(result)
+console.log("<<<<")
        return result;
    }
 
@@ -157,6 +162,7 @@ class TXTDBEngine {
         return lineIn.substring(idx0+2,idx1).toUpperCase() .replaceAll(" ","");
       }
       const blockStack = []; // Active stack for a given txt-line-input
+      let maxStackLength = -1;
       this.topicsDB = new TopicBlockDB();
       for (let lineIdx = 0; lineIdx <= this.rowN; lineIdx++) {
         const line = this.immutableDDBB[lineIdx];
@@ -166,6 +172,10 @@ class TXTDBEngine {
           if ( segment == '') { return; }
           if ( segment == '{') {
               blockStack.push( new Block ( [lineIdx], {}, blockStack.at(-1) ) )
+              if (maxStackLength<blockStack.length){
+                maxStackLength=blockStack.length;
+                console.log(`maxStackLength ${maxStackLength},lineIdx: ${lineIdx+1}, ctrlToken_l:${ctrlToken_l}, line: ${line}`)
+              }
               return;
           }
           if ( segment == '}') {
@@ -180,8 +190,9 @@ class TXTDBEngine {
             if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
             let stackDepth = blockStack.length-1;
             blockStack.forEach(block => {
-              if (TC_id in block.topic_d) { return }
+              // if (TC_id in block.topic_d) { return }
               block.topic_d[TC_id] = stackDepth; 
+           // console.log(`TC_id: ${TC_id} , stackDepth: ${stackDepth}`)
               this.topicsDB.add(new TopicCoordinate(TC_id), block);
               stackDepth--;
             })
@@ -242,12 +253,12 @@ class TXTDBEngine {
 
          // NEXT) replace External links
          H = H.replace(
-             /@\[((http|[.][/]).?[^\]]*)\]/g,
+             /@\[((http|[.][/]).?[^\]\n]*)\]/g,
              " ▶<a target='_blank' href='$1'>$1</a>◀")
      
          // NEXT) replace relative (to page) link
          H = H.replace(
-             /@\[([^\]]*)\]/g,
+             /@\[([^\]\n]*)\]/g,
              " ▷<a href='$1'>$1</a>◁")
 
          return H
