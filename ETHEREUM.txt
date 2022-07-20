@@ -2277,7 +2277,8 @@ The signed TX is then sent to the network.    |   hacked)
   - Silent Changes of the Semantics
     - Arithmetic operations revert on underflow and overflow.
       You can use  unchecked { ... }  to go back to previous wrapping behaviour.
-      (better readability of code withslight increase of gas costs)
+      (better readability of code with slight increase of gas costs)
+      No need anymore to import "SafeMath".
 
     - ABI coder v2 is activated by default. :
       (pragma experimental ABIEncoderV2" not-needed/redundant)
@@ -2654,7 +2655,7 @@ The signed TX is then sent to the network.    |   hacked)
                                 'public' automatically creates getter (NOT setter)
   uint immutable x;           ← immutable: Init@constructor, constant from there on.
   uint256 c = a + b;
-  assert(c >= a);             ← Check overflow. TIPO: Use Zeppelin's SafeMath lib
+  assert(c >= a);             ← overflow check ("SafeMath") integrated in Solc 0.8+
   bool b = true;              ← boolean, alt(type inferred): var b = true;
   address payable owner;      ← 20 byte Ethereum addresses (arithmetic not allowed)
                                 Mark as 'payable' to allow sending ethers.
@@ -5124,22 +5125,39 @@ Ethereum JavaScript Libraries: web3.js vs. ethers.js (Part I)
       └─ util.js
 
 
-$ mkdir fibonacci
+$ mkdir fibonacci                          ● CREATE NEW BARE TRUFFLE PROJECT
 $ cd fibonacci
-$ truffle init   # ● Create NEW BARE TRUFFLE PROJECT
-          ^
-  Next files will be created.
-  ./contracts/Migrations.sol              <- WARN: DON'T TOUCH THIS FILE
-  ./migrations/1_initial_migration.js     <- WARN: DON'T TOUCH THIS FILE
-  ./truffle-config.js                     <- Config remote Nodes and wallets used for
-    ...                                      testing and deployment. By default the test network
-    networks: {                            localhost:8545 is configured using existing wallets
-      development: {                       managed by node (probably ganache)
-        host: "127.0.0.1",
-        port: 8545,
-        network_id: "*"
-      }
-    }
+$ truffle init
+ (Next files will be created)
+ + ./contracts/Migrations.sol              <- WARN: DON'T TOUCH THIS FILE
+ + ./migrations/1_initial_migration.js     <- WARN: DON'T TOUCH THIS FILE
+ + test/               
+ + build/contracts/                        <- WARN: build/contracts/ MUST BE VERSIONED IN GIT.
+                                              - Important compilation metadata is recorded here as JSON.
+                                              - On successful deployments ("migrations") the JSON is 
+                                                updated (.network[$chainId]). Ej:
+                                                $ cat build/contracts/ERC20.json | jq ".networks"
+                                                {
+                                                  "1": {                          <- ChainID (1 == "MainNet")
+                                                    "events": {},                 <- Events emitted
+                                                    "links": {                    <- Info to any library linked during 
+                                                      "somelinkedlib": "0x3c5..."    deployment
+                                                    },
+                                                    "address": "0x77f90...",      <- Deployed SC address. Needed by clients.
+                                                    "transactionhash": "0x603..." <- Can be used to find block number 
+                                                  }
+                                                  "111": { ...  }                 <- Some testnet.
+                                                }
+
+ + truffle-config.js                       <- Config remote Nodes and wallets used for
+     ...                                      testing and deployment. By default the test network
+     networks: {                              localhost:8545 is configured using existing wallets
+       development: {                         managed by node (probably ganache)
+         host: "127.0.0.1",
+         port: 8545,
+         network_id: "*"
+       }
+     }
 $ editor contracts/Fibonacci.sol                       Create alphabetically ORDERED deployment script
 $ editor migrations/2_deploy_contracts.js           <- to deploy the new S.C.
   const LibA = artifacts.require('LibA')      ┌······· require: similar to node.js "require" but it reads
@@ -9620,6 +9638,71 @@ https://eips.ethereum.org/EIPS/eip-1820
     - Superseed EIP-820 (universal registry)
 [[}]]
 
+●  HardHat https://hardhat.org/ (Truffle alternative) [[{dev_framework.js.hardhat]]
+- TypeScript support (Compile time vs runtime errors).
+
+- HardHat Framework can be seen briefly as its Hardhat Runtime Environment  (HRE):
+  const hardhat /*HRE*/ = require("hardhat")
+        └─────┴─ "==" 
+   {
+     /* core */           ┌ task: async function + metadata defining 
+     config: ...,         v       "everything you can do in HardHat"
+     "tasks..." : task1, task2, ... 
+     "plugins..." : ...  
+
+     /* others */
+     artifacts : {
+        readArtifact("contracts/A.sol:A"),
+     }
+
+   }
+
+- Export EIP-1193 compatible Ethereum provider.
+
+- Hardhat Runner: task runner designed around "tasks" and "plugins".
+  $ npx hardhat compile ···(translates to)··-> runing built-in-task "compile"
+
+  - plugins can override default task behaviour.
+
+- Hardhat for VS Code: adds advanced support for Solidity. [[{IDE,dev_framework.js}]]
+
+- Ussage:
+  $ npm install --save-dev hardhat  <- PRESETUP: only local install is allowed to
+                                       ensure reproducible builds.
+
+  $ npx hardhat --help 
+    Usage: hardhat [GLOBAL OPTIONS] <TASK> [TASK OPTIONS]
+   
+    GLOBAL                   AVAILABLE 
+    OPTIONS:                 TASKS:
+    ---------------          ---------
+    --config ...             check  ... whatever you need to check ...
+    --emoji  yes|no          clean      Clears cache + artifacts
+    --help                   compile    compile contracts/*, generate TS bindings
+    --max-memory ...         console 
+    --network ...            flatten    Flattens, prints contracts and dependencies
+    --show-stack-traces ...  node       Starts a JSON-RPC test node @http://127.0.0.1:8545/
+    --tsconfig ...           run        ... user-defined script after compiling ...
+    --verbose  ...           typechain  Generate Typechain typings for Compiled contracts
+    --version  ...           verify     Verifies contract on Etherscan  [[security]]
+                                                                                            
+                             coverage   [[13_SLC.testing.coverage]]
+     ^^^^^^^^^^              test       test/*js *ts [[13_SLC.testing]]
+     ENV.VARS: 
+     - HARDHAT_NETWORK
+     - HARDHAT_SHOW_STACK_TRACES
+     - HARDHAT_VERBOSE
+     - HARDHAT_MAX_MEMORY
+
+For example, instead of doing npx hardhat --network localhost run script.js, you can do HARDHAT_NETWORK=localhost node script.js. 
+• Compared to Truffle there is no migrations/* directory.
+  To deploy new contracts:
+  STEP 1) Create standard deployment script (js/ts) using ethers.js
+  STEP 2) $ npx hardhat run scripts/deploy.ts
+
+
+[[}]]
+
 ● Non Classified / TODO: [[{00_PM.TODO]]
   • Mnemonic to Seed: [[{wallet.mnemonics}]]
   @[https://ethereum.stackexchange.com/questions/25484/could-address-reuse-leak-your-mnemonic-seed/25705#2570://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki#from-mnemonic-to-seed]
@@ -9635,7 +9718,7 @@ https://eips.ethereum.org/EIPS/eip-1820
        only the correct one will
        make the desired wallet available
 
-  • Azure offline signing: [[{wallet.cloud,signature.ecdsa_secp256k1,security,00_PM.TODO">
+  • Azure offline signing: [[{wallet.cloud,signature.ecdsa_secp256k1,security,00_PM.TODO}>
    @[https://tomislav.tech/2018-02-05-ethereum-keyvault-signing-transactions/]
 
   • EthVM OOSS Blockchain Explorer focused mainly on Ethereum
@@ -10493,18 +10576,6 @@ SKALE: Standard Kit for Asyncronous LEdgers.
 
   • https://kalis.me/assert-reverts-solidity-smart-contract-test-truffle/
 
-  • https://hardhat.org/  (Truffle alternative)
-    - """ making your development feedback loop up to 10x faster with Hardhat."""
-    - TypeScript Compile time errors vs JS Runtime errors.
-
-    - hardhat/console.sol console.log solidity lib.
-    - util.format !!!!
-      console.log("Changing owner from %s to %s", currentOwner, newOwner).
-      - emit log entries where it's fully supported ( Hardhat Network, Remix, Tenderly)
-      - falls back gracefully to a no-op everywhere else
-
-   - Uses Waflle: https://getwaffle.io/   @ma
-      minimalistic Sweet tool for smart contracts testing used in 10.000+ projects.
 
   • Solidity:
     https://jeancvllr.medium.com/solidity-tutorial-all-about-bytes-9d88fdb22676
