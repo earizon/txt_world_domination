@@ -1,3 +1,9 @@
+● Apropos:
+  For comments, requests and feedback feel free to open an issue or 
+  open a Pull-Request:
+@[https://github.com/earizon/txt_world_domination/blob/main/ETHEREUM.txt]
+
+
 - Topics Acronyms:
   - PM  : Project Management
   - SLC : software life cycle
@@ -554,7 +560,7 @@
   OTHERS Networks: @[https://chainid.network/]
     Diode , Flare , ThunderCore, Callisto, ...
   -------------------------------------------------------------------------------------------------
-[[}]
+[[}]]
 
 
 [[{standards,00_PM.ext_resource,01_doc_has.taxonomy,00_PM.TODO]]
@@ -567,7 +573,7 @@
   - Economics  Taxonomy: @[https://economics.stackexchange.com/tags]
 [[}]]
 
-● EVM {{{ [[{10_EVM,00_PM.ext_resource]]
+● EVM [[{10_EVM,00_PM.ext_resource]]
  • External Refs:
   @[https://github.com/ethereum/yellowpaper]
   @[https://github.com/ethereum/wiki/wiki/Ethereum-Development-Tutorial]
@@ -820,7 +826,7 @@
 
    - Replaces   deprecated CALLCODE  fixing bug since CALLCODE did not
      preserve msg.sender and msg.value.
-[}]
+[[}]]
 
  • EVM OpCodes Summary [[{10_EVM.101,10_EVM.i/o,10_EVM.gas]]
    - Ethereum Virtual Machine Opcodes low level reference to EVM:
@@ -1299,7 +1305,7 @@ REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-sto
     ...
   }
 [[}]]
-[}]
+[[}]]
 
 ● TRANSACTIONS [[{101,transaction.101,signature.ecdsa_secp256k1]]
   NOTE: a client Transaction in blockchain is an INTENTION to modify the state of the ddbb.
@@ -1396,7 +1402,7 @@ REF: @[https://www.mayowatudonu.com/blockchain/deep-dive-into-evm-memory-and-sto
 
 [[}]]
 
-● EIP-191: Signed Data Standard (Multisignature TXs) [[{signature.multisignature,use_case.identity,standards.eip/erc.191,00_PM.TODO]]
+● EIP-191: Signed Data Standard (Multisignature TXs) [[{signature.multisignature,02_use_case.identity,standards.eip/erc.191,00_PM.TODO]]
 @[https://eips.ethereum.org/EIPS/eip-191]
 @[https://github.com/ethereum/EIPs/issues/191]
 - See also @[#eip-712]
@@ -1806,7 +1812,8 @@ network node.                                 |   (but offline clients can also 
 The signed TX is then sent to the network.    |   hacked)
 [[}]]
 
-● EIP-2535 Diamons: [[{101,10_EVM,persistence.contract_state,persistence.data_structure,20_QA.UX,20_QA.solidity,12_solidity.upgradable_contracts,13_SLC.troubleshooting,standards.eip/erc.2535]]
+● EIP-2535 Diamons: [[{101,10_EVM,persistence.contract_state,persistence.data_structure]]
+                    [[20_QA.UX,20_QA.solidity,12_solidity.upgradable_contracts,13_SLC.troubleshooting,standards.eip/erc.2535]]
 @[https://eips.ethereum.org/EIPS/eip-2535]
   - About EIP-170 24K Max Contract Size
     @[https://ethereum-magicians.org/t/removing-or-increasing-the-contract-size-limit/3045]
@@ -1944,105 +1951,115 @@ The signed TX is then sent to the network.    |   hacked)
     |• proxy-contract delegates on single pattern.    |• good for diamonds delegating to different facets depending on which function is called.|
     └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 
-      Solidity v0.6.4+ allows to set storage slots for storage reference
-    variables from inline assembly within solidity code (bypassing
-    default Compiler default storage patterns causing conflicts among
-    proxy instances ). @[https://github.com/ethereum/solidity/releases/tag/v0.6.4]
-    allowing new storage patterns for delegatecall-proxies/upgradable contracts.
+    KEYPOINT: Solidity v0.6.4+ allows to set storage slots for storage reference
+      variables from inline assembly within solidity code (bypassing
+      default Compiler default storage patterns causing conflicts among
+      proxy instances ). @[https://github.com/ethereum/solidity/releases/tag/v0.6.4]
+      allowing new storage patterns for delegatecall-proxies/upgradable contracts.
 
-    ┌─ DIAMOND STORAGE PATTERN :    NO STORAGE DOWNSIDES !!!  ───────────────────────────────────────────
-    │
+    ┌─ DIAMOND STORAGE PATTERN : NO STORAGE DOWNSIDES !!! ─────────────────
     │ PRE-SETUP: Create Storage Contract/s:
-    │ → Create a "Diamond Storage contract" for each storage "interface implementation".
-    │   → Inside it, create struct/s with suitable state variables for the interface implementation.
+    │ → Create a "Diamond Storage contract" for
+    │   each storage "interface implementation".
+    │   → Inside it, create struct/s with suitable
+    │     state variables for the interface implementation.
     │     → Choose a position in storage for the struct/s.
-    │       → Write a function inisde the storage contract creating and returning the storage pointer.
-    │ ┌ e.g: ───────────────────────────────────────────────────────┐
-    │ │ contract MyIdentityStorageContract {                        ← Create one for each storage pattern
-    │ │   struct MyStorage {                                        ← struct
-    │ │     uint aVar;                                              │
-    │ │     bytes myBytes;                                          │
-    │ │     mapping(uint => bytes32) myMap;                         │
-    │ │   }                                                         │
-    │ │                                                             │
-    │ │   function myStorage()                                      ← Public func. used by proxies/facets
-    │ │   internal                                                  │
-    │ │   pure                                                      │
-    │ │   returns(MyStorage storage ms) {                           │
-    │ │     // ms_slot = keccak256("com.mycompany.my.storage")      ←·· Namespaces come for free!!!
-    │ │     assembly {ms_slot := 0xabcd55b489adb030b...d09c4154cf0} │
-    │ │   }                                                         │
-    │ │ }                                                           │
-    │ └─────────────────────────────────────────────────────────────┘
-    │ For each contract/proxy/facet using the storage contract:
-    │   → inherit storage contract
-    │     → call the function returning the storage pointer.
+    │       → Write a function inisde the storage contract
+    │         creating and returning the storage pointer.
+    │ 
+    │ Identity: example of "orthogonal facet" (vs Tokenization, MarketPrice,...)
+    │ ┌ e.g: ────────────────────────────────┐
+    │ │ contract MyIdentityStorageContract { <·· Create one for each storage pattern
+    │ │   struct MyIdentityStorage {         <·· Struct reused by Facets. 
+    │ │     uint aVar;                       │
+    │ │     bytes myBytes;                   │
+    │ │     mapping(uint => bytes32) myMap;  │
+    │ │   }                                  │
+    │ │                                      │
+    │ │   function myIdentityStorage()    <··· Public func. used by proxies/facets
+    │ │   internal pure                      │
+    │ │   returns(MyStorage storage ms) {    │
+    │ │     assembly {                       │
+    │ │      ms_slot := 0xabcd55b489......<···· keccak256("com.comp1.identity.storage")
+    │ │     }                                │  Namespaces come for free!!!
+    │ │   }                                  │
+    │ │ }                                    │
+    │ └──────────────────────────────────────┘
+    │ KEYPOINT: 
+    │  For each contract/proxy/facet using the storage contract: 
+    │  → inherit storage contract
+    │    → call the function returning the storage pointer.
     │
-    │ ┌─ e.g. Storage "consumer" ─────────────────────────┐
-    │ │ contract MyContract is ...  MyStorageContract {   │
-    │ │    constanct MyStorage storage MS01 = myStorage();← Instantiate MyStorage
-    │ │    function ...(...) external {                   │
-    │ │      MS01.myMap[selector] = myData;               ← Write to MyStorage.
-    │ │      MS01.aVar = uint(myData);                    │
-    │ │      ...                                          │
-    │ │      bytes32 data = MS01.myMap[selector];         ← Read from MyStorage.
-    │ │      ...                                          │
-    │ │    }                                              │
-    │ │ }                                                 │
-    │ └───────────────────────────────────────────────────┘
-    │
-    │
-    └──────────────────────────────────────────────────────────────────────────────────────────
+    │ ┌─ e.g. Storage "consumer" ──────────────┐
+    │ │ contract MyIdentityFacet is ...        │
+    │ │         MyIdentityStorageContract {    │
+    │ │   constanct MyIdentityStorage         <·· Instantiate
+    │ │     storage IDS = myIdentityStorage(); │  Storage
+    │ │                                        │
+    │ │   function ...(...) external {         │
+    │ │     MS01.myMap[selector] = myData;    <·· Write to
+    │ │     MS01.aVar = uint(myData);          │      
+    │ │     ...                                │
+    │ │     bytes32 data = IDS01.             <·· Read from
+    │ │                     myMap[selector];   │
+    │ │     ...                                │
+    │ │   }                                    │
+    │ │ }                                      │
+    │ └────────────────────────────────────────┘
+    └─────────────────────────────────────────────────────────────────
 
-    ┌─ Diamond Implementation S.C. ───────────────────────────┐
-    │                                                         │
-    │ mapping (bytes4 ←·········································· function 'ABI'
-    │          => address  ←····································· contract instance
-    │ ) internal FACETS_DDBB;                                 │   implementing it */
-    │  e.g.:                                                  │
-    │  e2532512(func1)  => 0x0....contract "Facet" A          ←─┐               ┌──────┐
-    │  ───────────────     ─────────────────────────          │ ├───────────────│facetA│
-    │  253e253A(func2)  => 0x0....contract "Facet" A          ←─┘               │S.C.  │
-    │  ───────────────     ─────────────────────────          │                 └──────┘
-    │  FA539B19(func3)  => 0x0....contract "Facet" B          ←─┐                  │
-    │  ───────────────     ─────────────────────────          │ │      ┌──────┐    │
-    │  D38A5B17(func4)  => 0x0....contract "Facet" B          │ ├──────│facetB│    │
-    │  ───────────────     ─────────────────────────          │ │      │S.C.  │    │
-    │  16D253AB(func5)  => 0x0....contract "Facet" B          ←─┘      └──────┘    │
-    │  ───────────────     ─────────────────────────          │           │        │
-    │  ...     (func6)  => 0x0....contract "Facet" C          ←─┐ ┌──────┐│        │
-    │  ───────────────     ─────────────────────────          │ ├─│facetC││        │
-    │  ...     (func7)  => 0x0....contract "Facet" C          ←─┘ │S.C.  ││        │
-    │                      └──────────┬────────────┘          │   └──────┘│        │
-    │                      facets are contract/s that         │    │      │        │
-    │                      diamond borrows functions          │    │      │        │
-    │                      from.                              │    │      │        │
-    │ ┌────────────────────────┐                              │    │      │        │
-    │ │struct DiamondStorage1 {│   ←── facetC ─────────────────────┤      │        │
-    │ │  ...                   │                              │    │      │        │
-    │ │}                       │                              │    │      │        │
-    │ └────────────────────────┘                              │    │      │        │
-    ╞═════════════════════════════════════════════════════════╡    │      │        │
-    │ "diamondCut(...)": add/replace/remove/facets⅋functions. │    │      │        │
-    │                                                         │    │      │        │
-    │ "loupe": introspection info. about facets⅋functions.    │    │      │        │
-    │                                                         │    │      │        │
-    └─────────────────────────────────────────────────────────┘    │      │        │
-    ┌─ S.C. Storage2 ─────────────────────────────────────────┐    │      │        │
-    │ ┌────────────────────────┐                              │    │      │        │
-    │ │struct DiamondStorage2 {│   ←── facetC ─────────────────────┘      │        │
-    │ │  ...                   │   ←── facetB ────────────────────────────┤        │
-    │ │}                       │                              │           │        │
-    │ └────────────────────────┘                              │           │        │
-    └─────────────────────────────────────────────────────────┘           │        │
-    ┌─ S.C. Storage3 ─────────────────────────────────────────┐           │        │
-    │ ┌────────────────────────┐                              │           │        │
-    │ │struct DiamondStorage2 {│   ←── facetB ────────────────────────────┘        │
-    │ │  ...                   │   ←───facetA ─────────────────────────────────────┘
-    │ │}                       │                              │
-    │ └────────────────────────┘                              │
-    └─────────────────────────────────────────────────────────┘
-
+    ┌─ Diamond Implementation S.C. ────────────────────┐
+    │                                                  │
+    │ mapping (bytes4 ←································ function 'ABI'
+    │          => address  ←··························· SC. instance
+    │ ) internal FACETS_DDBB;                          │address.
+    │  e.g.:                                           │
+    │  e2532512(func1)  => 0x0....contract "Facet" A <··┐     facetA┐
+    │  ───────────────     ─────────────────────────   │├─────│S.C. │
+    │  253e253A(func2)  => 0x0....contract "Facet" A <··┘     └────┬┘
+    │  ───────────────     ─────────────────────────   │           │
+    │  FA539B19(func3)  => 0x0....contract "Facet" B <··┐          │
+    │  ───────────────     ─────────────────────────   ││   facetB┐│
+    │  D38A5B17(func4)  => 0x0....contract "Facet" B   │├───│S.C. ││
+    │  ───────────────     ─────────────────────────   ││   └────┬┘│
+    │  16D253AB(func5)  => 0x0....contract "Facet" B <··┘        │ │
+    │  ───────────────     ─────────────────────────   │         │ │
+    │  ...     (func6)  => 0x0....contract "Facet" C <··┐ facetC┐│ │
+    │  ───────────────     ─────────────────────────   │├─│S.C. ││ │
+    │  ...     (func7)  =˃ 0x0....contract "Facet" C <··┘ └────┬┘│ │
+    │                      └──────────┬────────────┘   │       │ │ │
+    │                      facets are contract/s that  │       │ │ │
+    │                      diamond borrows functions   │       │ │ │
+    │                      from.                       │       │ │ │
+    │ ┌──────────────────────┐                         │       │ │ │
+    │ │struct StorageFacetC {│ <···facetC (read/write)········─┤ │ │
+    │ │  ...                 │                         │       │ │ │
+    │ │}                     │                         │       │ │ │
+    │ └──────────────────────┘                         │       │ │ │
+    ╞══════════════════════════════════════════════════╡       │ │ │
+    │ "diamondCut(...)": add/replace/remove/facets     │       │ │ │
+    │                    ⅋functions                    │       │ │ │
+    │ "loupe": introspection info. about facets⅋functio│       │ │ │
+    │                                                  │       │ │ │
+    └──────────────────────────────────────────────────┘       │ │ │
+    ┌─ S.C. Storage2 ──────────────────────────────────┐       │ │ │
+    │ ┌──────────────────────┐                         │       │ │ │
+    │ │struct StorageFacetB {│ <···· facetC (read)············─┘ │ │
+    │ │  ...                 │                                   │ │
+    │ │}                     │ <···· facetB (read/write)·······──┤ │
+    │ └──────────────────────┘                         │         │ │
+    └──────────────────────────────────────────────────┘         │ │
+    ┌─ S.C. Storage3 ──────────────────────────────────┐         │ │
+    │ ┌─────────────────────┐                          │         │ │
+    │ │struct StorageFacetA{│ <···· facetB (read)··············──┘ │
+    │ │  ...                │                                      │
+    │ │}                    │ <···· facetA (read/write)···········─┘
+    │ └─────────────────────┘                          │
+    └──────────────────────────────────────────────────┘
+                                           ^^^^^^^^^^^^ 
+    The read-only restriction of facetA contract to storageFacetB       is not
+    mandatory, but probably useful in order to let only facetX update 
+    the state of DiamonStorageFacetX. 
   ##################
   # Diamon Tooling #
   ##################
@@ -3336,12 +3353,10 @@ this.confirmPurchase(...) # External call
               }
             }
           }
-
-
   #############################
   # try/catch (Solidity 0.8+) #
   #############################
-  - Ex extracted from @[https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol
+  - Ex extracted from @[https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC1155/ERC1155.sol]
 
     try IERC1155Receiver(to).onERC1155Received(... )
         returns (bytes4 response) {
@@ -3519,7 +3534,7 @@ this.confirmPurchase(...) # External call
     [[}]]
 [[}]]
 
-● Solidty storage patterns [[{solidity.101,persistence.data_structure,20_QA.solidity,12_solidity.persistence]]
+● Solidty storage patterns [[{12_solidity.101,persistence.data_structure,20_QA.solidity,12_solidity.persistence]]
 @[https://ethereum.stackexchange.com/questions/13167/are-there-well-solved-and-simple-storage-patterns-for-solidity]
 Context:
    Simple and appropriate data organization can challenge Solidity newcomers.
@@ -4248,7 +4263,7 @@ contract Test {
 
 
 [[{tokens]]
-● Universal Token: [[{security.aaa,use_case.finance,00_PM.WiP]]
+● Universal Token: [[{security.aaa,02_use_case.finance,00_PM.WiP]]
 @[https://github.com/ConsenSys/UniversalToken] #[universal_token]
 - "A Unique Standard for Centralized and Decentralized Finance Use Cases"
 - Actively maintained as 2022-03-14
@@ -4361,7 +4376,7 @@ contract Test {
       - The Ethereum blockchain to keep track of the informed consents
   """
 [[}]]
-● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,use_case.nft_marketplace,12_solidity.tokens]]
+● ERC-1155 NFTs + FT + batch [[{tokens.ERC1155,02_use_case.nft_marketplace,12_solidity.tokens]]
  - Standard interface for contracts managing multiple token types.
 
                  ┌·>     4000  Gold Coins , non-inflactionary ┐
@@ -4553,7 +4568,7 @@ contract Test {
 [[}]]
 
 
-● EIP-2981: NFT Royalty Payments [[{use_case.royalty,tokens.ERC1155,tokens.ERC721]]
+● EIP-2981: NFT Royalty Payments [[{02_use_case.royalty,tokens.ERC1155,tokens.ERC721]]
 #[ERC_1155_summary]
 - Current state (no-standard):
   Artist → MarketPlace: "Do you support royalty payments?"
@@ -4607,7 +4622,7 @@ contract Test {
    - Based on min/max thresholds.
 [[}]]
 
-● EIP 1056: Lightweight Identity [[{use_case.identity,standards.W3C_DID,00_PM.TODO]]
+● EIP 1056: Lightweight Identity [[{02_use_case.identity,standards.W3C_DID,00_PM.TODO]]
  -  WARN: Unstable, likely to change.
   """ ...As we have been developing identity systems for the last couple of
   years at uPort it has become apparent that the cost of identity
@@ -4620,7 +4635,7 @@ contract Test {
   off-chain as well as on-chain..."""
 [[}]]
 
-● ERC-725: Lightweight Identity [[{use_case.identity,standards.W3C_DID,00_PM.TODO]]
+● ERC-725: Lightweight Identity [[{02_use_case.identity,standards.W3C_DID,00_PM.TODO]]
 @[https://erc725alliance.org/]
 - Note: Current Identity Systems in Ethereum include
   (ref: https://w3c-ccg.github.io/did-method-registry/#the-registry)
@@ -4648,7 +4663,7 @@ contract Test {
   - ERC 735: associated standard to add|remove claims to an ERC-725 SC.
 [[}]]
 
-● ERC 780: Ethereum Claims Registry [[{use_case.identity,00_PM.backlog]]"
+● ERC 780: Ethereum Claims Registry [[{02_use_case.identity,00_PM.backlog]]"
 - proposal to allows persons, smart contracts, and machines to issue
   claims about each other, as well as self issued claims with the aim
   of providing a central point of reference for on-chain claims on
@@ -5937,7 +5952,7 @@ Nethereum UI wallet sample      Cross platform wallet example using Nethereum, X
     • ZKP improves all over the previous techniques (Accumulators/Merkle Trees, ...)
 [[}]]
 
-● Serenity/Eth v2.0 nomenclature [[{scalability.101,scalability.consensus.ethereum2]]
+● Serenity/Eth v2.0 nomenclature [[{scalability.101,consensus.ethereum2]]
 - REF: @[https://medium.com/alethio/ethereum-2-0-terms-demystified-8398357429d7] 2019-08-13
 
  BEACON CHAIN                       │ SHARDS
@@ -6339,7 +6354,7 @@ REF: https://medium.com/@bibryam/enterprise-integration-for-ethereum-fa67a1577d4
    Standard RBAC in EEA/Quorum expected for mid/late 2019
 [[}]]
 
-● Alethio,Rakr (IA auditing) [[{qa.auditing,13_SLC.monitoring,security,integration.data,use_case.finances.fraud]]
+● Alethio,Rakr (IA auditing) [[{qa.auditing,13_SLC.monitoring,security,integration.data,02_use_case.finance.fraud]]
 @[https://aleth.io]
 @[https://media.consensys.net/alethio-lighting-up-the-blockchain-with-real-time-stats-a80bb30576db]
 @[https://media.consensys.net/using-machine-learning-to-understand-the-ethereum-blockchain-1778485d603a]
@@ -6705,7 +6720,7 @@ together with the account.
 @[https://github.com/redacademy/vue-ethereum-ipfs] [[}]]
 
 ● External Inputs (Oracles): [[{101,integration.*,10_EVM.i/o.oracles,12_solidity]]
-                             [[use_case,use_case.finance,security,use_case.integrity,00_PM.WiP]]
+                             [[02_use_case.finance,security,02_use_case.integrity,00_PM.WiP]]
 - The evm and SmartContract by extension just have access to
   internal (current-state) blockchain data. Oracles are used when we
   need logic that depends of external-to-blockchain events, playing the
@@ -9497,7 +9512,7 @@ truffle(development)> Greeter.deployed().then(function(contractInstance) {contra
                       )
 [[}]]
 
-● EthrDIDs"uPort++" [[{use_case.identity,standards.W3C_DID,architecture,00_PM.radar]]
+● EthrDIDs"uPort++" [[{02_use_case.identity,standards.W3C_DID,architecture,00_PM.radar]]
 @[https://medium.com/uport/goodbye-uport-dids-hello-ethr-dids-ea2e80256f54]
 @[https://github.com/uport-project/ethr-did-registry]
 - Goodbye uPort DIDs, Hello Ethr-DIDs
@@ -9828,7 +9843,8 @@ For example, instead of doing npx hardhat --network localhost run script.js, you
      (ERC-20), name registries (ERC-137), URI schemes (ERC-681),
      library/package formats (EIP190), and wallet formats (EIP-85).
 
- • LEGIONS: [[{13_SLC,troubleshooting,persistence.contract_state,security,devops,12_solidity,20_QA.UX}]]
+ • LEGIONS: [[{13_SLC,persistence.contract_state,security]]
+            [[devops,12_solidity.troubleshooting,20_QA.UX]]
   @[https://diligence.consensys.net/blog/2020/06/legions-a-tool-for-seekers/]
 " Tool to poke around Geth Nodes in the terminal."
   -  Poke around a public Ethereum node JSON RPC endpoints?
@@ -9850,42 +9866,41 @@ For example, instead of doing npx hardhat --network localhost run script.js, you
   be easy to find with the interactive interface:
 
     $ pip install legions
+  [[}]]
 
-
- • ethereum-etl: [[{integration.data,dev_framework.python,10_EVM.events,00_PM.low_code}]]
+ • ethereum-etl: [[{integration.data,dev_framework.python,10_EVM.events,00_PM.low_code]]
    WARN: See limitation in Github Project page.
- Export blocks and transactions (Schema, Reference):
+   Export blocks and transactions (Schema, Reference):
    $ python export_blocks_and_transactions.py \
- $   --start-block 0 --end-block 500000 \
- $   --provider-uri https://mainnet.infura.io \
- $   --blocks-output blocks.csv --transactions-output \
- $   transactions.csv
+   $   --start-block 0 --end-block 500000 \
+   $   --provider-uri https://mainnet.infura.io \
+   $   --blocks-output blocks.csv --transactions-output \
+   $   transactions.csv
 
- Export ERC20 and ERC721 transfers (Schema, Reference):
+   Export ERC20 and ERC721 transfers (Schema, Reference):
    $ python export_token_transfers.py \
- $   --start-block 0 --end-block 500000 \
- $   --provider-uri file://$HOME/Library/Ethereum/geth.ipc \
- $   --output token_transfers.csv
+   $   --start-block 0 --end-block 500000 \
+   $   --provider-uri file://$HOME/Library/Ethereum/geth.ipc \
+   $   --output token_transfers.csv
 
- Export receipts and logs (Schema, Reference):
+   Export receipts and logs (Schema, Reference):
    $ python export_receipts_and_logs.py --transaction-hashes \
- $   transaction_hashes.txt \
- $   --provider-uri https://mainnet.infura.io --receipts-output \
- $   receipts.csv --logs-output logs.csv
+   $   transaction_hashes.txt \
+   $   --provider-uri https://mainnet.infura.io --receipts-output \
+   $   receipts.csv --logs-output logs.csv
 
- Export ERC20 and ERC721 token details (Schema, Reference):
+   Export ERC20 and ERC721 token details (Schema, Reference):
    $ python export_tokens.py \
- $   --token-addresses token_addresses.csv \
- $   --provider-uri https://mainnet.infura.io --output tokens.csv
+   $   --token-addresses token_addresses.csv \
+   $   --provider-uri https://mainnet.infura.io --output tokens.csv
 
- Export traces (Schema, Reference):
+   Export traces (Schema, Reference):
    $ python export_traces.py --start-block 0 --end-block 500000 \
- $   --provider-uri file://$HOME/Library/Ethereum/parity.ipc \
- $   --output traces.csv
+   $   --provider-uri file://$HOME/Library/Ethereum/parity.ipc \
+   $   --output traces.csv
+   [[}]]
 
-
-[[{}]]"use_case.financial.stablecoins,01_doc_has.comparative,00_PM.TODO">
-<span xsmall>Algorithmic stablecoins</span>
+ • Algorithmic stablecoins [[{02_use_case.finance.stablecoins,01_doc_has.comparative]]
 REF: @[https://frax.finance/whitepaper/]
      @[https://github.com/FraxFinance/frax-truffle/blob/master/test/Frax-Tests.js]
 - Although there are many ways to categorise stablecoins, two distinct
@@ -9907,138 +9922,84 @@ REF: @[https://frax.finance/whitepaper/]
         stablecoins was not their economic
         infeasibility, but their flawed designs
         and execution..."
-        https://frax.finance/whitepaper/
-</pre>
+        https://frax.finance/whitepaper/   [[}]]
 
 
-[[{}]],"12_solidity,security,20_QA.auditing,00_PM.TODO">
-<span xsmall>EthTrust</span>
-<a target="_blank" href="https://entethalliance.org/enterprise-ethereum-alliance-launches-ethtrust-security-initiative-to-advance-confidence-in-ethereum-as-a-global-settlement-layer-for-transactions-of-all-types/">external REF</a>
+ • EthTrust [[{12_solidity,security,20_QA.auditing]]
+   https://entethalliance.org/enterprise-ethereum-alliance-launches-ethtrust-security-initiative-to-advance-confidence-in-ethereum-as-a-global-settlement-layer-for-transactions-of-all-types/
 
-Enterprise Ethereum Alliance Launches EthTrust Security Initiative to
-Advance Confidence in Ethereum as a Global Settlement Layer for
-Transactions of All Types
+  Enterprise Ethereum Alliance Launches EthTrust Security Initiative to
+  Advance Confidence in Ethereum as a Global Settlement Layer for
+  Transactions of All Types
+  
+  .. The Working Group’s mission will be to continue the advances begun
+   by the Ethereum Trust Alliance (ETA), now part of the EEA, on the
+   EthTrust project, that will :
+    set standards for secure, smart contract transactions that are
+    conducted within the Ethereum ecosystem.
+  
+     Given that it only takes one small flaw in smart
+    contract code to instantly lock up or lose tens of millions of
+    dollars, the EthTrust project’s standard and registry aim to make
+    it quick and easy for organizations and individuals to tell if a
+    smart contract has been through a full security audit by a
+    professional team.
+[[}]]
 
-.. The Working Group’s mission will be to continue the advances begun
- by the Ethereum Trust Alliance (ETA), now part of the EEA, on the
- EthTrust project, that will :
-  set standards for secure, smart contract transactions that are
-  conducted within the Ethereum ecosystem.
-
-   Given that it only takes one small flaw in smart
-  contract code to instantly lock up or lose tens of millions of
-  dollars, the EthTrust project’s standard and registry aim to make
-  it quick and easy for organizations and individuals to tell if a
-  smart contract has been through a full security audit by a
-  professional team.
-
-</pre>
-
-[[{}]]"evm.implementation.besu,devops,00_PM.TODO">
-<span xsmall>Besu + Docker </span>
-@[https://besu.hyperledger.org/en/stable/HowTo/Get-Started/Installation-Options/Run-Docker-Image/]
-@[https://hub.docker.com/r/hyperledger/besu/tags]
-
-  $ docker run hyperledger/besu:latest
-
-  $ docker run -p $JSON_RPC:8545 \   ←  run Besu in MainNet
-    -p $localportWS:8546 \
-    -p $localportP2P:30303  \
-    hyperledger/besu:latest --rpc-http-enabled --rpc-ws-enabled
-                            ^^^^^^^^^^^^^^^^^^
-                            == -e BESU_RPC_HTTP_ENABLED=true
-   ( --rpc-http-port, --p2p-port, --rpc-ws-port, --metrics-port,
-     --graphql-http-port, and --metrics-push-port )
-
-  WARN : Do not mount a volume at the default data path (/opt/besu).
-        Mounting a volume at the default data path interferes with
-        the operation of Besu and prevents Besu from safely launching.
-        To run a node that maintains the node state (key and database),
-        --data-path must be set to a location other than /opt/besu and
-        a storage volume mounted at that location.
-
-        --nat-method must be set to DOCKER or AUTO (vs NONE or UPNP).
-
-Problems founds:
-- Next error happens after closing besu:
-  - First run works ok and a new database is generated properly.
-    Then it is closed (through Docker kill -???)
-  - Secont rund fails to restart with next exception:
-    ... | main | INFO  | RocksDBKeyValueStorageFactory | Existing database detected at /
-                                                         opt/besu/data. Version 0
-    picocli.CommandLine$ParameterException: org.rocksdb.RocksDBException:      ← !!!!
-    You have to open all column families. Column families not opened: , , , ,
-        at org.hyperledger.besu.cli.BesuCommand.run(BesuCommand.java:1080)
-        at picocli.CommandLine.executeUserObject(CommandLine.java:1769)
-        at picocli.CommandLine.access$900(CommandLine.java:145)
-        at picocli.CommandLine$RunLast.handle(CommandLine.java:2141)
-        at picocli.CommandLine$RunLast.handle(CommandLine.java:2108)
-        at picocli.CommandLine$AbstractParseResultHandler.handleParseResult(CommandLine.java:1968)
-        at picocli.CommandLine.parseWithHandlers(CommandLine.java:2322)
-        ...
-   It looks to be caused by non-clear close in Docker enviroments:
-@[https://github.com/facebook/rocksdb/wiki/RocksJava-Basics#opening-a-database-with-column-families]
-    WARN : RocksDB is a native C++ library and there can be some JNI issue
-</pre>
-
-[[{}]]"scalability.node_storage,implementation.turbo_geth,00_PM.TODO">
-<span xsmall>Turbo Geth</span>
+  • Turbo Geth [[{scalability.node_storage,implementation.turbo_geth]]
 @[https://eth.wiki/en/fundamentals/patricia-tree]
-...  Turbo-geth is one implementation that gets to the root of the
-problem: It flattens the trie database and uses the path of a node
-(rather than its hash) as the [key, value] pair. This effectively
-makes the depth of the tree irrelevant for lookups, and allows for a
-variety of nifty features that can improve performance and reduce the
-load on disk when running a full node.
-</pre>
+    ...  Turbo-geth is one implementation that gets to the root of the
+    problem: It flattens the trie database and uses the path of a node
+    (rather than its hash) as the [key, value] pair. This effectively
+    makes the depth of the tree irrelevant for lookups, and allows for a
+    variety of nifty features that can improve performance and reduce the
+    load on disk when running a full node.
+[[}]]
 
-[[{}]]"scalability.consensus,00_PM.TODO">
-<span xsmall>SKALE framework</span>
-@[https://skale.network/]
-@[https://skale.network/whitepaper] <!-- @ma -->
-SKALE Network. An Ethereum Interoperable Elastic Blockchain Network
-SKALE: Standard Kit for Asyncronous LEdgers.
+ • SKALE framework [[{scalability.consensus]]
+ @[https://skale.network/]
+ @[https://skale.network/whitepaper] <!-- @ma -->
+  SKALE Network. An Ethereum Interoperable Elastic Blockchain Network
+  SKALE: Standard Kit for Asyncronous Ledgers.
+  
+  - SKALE is a modular framework that splits blockchain consensus (BC)
+    under asynchronous networking model into a sequence of stages. It
+    then applies provably secure algorithms at each stage, so that the
+    entire BC becomes provably secure. This modular framework allows to
+    construct a wide variety of BCs with different tradeoffs as well as
+    re-interpret and analyze security some of the existing BCs such as
+    Tendermint.
+[[}]]
 
-- SKALE is a modular framework that splits blockchain consensus (BC)
-  under asynchronous networking model into a sequence of stages. It
-  then applies provably secure algorithms at each stage, so that the
-  entire BC becomes provably secure. This modular framework allows to
-  construct a wide variety of BCs with different tradeoffs as well as
-  re-interpret and analyze security some of the existing BCs such as
-  Tendermint.
-
-</pre>
-
-[[{use_case.financial.liquidity_provision}]]
-<span title>Uniswap</span>
-"fully decentralized protocol for automated liquidity provision on Ethereum".
- Uniswap is a good example of use-case when ethers are controlled by Smart Contracts
- (vs externally owned accounts).
-
-• centralized vs de-centralized exchange:
-  centralized exchange (Coinbase,...):
-  - PRE-SETUP: register for an account.
-  - exchange monitors and facilitates transactions.
-  decentralized exchange (Coinbase,...):
-  - PRE-SETUP: Connected crypto wallet to Uniswap's app (no third party involved)
-  - no registration required.
-  - exchange operates as automated market maker offering various
-    pairs of tokens to trade with prices set using mathematical formulas.
-
-• Uniswap cryptocurrency:
-  - high-risk "investment".
-  - governance token to vote on proposed changes for the exchange.
-  - if the exchange gets more popular, it will likely lead to more
-    people wanting to buy the token.
-
-• Implementation:
-  - Exchange uses liquidity pools, "drawing" from them when users trade.
-                  └──────┬─────┘
-                  ej:
-                  ( crypto1, crypto 2) fund  ← e.g.: (ETH, DAI) pool
-                  ( crypto1, crypto 3) fund
-                  ( crypto2, crypto 3) fund
-                  ...
+ • Uniswap [[{02_use_case.finance.liquidity_provision]]
+   "fully decentralized protocol for automated liquidity provision on Ethereum".
+    Uniswap is a good example of use-case when ethers are controlled by Smart Contracts
+    (vs externally owned accounts).
+   
+   - centralized vs de-centralized exchange:
+     centralized exchange (Coinbase,...):
+     - PRE-SETUP: register for an account.
+     - exchange monitors and facilitates transactions.
+     decentralized exchange (Coinbase,...):
+     - PRE-SETUP: Connected crypto wallet to Uniswap's app (no third party involved)
+     - no registration required.
+     - exchange operates as automated market maker offering various
+       pairs of tokens to trade with prices set using mathematical formulas.
+   
+   - Uniswap cryptocurrency:
+     - high-risk "investment".
+     - governance token to vote on proposed changes for the exchange.
+     - if the exchange gets more popular, it will likely lead to more
+       people wanting to buy the token.
+   
+   - Implementation:
+     - Exchange uses liquidity pools, "drawing" from them when users trade.
+                     └──────┬─────┘
+                     ej:
+                     ( crypto1, crypto 2) fund  ← e.g.: (ETH, DAI) pool
+                     ( crypto1, crypto 3) fund
+                     ( crypto2, crypto 3) fund
+                     ...
 
    ##############
    # PRE-SETUP: #
@@ -10066,17 +10027,17 @@ SKALE: Standard Kit for Asyncronous LEdgers.
                                                not on the value of the transaction.
                                                Uniswap is a poor choice for trading small swap amounts.
 
-• Alternatives (inspired by Uniswap) include: ( PancakeSwap , SushiSwap , BurgerSwap , Curve , DODO )
+- Alternatives (inspired by Uniswap) include: ( PancakeSwap , SushiSwap , BurgerSwap , Curve , DODO )
    - One advantage several other exchanges offer is that they run
      on the Binance Smart Chain, which currently has much lower fees than Ethereum.
      Particularly succesful is the case of PancakeSwap.
 
-• Options to "invest" in Uniswap include:
+- Options to "invest" in Uniswap include:
   - buy it through an exchange like any other cryptocurrency (Coinbase, Gemini, Binance, ...)
   - trade for it on Uniswap exchange.
+[[}]]
 
-<hr/>
-<span title>QuickSwap</span>
+ • QuickSwap [[{02_use_case.finance]]
 @[https://coinquora.com/quickswap-the-dex-curating-an-economical-and-scalable-way-to-swap-tokens/]
   "... The tradeoffs of a blockchain are passed on to the project’s building on top of them.
    This is what happened with Uniswap, the world’s first decentralized token swap platform.
@@ -10087,12 +10048,12 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    A simple transaction on Uniswap now often costs more than the transaction itself,
    leaving a gap that needed filling.
 
-   QuickSwap was quick to address the issues plaguing Ethereum-based DEXs, by offering much
-   lower transaction fees and almost instant block formation time.
+   QuickSwap was quick to address the issues plaguing Ethereum-based DEXs,[[{10_EVM.GAS_PRICE,20_QA.UX]]
+   by offering much lower transaction fees and almost instant block formation time. [[}]]
 
-   QuickSwap DES allows users to trade any ERC-20 tokens. Though the DEX is based on Ethereum,
-   it is powered by the Polygon network, which provides several benefits not seen in othe
-   similar solutions.
+   QuickSwap DES allows users to trade any ERC-20 tokens. 
+   It is powered by the Polygon network, which provides several
+   benefits not seen in other similar solutions.
 
     For example, QuickSwap can trade any of the ERC-20 tokens listed
    on its platform with almost no gas costs and at lightning-fast
@@ -10112,17 +10073,19 @@ SKALE: Standard Kit for Asyncronous LEdgers.
    protocol. They can also use QUICK tokens to stake  in the Dragon’s
    Lair to earn additional QUICK.
 
-• Reference Implementation: @[https://github.com/mudgen/quickswap-contracts/] By Nick Mudge ("Diamonds Standard")
-</pre>
+• Reference Implementation: 
+  https://github.com/mudgen/quickswap-contracts/] By Nick Mudge ("Diamonds Standard")
+[[}]]
 
 
- • Hapi One: https://www.hapi.one [[{use_case.finance.compliance,use_case.finance.fraud,standards,20_QA.auditing,00_PM.RADAR}]]
+ • Hapi One: https://www.hapi.one [[{02_use_case.finance.compliance,02_use_case.finance.fraud]]
+                                  [[ standards,20_QA.auditing,00_PM.RADAR]]
    - On-Chain Cybersecurity Cross-Chain Protocol and Oracle
      data -> ML -> Oracle -> DAO
    - Monitor for frauds, stolen-wallets, ...
-   - Works on Polygon.Network (cross-chain Ethereum compatible networks)
+   - Works on Polygon.Network (cross-chain Ethereum compatible networks) [[}]]
 
- • FireFly IoT Wallet [[{use_case.IoT,20_QA.UX}]]
+ • FireFly IoT Wallet [[{02_use_case.IoT,20_QA.UX]]
   @[https://firefly.city/]
   @[https://ethereum.stackexchange.com/questions/29524/sign-raw-transaction-offline-with-c-on-arduino]
     use our Firefly Hardware Wallet (https://firefly.city) for the ATmega328 to do:
@@ -10134,17 +10097,16 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     everything else requires a fairly slim memory footprint.
   - Optional OLED display: Firefly source code also includes zero-memory video driver.
   @[https://github.com/firefly/wallet/tree/master/source/libs/ethers]
+  [[}]]
 
+ • Raiden Network: (Micro) Payment channels [[{02_use_case.micropayments,scalability.payment_channels}]]
 
- • Raiden Network: (Micro) Payment channels for Ethereum Network. [[{use_case.micropayments,scalability.payment_channels}]]
+ • ZkOpru [[{layer2.rollup.optimistic,privacy.zksnark,scalability.layer2]]
+      https://github.com/zkopru-network/zkopru
+      - Ethereum L2 scaling solution for private transactions using
+        zk-SNARK and optimistic rollup. [[}]]
 
-
-  • ZkOpru [[{layer2.rollup.optimistic,privacy.zksnark,scalability.layer2}]]
-    https://github.com/zkopru-network/zkopru
-    - Ethereum L2 scaling solution for private transactions using
-      zk-SNARK and optimistic rollup.
-
-  • L2 Exchanges:[[{layer2.rollup.stark,use_case.exchange,scalability.layer2}]]
+  • L2 Exchanges:[[{layer2.rollup.stark,02_use_case.exchange,scalability.layer2]]
     - major centralized exchanges integrating Layer 2:
       BInance, OKEx (also with Arbitrum),  Coinbase (Polygon's
       Layer 2 planned, Arbitrum, Optimism, Starkware on radar),
@@ -10160,7 +10122,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
         instance. "There is zero responding to bug reports. Hundreds of
         people report non syncing nodes or nodes falling out of sync.
         Response from the 'developers' - zero."
-     https://github.com/binance-chain/bsc/issues/553
+     https://github.com/binance-chain/bsc/issues/553  [[}]]
 
   • StarkNet proof system [[{layer2.rollup.stark,scalability.layer2}]]
     https://starkware.co/stark/
@@ -10174,11 +10136,12 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       unlimited scale for its computation – without compromising
       Ethereum's composability and security.
 
+  • ERC-2309: Standarized event emitted when creating/tranferring
+    1+ NFTs using consecutive tokens ids.
 
-  • ERC-2309: Standarized event emitted when creating/tranferring 1+ NFTs using consecutive tokens ids.
-  • Ethereum 2.0 delegators?
-    How Proof of Stake Addresses Scalability, Why Validator and Delegator Economics Matter,
-    and Why Yield Farming is a Thing.
+  • Ethereum 2.0 delegators? [[{consensus.ethereum2]]
+    How Proof of Stake Addresses Scalability, Why Validator and 
+    Delegator Economics Matter, and Why Yield Farming is a Thing.
     Join Konstantin Richter of Blockdaemon as he explores what it takes
     to operate nodes for blockchain networks as well as detail the
     improvements that the Proof of Stake consensus model will bring to
@@ -10197,14 +10160,12 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     MadHive, a leading media/advertising blockchain business. He
     currently serves as the CEO and founder of Blockdaemon, the most
     battle-tested blockchain infrastructure platform for major blockchain
-    protocols.
+    protocols. [[}]]
+
   • Security Attack:
     https://www.theblockcrypto.com/post/84804/defi-protocol-origin-attack-7-million-lost
 
   • https://academy.binance.com/en/articles/what-are-flash-loans-in-defi
-
-  • Besu: troubleshooting:
-    https://besu.hyperledger.org/en/stable/Reference/API-Methods/
 
   • eth_getLogs
     Returns an array of logs matching a specified filter object.
@@ -10234,7 +10195,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       - Multi-user workflows for use in enterprise environments.
       - Policies and spending limits
 
-  • Bitstamp API:
+  • Bitstamp API: [[{02_use_case.finance.trading,architecture.API]]
     - Ticker: returns BTC/ETH/... TO USD/EUR/GBP/... currency pair.
     - Hourly Ticker:
     - EUR/USD conversion rate
@@ -10245,7 +10206,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
     - Transactions:
       Descending list of transactions.
     - Trading pairs info: Returns list of pairs (minum order, trading
-      engine status, decription,...)
+      engine status, decription,...) [[}]]
 
     - OHLC data: returs dictionary of tick-data for selected trading pair.
       Each tick in the dic is rpresented as a list of OHLC data
@@ -10961,7 +10922,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
            I}
         }
       }
-  }
+  
   Rules: Local solidity vars/value types  are directly read/write accesible.
          A single Yul identifier is not sufficient, since they do not
          necessarily occupy a single full storage slot. Their "address" is
@@ -11175,7 +11136,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
 [[}]]
 
 [[{00_PM.BACKLOG]]
-  • Aragon OS: Advanced deployment [[{dev_framework.aragon,use_case.financial.DAO,security.governance}]]
+  • Aragon OS: Advanced deployment [[{dev_framework.aragon,02_use_case.finance.DAO,security.governance}]]
   @[https://aragon.one/]
   @[https://blog.aragon.one/advanced-solidity-code-deployment-techniques-dc032665f434]
 
@@ -11230,7 +11191,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
          await ethers.sendTransaction(transaction)
        }
 
- • GNOSIS Research: [[{wallet.multisignature,use_case.financial.prediction_markets,use_case.financial}]]
+ • GNOSIS Research: [[{wallet.multisignature,02_use_case.finance.prediction_markets,02_use_case.finance}]]
 @[https://github.com/gnosis/research]
   CREATE—Prediction Markets
   - Whitepaper, ed. 22 Decmber 2017
@@ -11499,7 +11460,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
       status-dev-cli add
          "{\"whisper-identity\": \"my-dapp\", \"dapp-url\": \"{DAPP_URL}\", \"name\": \"MyDAPP\"}" --ip {DEVICE_IP}
 
- • Augur Prediction Markets (Research project) [[{use_case.financial.prediction_markets,00_PM.radar}]]
+ • Augur Prediction Markets (Research project) [[{02_use_case.finance.prediction_markets,00_PM.radar}]]
  @[https://www.augur.net/]
   Markets for Anyone Anywhere on Anything
  - politics and elections prediction markets
@@ -11508,7 +11469,7 @@ SKALE: Standard Kit for Asyncronous LEdgers.
  - prediction markets on anything
  - ...
 
-• Zero Know. Range Pro. (ZKRP): [[{privacy.ZKP,use_case.*,00_PM.radar}]]
+• Zero Know. Range Pro. (ZKRP): [[{privacy.ZKP,02_use_case.*,00_PM.radar}]]
 @[https://github.com/ing-bank/zkrp]
  - ING Bank:
    ...Launched in 2017, zero-knowledge range proof (ZKRP) enabled numerical
