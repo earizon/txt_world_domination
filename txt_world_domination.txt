@@ -64,6 +64,13 @@
    ...
 
 ┌────────────────────────────────────┐
+│    ASCII VIDEO                     │
+└────────────────────────────────────┘
+● https://asciinema.org/ Record+share terminal sessions, the simple way.
+  Enjoy a lightweight, purely text-based approach to terminal recording. 
+  Example: @[https://asciinema.org/a/421164]
+
+┌────────────────────────────────────┐
 │    TXT World Domination Editors    │
 └────────────────────────────────────┘
  ● vim: Then King of text.
