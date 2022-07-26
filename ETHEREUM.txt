@@ -400,7 +400,7 @@
                        |    | | polygon: protocol+framework to build+
                        |    | | connect Ether. compatible Networks
   ---------------------|----|-|-----------------------------------------------------
-  palm Main./*1        |PALM| | sidechain for selling⅋trading
+  palm Main./*1        |PALM| | sidechain for selling&trading
   └ Testnet/*2         |PALM| | real-world and digi. assets NFTs.
   *1:11297108109       |    | | IBFT 2.0 poa consensus.
   *2:11297108099       |    | | (pseudo-centralized/consortium net).
@@ -547,7 +547,7 @@
   IoTeX Network        |    | |@[https://iotex.io/]
   └ Mainnet/4689       |IOTX| |  9K+     DEVICES       200K+   COMMUNITY
   └ Testnet/4690       |IOTX| |  14,4M   TRANSACTIONS  39,000+ STAKERS
-                       |    | |  """IEEE Blockchain⅋ IoT Standards
+                       |    | |  """IEEE Blockchain& IoT Standards
                        |    | |   Working Group Appoints IoTeX Head of
                        |    | |   Cryptography as Vice Chair """
                        |    | |
@@ -880,7 +880,7 @@
 
    - selfdestruct(target): Destructor for contract @ address
      - Remaining Ethers are sent to target
-     - storage ⅋ code are removed from the blockchain state
+     - storage & code are removed from the blockchain state
 
 • EVM Instructions:
   REF: @[https://github.com/ethereum/go-ethereum/blob/master/core/vm/instructions.go]
@@ -909,7 +909,7 @@
                      |    |    |    | MULMOD a b N == (a * b) % N
     • NOT            |    |    |    |
     --------------------------------- BYTE RELATED OPERATIONS
-    • BYTE           |    |    |    | BYTE i x y ==  y = (x >> (248 - i * 8)) ⅋  0xFF
+    • BYTE           |    |    |    | BYTE i x y ==  y = (x >> (248 - i * 8)) &  0xFF
                      |    |    |    | ith byte of (u)int256 x, counting from most significant byte
     • SHL/SHR/SAR    |    |    |    | 256-bit Shift left / right
                      |    |    |    | SAR: int256 (aritmetic) shift right
@@ -956,7 +956,7 @@
       ------------------------------- MEMORY READ/WRITE FROM/TO STACK
     • MLOAD          |    |    |    | MLOAD  offset value  (u)int256 value = memory[offset:offset+32]
       MSTORE         |    |    |    | MSTORE offset value  memory[offset:offset+32] = (uint256) value
-      MSTORE8        |    |    |    |                      memory[offset] = value ⅋ 0xFF
+      MSTORE8        |    |    |    |                      memory[offset] = value & 0xFF
       MSIZE          |    |    |    | return size-in-bytes of memory for this contract execution.
     --------------------------------- STACK OPERATIONS
     • ISZERO         |    |    |    | Push 1 if topmost value is zero
@@ -1158,7 +1158,7 @@
                              fields for full functionallity.
 [[}]]
 
-• EVM Events ⅋ LOGS [[{10_EVM.101,10_EVM.events]]
+• EVM Events & LOGS [[{10_EVM.101,10_EVM.events]]
   - In the wild, there are three main uses for event logs:
     - As external apps return values, because a transaction does not record a
       method's return values, only the hash confirming the transaction.
@@ -1957,7 +1957,7 @@ The signed TX is then sent to the network.    |   hacked)
       proxy instances ). @[https://github.com/ethereum/solidity/releases/tag/v0.6.4]
       allowing new storage patterns for delegatecall-proxies/upgradable contracts.
 
-    ┌─ DIAMOND STORAGE PATTERN : NO STORAGE DOWNSIDES !!! ─────────────────
+    ┌─ DIAMOND STORAGE PATTERN : NO STORAGE DOWNSIDES !!! ──
     │ PRE-SETUP: Create Storage Contract/s:
     │ → Create a "Diamond Storage contract" for
     │   each storage "interface implementation".
@@ -2006,9 +2006,60 @@ The signed TX is then sent to the network.    |   hacked)
     │ │   }                                    │
     │ │ }                                      │
     │ └────────────────────────────────────────┘
-    └─────────────────────────────────────────────────────────────────
+    └─────────────────────────────────────────────────────
 
-    ┌─ Diamond Implementation S.C. ────────────────────┐
+   • interface IDiamondCut {
+     ·  enum FacetCutAction {
+     ·    Add/*0*/, Replace/*1*/, Remove/*2*/
+     ·  }
+     ·
+     ·  struct FacetCut {
+     ·      address facetAddress;
+     ·      FacetCutAction action;
+     ·      bytes4[] functionSelectors;
+     ·  }
+     ·
+     ·  function diamondCut(                    ● CONTROL FUNCTION (Add/update/del funs)
+     ·      FacetCut[] calldata _cut,
+     ·      address _init,                  <-··· (Opt) facet address to execute _calldata
+     ·      bytes calldata _CD              <-··· (Opt) fun to call, including fun selector+args
+     ·  ) external;
+     ·
+     ·  event DiamondCut(
+     ·      FacetCut[] _diamondCut, 
+     ·      address _init,
+     ·      bytes _calldata);
+     }
+    
+   • interface IDiamondLoupe {                   ● READ-ONLY INTROSPECTION
+     · 
+     ·  struct Facet {
+     ·      address facetAddress;
+     ·      bytes4[] functionSelectors;
+     ·  }
+     ·
+     ·  function 
+     ·    facets()
+     ·    external view
+     ·    returns (Facet[] memory facets_l);      <- ALL THE FACET ADDR.+FUNS. in diamon
+     ·
+     ·  function
+     ·    facetFunctionSelectors(address _facet) 
+     ·    external view
+     ·    returns (bytes4[] memory facetFun_l);   <- ALL fun.selectors used from _facet
+     ·
+     ·  function 
+     ·    facetAddresses()
+     ·    external view
+     ·    returns (address[] memory facetAddr_l); <- ALL used facets
+     ·
+     ·  function 
+     ·    facetAddress(bytes4 _funSelector)
+     ·    external view
+     ·    returns (address facetAddress_);        <- facet address implementing fun.
+     ·}
+
+    ┌─ DIAMOND IMPLEMENTATION S.C. ────────────────────┐
     │                                                  │
     │ mapping (bytes4 ←································ function 'ABI'
     │          => address  ←··························· SC. instance
@@ -2036,11 +2087,6 @@ The signed TX is then sent to the network.    |   hacked)
     │ │  ...                 │                         │       │ │ │
     │ │}                     │                         │       │ │ │
     │ └──────────────────────┘                         │       │ │ │
-    ╞══════════════════════════════════════════════════╡       │ │ │
-    │ "diamondCut(...)": add/replace/remove/facets     │       │ │ │
-    │                    ⅋functions                    │       │ │ │
-    │ "loupe": introspection info. about facets⅋functio│       │ │ │
-    │                                                  │       │ │ │
     └──────────────────────────────────────────────────┘       │ │ │
     ┌─ S.C. Storage2 ──────────────────────────────────┐       │ │ │
     │ ┌──────────────────────┐                         │       │ │ │
@@ -2060,42 +2106,42 @@ The signed TX is then sent to the network.    |   hacked)
     The read-only restriction of facetA contract to storageFacetB       is not
     mandatory, but probably useful in order to let only facetX update 
     the state of DiamonStorageFacetX. 
-  ##################
-  # Diamon Tooling #
-  ##################
-• MainNet diamon "loupe" inspector
-@[https://louper.dev/]
-• Joey Zacherl@VolleyFire (liquidity provider for decentralized exchanges),
-  released "Diamond Setter", (Python) tool to manage diamonds.
+
+● Diamon Tooling 
+• MainNet diamon "loupe" inspector @[https://louper.dev/]
+• "Diamond Setter", (Python) tool to manage diamonds.
+  by Joey Zacherl@VolleyFire (liquidity provider for decentralized exchanges),
   @[https://github.com/lampshade9909/DiamondSetter]
-    23 stars @ 2021-11, last commit: 2020-06-11, 60 package dependencies.
-    PRE-SETUP)
-    - User python standard virtualenv mechanism to configure project.
-    USSAGE)
-    → Copy ABI JSON files to "Contracts/"
-      (make sure filename matches contract name in config)
-      → provide contract addresses in "diamondSetter.config" *1
-        (template "diamondSetter_template.config" can be used)
-        →   $ python diamondSetter.py set
-          App will automatically determine what needs upgraded/removed
-          by calling the proper Diamond Standard functions.
-          diamondCutDict_removes = {}
-          diamondCutDict_updates = {'0xd3758...': ['d22fd5fc', 'ba802cef'],
-                                    '0xc630a...': ['a39fac12', 'c6ee701e', ...]}
-          diamondCutDict_merged  = {'0xd3758...': ['d22fd5fc', ... ],
-                                    '0xc630a...': ['a39fac12', 'c6ee701e', ...]}
-                                                  └──────────────┬────────────┘
-                                                  function selectors affected in proxy diamond
+  WARN: No new upgrades since 2020-07 (more than two years ago)
+        60 package dependencies.
+        37 stars @ 2021-11, last commit: 2020-06-11
+  PRE-SETUP)
+  - User python standard virtualenv mechanism to configure project.
+  USSAGE)
+  → Copy ABI JSON files to "Contracts/"
+    (make sure filename matches contract name in config)
+    → provide contract addresses in "diamondSetter.config" *1
+      (template "diamondSetter_template.config" can be used)
+      →   $ python diamondSetter.py set
+        App will automatically determine what needs upgraded/removed
+        by calling the proper Diamond Standard functions.
+        diamondCutDict_removes = {}
+        diamondCutDict_updates = {'0xd3758...': ['d22fd5fc', 'ba802cef'],
+                                  '0xc630a...': ['a39fac12', 'c6ee701e', ...]}
+        diamondCutDict_merged  = {'0xd3758...': ['d22fd5fc', ... ],
+                                  '0xc630a...': ['a39fac12', 'c6ee701e', ...]}
+                                                └──────────────┬────────────┘
+                                                function selectors affected in proxy diamond
 
-        →   $ python diamondSetter.py hash diamond.storage.tutorial.properties
-            Next assembly code gets added to your solidity smart contract:
+      →   $ python diamondSetter.py hash diamond.storage.tutorial.properties
+          Next assembly code gets added to your solidity smart contract:
 
-          assembly { ds_slot := 0x8009ef9e316d149758ddd03fd4cb6dd67f0acee3d8cdf1372cf6f2ac6d689dbd }
-                                └───────────────────────────────┬────────────────────────────────┘
-                                    == keccak256("diamond.storage.tutorial.properties")
+        assembly { ds_slot := 0x8009ef9e316d149758ddd03fd4cb6dd67f0acee3d8cdf1372cf6f2ac6d689dbd }
+                              └───────────────────────────────┬────────────────────────────────┘
+                                  == keccak256("diamond.storage.tutorial.properties")
 
-          Use same 'ds_slot' across multiple contracts to share storage or unique one to prevent
-          sharing.
+        Use same 'ds_slot' across multiple contracts to share storage or unique one to prevent
+        sharing.
 
   *1 Config example:
 
@@ -2115,7 +2161,6 @@ The signed TX is then sent to the network.    |   hacked)
      | tutorial_logic_a    = 0xd37589ee0c581ef58efab0d2adb08d08b373125f
      | tutorial_properties = 0xc630aae56ac54f52ee7fb757bf6b23f86a8aacea
 
-
 • Ronan Sandford (wighawag),  (ERC-1155 author), announced
   WiP support for deploying/cutting diamonds in "buidler-deploy"
   a tool to deploy contracts to any network, keeping track
@@ -2128,6 +2173,9 @@ The signed TX is then sent to the network.    |   hacked)
 
 • Issue open in OpenZepelling to use diamon standard:
 @[https://github.com/OpenZeppelin/openzeppelin-contracts/issues/2537]
+• EIP-2535 Awesome Diamons: 
+  https://bytemeta.vip/repo/mudgen/awesome-diamonds
+  Curated list of external resources
 [[}]]
 
 ● Ether.Addresses [[{10_EVM,20_QA.UX]]
@@ -3985,7 +4033,7 @@ contract Test {
       STEP 2). $ why3 config --detect    (""" it should detect your prover.""")
 
     - Video Tutorial:
-  https://www.youtube.com/watch?v=Mzh4fyoaBJ0⅋feature=youtu.be⅋list=PL9oaY6Y4QxRZybj86eGItGVApxLXVIXHz
+  https://www.youtube.com/watch?v=Mzh4fyoaBJ0&feature=youtu.be&list=PL9oaY6Y4QxRZybj86eGItGVApxLXVIXHz
     - See also:
       - Virt.Machine for interactive Theorem Provers
       @[http://fc17.ifca.ai/wtsc/Defining%20the%20Ethereum%20Virtual%20Machine%20for%20Interactive%20Theorem%20Provers.pdf]
@@ -4228,7 +4276,7 @@ contract Test {
       uint _Y proposalID ,
       int _UpOrDown /*+1|-1*/)
     returns (uint   voteID ){
-      if (_UpOrDown < -1 ⅋⅋ _UpOrDown > 1 )
+      if (_UpOrDown < -1 && _UpOrDown > 1 )
         revert("UpOrDown is not valid") ;
       Proposal p = proposals[_Y proposalID ];
       if (p.voted[msg.sender] == true) return;
@@ -4513,6 +4561,35 @@ contract Test {
       e.g:
       - @[https://rinkeby.rarible.com]
       - @[https://testnets.opensea.io/]  (Rinkeby)
+
+
+  • ERC-1155 vs MarketPlaces&Exchanges: [[{02_USE_CASE.finance.liquidity_provision]]
+                                        [[ 02_USE_CASE.finance.trading]]
+    - ERC-1155 is short of an standard for an accountancy book. 
+      It does not mandate any way to shell/buy the tokens reflected 
+      in the accountancy book. MarketPlaces and Exchanges will be,
+      in general, of any type and with no standard in mind. 
+      An curated example of a real decentralized exchange supporting
+      ERC-1155 "books" can be niftyswap:
+      C&P from https://github.com/0xsequence/niftyswap             
+
+      Implementation of the decentralized uniswap protocol                                         
+       for ERC-1155 tokens. (Uniswap was designed for ERC-20 tokens)
+     - Designed to favor ease of use.
+     - Provide guaranteed access to liquidity on-chain.
+     
+     Context: 
+     - Most exchanges maintain an order book and facilitate matches 
+       between buyers and sellers.
+     - Niftyswap smart contracts hold liquidity reserves of various
+       tokens and trades are executed directly against these reserves.
+     
+     - Prices are set automatically using the constant product
+       market maker mechanism, which keeps overall reserves in relative 
+       equilibrium: Reserves are pooled between a network of liquidity 
+       providers who supply the system with tokens in exchange for a 
+       proportional share of transaction fees.
+    [[}]]
 [[}]]
 
 [[tokens}]]
@@ -4920,6 +4997,39 @@ contract Test {
   enclave and will instead create hashes in your computer's web
   browser. Never use your hardware wallet to blindly sign unknown
   hashes.
+
+- Reference Implementation/Ussage @ 0xProject:
+  https://github.com/0xProject/0x-monorepo/blob/development/
+  ├─ contracts/utils/contracts/src/LibEIP712.sol
+  ├─ contracts/utils/contracts/test/TestLibEIP712.sol
+  ├─ contracts/coordinator/contracts/src/MixinCoordinatorApprovalVerifier.sol
+  ├─ contracts/coordinator/contracts/src/libs/LibEIP712CoordinatorDomain.sol
+  ├─ contracts/coordinator/contracts/src/libs/LibCoordinatorApproval.sol
+  ├─ contracts/coordinator/contracts/src/MixinSignatureValidator.sol
+  ├─ contracts/coordinator/contracts/src/Coordinator.sol
+  ├─ contracts/exchange─libs/contracts/src/LibZeroExTransaction.sol
+  ├─ contracts/exchange─libs/contracts/src/LibEIP712ExchangeDomain.sol
+  ├─ contracts/exchange─libs/contracts/src/LibOrder.sol
+  ├─ contracts/exchange─libs/contracts/test/TestLibEIP712ExchangeDomain.sol
+  ├─ contracts/exchange─libs/contracts/test/TestLibOrder.sol
+  ├─ contracts/exchange─libs/contracts/test/TestLibZeroExTransaction.sol
+  ├─ contracts/dev─utils/contracts/src/DevUtils.sol
+  ├─ contracts/exchange/contracts/src/interfaces/IExchangeCore.sol
+  ├─ contracts/exchange/contracts/src/interfaces/ISignatureValidator.sol
+  ├─ contracts/exchange/contracts/src/MixinTransactions.sol
+  ├─ contracts/exchange/contracts/src/MixinSignatureValidator.sol
+  ├─ contracts/exchange/contracts/src/MixinExchangeCore.sol
+  ├─ contracts/exchange/contracts/src/Exchange.sol
+  ├─ contracts/exchange/contracts/test/TestWrapperFunctions.sol
+  ├─ contracts/exchange/contracts/test/TestTransactions.sol
+  ├─ contracts/exchange/contracts/test/TestValidatorWallet.sol
+  ├─ contracts/zero─ex/contracts/src/fixins/FixinEIP712.sol
+  ├─ contracts/zero─ex/contracts/src/features/MetaTransactionsFeature.sol
+  ├─ contracts/zero─ex/contracts/src/features/ISignatureValidatorFeature.sol
+  ├─ contracts/zero─ex/contracts/src/features/SignatureValidatorFeature.sol
+  ├─ contracts/zero─ex/contracts/src/features/IMetaTransactionsFeature.sol
+  └─ contracts/exchange─forwarder/contracts/src/interfaces/IExchangeV2.sol
+
 [[}]]
 
 ● META-TRANSACTIONS [[{wallet.metamask,10_EVM.gas,transaction,00_PM.TODO]]
@@ -5057,8 +5167,37 @@ Ethereum JavaScript Libraries: web3.js vs. ethers.js (Part I)
       - web3.utils.hexToNumberString
       - web3.utils.isAddress  ← check if string is a valid address.
 
-- Ethers.js: (Recomended by MetaMask for new WebApps)
+- Ethers.js: (Recomended by MetaMask for new WebApps)  [[{security.101]]
   - 2018:
+  - Compatible with Truffle according to:
+    https://ethereum.stackexchange.com/questions/50632/can-i-use-ether-js-with-truffle
+    """ ...
+       Truffle use Web3 by default and its injected inside as (hardcoded) global dependency.
+       You CAN install ether.js as dependency:
+         $ truffle init
+         $ npm install --save ethers
+
+       and then use it in truffle tests:
+         var ethers = require('ethers');
+       
+       It is NOT compatible with "truffle develop" since only web3 would be injected.
+   """
+
+  - Looks to be more "proffesional".  C&P from:
+    https://docs.ethers.io/v5/api/providers/   
+     The default provider is the safest, easiest way to begin developing 
+     on Ethereum, and it is also robust enough for use in production.
+     
+     It creates a FallbackProvider connected to as many backend services 
+     as possible. When a request is made, it is sent to multiple backends 
+     simultaneously. As responses from each backend are returned, they are 
+     checked that they agree. Once a quorum has been reached (i.e. enough 
+     of the backends agree), the response is provided to your application.
+     
+     This ensures that if a backend has become out-of-sync, or if it has 
+     been compromised that its responses are dropped in favor of responses 
+     that match the majority.
+  [[}]]
   - JS + TypeScript
   - small, compact library.
   - "Simple" and "intuitive".
@@ -5178,6 +5317,14 @@ $ editor migrations/2_deploy_contracts.js           <- to deploy the new S.C.
   const LibA = artifacts.require('LibA')      ┌······· require: similar to node.js "require" but it reads
   const B    = artifacts.require("Fibona..")  ·        *.json ABI (generated at compile time) as input and
                          └──────┴─············┘        returns autogenerated JS proxy code in charge of
+
+UPDATE: 2022-07-25: artifacts.require is meant to be used in tests ONLY.
+        Use "truffle-contract" in production code like:
+        const contractBuilder = require("truffle-contract");
+        const JSON = require("ABI/MyContract.json");
+        const MyContract = contractBuilder(JSON);
+        const deployedInstance = MyContract.deployed()
+        ...
 
   module.exports = function(      deployer, network, accounts injected by truffle at migrate-time
         deployer,                 <- REF: https://github.com/trufflesuite
@@ -5536,7 +5683,7 @@ See Also:
   balance, err := cl.BalanceAt(ctx, addr, nil)
   //
   tx := new(types.Transaction)
-  err = cl.SendTransaction(ctx, tx)         ← Send transaction: It will fail. tx is unsigned⅋empty
+  err = cl.SendTransaction(ctx, tx)         ← Send transaction: It will fail. tx is unsigned&empty
   //
   progress, err := cl.SyncProgress(ctx)     ← Get sync progress for node
 
@@ -5601,7 +5748,7 @@ See Also:
                                                              transactOpts, backend)
                                                      _, err = bind.WaitDeployed(ctx, backend, tx)
 
-   callOpts := ⅋bind.CallOpts{
+   callOpts := &bind.CallOpts{
                   Context: ctx, Pending: false
                }
    bal, err := ctr.SeeBalance(callOpts)           ← Call pure/view (read-only) function.
@@ -5620,7 +5767,7 @@ See Also:
       create bind.FilterOpts with start/end block arguments.
       WARN: only works on full (archive) nodes.
       WARN: It does not work on Infura.
-     filOpt := ⅋bind.FilterOpts{              ← Indicate start/end block
+     filOpt := &bind.FilterOpts{              ← Indicate start/end block
                  Context: ctx,
                  Start: 9000000,              ← Tune start/end to avoid DoS on node.
                  End: nil
@@ -5631,7 +5778,7 @@ See Also:
          fmt.Printf(event.Addr.Hex())
      }
   └ listening for (FUTURE!!!) events:
-    watchOpts := ⅋bind.WatchOpts{
+    watchOpts := &bind.WatchOpts{
                     Context: ctx,
                     Start: nil
                  }
@@ -6286,20 +6433,20 @@ REF: https://medium.com/@bibryam/enterprise-integration-for-ethereum-fa67a1577d4
 ┌─ APPLICATIONS ────────────────────────────────────────────────────────────────────────────
 │
 │  DAPPS            ┌──────────────────┐  ┌─────────────────────────────┐
-│                   │   Applications   │  │  Explorers, Monitoring ⅋ BI │
+│                   │   Applications   │  │  Explorers, Monitoring & BI │
 │                   └──────────────────┘  └─────────────────────────────┘
 │
 │  INFRA CONTRACTS  ┌────────┐  ┌────┐*4 ┌──────────┐    ┌────────┐  ┌────────────┐
-│  ⅋ STANDARS       │IDENTITY│  │RBAC│   │NETWORK   │    │TOKEN   │  │ETHEREUM    │
+│  & STANDARS       │IDENTITY│  │RBAC│   │NETWORK   │    │TOKEN   │  │ETHEREUM    │
 │                   └────────┘  └────┘   │GOVERNANCE│    │STANDARS│  │NAME SERVICE│
 │                                        └──────────┘    └────────┘  └────────────┘
 ┌─ TOOLING ───────────────────────────────────────────────────────────────────────────────────
 │
-│  Permisions ⅋     ┌───────┐2  ┌──────────────┐2     ┌───┐3   ┌─────────────────────────────┐3
+│  Permisions &     ┌───────┐2  ┌──────────────┐2     ┌───┐3   ┌─────────────────────────────┐3
 │  Credentials      │WALLETS│   │KEY MANAGEMENT│      │HSM│    │PERMISSIONING/AUTHENTICATION │
 │                   └───────┘   └──────────────┘      └───┘    └─────────────────────────────┘
 │
-│  INTEGRATION⅋     ┌───────────┐2                    ┌──────────────────────────┐3 ┌────────┐3
+│  INTEGRATION&     ┌───────────┐2                    ┌──────────────────────────┐3 ┌────────┐3
 │  DEPLOYMENT       │INTEGRATION│                     │ENTERPRISE MANAGEMENT SYS.│  │ORACLES │
 │  TOOLS            │LIBRARIES  │                     └──────────────────────────┘  └────────┘
 │                   └───────────┘
@@ -6664,14 +6811,14 @@ instance will broadcast the same events.
   from("jms:queue:blocks")
     .setHeader(BLOCK_HASH, body())
     .to( "web3j://http://127.0.0.1:7545?"
-       + "operation=ETH_GET_BLOCK_BY_HASH⅋"
+       + "operation=ETH_GET_BLOCK_BY_HASH&"
        + "fullTransactionObjects=true");
 
 • Sample 3:
   from("direct:start")
     .to("web3j://http://127.0.0.1:7545?"
-      + "operation=ETH_GET_BALANCE⅋"    ← Read balance
-      + "address=0xc8CDce..⅋"             ← for address
+      + "operation=ETH_GET_BALANCE&"    ← Read balance
+      + "address=0xc8CDce..&"             ← for address
       + "atBlock=10");                    ← at given block
 [[}]]
 
@@ -8448,7 +8595,7 @@ since secrets are more exposed to the rest of the network.
   expense and other overheads while increasing operational integrity
   when automating business processes across multiple companies."""
 
-• BaseLine Modules⅋Packages:
+• BaseLine Modules&Packages:
 @[https://docs.baseline-protocol.org/baseline-protocol-code/packages]
 
   (@baseline-
@@ -9688,34 +9835,31 @@ https://eips.ethereum.org/EIPS/eip-1820
   $ npx hardhat --help 
     Usage: hardhat [GLOBAL OPTIONS] <TASK> [TASK OPTIONS]
    
-    GLOBAL                   AVAILABLE 
-    OPTIONS:                 TASKS:
-    ---------------          ---------
-    --config ...             check  ... whatever you need to check ...
-    --emoji  yes|no          clean      Clears cache + artifacts
-    --help                   compile    compile contracts/*, generate TS bindings
-    --max-memory ...         console 
-    --network ...            flatten    Flattens, prints contracts and dependencies
-    --show-stack-traces ...  node       Starts a JSON-RPC test node @http://127.0.0.1:8545/
-    --tsconfig ...           run        ... user-defined script after compiling ...
-    --verbose  ...           typechain  Generate Typechain typings for Compiled contracts
-    --version  ...           verify     Verifies contract on Etherscan  [[security]]
-                                                                                            
-                             coverage   [[13_SLC.testing.coverage]]
-     ^^^^^^^^^^              test       test/*js *ts [[13_SLC.testing]]
+    GLOBAL                  │ AVAILABLE 
+    OPTIONS:                │ TASKS:
+    ---------------         │ ---------
+    --config ...            │ check  ... whatever you need to check ...
+    --emoji  yes|no         │ clean      Clears cache + artifacts
+    --help                  │ compile    compile contracts/*, generate TS bindings
+    --max-memory ...        │ console 
+    --network ...           │ flatten    Flattens, prints contracts and dependencies
+    --show-stack-traces ... │ node       Starts a JSON-RPC test node @http://127.0.0.1:8545/
+    --tsconfig ...          │ run        ... user-defined script after compiling ...
+    --verbose  ...          │ typechain  Generate Typechain typings for Compiled contracts
+    --version  ...          │ verify     Verifies contract on Etherscan  [[security]]
+                            │                                                                
+                            │ coverage   [[13_SLC.testing.coverage]]
+     ^^^^^^^^^^             │ test       test/*js *ts [[13_SLC.testing]]
      ENV.VARS: 
-     - HARDHAT_NETWORK
+     - HARDHAT_NETWORK           (overriden by --network flag)
      - HARDHAT_SHOW_STACK_TRACES
      - HARDHAT_VERBOSE
      - HARDHAT_MAX_MEMORY
 
-For example, instead of doing npx hardhat --network localhost run script.js, you can do HARDHAT_NETWORK=localhost node script.js. 
 • Compared to Truffle there is no migrations/* directory.
   To deploy new contracts:
   STEP 1) Create standard deployment script (js/ts) using ethers.js
   STEP 2) $ npx hardhat run scripts/deploy.ts
-
-
 [[}]]
 
 ● Non Classified / TODO: [[{00_PM.TODO]]
@@ -10106,7 +10250,7 @@ REF: @[https://frax.finance/whitepaper/]
       - Ethereum L2 scaling solution for private transactions using
         zk-SNARK and optimistic rollup. [[}]]
 
-  • L2 Exchanges:[[{layer2.rollup.stark,02_use_case.exchange,scalability.layer2]]
+  • L2 Exchanges:[[{layer2.rollup.stark,02_USE_CASE.finance.trading,scalability.layer2]]
     - major centralized exchanges integrating Layer 2:
       BInance, OKEx (also with Arbitrum),  Coinbase (Polygon's
       Layer 2 planned, Arbitrum, Optimism, Starkware on radar),
@@ -10249,7 +10393,7 @@ REF: @[https://frax.finance/whitepaper/]
    all new technologies that have been developed, indicating significant
    progress in this area.
 
- • C⅋P from: https://github.com/q9f/secp256k1.cr
+ • C&P from: https://github.com/q9f/secp256k1.cr
    - private keys are scalars
      public  keys are points with (x , y) coordinates.
 
@@ -10314,7 +10458,7 @@ REF: @[https://frax.finance/whitepaper/]
    - Node Hibernation to eliminate unnecessary costs when activity is
      reduced for a significant period of time
    - Multi-Tenancy to allow a number of users to use the same Ethereum
-     node to connect to the network ⅋ thereby reduce costs
+     node to connect to the network & thereby reduce costs
    - Learn more about the new features in this release on our blog
 
  • Etherum Offline TX signature in with JS in Azure: [[{wallet}]]
@@ -10649,7 +10793,7 @@ REF: @[https://frax.finance/whitepaper/]
     $ npm install --global zos      ← ZOS install
 
                                       ZOS ussage
-    $ mkdir zos-demo ⅋⅋ cd zos-demo   ==========
+    $ mkdir zos-demo && cd zos-demo   ==========
     $ npm init -y
     $ zos init zos-demo             ← create  zos.json  config.file
                                       makes ZOS aware of your smart contract
@@ -10692,7 +10836,7 @@ REF: @[https://frax.finance/whitepaper/]
       $ zos add CounterContract  # ← STEP 1: Add smart contract to zos
       $ zos push --network local # ← STEP 2: push it to the local network:
 
-      $ zos create CounterContract \ ← create⅋>initialize upgradeable instance
+      $ zos create CounterContract \ ← create&>initialize upgradeable instance
             --init   initialize  \
             --args 42 \              ← must match the   initialize  method.
             --network local
@@ -11691,4 +11835,11 @@ Custom ethereum client that uploads blockchain data to BigQuery
      executing a JUMP to the subroutine.
       "Returns" were synthesized by moving return-address to stack-top,
      then and jumping back to it, causing cost gas and increasing program size. [[}]]
+
+ • EIP-173: Contract Ownership Standard    [[{standards.eip/erc.191,security.governance]]
+   https://eips.ethereum.org/EIPS/eip-173 
+   - function transferOwnership(address _newOwner) external;	
+     └ event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+   - function owner() view external returns(address);
+   [[}]]
 [[}]]
