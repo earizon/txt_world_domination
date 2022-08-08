@@ -236,6 +236,13 @@ const bootstrap = async function () {
   render( html` <${ControlPanel} url_txt_source=${URLtxtDDBB} />`, document.getElementById("idControlPanel"))
 }
 
+window.scrollInto = function(id) {
+  window.history.pushState("", "");
+  document
+    .getElementById('dbEngineOutput')
+    .querySelector(id)
+    .scrollIntoView({ behavior: 'smooth' })
+}
 
 window.addEventListener('load', bootstrap )
 </script>
@@ -243,7 +250,7 @@ window.addEventListener('load', bootstrap )
 <body>
 <pre id="idControlPanel" class="textSelectOff">
 </pre>
-<pre id="dbEngineOutput" lineheight="height1" fontSize="s2" background="b1" colorstyle="s1" >
+<pre id="dbEngineOutput" lineheight="height1" font="font1" fontSize="s2" background="b1" colorstyle="s1" >
 </pre>
 
 </body>

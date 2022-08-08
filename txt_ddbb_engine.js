@@ -227,13 +227,21 @@ class TXTDBEngine {
     }
 
     constructor( url_txt_source ) {
-      this.url_txt_source   = url_txt_source;
+      const base_url = document.location.href
+                       .replace(document.location.search,"")
+                       .replace(/[/][^/]*[?]?$/,"")
+      this.url_txt_source   = url_txt_source.startsWith("http") 
+                              ? new URL(url_txt_source)
+                              : new URL(`${base_url}/${url_txt_source}`)
+      this.relative_path    = ( this.url_txt_source.href
+                               .replace(this.url_txt_source.search,"")
+                               .replace(/[/][^/]*[?]?$/,"") )
       this.topicsDB         = new TopicBlockDB();
       this.indexRoot        = new IndexTableEntry ("Index", -1);
     }
 
     async init( bShowLineNum ) {
-      let payload = await this.fetchPayload(this.url_txt_source);
+      let payload = await this.fetchPayload(this.url_txt_source.href);
       const doTxtPreProcessing = (input) => {
          /*
           * apply simple utility-like replacements (convert @[...] to HTML links, 
@@ -251,21 +259,36 @@ class TXTDBEngine {
              /[#]\[([^\]]*)\]/g,
              "◆<span id='$1'>#$1</span>◆")
 
-         // NEXT) replace External links
+         // NEXT) replace relative/absolute external links. 
+         // TODO: Improve relative handling. There can be:
+         //       links to unrelated to viewer content (normal case)
+         //       links indicating viewer to reload current content
+         //       -non-standard links that jut the viewer will understand.
          H = H.replace(
              /@\[((http|[.][/]).?[^\]\n]*)\]/g,
              " ▶<a target='_blank' href='$1'>$1</a>◀")
      
-         // NEXT) replace relative (to page) link
+         // NEXT) replace internal link
          H = H.replace(
-             /@\[([^\]\n]*)\]/g,
-             " ▷<a href='$1'>$1</a>◁")
+             /@\[(#[^\]\n]*)\]/g,
+             " ▷<a onClick='window.scrollInto(\"$1\")'>$1</a>◁")
 
+         // NEXT) Replace External absolute URL images: i[http://.../test.svg|width=3em]
+         H = H.replace(
+           /i\[((http).?[^|\]\n]*)(|[^\]\n]*)\]/g,
+           "<img src='$1' style='$2' />")
+         // NEXT) Replace External relative URL images: i[./test.svg|width=3em]
+         //       Note that relative images are relative to txt document 
+         //       (vs html viewer)
+         H = H.replace(
+           /i\[((\.\/)?[^|\]\n]*)(|[^\]\n]*)\]/g,
+           "<img src='"+this.relative_path+"/$1' style='$2' />")
+
+
+         // NEXT) Add style to topic blocks
          H = H.replace(
              /(\[\[[^\]\n]*\]\])/g,
              "<span class='txtblock'>$1</span>")
-
-
 
          return H
       }
