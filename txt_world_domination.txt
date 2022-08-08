@@ -81,7 +81,7 @@
    · Quick create macros with qq ... (macro) ... q
 
 ┌─────────────────────────────────────────┐
-│ Bullets   : · • ● ✓ ◆ ◇                 │
+│ Bullets   : · • ● ✓ ✕ ◆ ◇               │
 │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
 │ SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ           │
 └─────────────────────────────────────────┘
@@ -94,7 +94,7 @@
  │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
  └───────────────────────────────────────────────────────┘
 
- <span id="UML" />
+#[UML]
  ┌ UML (Unified Modeling Language)─────────────────────────────┐
  │  ┌────────────┐   message      ↑ dependency  |              │
  │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
@@ -128,7 +128,7 @@
  │ └────────┘          └──────────┘  "IS A" inheritance.       │
  └─────────────────────────────────────────────────────────────┘
 
- <span id="BPMN" />
+#[BPMN]
  ┌─ BPMN (Business Process Management Network) ────────────────────────────────────────┐
  │ See also: https://github.com/bpmn-io/bpmn-font/tree/master/dist/font                │
  │ ○ Start Event, ◎ Intermediary/Boundary Event, ◇ Gateway,                            │
@@ -148,7 +148,7 @@
  │  └─┴────────────────────────────────────────┘│                  │        ▾         ││
  │                                              │                  │       YES        ││
  └─────────────────────────────────────────────────────────────────────────────────────┘
- ┌ Geometric ──────────────────────────────────────────────┐ <span id="Geometric" />
+ ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
  │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│  
  │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │  
  │ ◀ ▶ ◂ ▸ ◁ ▷ ◃ ▹ ◣ ◢ ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊ ◰ ◱ ◲ ◳         │  
@@ -169,7 +169,7 @@
   └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚   └ ...           ╲╱   ╲ ╱   ╲ ╱ 
   └╴──┴─────╶┘                                         •     ▾  
 
- <span id="math_symbols" />
+ #[math_symbols]
 ┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐
 │ @[https://www.unicode.org/charts/PDF/U2200.pdf]                          │
 │ ● ORDER RELATIONS             ● LOGICAL OPs                              │
