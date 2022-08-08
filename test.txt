@@ -6,13 +6,16 @@
 │ 2) Final up-to-date documentation for users.    │
 └─────────────────────────────────────────────────┘
  
-● scaped p and html tags must be displayed properly: 
+history.● scaped p and html tags must be displayed properly: 
   <p> <html> 
   └───┬────┘
   (vs hidden as html tags)
 
 ● internal links must be converted properly:
  @[#internalLink1] @[#internalLink2]
+
+● Image must render properly, resolving relative path issues:
+ i[./test.svg|width=3em]
 
 ● External links must be converted properly:
   Go to @[https://www.w3.org/] 
@@ -269,7 +272,7 @@
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
 
-
+  Pressing back in browser must scroll up to original link
 
 
 
@@ -292,6 +295,7 @@
  └──────────────┴ - width of original text must not change when replaced by 
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
+  Pressing back in browser must scroll up to original link
 
 
 
