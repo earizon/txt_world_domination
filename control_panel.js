@@ -148,7 +148,7 @@ console.log(new_value);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 300;
       this.state.settings_menuSize = 2;
-      this.state.settings_font = 0;
+      this.state.settings_font = 1;
       this.state.color_style = 1;
       this.state.bckg_texture = 1;
       this.state.settings_lineheight = 1;
