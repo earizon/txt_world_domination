@@ -61,12 +61,12 @@ class ControlPanel extends Component {
       showIndex        : true 
     }
 
-    getIndexTable = () => {
-       const result = []
+    getIndexTableAsHTML = () => {
+       let result = ""
        this.txtDBEngine.indexRoot.children.forEach( (entry) => {
-         result.push(`${entry.txt_line}, ${entry.lineNumber}`);
+         result += (`${entry.txt_line}, ${entry.lineNumber}<br/>`);
          entry.children.forEach( (entry2) => {
-           result.push(`  ├─ ${entry2.txt_line}, ${entry2.lineNumber}`);
+           result +=(`  ├─ ${entry2.txt_line}, ${entry2.lineNumber}<br/>`);
          }) 
        })
        return result;
@@ -108,7 +108,6 @@ class ControlPanel extends Component {
 
     switchBackground = ()=> {
         const new_value = this.state.bckg_texture == 4 ? 1 : this.state.bckg_texture+1;
-console.log(new_value);
         this.setState ( { bckg_texture : new_value });
         document.getElementById("dbEngineOutput")
             .setAttribute("background","b"+new_value);
@@ -176,7 +175,9 @@ console.log(new_value);
         () => {
           document.getElementById("dbEngineOutput").innerHTML = 
                 this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, this.state.topicParentDepth)
+          document.getElementById("idTableIndex").innerHTML = this.getIndexTableAsHTML();
         }, 400)
+      
     }
 
     onGrepRegexChanged = (inputEvent) => {
@@ -285,12 +286,7 @@ console.log(new_value);
           ${ this.state.showIndex && 
              html`
                <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵ Index]</span><br/>
-               <pre id="idTableIndex" size=s2>
-               ${ this.getIndexTable().map( (line) => {
-                    return html`${line}<br/>`
-                })
-               }
-               </pre>
+               <pre id="idTableIndex" size=s2> </pre>
              `
             }
           ${ ! this.state.showIndex && 
