@@ -1,17 +1,4 @@
 "use strict"
-class ReadLinesBuffer { // keep last N lines in memory                           [{][[class.ReadLinesBuffer]]
-    constructor(length) {
-      this.length = length 
-      this.buffer = [] 
-    };
-    get() {return this.buffer;}
-    push(item){
-       if (this.buffer.length == this.length) { this.buffer.shift() }
-       this.buffer.push(item)
-    } 
-    reset() { this.buffer = []; }
-}; //                                                                           [}]
-
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
     constructor ( TC_id ) {
@@ -65,15 +52,9 @@ class TopicBlockDB { //                                                        [
    }
 
    getBlocks(tc /*topicCoordinate*/, topicParentDepth) {
-console.log(">>>>")
-console.log(this._db[tc.dim][tc.coord])
        let result = this._db[tc.dim][tc.coord].filter(block => { 
-console.log(block.topic_d[tc.id])
-console.log(block.topic_d[tc.id]<=topicParentDepth)
            return (block.topic_d[tc.id]<=topicParentDepth);} 
        );
-console.log(result)
-console.log("<<<<")
        return result;
    }
 
@@ -323,38 +304,46 @@ class TXTDBEngine {
       });
       const grepInput = grep0.input
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
-      let data_input = ""
+      const grepRegex = new RegExp(grepInput, 'gi'); 
+      let result_l = Array(this.rowN).fill(false);
+      if (grepInput == "") {
+          result_l = [...this.immutableDDBB];
+      } else {
+        for (let idx=0; idx < this.rowN; idx++) {
+          const lineN = this.immutableDDBB[idx];
+          let isMatch = lineN.match(grepRegex);
+          if (!isMatch) continue;
+          let start = idx - grep0.before; 
+          if (start < 0) start = 0;
+          let end  = idx + grep0.after; 
+          if (end > this.rowN) end = this.rowN;
+          for (let idx2 = start; idx2 <= end; idx2++) {
+              if (idx2 == idx) {
+                  result_l[idx] = lineN.replace( grepRegex, (str) => `<span class='grepMatch'>${str}</span>`);
+              } else {
+                  if (result_l[idx2] == false) {
+                     result_l[idx2] = this.immutableDDBB[idx2];
+                  }
+              }
+          }
+        }
+      }
+      for (let idx=0; idx < this.rowN-1; idx++) {
+        const current_row_false = !!result_l[idx];
+        const    next_row_false = !!result_l[idx+1];
+        if (current_row_false == false  && next_row_false == true ) {
+            result_l[idx]="--------------------------------\n";
+        }
+      }
+
       const topicMatchingLines_l = this.topicsDB.getMatchingLinesForTopicCoord(
           this.rowN, selectedTopicsIds, topicParentDepth) 
       for (let idx = 0 ; idx <= this.rowN; idx++) {
-          if (topicMatchingLines_l[idx]==true) data_input += this.immutableDDBB[idx];
+          if (topicMatchingLines_l[idx]==false) result_l[idx] = false;
       }
-      if (!!! grepInput ) return data_input
-      const beforeRB        = new ReadLinesBuffer(grep0.before)
-      let result = "";
-      const grepRegex = new RegExp(grepInput, 'gi'); 
-        
-      let afterPending = 0
-      data_input.split(/(\n)/g).forEach( lineN => {
-        let isMatch = lineN.match(grepRegex);
-        if ( !isMatch && afterPending > 0 ) {
-            afterPending=afterPending-1
-            result += lineN;
-            if (afterPending==0) {
-            }
-        }
-        if (isMatch) {
-           result += "------grep ------------------\n";
-           beforeRB.get().forEach(bLine => result += bLine)
-           beforeRB.reset();
-           const highligthedLineN = lineN
-              .replace( grepRegex, (str) => `<span class='grepMatch'>${str}</span>`);
-           result += highligthedLineN;
-           afterPending = grep0.after
-        } else {
-           beforeRB.push(lineN)
-        }
-      })
+
+      const result = result_l.filter( row => (row != false) ).join("");
+console.log(result)
       return result
     }
 }
