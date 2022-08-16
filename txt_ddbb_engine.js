@@ -332,7 +332,7 @@ class TXTDBEngine {
         const current_row_false = !!result_l[idx];
         const    next_row_false = !!result_l[idx+1];
         if (current_row_false == false  && next_row_false == true ) {
-            result_l[idx]="--------------------------------\n";
+            result_l[idx]="- grep block -------------------------------\n";
         }
       }
 
