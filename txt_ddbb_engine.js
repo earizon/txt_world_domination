@@ -136,7 +136,7 @@ class TXTDBEngine {
 
     buildTopicsDB() {
       const parseCtrlTokens = function (lineIn) {
-        // TODO:(qa) contemplte 2+ [[...]] in single line
+        // TODO:(qa) contemplate 2+ [[...]] in single line
         const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return ""
         const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return ""
         if (idx0 > idx1) return ""
@@ -167,6 +167,8 @@ class TXTDBEngine {
           const line_topicCoords_l = segment.split(',');
           line_topicCoords_l.forEach ( TC_id => {
             if ( TC_id == "" ) return;
+            if ( TC_id.indexOf("$") >= 0) return; // Avoid conflict with shell script [[ $...  ]] syntax
+            if ( TC_id.indexOf("-") >= 0) return; // Avoid conflict with shell script [ -t path ] syntax
             if ( !!! TC_id ) throw new Error("TC_id empty/null");
             if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
             let stackDepth = blockStack.length-1;
