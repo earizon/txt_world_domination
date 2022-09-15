@@ -1,3 +1,13 @@
+┌─ HEAD-Quarters ───────────────────────────────────┐
+│@[https://github.com/earizon/txt_world_domination/]│
+├───────────────────────────────────────────────────┤
+│ Quick Links:                                      │
+│ @[#uml] @[#bpmn] @[#geometric] @[#math_symbols]   │
+│                                                   │
+│ @[#txt_world_domination_ammunition]               │
+│ @[#txt_world_domination_celebration]              │
+└───────────────────────────────────────────────────┘
+
 ┌─ Apropos: ──────────────────────────────────────┐
 │ This text file has two purposes:                │
 │                                                 │
@@ -5,32 +15,36 @@
 │                                                 │
 │ 2) Final up-to-date documentation for users.    │
 └─────────────────────────────────────────────────┘
- 
-history.● scaped p and html tags must be displayed properly: 
-  <p> <html> 
+
+● TEST: scaped p and html tags must be displayed properly:
+  <p> <html>
   └───┬────┘
   (vs hidden as html tags)
 
-● internal links must be converted properly:
+● TEST: internal links must be converted properly:
  @[#internalLink1] @[#internalLink2]
 
-● Image must render properly, resolving relative path issues:
+● TEST: Image must render properly, resolving relative path issues:
  i[./test.svg|width=3em]
 
-● External links must be converted properly:
-  Go to @[https://www.w3.org/] 
+● TEST: External links must be converted properly:
+  Go to @[https://www.w3.org/]
   Go to @[https://www.ietf.org/]
   Go to @[https://www.ieee.org/]
 
-● DOCUMENTATION INTRODUCTION:
+● TEST: DOCUMENTATION INTRODUCTION MUST BE IN PLACE:
 
-  - Documenting is not about piling words and powerpoints 
+  ===========================
+  DOCUMENTATION INTRODUCTION:
+  ===========================
+
+  - Documenting is not about piling words and powerpoints
     in random locations hoping that some poor soul will read
     them in future.
 
   - Documenting is not about looking cool or serious or expert.
 
-  • ┌ [[{KEY-POINT]] ───────────────────────────────────────────────────┐  
+  • ┌ [[{KEY-POINT]] ───────────────────────────────────────────────────┐
     │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
     │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
     │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
@@ -52,7 +66,7 @@ history.● scaped p and html tags must be displayed properly:
     └─[[}]]─────────────────────────────────────────────────────────────┘
 
   - Perfect documentation is a science-fiction dream:
-    @[https://www.youtube.com/watch?v=SoAk7zBTrvo]
+    @[https://www.youtube.com/watch?v=SoAk7zBTrvo]  
 
     ... but good documentation is possible.
 
@@ -60,8 +74,8 @@ history.● scaped p and html tags must be displayed properly:
 
     ... BUT ... text-books require lot of expertise and free-time to create.
 
-  - In real projects we still need good documentation and the more 
-    people working in a project the biggest the need to have good 
+  - In real projects we still need good documentation and the more
+    people working in a project the biggest the need to have good
     documentation but ....
 
   • ┌ [[{KEY-POINT]] ─────────────────────────────────────────┐
@@ -74,7 +88,7 @@ history.● scaped p and html tags must be displayed properly:
     │     work in order to satisfy each other's EGOs and      │
     │     interests.                                          │
     └─[[}]]───────────────────────────────────────────────────┘
-  
+
   • ┌ [[{KEY-POINT]] ─────────────────────────────────────────┐
     │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
     └─[[}]]───────────────────────────────────────────────────┘
@@ -82,7 +96,7 @@ history.● scaped p and html tags must be displayed properly:
     Outside pure academic's enviroments documentation skills is not
    even considered when hiring new employees acording to 99% of job's
    offers (while in pure academic's enviroment publishing
-   papers looks to be the only important thing to do with no 
+   papers looks to be the only important thing to do with no
    attention to any other real outcome).
 
   • ┌ [[{KEY-POINT]] ────────────────────────────────────────┐
@@ -101,13 +115,13 @@ history.● scaped p and html tags must be displayed properly:
 
     ✓ DON'T KEEP INFORMATION SPREAD ("HIDDEN" OR "LOST") AMONGST
       HUNDRED OF EMAILS, POSTS, CHATS, WORDS, CUSTOM DATABASES,
-      EXCELS AND BINARY FILES OF RANDOM NATURE. 
+      EXCELS AND BINARY FILES OF RANDOM NATURE.
 
     ✓ AVOID USING (EXPENSIVE AND COMPLEX TO SETUP AND MAINTAIN)
       SEARCH ENGINES TO FIND FOR LOST INFORMATION:
       NEVER LOOSE THE INFORMATION IN FIRST PLACE.
 
-    ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION, 
+    ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION,
       THE SIMPLEST, THE BEST.
 
     ┌ [[{KEY─POINT]] ──────────────────────────────────┐
@@ -120,12 +134,12 @@ history.● scaped p and html tags must be displayed properly:
     └──────────────────────────────────────────────────┘
 
   • ABOUT THE TXT WORLD DOMINATION PROJECT [[{KEY-POINT]]
-    - TXTWD Project tries to implement documentation best        
-     practices by converting a simple and innocent "txt" file   
-     into a INDECENT and PERVERT Document Management System     
-     where information can be searched and classified in        
-     powerful ways to success in creating correct documentation 
-     (aka TRANSMISSION OF KNOWLEDGE)                            
+    - TXTWD Project tries to implement documentation best
+     practices by converting a simple and innocent "txt" file
+     into a INDECENT and PERVERT Document Management System
+     where information can be searched and classified in
+     powerful ways to success in creating correct documentation
+     (aka TRANSMISSION OF KNOWLEDGE)
 
      [[}]]
 
@@ -139,36 +153,37 @@ history.● scaped p and html tags must be displayed properly:
     ▸ By documenting the tests we (developers) can have up-to-date
       documentation for users in a single place.
   [[}]]
-   
+
 ● Syntax Basic Rules:
-  - The TXT engine searchs for instructions codified along the normal 
-    text in the file. To do so, the '[[' and ']]' delimiters are used
-    to "scape" or distingüish the instructions from normal text. 
+  - The TXT engine searchs for instructions codified along the normal
+    text in the file. To do so, the next delimiters are used
+    to "scape" or distingüish the instructions from normal text.
+    [[ - topics go here - ]]
   - A BLOCK-OF-RELATED-CONTENT starts with [[{]] and ends with [[}]].
-  - New blocks can be placed inside existing blocks forming a tree of 
+  - New blocks can be placed inside existing blocks forming a tree of
     blocks. Graphically you can imagine them as:
      txt file [[{graph]]
-     ├─ block  
-     │  ├──── block 
-     │  │     └──── block    
-     │  └──── block 
-     ├─ block 
-     │  └──── block 
-     ├─ block 
+     ├─ block
+     │  ├──── block
+     │  │     └──── block
+     │  └──── block
+     ├─ block
+     │  └──── block
+     ├─ block
      ┊        [[}]]
   - each block can be "tagged" with on or more topics using the sintax
-    [[... topicA,topicB, ... ]] or 
+    [[... topicA,topicB, ... ]] or
     Topics can be added anywhere before the start and end of a topic.
     That means that the previous example is equivalent to:
     [[topicA]]
     ...
     [[topicB]]
 
-  - Each topic can be subclassified in subtopics following the syntax 
-    [[ topicA.subtopic.subsubtopic ]] 
-    
+  - Each topic can be subclassified in subtopics following the syntax
+    [[ topicA.subtopic.subsubtopic ]]
+
   - [[{KEY─POINT,graph]]
-     ▸ Think of a topic as a first or principal clasification of content. 
+     ▸ Think of a topic as a first or principal clasification of content.
        For example in a document about Project Management main topics/coordinates
        could be HHRR, PLANNING, DOCUMENTATION, RISK MANAGEMENT, ...
      ▸ Think of a subtopic as a (finite) coordinate inside the topic dimension.
@@ -186,15 +201,15 @@ history.● scaped p and html tags must be displayed properly:
           topicA.subtopic · │       · topicA.subtopic and     ·
                           · │       · topicB.subtopic.subsubtopic
                           └ ┤       └·························┘
-                            │   
-                            +───────┬────────────────────────────topicB 
+                            │
+                            +───────┬────────────────────────────topicB
                            ╱        └─······················─┘
-                          ╱          topicB.subtopic.subsubtopic                       
+                          ╱          topicB.subtopic.subsubtopic
                          ╱    └─····························─┘
                         ╱           topicB.subtopic
                        ╱
                       ╱
-                  topicC 
+                  topicC
 
        the relation among blocks and topics.subtopics can be visualized like:
 
@@ -207,68 +222,74 @@ history.● scaped p and html tags must be displayed properly:
        ├─ block                  topicA
        ┊                         .subtopic3
     [[}]]
-     
-  
-  
+
+
+
                                              TEST:
-  • [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be 
+  • [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
     │ topic01.1 │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
     │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks [[{ ... { ... { ]] declatarions
     │ topic01.1 └ topic01.2 [[}]]                 must work properly.
-    │ topic01.1                                 · Termination of blocks must work properly. 
-    └ topic01.1 [[}]]                             When selecting topic01.3, topic01.2, tests01.1 
-                                                  only the corresponding text inside each block 
+    │ topic01.1                                 · Termination of blocks must work properly.
+    └ topic01.1 [[}]]                             When selecting topic01.3, topic01.2, tests01.1
+                                                  only the corresponding text inside each block
                                                   must be displayed
-                                               
-  • [[{ topic01.1 ]]                       
-      │        [[{ topic01.2]]                topic01.1 belongs to level 1 block. 
+
+  • [[{ topic01.1 ]]
+      │        [[{ topic01.2]]                topic01.1 belongs to level 1 block.
       │          │        [[{ topic01.3]]     topic01.2 belongs to level 1 and 2 blocks.
       │ topic01.1 │ topic01.2 │ topic01.3       topic01.3 belongs to level 1, 2 and 3:
-      │ topic01.1 │ topic01.2 └ topic01.3       TEST: Select topic01.3 in menu. Level 3 block 
-      │ topic01.1 │ topic01.2 [[}]]                  must be displayed. 
+      │ topic01.1 │ topic01.2 └ topic01.3       TEST: Select topic01.3 in menu. Level 3 block
+      │ topic01.1 │ topic01.2 [[}]]                  must be displayed.
       │ topic01.1 └ [[}]]                     TEST: Select match parent-blocks up to 1
       │ topic01.1                                   level 2 and 3 block must be displayed.
       │ topic01.1                             TEST: Select match parent-blocks up to 2
       └ [[}]]                                      level 1, 2 and 3 block must be displayed.
 
-  ┌─[[{topic02. 1.]]  <- TEST: must be parsed as topic02.1 
+  ┌─[[{topic02. 1.]]  <- TEST: must be parsed as topic02.1
   └─[[}]]                     ignoring whitespaces and final dots(TODO:fix)
-                                            
-● ┌─[[{topic03]]       topic03.1      <- TEST: selected topic03 must also de/select 
+
+● ┌─[[{topic03]]       topic03.1      <- TEST: selected topic03 must also de/select
   └─[[}]]              topic03.1               topic03.*
-  ┌─[[{topic03.1]]     topic03.1      <- TEST: selected topic03.1 must also de/select 
+  ┌─[[{topic03.1]]     topic03.1      <- TEST: selected topic03.1 must also de/select
   └─[[}]]              topic03.1               topic03.1.*
-  ┌─ [[{topic03.1.1]]  topic03.1.1    <- TEST: selected topic03.1.1 must also de/select 
+  ┌─ [[{topic03.1.1]]  topic03.1.1    <- TEST: selected topic03.1.1 must also de/select
   └─ [[}]]             topic03.1.1             topic03.1.1.
   ┌─ [[{topic03.1.1.1]]topic03.1.1.1
   └─ [[}]]             topic03.1.1.1
   ┌─ [[{topic03.2]]    topic03.2
   └─ [[}]]             topic03.2
- 
+
+● Avoiding clonflicts with Shell-script syntax:
+  [[{forbidden_topic $}]]            <- TEST: topics including '$' character must be ignored
+  [[{forbidden_topic -}]]            <- TEST: topics inlcuding '-' character must be ignored
+     └──────┬────────┘
+            └ those topics must not appear in topics menu.
+
 ● grep regex '*grep.*gex' must display this line.
 
-● Unicode and AsciiArt by extension must display properly 
+● Unicode and AsciiArt by extension must display properly
   (blame OS of if it doesn't).
-  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ 
-  │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ 
-  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ 
-  │  │      │┌▽─────┐  │┌▽──┐ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ 
-  └───────────────────────────┘ ├─┼─┼────┼───┼─┤ ┤┠─╂───╂──┨ 
-                                └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚ 
+  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒
+  │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃
+  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃
+  │  │      │┌▽─────┐  │┌▽──┐ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃
+  └───────────────────────────┘ ├─┼─┼────┼───┼─┤ ┤┠─╂───╂──┨
+                                └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚
   ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧ ⎧  ⎫
   ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
   ╠═╬═╣  ╟──╫──╢ ╞══╪══╡ ⎪ ⎨  ⎬
   ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
-  ╚═╩═╝  ╙──╨──╜ ╘══╧══╛ ⎭ ⎩  ⎭   
+  ╚═╩═╝  ╙──╨──╜ ╘══╧══╛ ⎭ ⎩  ⎭
 
 ● topic0, topic5 outside any block and must not           [[topic0,topic5]]
   be displayed in topics menu.
 
 --------------------------------------------
 
- #[internalLink1] must link here. 
- ^              ^ 
- └──────────────┴ - width of original text must not change when replaced by 
+ #[internalLink1] must link here.
+ ^              ^
+ └──────────────┴ - width of original text must not change when replaced by
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
 
@@ -291,11 +312,301 @@ history.● scaped p and html tags must be displayed properly:
 
 --------------------------------------------
  #[internalLink2] must link here.
- ^              ^ 
- └──────────────┴ - width of original text must not change when replaced by 
+ ^              ^
+ └──────────────┴ - width of original text must not change when replaced by
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
   Pressing back in browser must scroll up to original link
 
+══════════════════════════════════════════════════════════════════════════════════ 
+ Enougth with Testing. Time for ...             #[txt_world_domination_ammunition]
+
+   TXT World Domination Tools !!!
+
+       World Domination Tools !!!
+
+       World Domination       !!!
+
+       World Domination
+
+         WORLD DOMINATION
+
+         W O R L D    D O M I N A T I O N
+
+                  Ah Ah Ah Ah Ah Ahhhh !!!! >:Ḑ-+-<
 
 
+══════════════════════════════════════════════════════════════════════════════════
+
+┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
+│  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
+│  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
+│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[doc_has.diagram,doc_has.UML.DAG,doc_has.UML.sequence]]
+│  │                           │                     │                         │[[doc_has.math,01_PM.low_code]]
+│  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │                         │[[tool.online,tool.desktop]]
+│  │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                         │
+│  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │                         │
+│  │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │                         │
+│  │  │      ││pants │  ││tie│ │    │───────────>│   │                         │
+│  │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │                         │
+│  │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │                         │
+│  │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │                         │
+│  │ └──────────┘└───────┘     │ │Alice│       │Bob│ │                         │
+│  │                           │ └─────┘       └───┘ │                         │
+│  │───────────────────────────┼─────────────────────│                         │
+│  │  TREE EXAMPLE             │   MATH EXPRESSION   │                         │
+│  │  Linux                    │                     │                         │
+│  │   ├─Android               │    1            3   │                         │
+│  │   ├─Debian                │    ⌠  2        n    │                         │
+│  │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │                         │
+│  │   │  │  ├─Lubuntu         │    0            3   │                         │
+│  │   │  │  └─Xubuntu         │                     │                         │
+│  │   │  └─Mint               │                     │                         │
+│  └─────────────────────────────────────────────────┘                         │
+└──────────────────────────────────────────────────────────────────────────────┘[[}]]
+
+
+┌ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) ─────────────────────┐[[{]]
+│         ┌───────┐    ┌──────┐     IO PORTS   [[doc_has.diagram]]             │
+│         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐  [[doc_has.UML.component]]       │
+│         │xxxxxxx│    │xxxxxx│     ││││ ││││  [[tool.online]]                 │
+│   ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐                                 │
+│   │ ┌─Comp.1────┐             │┼┼┼┼┼┼┼│    │                                 │
+│   │ │           ├────────┐    └───────┘    │                                 │
+│   │ ├───────────┘        │                 │                                 │
+│   │ │ ┌──────────┐       │                 │                                 │
+│   │ └─► GPU UNIT │       │     ┌─Dev.9─────┤                                 │
+│   │   └─────┬────┘       │     │consectetur│                                 │
+│   │      ┌──┴────┐  ┌────┴────┐└───────────┤                                 │
+│   │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤                                 │
+│   └──────┴───────┴──┴─────────┴──┴─────────┘                                 │
+└──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+
+┌ @[https://csvkit.readthedocs.io/en/latest/] ─────────────────────────────────┐ [[{]]]
+│  ·Convert from/to CSV/Excel/SQL─DDBB.      [[tool.desktop,doc_has.CSV]]]     │
+│  ·Query CSV using SQL.                                                       │
+│  ·No-code statistics on CSV data.                                            │
+└──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌ @[http://gnu.ist.utl.pt/software/textutils/textutils.html] ──────────────────┐ [[{tool.desktop]]]
+│  sort     : sort lines of text files                                         │
+│  tsort    : perform topological sort                                         │
+│  uniq     : remove duplicate lines from a sorted file                        │
+│  join     : join lines in two files based on common field                    │
+│  ptx      : produce permuted index of file contents                          │
+│  cut      : remove columns on each line                                      │
+│  ...                                                                         │
+└──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌ @[https://asciinema.org/] ASCII VIDEO ───────────────────────────────────────┐ [[{]]
+│ Record+share terminal sessions, the simple way.                              │ [[tool.desktop,tool.online]]
+│ Enjoy a lightweight, purely text-based approach to terminal recording.       │ [[security.audit]]
+│ Example: @[https://asciinema.org/a/421164]                                   │
+└──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌─ vim: Then King of text ─────────────────────────────────────────────────────┐ [[{tool.desktop]]
+│ · Use Ctrl + V for visual block mode ("Paint mode")                          │
+│ · Pass selected text as STDIN to external txt-command and                    │
+│   replace it with external txt-command's STDOUT with                         │
+│   :.!txt-command                                                             │
+│ · Quick create macros with qq ... (macro) ... q                              │
+│ · Navigate among block start/end curly braces with                           │
+│   Alt key + '[' + '{' : Jump to block start.                                 │
+│   Alt key + '[' + '}' : Jump to block end.                                   │
+└──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌─────────────────────────────────────────┐                                      [[{doc_has.bullets]]
+│ Bullets   : · • ● ✓ ✕ ◆ ◇               │
+│   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
+│ SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ           │
+└─────────────────────────────────────────┘
+
+ ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐
+ │ ← ↑ → ↓   ⇠ ⇡ ⇢ ⇣   ↖ ↗ ⇖ ⇗   ↱ ↰   ↴   ◀ ▲ ▶ ▼       │
+ │ ⇇ ⇈ ⇉ ⇊   ⇽   ⇾     ↙ ↘ ⇙ ⇘   ↳ ↲   ↵   ◁ △ ▷ ▽       │
+ │ ↼ ↾ ⇀ ⇃   ↽ ↿ ⇁ ⇂   ↢   ↣     ⇤ ⇚ ⇥ ⇛                 │
+ │ ↞ ↟ ↠ ↡   ↤ ↥ ↦ ↧   ↩   ↪     ↔   ↕                   │
+ │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
+ └───────────────────────────────────────────────────────┘                       [[}]]
+
+ ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{doc_has.UML,doc_has.template]]
+ │  ┌────────────┐   message      ↑ dependency  |              │
+ │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
+ │ ─┼─ Component │                | dependency  |              │
+ │  │            │                | ←---------- ↓              │
+ │  └────────────┘                                             │
+ │  ╭─────╮ ● Initi.state     ◀─ ASSOCIATION ─▶ ▲              │
+ │  │state│ ◉ Final.state                       │              │
+ │  ╰─────╯                                     ▼              │
+ │                                                             │
+ │ ● GENERALIZATION     │△   ● REALIZATION  △                  │
+ │     par.◁───── child ││     ○◁╴╴╴╴...   ┆┆                  │
+ │     child ────▷ par. ▽│     ···╶╶╶╶▷○   ▽                   │
+ │   "IS A" inheritance        ○ Interfaz                      │
+ │                             ··· Implementation              │
+ │ ● DELEGATION:                                               │
+ │  par.◇───── child       ┌────────┐         ┌────────┐       │
+ │                         │ClassA  │       ┌─│ Shape  │       │
+ │  Makes child part of    ├────────┤       │ ├────────┤       │
+ │  parent class by using  │ shape  ·◇──────┘ │ ...    │       │
+ │  aggregation.           ├────────┤         ├────────┤       │
+ │                         │ draw() │         │ draw() │       │
+ │                         └────────┘         └─△──────┘       │
+ │ ● COMPOSITION: Every car has an              │"IS A"        │
+ │ ┌────────┐ engine  ┌────────┐        ┌───────┴────┬───···   │
+ │ │ Car    │◆────────┤ Engine │     ┌──┴─────┐   ┌──┴────┐    │
+ │ └────────┘         └────────┘     │ Circle │   │Ellipse│    │
+ │ ● Aggregation: Cars may have      COMPOSITION+AGGREGATION   │
+ │ ┌────────┐passengers┌──────────┐  allow  DELEGATION as a    │
+ │ │ Car    │◇─────────┤Passengers│  (SAFER) alternative to the│
+ │ └────────┘          └──────────┘  "IS A" inheritance.       │
+ └─────────────────────────────────────────────────────────────┘ [[}]]
+
+#[BPMN]
+ ┌─ BPMN (Business Process Management Network) ────────────────────────────────────────┐
+ │ See also: https://github.com/bpmn-io/bpmn-font/tree/master/dist/font                │
+ │ ○ Start Event, ◎ Intermediary/Boundary Event, ◇ Gateway,                            │
+ │ ◷ Timer Start Event,  ◈ Complex Gateway,                                            │
+ │     ┌──────┐  ┌─────────────┐                ┌──────────────────┬──────────────────┐│
+ │     │ Task │  │○ Expanded   │   ▴            │     Actor A      │    Actor B       ││
+ │     └──────┘  │  Subproccess│  ◂ ▸           ├──────────────────┼──────────────────┤│
+ │               └─────────────┘   ▾            │      ○           │                  ││
+ │  ┌─┬─ Pool Participant "A" ─────────────────┐│      │           │    ┌──────────┐  ││
+ │  │A│                            Some con-   ││      ▼           │ ┌─▶│○ Expanded│  ││
+ │  │c│    ┌──────┐  ┌──────────┐     • dition?││   ┌──────┐       │ │  │  Subproc.│  ││
+ │  │t│○──▶│ Task •─▶│○ Expanded│    ╱ ╲       ││   │ Task •─────────┘  └───•──────┘  ││
+ │  │o│    └──────┘  │  Subproc.•──▶• ? ▸ No   ││   └──────┘       │        ▼ Some    ││
+ │  │r│              └──────────┘    ╲ ╱       ││                  │       ╱ ╲ condi- ││
+ │  │ │                               ▾        ││                  │    NO◂   • tion? ││
+ │  │A│                              Yes       ││                  │       ╲ ╱        ││
+ │  └─┴────────────────────────────────────────┘│                  │        ▾         ││
+ │                                              │                  │       YES        ││
+ └─────────────────────────────────────────────────────────────────────────────────────┘
+ ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
+ │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│
+ │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │
+ │ ◀ ▶ ◂ ▸ ◁ ▷ ◃ ▹ ◣ ◢ ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊ ◰ ◱ ◲ ◳         │
+ │  ▼   ▾   ▽   ▿                          ◴ ◵ ◶ ◷         │
+ │ ■ □ ▢ ▣ ▤ ▥ ▦ ▧ ▨ ▩ ◼ ◻ ▪ ▫ ▬ ▭ ▮ ▯ ▰ ▱ ◧ ◨ ◩ ◪ ◫       │
+ │ ◯ ○ ◦ ◌ ◍ ◉ ◎ ● ◐ ◑ ◒ ◓ ◔ ◕ ◖ ◗         ◬ ◭ ◮           │
+ │ ◘ ◙ ◚ ◛                                                 │
+ └─────────────────────────────────────────────────────────┘
+
+  ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧⎧ ⎧     ⎫
+  │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │ ⎭⎪ ⎪⎧   ⎫⎪
+  │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ ╠═╬═╣  ╟──╫──╢ ╞══╪══╡  ⎪ ⎨⎨   ⎬⎬
+  │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │  ⎪ ⎪⎩   ⎭⎪
+  ├─┼─┼────┼───┼─┤ ┤┠─╂───╂──┨ ╚═╩═╝  ╙──╨──╜ ╘══╧══╛  ⎭ ⎩     ⎭
+  │ │ ┇    │   │ │ │┃ ┃   ┃  ┃ xxx       ╲ ╱ ╱╲  ╱╲    •     ▴
+  │ │ ┇    │   │ │ │┃ ┃   ┃  ┃ └ yyy      ╳  ╲╱ ╱◜◝╲  ╱ ╲   ╱ ╲
+  │ │ ┇    │   │ │ ╷┃ ┃   ┃  ┃   ├ zzz   ╱ ╲    ╲◟◞╱ •   • ◂   ▸
+  └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚   └ ...           ╲╱   ╲ ╱   ╲ ╱
+  └╴──┴─────╶┘                                         •     ▾
+
+ #[math_symbols]
+┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐
+│ @[https://www.unicode.org/charts/PDF/U2200.pdf]                          │
+│ ● ORDER RELATIONS             ● LOGICAL OPs                              │
+│   ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                            │
+│   ≼ ≽ PRECEDES/SUCCEEDS         ∨ LOGICAL OR                             │
+│       OR EQUAL TO                                                        │
+│   ≾ ≿ PRECEDES/SUCCEEDS OR                                               │
+│       EQUIVALENT TO                                                      │
+│   ⊀ ⊁ DOES NOT PREC./SUCC.                                               │
+│                                                                          │
+│ ● MISCELLANEOUS               ● SET MEMBERSHIP                           │
+│   ∞   INFINITY                  ∈ ∉ ELEMENT OF                           │
+│   π   PI                        ∋ ∌ CONTAINS AS MEMBER                   │
+│   ∀   FOR ALL                 ● SET RELATIONS:                           │
+│   ʗ   COMPLEMENT                ⊂ ⊄ (NOT) A SUBSET OF                    │
+│   ∂   PARTIAL DIFFERENTIAL      ⊃ ⊅ (NOT) SUPERSET OF                    │
+│   ∃ ∄ THERE DOES(/NOT) EXISTS   ⊆ ⊇ SUB/SUPER-SET OF OR = TO             │
+│   Ø   EMPTY SET               ● SET OPERATIONS:                          │
+│   Δ   "DELTA" Inc|Laplace Op    ∩ INTERSECTION                           │
+│   ∇   "NABLA" gradient,         ∪ UNION                                  │
+│   ∴ ∵ THEREFORE,  BECAUSE       ⋃  n-ary UNION                           │
+│                                                                          │
+│ ● N-ary operators        ● OPERATORS             ● INTEGRALS             │
+│   (N inputs, 1 output)     ±                       ∫ ∫∫ ∫∫∫  (DOUBLE/...)│
+│   ∏ N-ARY PRODUCT          ∘ RING OPERATOR         ∮ ∲ (ANTI)CONTOUR INT.│
+│   ∐ N-ARY COPRODUCT        √ ∛ ∜ SQUARE/... ROOT   ∮∮ ∮∮∮ SURFACE/VOLUME │
+│   Σ N-ARY SUMMATION        α PROPORTIONAL TO       ∱ CLOCKWISE INTEGRAL  │
+│                                                                          │
+│ ● RELATION                      ● "QUANTITATIVE" RELATIONS               │
+│   ∣ ∤ DOES (NOT) DIVIDES          ≤ ≥ LESS/GREATER-THAN OR = TO          │
+│   ǁ ∦ (NOT) PARALLEL TO           ≦ ≧ LESS/GREATER-THAN OVER = TO        │
+│   ∶   RATIO                       ≨ ≩ LESS/GREATER-THAN BUT NOT = TO     │
+│   ∷   PROPORTION                  ≮ ≯ NOT LESS/GREATER-THAN              │
+│   ∺   GEOMETRIC PROPORTION        ≰ ≱ NEITHER LESS/GREA.-THAN NOR = TO   │
+│   ≃ ≄ (!) ASYMPTOTICALLY = TO     ≲ ≳ LESS/GREA.-THAN OR EQUIVALENT TO   │
+│   ≅   APPROX. EQUAL TO            ≴ ≵ NEITHER LESS/GREATER-THAN          │
+│   ≆   APPROX. BUT NOT EQUAL           NOR EQUIVALENT TO                  │
+│   ≇   NEITHER APPROX. NOR ACTUA.  ≶ ≷ LESS/GREATER-THAN OR GREATER-THAN  │
+│   ≈ ≉ (!) ALMOST EQUAL TO         ≸ ≹ NEITHER LESS/GREATER-THAN          │
+│   ≊   ALMOST EQUAL OR EQUAL TO        NOR GREATER-THAN                   │
+│   ≍ ≭ (!) EQUIVALENT TO                                                  │
+│   ≖   RING-IN EQUAL TO          ● GROUP RELATIONS                        │
+│   ≗   RING EQUAL                  ⊲ ⋪ (NOT) NORMAL SUBGROUP OF           │
+│   ≝   EQUAL TO BY DEFINITION      ⊴ ⋬ (NOT) NORMAL SUBGROUP OF           │
+│   ≞   MEASURED BY                     OR = TO                            │
+│   ≟   QUESTIONED EQUAL TO         ⊳ ⋫ DOES (NOT) CONTAIN AS              │
+│   ≠   NOT EQUAL TO                    NORMAL SUBGROUP                    │
+│   ≡ ≢ (NOT) IDENTICAL TO          ⋭ ⊵ DOES (NOT) CONTAIN AS              │
+│   ≣   STRICTLY EQUIVALENT TO          NORMAL SUBGROUP                    │
+│                                                                          │
+│ ● https://en.wikipedia.org/wiki/Mathematical_Operators_(Unicode_block)   │
+│     0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F        │
+│ U+220x  ∀   ∁   ∂   ∃   ∄   ∅   ∆   ∇   ∈   ∉   ∊   ∋   ∌   ∍   ∎   ∏    │
+│ U+221x  ∐   ∑   −   ∓   ∔   ∕   ∖   ∗   ∘   ∙   √   ∛   ∜   ∝   ∞   ∟    │
+│ U+222x  ∠   ∡   ∢   ∣   ∤   ∥   ∦   ∧   ∨   ∩   ∪   ∫   ∬   ∭   ∮   ∯    │
+│ U+223x  ∰   ∱   ∲   ∳   ∴   ∵   ∶   ∷   ∸   ∹   ∺   ∻   ∼   ∽   ∾   ∿    │
+│ U+224x  ≀   ≁   ≂   ≃   ≄   ≅   ≆   ≇   ≈   ≉   ≊   ≋   ≌   ≍   ≎   ≏    │
+│ U+225x  ≐   ≑   ≒   ≓   ≔   ≕   ≖   ≗   ≘   ≙   ≚   ≛   ≜   ≝   ≞   ≟    │
+│ U+226x  ≠   ≡   ≢   ≣   ≤   ≥   ≦   ≧   ≨   ≩   ≪   ≫   ≬   ≭   ≮   ≯    │
+│ U+227x  ≰   ≱   ≲   ≳   ≴   ≵   ≶   ≷   ≸   ≹   ≺   ≻   ≼   ≽   ≾   ≿    │
+│ U+228x  ⊀   ⊁   ⊂   ⊃   ⊄   ⊅   ⊆   ⊇   ⊈   ⊉   ⊊   ⊋   ⊌   ⊍   ⊎   ⊏    │
+│ U+229x  ⊐   ⊑   ⊒   ⊓   ⊔   ⊕   ⊖   ⊗   ⊘   ⊙   ⊚   ⊛   ⊜   ⊝   ⊞   ⊟    │
+│ U+22Ax  ⊠   ⊡   ⊢   ⊣   ⊤   ⊥   ⊦   ⊧   ⊨   ⊩   ⊪   ⊫   ⊬   ⊭   ⊮   ⊯    │
+│ U+22Bx  ⊰   ⊱   ⊲   ⊳   ⊴   ⊵   ⊶   ⊷   ⊸   ⊹   ⊺   ⊻   ⊼   ⊽   ⊾   ⊿    │
+│ U+22Cx  ⋀   ⋁   ⋂   ⋃   ⋄   ⋅   ⋆   ⋇   ⋈   ⋉   ⋊   ⋋   ⋌   ⋍   ⋎   ⋏    │
+│ U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟    │
+│ U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯    │
+│ U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
+└──────────────────────────────────────────────────────────────────────────┘
+
+══════════════════════════════════════════════════════════════════════════════════ 
+ If you are reading this paragraph, TXT already dominates the World,
+ Time for Fun and Celebration!!  #[txt_world_domination_celebration]
+
+
+
+
+┌─ @[http://fph.altervista.org/prog/bastet.html] ──────────────────────────┐ [[{games.tetris]]
+│ Tetrisfy your TXT enemies with this Tetris clone for terminals.          │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌ @[https://github.com/bfontaine/term2048] ────────────────────────────────┐ [[{games.puzzle]]
+│ Puzzle your terminal.                                                    │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+  
+┌ @[https://www.seehuhn.de/pages/moon-buggy] ──────────────────────────────┐ [[{games.moon_buggy]]
+│ The World is now under control, time for TXT Moon Domination!!!          │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+    
+┌ @[https://www.nethack.org/] ─────────────────────────────────────────────┐ [[{games.NetHack]]
+│ TXT is not afraid of Dungeons and Dragons!!!                             │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌ @[https://linuxcommandlibrary.com/man/ninvaders] ────────────────────────┐ [[{games.ninvaders]]
+│ Defend your TXT from alien invaders!!!                                   │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌ @[https://askubuntu.com/questions/376558/how-to-play-snake-in-terminal] ─┐ [[{games.snake]]
+│ Don't let your TXT eat itself!!!                                         │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+┌ @[https://howtoinstall.co/en/pacman4console] ────────────────────────────┐ [[{games.pacman]]
+│ Pacman is here!!!                                                        │
+└──────────────────────────────────────────────────────────────────────────┘ [[}]]
