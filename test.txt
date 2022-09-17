@@ -16,6 +16,11 @@
 │ 2) Final up-to-date documentation for users.    │
 └─────────────────────────────────────────────────┘
 
+  Document source code: 
+@[https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt]
+
+═ TESTS START { ════════════════════════════════════════════════════════════════
+
 ● TEST: scaped p and html tags must be displayed properly:
   <p> <html>
   └───┬────┘
@@ -105,7 +110,7 @@
     └─[[}]]──────────────────────────────────────────────────┘
 
     ┌─────────────────────────────────────────┐
-  • │ DOCUMENTATION BEST─PRACTICES CHECK─LIST │
+  • │ DOCUMENTATION BEST-PRACTICES CHECK-LIST │
     └─────────────────────────────────────────┘
     ✓ PUTTING RELATED INFORTMATION CLOSE TO EACH OTHER.
 
@@ -124,7 +129,7 @@
     ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION,
       THE SIMPLEST, THE BEST.
 
-    ┌ [[{KEY─POINT]] ──────────────────────────────────┐
+    ┌ [[KEY-POINT]] ───────────────────────────────────┐
     │┌────────────────────────────────────────────────┐│
     ││┌──────────────────────────────────────────────┐││
     │││ TAKE CONTROL OF THE INFORMATION BEFORE THE   │││
@@ -146,7 +151,7 @@
   .... this is the end of the introduction ...
   Now follows the tests used to implement the TXT WD.
 
-  [[{KEY─POINT]]
+  [[{KEY-POINT]]
   TESTS MAP ONE-TO-ONE TO DOCUMENTATION:
     ▸ By reading the tests you can learn how to write txt files
       compatible with the TXT World Domination Project.
@@ -182,7 +187,7 @@
   - Each topic can be subclassified in subtopics following the syntax
     [[ topicA.subtopic.subsubtopic ]]
 
-  - [[{KEY─POINT,graph]]
+  - [[{KEY-POINT,graph]]
      ▸ Think of a topic as a first or principal clasification of content.
        For example in a document about Project Management main topics/coordinates
        could be HHRR, PLANNING, DOCUMENTATION, RISK MANAGEMENT, ...
@@ -228,12 +233,12 @@
                                              TEST:
   • [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
     │ topic01.1 │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
-    │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks [[{ ... { ... { ]] declatarions
-    │ topic01.1 └ topic01.2 [[}]]                 must work properly.
-    │ topic01.1                                 · Termination of blocks must work properly.
-    └ topic01.1 [[}]]                             When selecting topic01.3, topic01.2, tests01.1
-                                                  only the corresponding text inside each block
+    │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks declatarions must work properly.
+    │ topic01.1 └ topic01.2 [[}]]               · Termination of blocks must work properly.
+    │ topic01.1                                   When selecting topic01.3, topic01.2, tests01.1
+    └ topic01.1 [[}]]                             only the corresponding text inside each block
                                                   must be displayed
+                                                
 
   • [[{ topic01.1 ]]
       │        [[{ topic01.2]]                topic01.1 belongs to level 1 block.
@@ -318,31 +323,27 @@
                   - text must be converted to anchor with correct sytles.
   Pressing back in browser must scroll up to original link
 
-══════════════════════════════════════════════════════════════════════════════════ 
+═ TESTS END } ══════════════════════════════════════════════════════════════════
+
  Enougth with Testing. Time for ...             #[txt_world_domination_ammunition]
 
    TXT World Domination Tools !!!
 
-       World Domination Tools !!!
+    World Domination Tools !!!
 
-       World Domination       !!!
+      World Domination !!!
 
-       World Domination
+         WORLD DOMINATION !!!
 
-         WORLD DOMINATION
-
-         W O R L D    D O M I N A T I O N
+         W O R L D    D O M I N A T I O O O O O O O N ! ! !
 
                   Ah Ah Ah Ah Ah Ahhhh !!!! >:Ḑ-+-<
-
-
-══════════════════════════════════════════════════════════════════════════════════
 
 ┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
 │  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
 │  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
-│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[doc_has.diagram,doc_has.UML.DAG,doc_has.UML.sequence]]
-│  │                           │                     │                         │[[doc_has.math,01_PM.low_code]]
+│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[02_doc_has.diagram,doc_has.UML.DAG,doc_has.UML.sequence]]
+│  │                           │                     │                         │[[02_doc_has.math,01_PM.low_code]]
 │  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │                         │[[tool.online,tool.desktop]]
 │  │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                         │
 │  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │                         │
@@ -367,8 +368,8 @@
 
 
 ┌ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) ─────────────────────┐[[{]]
-│         ┌───────┐    ┌──────┐     IO PORTS   [[doc_has.diagram]]             │
-│         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐  [[doc_has.UML.component]]       │
+│         ┌───────┐    ┌──────┐     IO PORTS   [[02_doc_has.diagram]]          │
+│         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐  [[02_doc_has.UML.component]]    │
 │         │xxxxxxx│    │xxxxxx│     ││││ ││││  [[tool.online]]                 │
 │   ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐                                 │
 │   │ ┌─Comp.1────┐             │┼┼┼┼┼┼┼│    │                                 │
@@ -384,7 +385,7 @@
 
 
 ┌ @[https://csvkit.readthedocs.io/en/latest/] ─────────────────────────────────┐ [[{]]]
-│  ·Convert from/to CSV/Excel/SQL─DDBB.      [[tool.desktop,doc_has.CSV]]]     │
+│  ·Convert from/to CSV/Excel/SQL-DDBB.      [[tool.desktop,02_doc_has.CSV]]]  │
 │  ·Query CSV using SQL.                                                       │
 │  ·No-code statistics on CSV data.                                            │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
@@ -416,7 +417,7 @@
 │   Alt key + '[' + '}' : Jump to block end.                                   │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
-┌─────────────────────────────────────────┐                                      [[{doc_has.bullets]]
+┌─────────────────────────────────────────┐                                      [[{02_doc_has.bullets]]
 │ Bullets   : · • ● ✓ ✕ ◆ ◇               │
 │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
 │ SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ           │
@@ -430,7 +431,7 @@
  │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
  └───────────────────────────────────────────────────────┘                       [[}]]
 
- ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{doc_has.UML,doc_has.template]]
+ ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{02_doc_has.UML,doc_has.template]]
  │  ┌────────────┐   message      ↑ dependency  |              │
  │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
  │ ─┼─ Component │                | dependency  |              │
