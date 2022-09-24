@@ -141,8 +141,7 @@ class TXTDBEngine {
         const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return ""
         if (idx0 > idx1) return ""
         return lineIn.substring(idx0+2,idx1).toUpperCase()
-               .replaceAll(" ","")
-               .replaceAll('"',"");
+               .replaceAll(" ","");
       }
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;
@@ -168,9 +167,12 @@ class TXTDBEngine {
           }
           const line_topicCoords_l = segment.split(',');
           line_topicCoords_l.forEach ( TC_id => {
-            if ( TC_id == "" ) return;
+            TC_id = TC_id.replace('"','');
+            TC_id = TC_id.replace(/[.]{2+}/,'.');  // Fix problems with '...'
+            TC_id = TC_id.replace(/^[.]*/,'');     // Remove "initial dots" ("null dimmension")
+            if ( TC_id == ""  ) return;
+            if ( TC_id == "." ) return;
             if ( TC_id.indexOf("$") >= 0) return; // Avoid conflict with shell script [[ $...  ]] syntax
-            if ( TC_id.indexOf("-") >= 0) return; // Avoid conflict with shell script [ -t path ] syntax
             if ( !!! TC_id ) throw new Error("TC_id empty/null");
             if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
             let stackDepth = blockStack.length-1;

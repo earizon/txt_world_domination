@@ -167,7 +167,7 @@
   - A BLOCK-OF-RELATED-CONTENT starts with [[{]] and ends with [[}]].
   - New blocks can be placed inside existing blocks forming a tree of
     blocks. Graphically you can imagine them as:
-     txt file [[{graph]]
+     txt file [[{02_DOC_HAS.graph]]
      ├─ block
      │  ├──── block
      │  │     └──── block
@@ -177,17 +177,17 @@
      ├─ block
      ┊        [[}]]
   - each block can be "tagged" with on or more topics using the sintax
-    [[... topicA,topicB, ... ]] or
+    [[  ... topic1,topicB ... ]] or
     Topics can be added anywhere before the start and end of a topic.
     That means that the previous example is equivalent to:
-    [[topicA]]
+    [[$topicA]]
     ...
-    [[topicB]]
+    [[$topicB]]
 
   - Each topic can be subclassified in subtopics following the syntax
     [[ topicA.subtopic.subsubtopic ]]
 
-  - [[{KEY-POINT,graph]]
+  - [[{KEY-POINT,02_DOC_HAS.graph]]
      ▸ Think of a topic as a first or principal clasification of content.
        For example in a document about Project Management main topics/coordinates
        could be HHRR, PLANNING, DOCUMENTATION, RISK MANAGEMENT, ...
@@ -266,8 +266,9 @@
   └─ [[}]]             topic03.2
 
 ● Avoiding clonflicts with Shell-script syntax:
-  [[{forbidden_topic $}]]            <- TEST: topics including '$' character must be ignored
-  [[{forbidden_topic -}]]            <- TEST: topics inlcuding '-' character must be ignored
+  [[{forbidden_topic.$}]]            <- TEST: topics including '$' character must be ignored
+  [[{$forbidden_topic} ]]               to avoid synxtax conflicts with shell conditional-expressions 
+  [[{forbidden_topic $}]]               if [[ ... ${SOME_VARIABLE} ... ]] 
      └──────┬────────┘
             └ those topics must not appear in topics menu.
 
@@ -342,7 +343,7 @@
 ┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
 │  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
 │  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
-│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[02_doc_has.diagram,doc_has.UML.DAG,doc_has.UML.sequence]]
+│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[02_doc_has.diagram,02_doc_has.UML.DAG,02_doc_has.UML.sequence]]
 │  │                           │                     │                         │[[02_doc_has.math,01_PM.low_code]]
 │  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │                         │[[tool.online,tool.desktop]]
 │  │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                         │
@@ -431,7 +432,7 @@
  │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
  └───────────────────────────────────────────────────────┘                       [[}]]
 
- ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{02_doc_has.UML,doc_has.template]]
+ ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{02_doc_has.UML,02_doc_has.template]]
  │  ┌────────────┐   message      ↑ dependency  |              │
  │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
  │ ─┼─ Component │                | dependency  |              │
