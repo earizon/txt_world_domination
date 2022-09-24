@@ -140,7 +140,9 @@ class TXTDBEngine {
         const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return ""
         const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return ""
         if (idx0 > idx1) return ""
-        return lineIn.substring(idx0+2,idx1).toUpperCase() .replaceAll(" ","");
+        return lineIn.substring(idx0+2,idx1).toUpperCase()
+               .replaceAll(" ","")
+               .replaceAll('"',"");
       }
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;
