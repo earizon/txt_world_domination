@@ -416,9 +416,24 @@
 │ · Navigate among block start/end curly braces with                           │
 │   Alt key + '[' + '{' : Jump to block start.                                 │
 │   Alt key + '[' + '}' : Jump to block end.                                   │
+│ · Transform selected text to shell script / tool pipeline with               │
+│   :.!sh              <- Interpret selected input as shell script.            │
+│                         replace selection with execution result.             │
+│   :.!fold -w 70 -s   <- fold is standard in POSIX like systems.              │
+│                         Any other tool/script accepting STDIN as             │
+│                         input and writing results to STDOUT will             │
+│                         work.                                                │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
-┌─────────────────────────────────────────┐                                      [[{02_doc_has.bullets]]
+┌─ https://www.gnu.org/software/coreutils/ ────────────────────────────────────┐ [[{tool.desktop]]
+│ · fold: Wrap input lines to fit in specified width                           │
+│ · fmt : Reformat paragraph text                                              │
+│ · pr  : Paginate or columnate files for printing                             │
+└──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+
+
+┌─────────────────────────────────────────┐    [[{02_doc_has.bullets]]
 │ Bullets   : · • ● ✓ ✕ ◆ ◇               │
 │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
 │ SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ           │
