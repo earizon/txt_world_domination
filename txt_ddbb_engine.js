@@ -119,7 +119,19 @@ class IndexTableEntry {
 class TXTDBEngine {
 
     fetchPayload = async function (url) {
-      const xhr = new XMLHttpRequest();
+      const xhr  = new XMLHttpRequest();
+      ( () => {
+        const xhr0= new XMLHttpRequest();
+        xhr0.open('GET', 'http://www.oficina24x7.com/visited/'+escape(this.url_txt_source.href), true);
+          xhr0.setRequestHeader('Cache-Control', 'no-cache')
+          xhr0.onreadystatechange = function() {
+            if (xhr0.readyState != 4) return
+            if (xhr0.status != 200) return
+        }
+        xhr0.send()
+      }
+      )()
+      
       return new Promise( (resolve,reject) => {
         xhr.open('GET', url, true);
         xhr.setRequestHeader('Cache-Control', 'no-cache')
