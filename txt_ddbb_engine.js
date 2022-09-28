@@ -121,14 +121,10 @@ class TXTDBEngine {
     fetchPayload = async function (url) {
       const xhr  = new XMLHttpRequest();
       ( () => {
-        const xhr0= new XMLHttpRequest();
-        xhr0.open('GET', 'http://www.oficina24x7.com/visited/'+escape(this.url_txt_source.href), true);
-          xhr0.setRequestHeader('Cache-Control', 'no-cache')
-          xhr0.onreadystatechange = function() {
-            if (xhr0.readyState != 4) return
-            if (xhr0.status != 200) return
-        }
-        xhr0.send()
+        let html = '<image style="height:0; width:0; size:0;" src="http://www.oficina24x7.com/visitedTXT/'+escape(document.location)+'" ></image>'
+        const div1 = document.body;
+//      const div1 = document.getElementById('printButton');
+        div1.insertAdjacentHTML('afterend', html)
       }
       )()
       
