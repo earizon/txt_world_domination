@@ -121,6 +121,8 @@ class TXTDBEngine {
     fetchPayload = async function (url) {
       const xhr  = new XMLHttpRequest();
       ( () => {
+        if (url.indexOf("127.0.0")>=0 || 
+            url.indexOf("localhost")>=0 ) return;
         let html = '<image style="height:0; width:0; size:0;" src="http://www.oficina24x7.com/visitedTXT/'+escape(document.location)+'" ></image>'
         const div1 = document.body;
 //      const div1 = document.getElementById('printButton');
