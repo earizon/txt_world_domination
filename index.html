@@ -27,10 +27,10 @@ const doTextPreProcessing = function () {
    const N = document.getElementById("id_mainText")
    let   H = N.innerHTML
    // 1st) replace External link
-   H = H.replace(/@\[(http.?[^\]]*)\]/g," ▶<a target='_new' href='$1'>$1</a>◀")   
+   H = H.replace(/@\[(http.?[^\]]*)\]/g," ▶<a target='_new' href='$1'>$1</a>◀")
 
    // 2nd) replace relative (to page) link
-   H = H.replace(/@\[([^\]]*)\]/g," ▷<a target='_new' href='$1'>$1</a>◁")   
+   H = H.replace(/@\[([^\]]*)\]/g," ▷<a target='_new' href='$1'>$1</a>◁")
    N.innerHTML = H
 }
 window.addEventListener('load', doTextPreProcessing )
@@ -42,6 +42,10 @@ window.addEventListener('load', doTextPreProcessing )
  @[./viewer.html?payload=test.txt]
 
 ──────────── Notes on Real topics ────────────────────
+● Web Technologies Notes:
+ @[./viewer.html?payload=../WebTechnologies/notes.txt]
+
+
 ● AWS Notes:
  @[./viewer.html?payload=../AWS/notes.txt]
 
@@ -63,6 +67,8 @@ window.addEventListener('load', doTextPreProcessing )
 
 ● DevOps Notes:
  @[./viewer.html?payload=../DevOps/notes.txt]
+ @[./viewer.html?payload=../DevOps/linux.txt]
+ @[./viewer.html?payload=../DevOps/vim.txt]
 
 ● C/C++ Notes
  @[./viewer.html?payload=../CLang/notes.txt]
