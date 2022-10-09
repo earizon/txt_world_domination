@@ -8,15 +8,15 @@
 │ @[#txt_world_domination_celebration]              │
 └───────────────────────────────────────────────────┘
 
-┌─ Apropos: ──────────────────────────────────────┐
-│ This text file has two purposes:                │
-│                                                 │
-│ 1) Serve as input data used by functional tests │
-│                                                 │
-│ 2) Final up-to-date documentation for users.    │
-└─────────────────────────────────────────────────┘
+●  Apropos:
+   - This text file has two purposes:
 
-  Document source code: 
+     1) Serve as input data used by functional tests.
+
+     2) Final up-to-date documentation for users.
+
+
+  Document source code:
 @[https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt]
 
 ═ TESTS START { ════════════════════════════════════════════════════════════════
@@ -71,7 +71,7 @@
     └─[[}]]─────────────────────────────────────────────────────────────┘
 
   - Perfect documentation is a science-fiction dream:
-    @[https://www.youtube.com/watch?v=SoAk7zBTrvo]  
+    @[https://www.youtube.com/watch?v=SoAk7zBTrvo]
 
     ... but good documentation is possible.
 
@@ -238,7 +238,7 @@
     │ topic01.1                                   When selecting topic01.3, topic01.2, tests01.1
     └ topic01.1 [[}]]                             only the corresponding text inside each block
                                                   must be displayed
-                                                
+
 
   • [[{ topic01.1 ]]
       │        [[{ topic01.2]]                topic01.1 belongs to level 1 block.
@@ -267,8 +267,8 @@
 
 ● Avoiding clonflicts with Shell-script syntax:
   [[{forbidden_topic.$}]]            <- TEST: topics including '$' character must be ignored
-  [[{$forbidden_topic} ]]               to avoid synxtax conflicts with shell conditional-expressions 
-  [[{forbidden_topic $}]]               if [[ ... ${SOME_VARIABLE} ... ]] 
+  [[{$forbidden_topic} ]]               to avoid synxtax conflicts with shell conditional-expressions
+  [[{forbidden_topic $}]]               if [[ ... ${SOME_VARIABLE} ... ]]
      └──────┬────────┘
             └ those topics must not appear in topics menu.
 
@@ -592,7 +592,7 @@
 │ U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
 └──────────────────────────────────────────────────────────────────────────┘
 
-══════════════════════════════════════════════════════════════════════════════════ 
+══════════════════════════════════════════════════════════════════════════════════
  If you are reading this paragraph, TXT already dominates the World,
  Time for Fun and Celebration!!  #[txt_world_domination_celebration]
 
@@ -606,12 +606,12 @@
 ┌ @[https://github.com/bfontaine/term2048] ────────────────────────────────┐ [[{games.puzzle]]
 │ Puzzle your terminal.                                                    │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
-  
+
 ┌ @[https://www.seehuhn.de/pages/moon-buggy] ──────────────────────────────┐ [[{games.moon_buggy]]
 │ The World is now under control, time for TXT Moon Domination!!!          │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 
-    
+
 ┌ @[https://www.nethack.org/] ─────────────────────────────────────────────┐ [[{games.NetHack]]
 │ TXT is not afraid of Dungeons and Dragons!!!                             │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
