@@ -21,6 +21,40 @@
 
 ═ TESTS START { ════════════════════════════════════════════════════════════════
 
+● TEST: Get sure readers understand the importance of good documentation
+        by making a copy of the following paragraph:
+
+        """ ... The documentation and samples are still bad today ...  We ended up
+        with a painful difficult-to-understand, hard-to-test,
+        even-harder-to-modify mess. Not because we didn't follow the "(Google
+        Android) best practices", but precisely because we did!...a large
+        part of the official  documentation and samples are still poorly
+        written. And it continues to mislead the new generation of
+        inexperienced developers. And as Uncle Bob would tell you, most
+        developers are new since the IT industry double its size every five
+        years ..."
+        Citation extracted from:
+        https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b
+
+● TEST: Make sure readers understand the key points when creating documentation:
+    ✓ Putting related information close to each other.
+    ✓ Don't repeat twice.
+    ✓ Use your hard disk to save classified information, not piles of
+      documents spread ("hidden" or "lost") amongst hundred of emails,
+      posts, chats, words, custom databases, excels and binary files of
+      random nature.
+    ✓ Don't use proprietary formats for important documentation:
+
+● TEST: Make sure readers understand that text files are enough for event
+      the most complex projects by adding links to well known successful
+      projects documented with plain text:
+      - TCP/IP Internet Protocol Documentation:
+        https://www.ietf.org/rfc/rfc793.txt
+      - HTTP "Web" protocol:
+        https://www.rfc-editor.org/rfc/rfc2616
+      - Linux Kernel documentation:
+        https://github.com/torvalds/linux/tree/master/Documentation
+
 ● TEST: scaped p and html tags must be displayed properly:
   <p> <html>
   └───┬────┘
