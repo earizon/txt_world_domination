@@ -10,7 +10,7 @@ class Topic extends Component {
     }
 
     constructor( CP /* CP: "parent" Control Pannel */) {
-        super(); 
+        super();
         this.CP = CP;
     }
 
@@ -32,11 +32,11 @@ class Topic extends Component {
         ${ topicCoord_id_l.map( (TC_id) => {
            return html`[<span key=${TC_id} class='${this.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
-              ${TC_id.replace(topicName+".","")}</span>] ` 
+              ${TC_id.replace(topicName+".","")}</span>] `
            } )
         }
         </pre>`
-      ); 
+      );
     }
 }
 
@@ -48,7 +48,7 @@ class ControlPanel extends Component {
                                  // by its children.
     menuSize2Icon = {
       1 : "▾▹▵",
-      2 : "▿▸▵", 
+      2 : "▿▸▵",
       3 : "▿▹▴",
     }
 
@@ -58,7 +58,7 @@ class ControlPanel extends Component {
       showLineNumbers  : false,
       grep             : [ { input: "", before: 5, after: 5 } ],
       topicParentDepth : 0,
-      showIndex        : true 
+      showIndex        : true
     }
 
     getIndexTableAsHTML = () => {
@@ -67,7 +67,7 @@ class ControlPanel extends Component {
          result += (`${entry.txt_line}, ${entry.lineNumber}<br/>`);
          entry.children.forEach( (entry2) => {
            result +=(`  ├─ ${entry2.txt_line}, ${entry2.lineNumber}<br/>`);
-         }) 
+         })
        })
        return result;
     }
@@ -75,10 +75,10 @@ class ControlPanel extends Component {
     switchSettingsView = () => {
         this.setState ( { showSettings: !this.state.showSettings } );
     }
-    switchTopicView = ()=> { 
+    switchTopicView = ()=> {
         this.setState ( { showTopics: !this.state.showTopics } );
     }
-    switchIndexView = ()=> { 
+    switchIndexView = ()=> {
         this.setState ( { showIndex: !this.state.showIndex } );
     }
 
@@ -143,6 +143,8 @@ class ControlPanel extends Component {
 
     constructor({ url_txt_source }) {
       super({ url_txt_source });
+      const aux = url_txt_source.lastIndexOf("..")
+      window.document.title = aux>=0 ? url_txt_source.substring(aux+3) : url_txt_source
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 300;
@@ -173,11 +175,11 @@ class ControlPanel extends Component {
       if (this.state.timerDoFind !== null) { clearTimeout(this.state.timerDoFind) }
       this.state.timerDoFind = setTimeout(
         () => {
-          document.getElementById("dbEngineOutput").innerHTML = 
+          document.getElementById("dbEngineOutput").innerHTML =
                 this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, this.state.topicParentDepth)
           document.getElementById("idTableIndex").innerHTML = this.getIndexTableAsHTML();
         }, 400)
-      
+
     }
 
     onGrepRegexChanged = (inputEvent) => {
@@ -192,7 +194,7 @@ class ControlPanel extends Component {
     }
 
     onTopicCoordOnOff(topicName, TC_id_selected) {
-      ControlPanel.thisPtr.injected_TC_id_selected[topicName] = TC_id_selected; 
+      ControlPanel.thisPtr.injected_TC_id_selected[topicName] = TC_id_selected;
       ControlPanel.thisPtr.execSearch();
     }
 
@@ -218,7 +220,7 @@ class ControlPanel extends Component {
     }
 
     render( props ) {
-      return ( 
+      return (
        html`
        <div id='idSwitchMenuIcon' onClick=${() => this.switchMenuSize()}>
          ${ this.menuSize2Icon[this.state.settings_menuSize] }
@@ -238,7 +240,7 @@ class ControlPanel extends Component {
           ${ this.state.showSettings &&
              html`
                <span onClick=${() => this.switchSettingsView()} zoom="z1.5"> [▾▵ settings]</span><br/>
-               <span>  ● Refresh content source every </span> 
+               <span>  ● Refresh content source every </span>
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
@@ -266,7 +268,7 @@ class ControlPanel extends Component {
                 <br/>
 
                ${ this.txtDBEngine.topicsDB.getDimensionList()
-                  .map( (dimI) => { 
+                  .map( (dimI) => {
                       return html`<${Topic}
                       CP=${this}
                       key=${dimI}
@@ -274,22 +276,22 @@ class ControlPanel extends Component {
                       topicCoord_id_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)}
                       onTopicCoordOnOff=${this.onTopicCoordOnOff}
                       //>
-                      ` 
+                      `
                   })
                }
                </pre>
              `
           }
-          ${ ! this.state.showTopics && 
+          ${ ! this.state.showTopics &&
              html` <span onclick=${() => this.switchTopicView()} zoom="z1.5">[▿▴ topics]</span><br/>`
           }
-          ${ this.state.showIndex && 
+          ${ this.state.showIndex &&
              html`
                <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵ Index]</span><br/>
                <pre id="idTableIndex" size=s2> </pre>
              `
             }
-          ${ ! this.state.showIndex && 
+          ${ ! this.state.showIndex &&
              html` <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▿▴ index]<br/></span>
                <span>  </span>`
           }
