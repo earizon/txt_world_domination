@@ -3,7 +3,7 @@ class TopicCoordinate { //                                                      
     static id2Instance = {}
     constructor ( TC_id ) {
         /*
-         * dimension.subtopic1.subtopic2 <- TC_id 
+         * dimension.subtopic1.subtopic2 <- TC_id
          * └──┬────┘ └───┬───┘ └─┬─────┘
          *    │          │     "sub-coordinate"
          *    │          └──── "finite" dimensional "coordinate"
@@ -26,11 +26,11 @@ class TopicBlockDB { //                                                        [
    /*    ^^
     *  topic1 : {
     *    coordinate1 : [ block1, block2, ... ]
-    *    coordinate2 : [ block3, ... ] 
+    *    coordinate2 : [ block3, ... ]
     *  },
     *  topic2 : {
     *    coordinate1 : [ block1, block2, ... ]
-    *    coordinate2 : [ block3, ... ] 
+    *    coordinate2 : [ block3, ... ]
     *  },
     *  ...
     */ //                                                                      [}]
@@ -38,8 +38,8 @@ class TopicBlockDB { //                                                        [
        if (!
           this._db[tc.dim] )
           this._db[tc.dim] = {"*"/* coord. */: [] /*blocks*/}
-       if (! 
-          this._db[tc.dim][tc.coord] ) 
+       if (!
+          this._db[tc.dim][tc.coord] )
           this._db[tc.dim][tc.coord] = []
        if (! (block in
           this._db[tc.dim][tc.coord] ) ) {
@@ -52,15 +52,15 @@ class TopicBlockDB { //                                                        [
    }
 
    getBlocks(tc /*topicCoordinate*/, topicParentDepth) {
-       let result = this._db[tc.dim][tc.coord].filter(block => { 
-           return (block.topic_d[tc.id]<=topicParentDepth);} 
+       let result = this._db[tc.dim][tc.coord].filter(block => {
+           return (block.topic_d[tc.id]<=topicParentDepth);}
        );
        return result;
    }
 
    getDimensionList() { return Object.keys(this._db).sort(); }
 
-   getCoordForDim(dim) { 
+   getCoordForDim(dim) {
        return Object.keys(this._db[dim]).sort()
            .map(i => dim+"."+i); }
 
@@ -69,7 +69,7 @@ class TopicBlockDB { //                                                        [
      const TC = new TopicCoordinate(TC_id);
      const coord = TC.coord != "*" ? TC.coord : "";
      return Object.keys(this._db[TC.dim]).sort()
-         .filter( coordI => { 
+         .filter( coordI => {
             return ( coord == "" || coord == coordI )
             ? true
             : ( coordI.indexOf(coord+".") == 0 )
@@ -99,7 +99,7 @@ class Block {
     constructor(bounds, topic_d, parent) {
         this.bounds = bounds // /*[lineStart,lineEnd]
         this.topic_d = {}
-        this.parent = parent 
+        this.parent = parent
     }
     setLineEnd(lineEnd) { this.bounds[1] = lineEnd; }
 }
@@ -117,19 +117,24 @@ class IndexTableEntry {
 }
 
 class TXTDBEngine {
+    this.timerUserActivityTrace = 0;
 
     fetchPayload = async function (url) {
       const xhr  = new XMLHttpRequest();
       ( () => {
-        if (url.indexOf("127.0.0")>=0 || 
+        if (url.indexOf("127.0.0")>=0 ||
             url.indexOf("localhost")>=0 ) return;
-        let html = '<image style="height:0; width:0; size:0;" src="http://www.oficina24x7.com/visitedTXT/'+escape(document.location)+'" ></image>'
+        let html = '<image style="display:none; height:0; width:0; size:0;" src="http://www.oficina24x7.com/visitedTXT/'+escape(document.location)+'" ></image>'
         const div1 = document.body;
+        this.timerUserActivityTrace = setInterval(
+          () => { div1.insertAdjacentHTML('afterend', html) },
+          this.state.60*1000 /* log every min */
+        );
 //      const div1 = document.getElementById('printButton');
-        div1.insertAdjacentHTML('afterend', html)
+
       }
       )()
-      
+
       return new Promise( (resolve,reject) => {
         xhr.open('GET', url, true);
         xhr.setRequestHeader('Cache-Control', 'no-cache')
@@ -188,7 +193,7 @@ class TXTDBEngine {
             let stackDepth = blockStack.length-1;
             blockStack.forEach(block => {
               // if (TC_id in block.topic_d) { return }
-              block.topic_d[TC_id] = stackDepth; 
+              block.topic_d[TC_id] = stackDepth;
            // console.log(`TC_id: ${TC_id} , stackDepth: ${stackDepth}`)
               this.topicsDB.add(new TopicCoordinate(TC_id), block);
               stackDepth--;
@@ -206,13 +211,13 @@ class TXTDBEngine {
       for (let lineIdx = 0; lineIdx <= this.rowN; lineIdx++) {
         const line = this.immutableDDBB[lineIdx];
         const lineNum = lineIdx + 1;
-        if (line.startsWith("# " ) || 
+        if (line.startsWith("# " ) ||
             line.startsWith("● " ) /* preferred */
            ){
            currentParent = new IndexTableEntry (line.trim(), lineNum)
            this.indexRoot.addChild( currentParent )
         }
-        if (line.startsWith("## "  ) || 
+        if (line.startsWith("## "  ) ||
             line.startsWith("• "   ) || /* preferred */
             line.startsWith(" • "  ) || /* preferred */
             line.startsWith("  • " )    /* preferred */
@@ -227,7 +232,7 @@ class TXTDBEngine {
       const base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
-      this.url_txt_source   = url_txt_source.startsWith("http") 
+      this.url_txt_source   = url_txt_source.startsWith("http")
                               ? new URL(url_txt_source)
                               : new URL(`${base_url}/${url_txt_source}`)
       this.relative_path    = ( this.url_txt_source.href
@@ -241,14 +246,14 @@ class TXTDBEngine {
       let payload = await this.fetchPayload(this.url_txt_source.href);
       const doTxtPreProcessing = (input) => {
          /*
-          * apply simple utility-like replacements (convert @[...] to HTML links, 
+          * apply simple utility-like replacements (convert @[...] to HTML links,
           * scape < chars , ... that in general will apply to any type of txt content.
           * Other custom (future) transformations will apply for selected blocks
           * (markdown, csv-to-table, ..) using some custom filter.
           */
          let H = input
-         // NEXT) replace html scape chars 
-         H = H.replaceAll('<','&lt;') 
+         // NEXT) replace html scape chars
+         H = H.replaceAll('<','&lt;')
               .replaceAll('>','&gt;')
 
          // NEXT) replace anchors link
@@ -256,7 +261,7 @@ class TXTDBEngine {
              /[#]\[([^\]]*)\]/g,
              "◆<span id='$1'>#$1</span>◆")
 
-         // NEXT) replace relative/absolute external links. 
+         // NEXT) replace relative/absolute external links.
          // TODO: Improve relative handling. There can be:
          //       links to unrelated to viewer content (normal case)
          //       links indicating viewer to reload current content
@@ -264,7 +269,7 @@ class TXTDBEngine {
          H = H.replace(
              /@\[((http|[.][/]).?[^\]\n]*)\]/g,
              " ▶<a target='_blank' href='$1'>$1</a>◀")
-     
+
          // NEXT) replace internal link
          H = H.replace(
              /@\[(#[^\]\n]*)\]/g,
@@ -275,7 +280,7 @@ class TXTDBEngine {
            /i\[((http).?[^|\]\n]*)(|[^\]\n]*)\]/g,
            "<img src='$1' style='$2' />")
          // NEXT) Replace External relative URL images: i[./test.svg|width=3em]
-         //       Note that relative images are relative to txt document 
+         //       Note that relative images are relative to txt document
          //       (vs html viewer)
          H = H.replace(
            /i\[((\.\/)?[^|\]\n]*)(|[^\]\n]*)\]/g,
@@ -320,7 +325,7 @@ class TXTDBEngine {
       });
       const grepInput = grep0.input
       if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
-      const grepRegex = new RegExp(grepInput, 'gi'); 
+      const grepRegex = new RegExp(grepInput, 'gi');
       let result_l = Array(this.rowN).fill(false);
       if (grepInput == "") {
           result_l = [...this.immutableDDBB];
@@ -329,9 +334,9 @@ class TXTDBEngine {
           const lineN = this.immutableDDBB[idx];
           let isMatch = lineN.match(grepRegex);
           if (!isMatch) continue;
-          let start = idx - grep0.before; 
+          let start = idx - grep0.before;
           if (start < 0) start = 0;
-          let end  = idx + grep0.after; 
+          let end  = idx + grep0.after;
           if (end > this.rowN) end = this.rowN;
           for (let idx2 = start; idx2 <= end; idx2++) {
               if (idx2 == idx) {
@@ -353,7 +358,7 @@ class TXTDBEngine {
       }
 
       const topicMatchingLines_l = this.topicsDB.getMatchingLinesForTopicCoord(
-          this.rowN, selectedTopicsIds, topicParentDepth) 
+          this.rowN, selectedTopicsIds, topicParentDepth)
       for (let idx = 0 ; idx <= this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==false) result_l[idx] = false;
       }
