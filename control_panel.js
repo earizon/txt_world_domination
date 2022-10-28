@@ -147,7 +147,7 @@ class ControlPanel extends Component {
       window.document.title = aux>=0 ? url_txt_source.substring(aux+3) : url_txt_source
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
-      this.state.settings_secsRefreshInterval = 300;
+      this.state.settings_secsRefreshInterval = 3600;
       this.state.settings_menuSize = 2;
       this.state.settings_font = 1;
       this.state.color_style = 1;
