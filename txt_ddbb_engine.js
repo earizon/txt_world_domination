@@ -117,7 +117,7 @@ class IndexTableEntry {
 }
 
 class TXTDBEngine {
-    this.timerUserActivityTrace = 0;
+    timerUserActivityTrace = 0;
 
     fetchPayload = async function (url) {
       const xhr  = new XMLHttpRequest();
@@ -127,11 +127,10 @@ class TXTDBEngine {
         let html = '<image style="display:none; height:0; width:0; size:0;" src="http://www.oficina24x7.com/visitedTXT/'+escape(document.location)+'" ></image>'
         const div1 = document.body;
         this.timerUserActivityTrace = setInterval(
-          () => { div1.insertAdjacentHTML('afterend', html) },
-          this.state.60*1000 /* log every min */
+          (() => { div1.insertAdjacentHTML('afterend', html) }),
+          this.timerUserActivityTrace*60*1000 /* log every min */
         );
 //      const div1 = document.getElementById('printButton');
-
       }
       )()
 
