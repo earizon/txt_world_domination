@@ -470,7 +470,7 @@
 ┌─────────────────────────────────────────┐    [[{02_doc_has.bullets]]
 │ Bullets   : · • ● ✓ ✕ ◆ ◇               │
 │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
-│ SuperIndex: ⁰ⁱ¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿ           │
+│ SuperIndex: ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁱⁿ           │
 └─────────────────────────────────────────┘
 
  ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐
@@ -625,6 +625,16 @@
 │ U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯    │
 │ U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
 └──────────────────────────────────────────────────────────────────────────┘
+
+- Greek&Related Symbols ("Physics symbols")
+  Alpha   A,α│Eta    Η,η  │nu      Ν,ν  │Tau     Τ,τ
+  Beta    B,β│Theta  Θ,θ│ϑ│Xi      Ξ,ξ  │Upsilon Υ,υ│ϒ
+  Gamma   Γ,γ│Iota   Ι,ι  │Omicron Ο,ο  │Phi     Φ,φ
+  Delta   Δ,δ│Kappa  Κ,κ  │Pi      Π,π│ϖ│Chi     Χ,χ
+  Epsilon Ε,ε│Lamda  Λ,λ  │Rho     Ρ,ρ  │Psi     Ψ,ψ
+  Zeta    Ζ,ζ│Mu     Μ,μ  │Sigma   Σ,ς│σ│Omega   Ω,ω
+
+
 
 ══════════════════════════════════════════════════════════════════════════════════
  If you are reading this paragraph, TXT already dominates the World,
