@@ -117,7 +117,6 @@ class IndexTableEntry {
 }
 
 class TXTDBEngine {
-    timerUserActivityTrace = 0;
 
     fetchPayload = async function (url) {
       const xhr  = new XMLHttpRequest();
@@ -128,7 +127,7 @@ class TXTDBEngine {
         const div1 = document.body;
         this.timerUserActivityTrace = setInterval(
           (() => { div1.insertAdjacentHTML('afterend', html) }),
-          this.timerUserActivityTrace*60*1000 /* log every min */
+          60*1000 /* log every min */
         );
 //      const div1 = document.getElementById('printButton');
       }
