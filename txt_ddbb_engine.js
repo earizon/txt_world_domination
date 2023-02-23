@@ -230,6 +230,7 @@ class TXTDBEngine {
       const base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
+      this.file_ext         = url_txt_source.split(".").pop().toUpperCase()
       this.url_txt_source   = url_txt_source.startsWith("http")
                               ? new URL(url_txt_source)
                               : new URL(`${base_url}/${url_txt_source}`)
@@ -242,7 +243,10 @@ class TXTDBEngine {
 
     async init( bShowLineNum ) {
       let payload = await this.fetchPayload(this.url_txt_source.href);
-      const doTxtPreProcessing = (input) => {
+      const doTxtPreProcessingMarkDown = (input) => {
+        return window.markdown.parse(input)
+      }
+      const doTxtPreProcessingTXT = (input) => {
          /*
           * apply simple utility-like replacements (convert @[...] to HTML links,
           * scape < chars , ... that in general will apply to any type of txt content.
@@ -292,7 +296,9 @@ class TXTDBEngine {
 
          return H
       }
-      this.cachePayload     = doTxtPreProcessing(payload) // TODO:(qa) Cache just source URL???
+      this.cachePayload     = this.file_ext == "MD"
+                              ? doTxtPreProcessingMarkDown(payload) // TODO:(qa) Cache just source URL???
+                              : doTxtPreProcessingTXT(payload) // TODO:(qa) Cache just source URL???
       this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
       this.rowN             = this.immutableDDBB.length-1;
       const padding         = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );

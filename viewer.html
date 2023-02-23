@@ -40,12 +40,12 @@
   src: url(fonts/font7/font.woff2) format('woff2');
 }
 
-pre { 
-    'font0',monospace, console; 
+pre {
+    'font0',monospace, console;
 }
 
-#dbEngineOutput{ 
-  padding-top: 1.5em; 
+#dbEngineOutput{
+  padding-top: 1.5em;
   overflow: auto;
   background-attachment: fixed;
 }
@@ -76,19 +76,19 @@ pre {
 #dbEngineOutput[colorstyle=s6] a {                         color: #033;}
 
 #dbEngineOutput[background=b1] { }
-#dbEngineOutput[background=b2] { 
-  background-image: linear-gradient( 0deg, #AAA 0.5px, transparent 1px), 
+#dbEngineOutput[background=b2] {
+  background-image: linear-gradient( 0deg, #AAA 0.5px, transparent 1px),
                     linear-gradient(90deg, #AAA 0.5px, transparent 1px);
   background-size: 4.0em 4.0em;
 }
 
-#dbEngineOutput[background=b3] { 
-  background-image: linear-gradient( 0deg, #AAA 0.5px, transparent 1px); 
+#dbEngineOutput[background=b3] {
+  background-image: linear-gradient( 0deg, #AAA 0.5px, transparent 1px);
   background-size: 2.2em 2.2em;
 }
 
-#dbEngineOutput[background=b4] { 
-  background-image: linear-gradient(90deg, #AAA 0.5px, transparent 1px); 
+#dbEngineOutput[background=b4] {
+  background-image: linear-gradient(90deg, #AAA 0.5px, transparent 1px);
   background-size: 2.2em 2.2em;
 }
 
@@ -119,7 +119,7 @@ body {
 
 #idControlPanel {
     margin: 0; padding 0.1em;
-    border-bottom: 1px solid black; 
+    border-bottom: 1px solid black;
     position: fixed; bottom: 0; left: 40%; right: 0;
     background-color: white;
     box-shadow: 0 0 3px 3px grey;
@@ -137,7 +137,7 @@ body {
  #idControlPanel {
     left: 30%;
     font-size: 1.2em;
-  } 
+  }
 }
 
 #idControlPanel::-webkit-scrollbar {
@@ -189,7 +189,7 @@ body {
 @media only screen and (pointer  : coarse) {
  .topicClass > .topic {
     min-width: 6em;
-  } 
+  }
 }
 
 .selected { background-color:black; color: white ; }
@@ -220,6 +220,7 @@ input:not(:placeholder-shown) { color: white; background-color: black; }
   color: white;
 }
 </style>
+<script src="./markdown.js"></script>
 <script type="module">
 import { html, render } from './preact.standalone.module.js';
 import { ControlPanel } from './control_panel.js';
@@ -236,7 +237,12 @@ const getParameterByName = function(name, url) {
 
 const bootstrap = async function () {
   const URLtxtDDBB = getParameterByName('payload')
-  render( html` <${ControlPanel} url_txt_source=${URLtxtDDBB} />`, document.getElementById("idControlPanel"))
+  window["markdown"].ready.then(markdown => {
+    render(
+      html` <${ControlPanel} url_txt_source=${URLtxtDDBB} />`,
+      document.getElementById("idControlPanel")
+    )
+  })
 }
 
 window.scrollInto = function(id) {
