@@ -143,8 +143,9 @@ class ControlPanel extends Component {
 
     constructor({ url_txt_source }) {
       super({ url_txt_source });
-      const aux = url_txt_source.lastIndexOf("..")
-      window.document.title = aux>=0 ? url_txt_source.substring(aux+3) : url_txt_source
+   // const aux = url_txt_source.lastIndexOf("..")>0
+   // window.document.title = aux>=0 ? url_txt_source.substring(aux+3) : url_txt_source
+      window.document.title = url_txt_source.split("/").pop()
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
