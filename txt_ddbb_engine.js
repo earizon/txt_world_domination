@@ -310,7 +310,7 @@ class TXTDBEngine {
           return (zeroes + value).slice(-padding);
         }
         for (let idx=0; idx<this.rowN; idx++) {
-            this.immutableDDBB[idx] = lpad(idx+1, padding) + this.immutableDDBB[idx];
+            this.immutableDDBB[idx] = "<span class='ln'>"+lpad(idx+1, padding)+"</span>" + this.immutableDDBB[idx];
         }
       }
       this.cacheResult      =  this.immutableDDBB.join("");

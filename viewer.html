@@ -7,6 +7,14 @@
    <head>
 
 <style>
+p > .ln {
+  position: absolute;
+  float: left;
+  color: red;
+}
+code > .ln, ol >.ln, ul > .ln, li >.ln {
+  display: none;
+}
 @font-face {
   font-family: 'font0'; font-style: normal; font-weight: 400; font-stretch: normal;
   src: url(fonts/font0/font.woff2) format('woff2');
@@ -48,6 +56,7 @@ pre {
   padding-top: 1.5em;
   overflow: auto;
   background-attachment: fixed;
+  color: green;
 }
 #dbEngineOutput[font=font0]{ font-family:'font0', monospace, console; }
 #dbEngineOutput[font=font1]{ font-family:'font1', monospace, console; }
