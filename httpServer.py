@@ -18,6 +18,7 @@ Handler.extensions_map={
 	     '.svg': 'image/svg+xml',
 	     '.css': 'text/css',
 	      '.js': 'application/x-javascript',
+	      '.md': 'text/markdown',
 	      ''   : 'application/octet-stream', # Default
     }
 
