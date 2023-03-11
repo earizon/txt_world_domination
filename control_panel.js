@@ -54,11 +54,12 @@ class ControlPanel extends Component {
 
     state = {
       timerDoFind      : 0,
-      showTopics       : true,
+      showSettings     : false,
+      showTopics       : false,
       showLineNumbers  : false,
       grep             : [ { input: "", before: 5, after: 5 } ],
       topicParentDepth : 0,
-      showIndex        : true
+      showIndex        : false
     }
 
     getIndexTableAsHTML = () => { // @ma
@@ -74,23 +75,28 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
       return "TODO"
     }
 
+    showSubMenu = () => {
+      return this.state.showSettings ||
+             this.state.showTopics   ||
+             this.state.showIndex
+    }
     switchSettingsView = () => {
-        this.setState ( { showSettings: !this.state.showSettings } );
+        const newState =  !this.state.showSettings;
+        this.setState ( { showSettings: newState } );
+        this.setState ( { showTopics: this.state.showTopics && !newState } );
+        this.setState ( { showIndex : this.state.showIndex  && !newState } );
     }
     switchTopicView = ()=> {
-        this.setState ( { showTopics: !this.state.showTopics } );
+        const newState =  !this.state.showTopics;
+        this.setState ( { showTopics  : newState } );
+        this.setState ( { showSettings: this.state.showSettings && !newState } );
+        this.setState ( { showIndex   : this.state.showIndex    && !newState } );
     }
     switchIndexView = ()=> {
-        this.setState ( { showIndex: !this.state.showIndex } );
-    }
-
-    switchMenuSize = ()=> {
-        const new_value = this.state.settings_menuSize == 3 ? 1 : this.state.settings_menuSize+1;
-        this.setState ( { settings_menuSize : new_value });
-        document.getElementById("idControlPanel")
-            .setAttribute("size","s"+new_value);
-        document.getElementById("idTableIndex")
-            .setAttribute("size","s"+new_value);
+        const newState =  !this.state.showIndex;
+        this.setState ( { showIndex   : newState } );
+        this.setState ( { showSettings: this.state.showSettings  && !newState } );
+        this.setState ( { showTopics  : this.state.showTopics && !newState } );
     }
 
     switchTypeWritterFont = ()=> {
@@ -151,7 +157,6 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
       this.txtDBEngine = new TXTDBEngine(url_txt_source);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
-      this.state.settings_menuSize = 2;
       this.state.settings_font = 1;
       this.state.color_style = 1;
       this.state.bckg_texture = 1;
@@ -224,25 +229,7 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
     render( props ) {
       return (
        html`
-       <div id='idSwitchMenuIcon' onClick=${() => this.switchMenuSize()}>
-         ${ this.menuSize2Icon[this.state.settings_menuSize] }
-       </div>
-
-       <span onClick=${ (e) => this.setGrepBounds('b',+1)}>[+]</span>
-       ${this.lpad(this.state.grep[0].before,3)}
-       <span onClick=${ (e) => this.setGrepBounds('b',-1)}>[-]</span>
-         <input value='${this.state.grep[0].input}' placeholder='grep' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
-         </input>${this.state.after}
-        <span onClick=${ (e) => this.setGrepBounds('a',-1)}>[-]</span>
-        ${this.lpad(this.state.grep[0].after,3)}
-        <span onClick=${ (e) => this.setGrepBounds('a',+1)}>[+]</span><span>   </span>
-        <span onClick=${ (e) => this.switchShowLineNum() }
-          class='${this.state.showLineNumbers?"selected":""}'>[Line Number]</span>
-        <br/>
-          ${ html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} zoom="z1.5">⚙</span> ` }
-          ${ html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } zoom="z1.5">∷</span> ` }
-          ${ html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } zoom="z1.5">≣</span>` }
-        <br/>
+       <div id="nonFixedMenu" style="display: ${this.showSubMenu() ? "": "none"}">
           ${ this.state.showSettings &&
              html`
                <span>  ● Refresh content source every </span>
@@ -288,6 +275,25 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
                </pre>
              `
             }
+          </div>
+          <div id="fixedMenu">
+            <span id="grepMenu">
+            <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',+1)}>+</span>
+            ${this.lpad(this.state.grep[0].before,2)}
+            <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',-1)}>-</span>
+              ▲<input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
+              </input>▼${this.state.after}
+             <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',-1)}>-</span>
+             ${this.lpad(this.state.grep[0].after,2)}
+             <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
+             <span> </span>
+             <span onClick=${ (e) => this.switchShowLineNum() }
+               class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>
+            </span>
+          ${ html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
+          ${ html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } >∷</span> ` }
+          ${ html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } >≣</span>` }
+          </div>
       `);
     }
 }

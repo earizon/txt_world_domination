@@ -7,16 +7,77 @@
    <head>
 
 <style>
+h1,h2,h3,h4,h5 {
+  font-size: 1em;
+}
+h1 {
+  width: 100%;
+  font-weight: bold;
+  text-decoration: underline overline;
+  letter-spacing: 0.3em;
+}
+
 .button {
   display: inline-block;
-  border: 2px solid gray;
+  border: 1px solid gray;
   min-width: 2em;
   text-align: center;
   box-shadow: 5px 5px 10px black;
   margin: 0.1em 0.5em 0 0.2em;
   padding: 0;
   line-height: 1.0em;
+  border-radius: 0.5em;
 }
+.buttonCompact {
+  display: inline-block;
+  border: 1px solid gray;
+  text-align: center;
+  box-shadow: 5px 5px 10px black;
+  margin: 0 0.1em 0 0.1em;
+  line-height: 1.0em;
+  min-width: 1em;
+  border-radius: 0.5em;
+}
+
+#fixedMenu    {
+  position: fixed;
+  bottom: 0;
+  right: 2.5%;
+  width: auto;
+  overflow: auto;
+  opacity: 0.9;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  background-color: #CFC;
+  font-size: 1.5em;
+  white-space: break-spaces;
+  text-align: center;
+  border-radius: 1em;
+  padding: 0 0 0.1em 0.3em;
+  box-shadow: 0 0 10px black;
+}
+#nonFixedMenu {
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: fixed; left: 1em; right: 1em; top: 1em; bottom: 3em;
+  box-shadow: 0 0 10px black;
+  border-radius: 1em;
+  background-color: #DDD;
+  border: 5px solid black;
+  padding: 0.2em;
+}
+
+#idGrepInput {
+  line-height: 1.7em;
+  margin: 0.2em 0 0 0;
+  vertical-align: top;
+  padding: 0 0.2em 0 0.2em;
+  border: 0px;
+  font-size: 0.7em;
+  outline: 1px solid gray;
+}
+
 p > .ln {
   position: absolute;
   float: left;
@@ -137,20 +198,6 @@ body {
 }
 
 #idControlPanel {
-    margin: 0; padding 0.1em;
-    border-bottom: 1px solid black;
-    position: fixed; bottom: 0; left: 40%; right: 0;
-    background-color: white;
-    box-shadow: 0 0 3px 3px grey;
-    max-height: 45vh;
-    overflow: auto;
-    opacity: 0.8;
-    /* Hide scrollbar for IE, Edge and Firefox, but keep overflow: auto to enable scrolling */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;     /* Firefox */
-    background-color: #CFC;
-    font-size: 2.0em;
-    white-space: break-spaces;
 }
 @media only screen and (pointer  : coarse) {
  #idControlPanel {
@@ -172,13 +219,9 @@ body {
 }
 
 
-*[zoom="z1.5"] { font-size: 1.5em; }
-
 #idTableTopics,#idTableIndex {
-    overflow: auto;
-    border: 1px solid black;
-    max-height: 20em;
-    margin: 0;
+  overflow: auto;
+  margin: 0;
 }
 
 #idTableTopics { background-color: #DDF; }
@@ -276,8 +319,8 @@ window.addEventListener('load', bootstrap )
 </script>
 </head>
 <body>
-<pre id="idControlPanel" class="textSelectOff">
-</pre>
+<div id="idControlPanel" class="textSelectOff"></div>
+
 <pre id="dbEngineOutput" lineheight="height1" font="font1" fontSize="s2" background="b1" colorstyle="s1" >
 </pre>
 
