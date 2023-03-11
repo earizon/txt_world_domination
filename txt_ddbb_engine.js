@@ -104,18 +104,6 @@ class Block {
     setLineEnd(lineEnd) { this.bounds[1] = lineEnd; }
 }
 
-class IndexTableEntry {
-  constructor( txt_line, lineNumber) {
-    this.txt_line   = txt_line;
-    this.lineNumber = lineNumber;
-    this.children   = []
-  }
-
-  addChild( indexTableEntry ) {
-    this.children.push(indexTableEntry);
-  }
-}
-
 class TXTDBEngine {
 
     fetchPayload = async function (url) {
@@ -148,6 +136,7 @@ class TXTDBEngine {
     }
 
     buildTopicsDB() {
+      this.docBlock         = new Block ( [0,this.rowN], {}, null )
       const parseCtrlTokens = function (lineIn) {
         // TODO:(qa) contemplate 2+ [[...]] in single line
         const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return ""
@@ -169,7 +158,7 @@ class TXTDBEngine {
               blockStack.push( new Block ( [lineIdx], {}, blockStack.at(-1) ) )
               if (maxStackLength<blockStack.length){
                 maxStackLength=blockStack.length;
-                console.log(`maxStackLength ${maxStackLength},lineIdx: ${lineIdx+1}, ctrlToken_l:${ctrlToken_l}, line: ${line}`)
+                // console.log(`maxStackLength ${maxStackLength},lineIdx: ${lineIdx+1}, ctrlToken_l:${ctrlToken_l}, line: ${line}`)
               }
               return;
           }
@@ -201,29 +190,7 @@ class TXTDBEngine {
       }
       let block;
       while (block = blockStack.pop()) { block.bounds.push(this.rowN); }
-      console.dir(this.topicsDB._db)
-    }
-
-    buildIndexTable() {
-      let currentParent = this.indexRoot;
-      for (let lineIdx = 0; lineIdx <= this.rowN; lineIdx++) {
-        const line = this.immutableDDBB[lineIdx];
-        const lineNum = lineIdx + 1;
-        if (line.startsWith("# " ) ||
-            line.startsWith("● " ) /* preferred */
-           ){
-           currentParent = new IndexTableEntry (line.trim(), lineNum)
-           this.indexRoot.addChild( currentParent )
-        }
-        if (line.startsWith("## "  ) ||
-            line.startsWith("• "   ) || /* preferred */
-            line.startsWith(" • "  ) || /* preferred */
-            line.startsWith("  • " )    /* preferred */
-           ){
-           currentParent.addChild( new IndexTableEntry(line.trim(), lineNum ) );
-        }
-      }
-      console.log(this.indexRoot)
+   // console.dir(this.topicsDB._db)
     }
 
     constructor( url_txt_source ) {
@@ -238,14 +205,19 @@ class TXTDBEngine {
                                .replace(this.url_txt_source.search,"")
                                .replace(/[/][^/]*[?]?$/,"") )
       this.topicsDB         = new TopicBlockDB();
-      this.indexRoot        = new IndexTableEntry ("Index", -1);
     }
 
     async init( bShowLineNum ) {
       let payload = await this.fetchPayload(this.url_txt_source.href);
       const doTxtPreProcessingMarkDown = (input) => {
-        return window.markdown.parse(input)
+        return window.markdown.parse(input,
+          {   parseFlags: 0
+            | window.markdown.ParseFlags.MD_FLAG_TABLES
+          } )
       }
+      // let html = markdown.parse(source, {
+      //       parseFlags: markdown.ParseFlags.DEFAULT | markdown.ParseFlags.NO_HTML,
+      //     })
       const doTxtPreProcessingTXT = (input) => {
          /*
           * apply simple utility-like replacements (convert @[...] to HTML links,
@@ -279,13 +251,13 @@ class TXTDBEngine {
 
          // NEXT) Replace External absolute URL images: i[http://.../test.svg|width=3em]
          H = H.replace(
-           /i\[((http).?[^|\]\n]*)(|[^\]\n]*)\]/g,
+           /i\[((http).?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
            "<img src='$1' style='$2' />")
          // NEXT) Replace External relative URL images: i[./test.svg|width=3em]
          //       Note that relative images are relative to txt document
          //       (vs html viewer)
          H = H.replace(
-           /i\[((\.\/)?[^|\]\n]*)(|[^\]\n]*)\]/g,
+           /i\[((\.\/)?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
            "<img src='"+this.relative_path+"/$1' style='$2' />")
 
 
@@ -296,8 +268,12 @@ class TXTDBEngine {
 
          return H
       }
-      this.cachePayload     = this.file_ext == "MD"
-                              ? doTxtPreProcessingMarkDown(payload) // TODO:(qa) Cache just source URL???
+      this.cachePayload     = this.file_ext == "MD"  // TODO:(qa) Cache just source URL???
+                              ? doTxtPreProcessingMarkDown(
+                                  doTxtPreProcessingTXT(
+                                                           payload
+                                  )
+                                )
                               : doTxtPreProcessingTXT(payload) // TODO:(qa) Cache just source URL???
       this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
       this.rowN             = this.immutableDDBB.length-1;
@@ -314,9 +290,7 @@ class TXTDBEngine {
         }
       }
       this.cacheResult      =  this.immutableDDBB.join("");
-      this.docBlock         = new Block ( [0,this.rowN], {}, null )
       this.buildTopicsDB()
-      this.buildIndexTable()
     }
 
     grep( grep0, selectedCoordinatesByTopic , topicParentDepth) {
@@ -368,7 +342,7 @@ class TXTDBEngine {
       }
 
       const result = result_l.filter( row => (row != false) ).join("");
-console.log(result)
+   // console.log(result)
       return result
     }
 }

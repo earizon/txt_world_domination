@@ -61,15 +61,17 @@ class ControlPanel extends Component {
       showIndex        : true
     }
 
-    getIndexTableAsHTML = () => {
-       let result = ""
-       this.txtDBEngine.indexRoot.children.forEach( (entry) => {
-         result += (`${entry.txt_line}, ${entry.lineNumber}<br/>`);
-         entry.children.forEach( (entry2) => {
-           result +=(`  ├─ ${entry2.txt_line}, ${entry2.lineNumber}<br/>`);
-         })
-       })
-       return result;
+    getIndexTableAsHTML = () => { // @ma
+      const idxTable=document.createElement("div")
+      document.querySelectorAll(".anchor").forEach( anchorEl => {
+         const parentTag = anchorEl.parentElement
+console.log(`parentTag.tagName ${parentTag.tagName}` )
+         if (parentTag.tagName=="H1") {
+            idxTable.append(parentTag)
+         }
+      })
+      window.debug=idxTable
+      return "TODO"
     }
 
     switchSettingsView = () => {
@@ -178,7 +180,6 @@ class ControlPanel extends Component {
         () => {
           document.getElementById("dbEngineOutput").innerHTML =
                 this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, this.state.topicParentDepth)
-          document.getElementById("idTableIndex").innerHTML = this.getIndexTableAsHTML();
         }, 400)
 
     }
@@ -240,7 +241,7 @@ class ControlPanel extends Component {
         <br/>
           ${ this.state.showSettings &&
              html`
-               <span onClick=${() => this.switchSettingsView()} zoom="z1.5"> [▾▵ settings]</span><br/>
+               <span onClick=${() => this.switchSettingsView()} zoom="z1.5"> [▾▵≣]</span><br/>
                <span>  ● Refresh content source every </span>
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
@@ -255,12 +256,12 @@ class ControlPanel extends Component {
           }
           ${ !this.state.showSettings &&
              html`
-               <span onclick=${() => this.switchSettingsView()} zoom="z1.5"> [▿▴ settings]</span><br/>
+               <span onclick=${() => this.switchSettingsView()} zoom="z1.5"> [▿▴≣]</span><br/>
              `
           }
           ${ this.state.showTopics &&
              html`
-               <span onclick=${() => this.switchTopicView()} zoom="z1.5"> [▾▵ topics]</span><br/>
+               <span onclick=${() => this.switchTopicView()} zoom="z1.5"> [▾▵≣]</span><br/>
                <pre id="idTableTopics" size=s2>
                <span>  </span>Match parents up to:
                  <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
@@ -284,16 +285,18 @@ class ControlPanel extends Component {
              `
           }
           ${ ! this.state.showTopics &&
-             html` <span onclick=${() => this.switchTopicView()} zoom="z1.5">[▿▴ topics]</span><br/>`
+             html` <span onclick=${() => this.switchTopicView()} zoom="z1.5">[▿▴≣]</span><br/>`
           }
           ${ this.state.showIndex &&
              html`
-               <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵ Index]</span><br/>
-               <pre id="idTableIndex" size=s2> </pre>
+               <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵≣]</span><br/>
+               <pre id="idTableIndex" size=s2>
+                  ${this.getIndexTableAsHTML()}
+               </pre>
              `
             }
           ${ ! this.state.showIndex &&
-             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▿▴ index]<br/></span>
+             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▿▴≣]<br/></span>
                <span>  </span>`
           }
       `);
