@@ -62,17 +62,23 @@ class ControlPanel extends Component {
       showIndex        : false
     }
 
-    getIndexTableAsHTML = () => { // @ma
-      const idxTable=document.createElement("div")
+    refreshIndexTableAsHTML = (newState) => { // @ma
+      const idxTable=document.getElementById("idTableIndex")
+      if (newState == false) {
+        idxTable.innerText = "";
+        return;
+      }
       document.querySelectorAll(".anchor").forEach( anchorEl => {
-         const parentTag = anchorEl.parentElement
-console.log(`parentTag.tagName ${parentTag.tagName}` )
-         if (parentTag.tagName=="H1") {
-            idxTable.append(parentTag)
-         }
+        const parentTag = anchorEl.parentElement
+        if (!parentTag) return;
+        if (["H1","H2"].indexOf(parentTag.tagName)>=0) {
+           const A = anchorEl.cloneNode(true)
+           A.id=""
+           A.classList=[parentTag.tagName]
+           A.innerText = parentTag.innerText
+           idxTable.append(A)
+        }
       })
-      window.debug=idxTable
-      return "TODO"
     }
 
     showSubMenu = () => {
@@ -80,6 +86,7 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
              this.state.showTopics   ||
              this.state.showIndex
     }
+
     switchSettingsView = () => {
         const newState =  !this.state.showSettings;
         this.setState ( { showSettings: newState } );
@@ -97,6 +104,7 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
         this.setState ( { showIndex   : newState } );
         this.setState ( { showSettings: this.state.showSettings  && !newState } );
         this.setState ( { showTopics  : this.state.showTopics && !newState } );
+        this.refreshIndexTableAsHTML()
     }
 
     switchTypeWritterFont = ()=> {
@@ -232,25 +240,29 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
        <div id="nonFixedMenu" style="display: ${this.showSubMenu() ? "": "none"}">
           ${ this.state.showSettings &&
              html`
-               <span>  ● Refresh content source every </span>
+             <div id="idSettingsMenu">
+               Refresh content source every:
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
-               <span>  ● Font: <span onClick=${() => this.switchTypeWritterFont() }>[type ${this.state.settings_font}]</span> </span>
-               <span>, <span onClick=${() => this.switchFontSize()        }>[size ${this.state.settings_fontsize}]</span> </span><br/>
-               <span>  ● Style: <span onClick=${() => this.switchBackground()      }>[BCK ${this.state.bckg_texture}]</span> </span>
-               <span>, <span onClick=${() => this.switchColorStyle() }>[Color ${this.state.color_style}]</span> </span> <br/>
-               <span>  ● Line: <span onClick=${() => this.switchLineHeight()      }>[height ${this.state.settings_lineheight}]</span> </span>
-               <span>, <span onClick=${() => this.switchLineBreak()}  class='${this.state.settings_linebreak?"selected":""}'>[line break]</span> </span><br/>
+               ● Font: <span class="button" onClick=${() => this.switchTypeWritterFont() }>type ${this.state.settings_font}</span>
+                <span class="button" onClick=${() => this.switchFontSize()        }>size ${this.state.settings_fontsize}</span>
+                 <br/>
+               ● Style: <span class="button" onClick=${() => this.switchBackground()      }>BCK ${this.state.bckg_texture}</span>
+               , <span class="button" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}</span>
+               <br/>
+               ● Line: <span class="button" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}</span>
+                       <span onClick=${() => this.switchLineBreak()}  class='button ${this.state.settings_linebreak?"selected":""}'>line break</span> <br/>
+             </div>
              `
           }
           ${ this.state.showTopics &&
              html`
                <pre id="idTableTopics" size=s2>
                <span>  </span>Match parents up to:
-                 <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
+                 <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(-1)}>-</span>
                  ${this.state.topicParentDepth}
-                 <span onClick=${ (e) => this.setTopicMatchDepth(+1)}>[+]</span>
+                 <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(+1)}>+</span>
                 <br/>
 
                ${ this.txtDBEngine.topicsDB.getDimensionList()
@@ -268,13 +280,7 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
                </pre>
              `
           }
-          ${ this.state.showIndex &&
-             html`
-               <pre id="idTableIndex" size=s2>
-                  ${this.getIndexTableAsHTML()}
-               </pre>
-             `
-            }
+          <pre id="idTableIndex" style="display:${this.state.showIndex?"":"none"}" size=s2></pre>
           </div>
           <div id="fixedMenu">
             <span id="grepMenu">

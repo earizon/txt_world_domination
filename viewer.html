@@ -24,7 +24,7 @@ h1 {
   text-align: center;
   box-shadow: 5px 5px 10px black;
   margin: 0.1em 0.5em 0 0.2em;
-  padding: 0;
+  padding: 0.2em 0.3em 0.2em 0.3em;
   line-height: 1.0em;
   border-radius: 0.5em;
 }
@@ -60,12 +60,22 @@ h1 {
   overflow: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  position: fixed; left: 1em; right: 1em; top: 1em; bottom: 3em;
+  position: fixed;
+  right: 1em;
+  width: auto;
+  top: 1em;
+  bottom: 3em;
   box-shadow: 0 0 10px black;
   border-radius: 1em;
   background-color: #DDD;
   border: 5px solid black;
   padding: 0.2em;
+}
+
+
+#idSettingsMenu {
+  font-family: 'font1', monospace, console;
+  line-height: 2.5em;
 }
 
 #idGrepInput {
@@ -230,6 +240,16 @@ body {
 #idTableIndex {
     font-size: 0.8em;
 }
+#idTableIndex > a {
+  display: block;
+}
+#idTableIndex > .H2 {
+  padding-left: 2em;
+}
+
+
+
+
 #idTableTopics[size=s1], #idTableIndex[size=s1] {
     max-height: 80vh;
 }
