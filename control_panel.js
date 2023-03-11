@@ -239,9 +239,12 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
         <span onClick=${ (e) => this.switchShowLineNum() }
           class='${this.state.showLineNumbers?"selected":""}'>[Line Number]</span>
         <br/>
+          ${ html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} zoom="z1.5">⚙</span> ` }
+          ${ html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } zoom="z1.5">∷</span> ` }
+          ${ html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } zoom="z1.5">≣</span>` }
+        <br/>
           ${ this.state.showSettings &&
              html`
-               <span onClick=${() => this.switchSettingsView()} zoom="z1.5"> [▾▵≣]</span><br/>
                <span>  ● Refresh content source every </span>
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
@@ -254,14 +257,8 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
                <span>, <span onClick=${() => this.switchLineBreak()}  class='${this.state.settings_linebreak?"selected":""}'>[line break]</span> </span><br/>
              `
           }
-          ${ !this.state.showSettings &&
-             html`
-               <span onclick=${() => this.switchSettingsView()} zoom="z1.5"> [▿▴≣]</span><br/>
-             `
-          }
           ${ this.state.showTopics &&
              html`
-               <span onclick=${() => this.switchTopicView()} zoom="z1.5"> [▾▵≣]</span><br/>
                <pre id="idTableTopics" size=s2>
                <span>  </span>Match parents up to:
                  <span onClick=${ (e) => this.setTopicMatchDepth(-1)}>[-]</span>
@@ -284,21 +281,13 @@ console.log(`parentTag.tagName ${parentTag.tagName}` )
                </pre>
              `
           }
-          ${ ! this.state.showTopics &&
-             html` <span onclick=${() => this.switchTopicView()} zoom="z1.5">[▿▴≣]</span><br/>`
-          }
           ${ this.state.showIndex &&
              html`
-               <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▾▵≣]</span><br/>
                <pre id="idTableIndex" size=s2>
                   ${this.getIndexTableAsHTML()}
                </pre>
              `
             }
-          ${ ! this.state.showIndex &&
-             html` <span onclick=${() => this.switchIndexView()} zoom="z1.5"> [▿▴≣]<br/></span>
-               <span>  </span>`
-          }
       `);
     }
 }
