@@ -214,6 +214,8 @@ class TXTDBEngine {
           {   parseFlags: 0
             | window.markdown.ParseFlags.MD_FLAG_TABLES
           } )
+          .replaceAll("<p>","")
+          .replaceAll("</p>","")
       }
       // let html = markdown.parse(source, {
       //       parseFlags: markdown.ParseFlags.DEFAULT | markdown.ParseFlags.NO_HTML,
