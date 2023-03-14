@@ -5,11 +5,7 @@ import { TXTDBEngine } from './txt_ddbb_engine.js';
 
 class Topic extends Component {
 
-    state = {
-      TC_id_selected : { /*topic coord.id selected: bool*/ }
-    }
-
-    constructor( CP /* CP: "parent" Control Pannel */) {
+    constructor( { CP } /* CP: "parent" Control Pannel */) {
         super();
         this.CP = CP;
     }
@@ -17,12 +13,12 @@ class Topic extends Component {
     tcSwitch(TC_id, e) {
         e.stopImmediatePropagation();
         const TC_id_l = this.props.CP.txtDBEngine.topicsDB.getSubtopicsIDList(TC_id);
-        const newState = ! this.state.TC_id_selected[TC_id_l[0]];
+        const newState = ! this.CP.state.TC_id_selected[TC_id_l[0]];
         TC_id_l.forEach( (TC_id_i) => {
-          this.state.TC_id_selected[TC_id_i] = newState;
+          this.CP.state.TC_id_selected[TC_id_i] = newState;
         });
-        this.setState({ TC_id_selected : this.state.TC_id_selected });
-        this.props.CP.onTopicCoordOnOff(this.props.topicName, this.state.TC_id_selected);
+        this.setState({ TC_id_selected : this.CP.state.TC_id_selected });
+        this.props.CP.onTopicCoordOnOff(this.props.topicName, this.CP.state.TC_id_selected);
     }
 
     render( { topicName, topicCoord_id_l } ) {
@@ -30,7 +26,7 @@ class Topic extends Component {
         <pre class="topicClass">
         <div class="topic">${topicName}</div>:
         ${ topicCoord_id_l.map( (TC_id) => {
-           return html`[<span key=${TC_id} class='${this.state.TC_id_selected[TC_id]?"selected":""}'
+           return html`[<span key=${TC_id} class='${this.CP.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
               ${TC_id.replace(topicName+".","")}</span>] `
            } )
@@ -43,9 +39,6 @@ class Topic extends Component {
 class ControlPanel extends Component {
 
     static thisPtr;
-    injected_TC_id_selected = {} // injected_TC_id_selected is by childen component's UI-state.
-                                 // It's not part of this component state, but injected/updated
-                                 // by its children.
     menuSize2Icon = {
       1 : "▾▹▵",
       2 : "▿▸▵",
@@ -59,10 +52,11 @@ class ControlPanel extends Component {
       showLineNumbers  : false,
       grep             : [ { input: "", before: 5, after: 5 } ],
       topicParentDepth : 0,
-      showIndex        : false
+      showIndex        : false,
+      TC_id_selected   : { /*topic coord.id selected: bool*/ }
     }
 
-    refreshIndexTableAsHTML = (newState) => { // @ma
+    refreshIndexTableAsHTML = (newState) => {
       const idxTable=document.getElementById("idTableIndex")
       if (newState == false) {
         idxTable.innerText = "";
@@ -76,6 +70,7 @@ class ControlPanel extends Component {
            A.id=""
            A.classList=[parentTag.tagName]
            A.innerText = parentTag.innerText
+console.log(A.innerText)
            idxTable.append(A)
         }
       })
@@ -171,7 +166,7 @@ class ControlPanel extends Component {
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 2;
       this.state.settings_showbaseline = false;
-      this.state.settings_linebreak = false;
+      this.state.settings_linebreak = true;
       this.state.showSettings = true;
       ControlPanel.thisPtr = this;
     }
@@ -192,7 +187,7 @@ class ControlPanel extends Component {
       this.state.timerDoFind = setTimeout(
         () => {
           document.getElementById("dbEngineOutput").innerHTML =
-                this.txtDBEngine.grep(this.state.grep[0], this.injected_TC_id_selected, this.state.topicParentDepth)
+                this.txtDBEngine.grep(this.state.grep[0], this.state.TC_id_selected, this.state.topicParentDepth)
         }, 400)
 
     }
@@ -208,8 +203,8 @@ class ControlPanel extends Component {
       this.componentDidMount();
     }
 
-    onTopicCoordOnOff(topicName, TC_id_selected) {
-      ControlPanel.thisPtr.injected_TC_id_selected[topicName] = TC_id_selected;
+    onTopicCoordOnOff(topicName, TC_id_selected) { // @ma
+      ControlPanel.thisPtr.state.TC_id_selected[topicName] = TC_id_selected;
       ControlPanel.thisPtr.execSearch();
     }
 
@@ -245,13 +240,13 @@ class ControlPanel extends Component {
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
-               ● Font: <span class="button" onClick=${() => this.switchTypeWritterFont() }>type ${this.state.settings_font}</span>
-                <span class="button" onClick=${() => this.switchFontSize()        }>size ${this.state.settings_fontsize}</span>
+               ● Font: <span class="button" onClick=${() => this.switchTypeWritterFont() }>type ${this.state.settings_font}/5</span>
+                <span class="button" onClick=${() => this.switchFontSize()        }>size ${this.state.settings_fontsize}/4</span>
                  <br/>
-               ● Style: <span class="button" onClick=${() => this.switchBackground()      }>BCK ${this.state.bckg_texture}</span>
-               , <span class="button" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}</span>
+               ● Style: <span class="button" onClick=${() => this.switchBackground()      }>BCK ${this.state.bckg_texture}/4</span>
+               , <span class="button" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}/6</span>
                <br/>
-               ● Line: <span class="button" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}</span>
+               ● Line: <span class="button" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span>
                        <span onClick=${() => this.switchLineBreak()}  class='button ${this.state.settings_linebreak?"selected":""}'>line break</span> <br/>
              </div>
              `
@@ -265,7 +260,7 @@ class ControlPanel extends Component {
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(+1)}>+</span>
                 <br/>
 
-               ${ this.txtDBEngine.topicsDB.getDimensionList()
+               ${ this.txtDBEngine.topicsDB.getDimensionList() // @ma
                   .map( (dimI) => {
                       return html`<${Topic}
                       CP=${this}
