@@ -17,6 +17,20 @@ h1 {
   letter-spacing: 0.3em;
 }
 
+ul {
+  padding-top: 0;
+  display: grid;
+  margin: 0;
+}
+li {
+  max-width: 50em;
+  white-space: normal;
+}
+
+p {
+  display: inline;
+}
+
 .button {
   display: inline-block;
   border: 1px solid gray;
@@ -130,10 +144,12 @@ code > .ln, ol >.ln, ul > .ln, li >.ln {
 }
 
 pre {
-    'font0',monospace, console;
+  /* font-family: 'font0', monospace, console; */
+  line-height: 1.2em;
 }
 
 #dbEngineOutput{
+  white-space: pre-wrap; /* default */
   padding-top: 1.5em;
   overflow: auto;
   background-attachment: fixed;
@@ -147,7 +163,7 @@ pre {
 #dbEngineOutput[font=font5]{ font-family:'font5', monospace, console; }
 #dbEngineOutput[font=font6]{ font-family:'font6', monospace, console; }
 #dbEngineOutput[font=font7]{ font-family:'font7', monospace, console; }
-#dbEngineOutput[linebreak=true]   {  white-space: pre-wrap; }
+#dbEngineOutput[linebreak=false]   {  white-space: pre; }
 #dbEngineOutput[lineheight=height1]{ line-height: 1.2em }
 #dbEngineOutput[lineheight=height2]{ line-height: 1.5em }
 #dbEngineOutput[lineheight=height3]{ line-height: 2.0em }
@@ -181,8 +197,6 @@ pre {
   background-image: linear-gradient(90deg, #AAA 0.5px, transparent 1px);
   background-size: 2.2em 2.2em;
 }
-
-
 
 pre[fontSize=s0]{ font-size: 0.7em }
 pre[fontSize=s1]{ font-size: 1.0em }
