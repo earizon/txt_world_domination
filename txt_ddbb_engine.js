@@ -1,4 +1,6 @@
 "use strict"
+import {parseMD2HTML} from "./lightmarkdown.js";
+
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
     constructor ( TC_id ) {
@@ -210,12 +212,13 @@ class TXTDBEngine {
     async init( bShowLineNum ) {
       let payload = await this.fetchPayload(this.url_txt_source.href);
       const doTxtPreProcessingMarkDown = (input) => {
-        return window.markdown.parse(input,
-          {   parseFlags: 0
-            | window.markdown.ParseFlags.MD_FLAG_TABLES
-          } )
-          .replaceAll("<p>","")
-          .replaceAll("</p>","")
+      //return window.markdown.parse(input,
+      //  {   parseFlags: 0
+      //    | window.markdown.ParseFlags.MD_FLAG_TABLES
+      //  } )
+      //  .replaceAll("<p>","")
+      //  .replaceAll("</p>","")
+        return parseMD2HTML(input)
       }
       // let html = markdown.parse(source, {
       //       parseFlags: markdown.ParseFlags.DEFAULT | markdown.ParseFlags.NO_HTML,

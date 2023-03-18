@@ -58,18 +58,14 @@ class ControlPanel extends Component {
 
     refreshIndexTableAsHTML = (newState) => {
       const idxTable=document.getElementById("idTableIndex")
-      if (newState == false) {
-        idxTable.innerText = "";
-        return;
-      }
-      document.querySelectorAll(".anchor").forEach( anchorEl => {
-        const parentTag = anchorEl.parentElement
-        if (!parentTag) return;
-        if (["H1","H2"].indexOf(parentTag.tagName)>=0) {
+      idxTable.innerText = "";
+      if (newState == false) { return; }
+
+      document.querySelectorAll(".h_anchor").forEach( anchorEl => {
+        if (["H1","H2"].indexOf(anchorEl.tagName)>=0) {
            const A = anchorEl.cloneNode(true)
-           A.id=""
-           A.classList=[parentTag.tagName]
-           A.innerText = parentTag.innerText
+           A.classList=[anchorEl.tagName]
+           A.innerText = anchorEl.innerText
 console.log(A.innerText)
            idxTable.append(A)
         }

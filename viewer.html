@@ -8,13 +8,21 @@
 
 <style>
 h1,h2,h3,h4,h5 {
-  font-size: 1em;
+  font-size: inherit;
 }
+
 h1 {
-  width: 100%;
   font-weight: bold;
-  text-decoration: underline overline;
-  letter-spacing: 0.3em;
+  display: block;
+  width: 95%;
+  border-bottom: 1px solid black;
+}
+
+h2 {
+  font-weight: bold;
+  display: inline-block;
+  width: auto;
+  border-bottom: 1px solid gray;
 }
 
 ul {
@@ -25,6 +33,7 @@ ul {
 li {
   max-width: 50em;
   white-space: normal;
+  margin-left: 2ch;
 }
 
 p {
@@ -257,12 +266,11 @@ body {
 #idTableIndex > a {
   display: block;
 }
-#idTableIndex > .H2 {
+#idTableIndex > h1 {
+}
+#idTableIndex > h2 {
   padding-left: 2em;
 }
-
-
-
 
 #idTableTopics[size=s1], #idTableIndex[size=s1] {
     max-height: 80vh;

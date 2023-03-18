@@ -8,20 +8,19 @@
 │ @[#txt_world_domination_celebration]              │
 └───────────────────────────────────────────────────┘
 
-●  Apropos:
-   - This text file has two purposes:
+# Apropos:
+  - This text file has two purposes:
 
-     1) Serve as input data used by functional tests.
+  1) Serve as input data used by functional tests.
 
-     2) Final up-to-date documentation for users.
-
+  2) Final up-to-date documentation for users.
 
   Document source code:
 @[https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt]
 
-═ TESTS START { ════════════════════════════════════════════════════════════════
+# TESTS START { ════════════════════════════════════════════════════════════════
 
-● TEST: Get sure readers understand the importance of good documentation
+## TEST: Get sure readers understand the importance of good documentation
         by making a copy of the following paragraph:
 
         """ ... The documentation and samples are still bad today ...  We ended up
@@ -36,16 +35,21 @@
         Citation extracted from:
         https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b
 
-● TEST: Make sure readers understand the key points when creating documentation:
-    ✓ Putting related information close to each other.
-    ✓ Don't repeat twice.
-    ✓ Use your hard disk to save classified information, not piles of
-      documents spread ("hidden" or "lost") amongst hundred of emails,
-      posts, chats, words, custom databases, excels and binary files of
-      random nature.
-    ✓ Don't use proprietary formats for important documentation:
+## TEST: Make sure readers understand the key points when creating documentation:
+    ✓ PUTTING RELATED INFORMATION CLOSE TO EACH OTHER.
+    ✓ DON'T REPEAT TWICE.
+    ✓ USE YOUR HARD DISK TO SAVE CLASSIFIED INFORMATION, NOT PILES OF
+      DOCUMENTS SPREAD ("HIDDEN" OR "LOST") AMONGST HUNDRED OF EMAILS,
+      POSTS, CHATS, WORDS, CUSTOM DATABASES, EXCELS AND BINARY FILES OF
+      RANDOM NATURE.
+    ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION:
+      THE SIMPLEST, THE BEST.
 
-● TEST: Make sure readers understand that text files are enough for event
+    ✓ AVOID USING (EXPENSIVE AND COMPLEX TO SETUP AND MAINTAIN)
+      SEARCH ENGINES TO FIND FOR LOST INFORMATION:
+      NEVER LOOSE THE INFORMATION IN FIRST PLACE.
+
+## TEST: Make sure readers understand that text files are enough for event
       the most complex projects by adding links to well known successful
       projects documented with plain text:
       - TCP/IP Internet Protocol Documentation:
@@ -55,23 +59,30 @@
       - Linux Kernel documentation:
         https://github.com/torvalds/linux/tree/master/Documentation
 
-● TEST: scaped p and html tags must be displayed properly:
+## TEST: scaped p and html tags must be displayed properly:
   <p> <html>
   └───┬────┘
   (vs hidden as html tags)
 
-● TEST: internal links must be converted properly:
+## TEST: internal links must be converted properly:
  @[#internalLink1] @[#internalLink2]
 
-● TEST: Image must render properly, resolving relative path issues:
+## TEST: Image must render properly, resolving relative path issues:
  i[./test.svg|width=3em]
 
-● TEST: External links must be converted properly:
+## TEST: External links must be converted properly:
   Go to @[https://www.w3.org/]
   Go to @[https://www.ietf.org/]
   Go to @[https://www.ieee.org/]
 
-● TEST: DOCUMENTATION INTRODUCTION MUST BE IN PLACE:
+## TEST: MAP ONE-TO-ONE TO DOCUMENTATION: [[{02_DOC_HAS.KEY-POINT]]
+    ▸ By reading the tests you can learn how to write txt files
+      compatible with the TXT World Domination Project.
+    ▸ By documenting the tests we (developers) can have up-to-date
+      documentation for users in a single place.
+  [[}]]
+
+## TEST: DOCUMENTATION INTRODUCTION MUST BE IN PLACE:
 
   ===========================
   DOCUMENTATION INTRODUCTION:
@@ -83,7 +94,7 @@
 
   - Documenting is not about looking cool or serious or expert.
 
-  • ┌ [[{KEY-POINT]] ───────────────────────────────────────────────────┐
+    ┌ [[{02_DOC_HAS.KEY-POINT]] ────────────────────────────────────────┐
     │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
     │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
     │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
@@ -117,7 +128,7 @@
     people working in a project the biggest the need to have good
     documentation but ....
 
-  • ┌ [[{KEY-POINT]] ─────────────────────────────────────────┐
+    ┌ [[{02_DOC_HAS.KEY-POINT]]───────────────────────────────┐
     │ ▸ REAL WORLD is a very imperfect REAL WORLD.            │
     │   ▸ Projects misserably fail.                           │
     │   ▸ Companies spend lot of money in project managers,   │
@@ -128,7 +139,7 @@
     │     interests.                                          │
     └─[[}]]───────────────────────────────────────────────────┘
 
-  • ┌ [[{KEY-POINT]] ─────────────────────────────────────────┐
+    ┌ [[{02_DOC_HAS.KEY-POINT]] ──────────────────────────────┐
     │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
     └─[[}]]───────────────────────────────────────────────────┘
 
@@ -138,32 +149,12 @@
    papers looks to be the only important thing to do with no
    attention to any other real outcome).
 
-  • ┌ [[{KEY-POINT]] ────────────────────────────────────────┐
+    ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────────────────┐
     │ ▸ PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS │
     │   A CORE TASK OF ANY SUCCESFUL PROJECT.                │
     └─[[}]]──────────────────────────────────────────────────┘
 
-    ┌─────────────────────────────────────────┐
-  • │ DOCUMENTATION BEST-PRACTICES CHECK-LIST │
-    └─────────────────────────────────────────┘
-    ✓ PUTTING RELATED INFORTMATION CLOSE TO EACH OTHER.
-
-    ✓ DON'T REPEAT TWICE.
-
-    ✓ USE YOUR HARD DISK TO SAVE CLASSIFIED INFORMATION.
-
-    ✓ DON'T KEEP INFORMATION SPREAD ("HIDDEN" OR "LOST") AMONGST
-      HUNDRED OF EMAILS, POSTS, CHATS, WORDS, CUSTOM DATABASES,
-      EXCELS AND BINARY FILES OF RANDOM NATURE.
-
-    ✓ AVOID USING (EXPENSIVE AND COMPLEX TO SETUP AND MAINTAIN)
-      SEARCH ENGINES TO FIND FOR LOST INFORMATION:
-      NEVER LOOSE THE INFORMATION IN FIRST PLACE.
-
-    ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION,
-      THE SIMPLEST, THE BEST.
-
-    ┌ [[KEY-POINT]] ───────────────────────────────────┐
+    ┌ [[02_DOC_HAS.KEY-POINT]] ────────────────────────┐
     │┌────────────────────────────────────────────────┐│
     ││┌──────────────────────────────────────────────┐││
     │││ TAKE CONTROL OF THE INFORMATION BEFORE THE   │││
@@ -172,28 +163,19 @@
     │└────────────────────────────────────────────────┘│
     └──────────────────────────────────────────────────┘
 
-  • ABOUT THE TXT WORLD DOMINATION PROJECT [[{KEY-POINT]]
+##  ABOUT THE TXT WORLD DOMINATION PROJECT [[{02_DOC_HAS.KEY-POINT]]
     - TXTWD Project tries to implement documentation best
      practices by converting a simple and innocent "txt" file
      into a INDECENT and PERVERT Document Management System
      where information can be searched and classified in
      powerful ways to success in creating correct documentation
      (aka TRANSMISSION OF KNOWLEDGE)
-
-     [[}]]
+                                           [[}]]
 
   .... this is the end of the introduction ...
   Now follows the tests used to implement the TXT WD.
 
-  [[{KEY-POINT]]
-  TESTS MAP ONE-TO-ONE TO DOCUMENTATION:
-    ▸ By reading the tests you can learn how to write txt files
-      compatible with the TXT World Domination Project.
-    ▸ By documenting the tests we (developers) can have up-to-date
-      documentation for users in a single place.
-  [[}]]
-
-● Syntax Basic Rules:
+# Syntax Basic Rules:
   - The TXT engine searchs for instructions codified along the normal
     text in the file. To do so, the next delimiters are used
     to "scape" or distingüish the instructions from normal text.
@@ -264,8 +246,8 @@
 
 
 
-                                             TEST:
-  • [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
+## TEST: dimensions and coordinates
+    [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
     │ topic01.1 │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
     │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks declatarions must work properly.
     │ topic01.1 └ topic01.2 [[}]]               · Termination of blocks must work properly.
@@ -274,21 +256,22 @@
                                                   must be displayed
 
 
-  • [[{ topic01.1 ]]
+    [[{ topic01.1 ]]
       │        [[{ topic01.2]]                topic01.1 belongs to level 1 block.
       │          │        [[{ topic01.3]]     topic01.2 belongs to level 1 and 2 blocks.
       │ topic01.1 │ topic01.2 │ topic01.3       topic01.3 belongs to level 1, 2 and 3:
       │ topic01.1 │ topic01.2 └ topic01.3       TEST: Select topic01.3 in menu. Level 3 block
       │ topic01.1 │ topic01.2 [[}]]                  must be displayed.
-      │ topic01.1 └ [[}]]                     TEST: Select match parent-blocks up to 1
-      │ topic01.1                                   level 2 and 3 block must be displayed.
-      │ topic01.1                             TEST: Select match parent-blocks up to 2
-      └ [[}]]                                      level 1, 2 and 3 block must be displayed.
+      │ topic01.1 └ [[}]]                       TEST: Select match parent-blocks up to 1
+      │ topic01.1                                     level 2 and 3 block must be displayed.
+      │ topic01.1                               TEST: Select match parent-blocks up to 2
+      └ [[}]]                                        level 1, 2 and 3 block must be displayed.
 
   ┌─[[{topic02. 1.]]  <- TEST: must be parsed as topic02.1
   └─[[}]]                     ignoring whitespaces and final dots(TODO:fix)
 
-● ┌─[[{topic03]]       topic03.1      <- TEST: selected topic03 must also de/select
+## TEST subdimensions
+  ┌─[[{topic03]]       topic03.1      <- TEST: selected topic03 must also de/select
   └─[[}]]              topic03.1               topic03.*
   ┌─[[{topic03.1]]     topic03.1      <- TEST: selected topic03.1 must also de/select
   └─[[}]]              topic03.1               topic03.1.*
@@ -299,16 +282,16 @@
   ┌─ [[{topic03.2]]    topic03.2
   └─ [[}]]             topic03.2
 
-● Avoiding clonflicts with Shell-script syntax:
+## TEST: Avoiding clonflicts with Shell-script syntax:
   [[{forbidden_topic.$}]]            <- TEST: topics including '$' character must be ignored
   [[{$forbidden_topic} ]]               to avoid synxtax conflicts with shell conditional-expressions
   [[{forbidden_topic $}]]               if [[ ... ${SOME_VARIABLE} ... ]]
      └──────┬────────┘
             └ those topics must not appear in topics menu.
 
-● grep regex '*grep.*gex' must display this line.
+## TEST: grep regex search '*grep.*gex' must display this line.
 
-● Unicode and AsciiArt by extension must display properly
+## TEST: Unicode and AsciiArt by extension must display properly
   (blame OS of if it doesn't).
   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒
   │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃
@@ -322,11 +305,12 @@
   ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
   ╚═╩═╝  ╙──╨──╜ ╘══╧══╛ ⎭ ⎩  ⎭
 
-● topic0, topic5 outside any block and must not           [[topic0,topic5]]
-  be displayed in topics menu.
+## topic0, topic5 outside any block and must NOT be displayed [[topic0,topic5]]
+   in topics menu.
 
 --------------------------------------------
 
+## TEST: Internal Links:
  #[internalLink1] must link here.
  ^              ^
  └──────────────┴ - width of original text must not change when replaced by
@@ -360,9 +344,9 @@
 
 ═ TESTS END } ══════════════════════════════════════════════════════════════════
 
- Enougth with Testing. Time for ...             #[txt_world_domination_ammunition]
+ ENOUGTH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
-   TXT World Domination Tools !!!
+# TXT World Domination Tools !!!
 
     World Domination Tools !!!
 
@@ -374,6 +358,7 @@
 
                   Ah Ah Ah Ah Ah Ahhhh !!!! >:Ḑ-+-<
 
+## TXT Diagrams
 ┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
 │  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
 │  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
@@ -402,6 +387,7 @@
 └──────────────────────────────────────────────────────────────────────────────┘[[}]]
 
 
+## Asciiflow: Box-like drawing with TXT
 ┌ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) ─────────────────────┐[[{]]
 │         ┌───────┐    ┌──────┐     IO PORTS   [[02_doc_has.diagram]]          │
 │         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐  [[02_doc_has.UML.component]]    │
@@ -418,13 +404,14 @@
 │   └──────┴───────┴──┴─────────┴──┴─────────┘                                 │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
-
+## CSVkit: TXT as database
 ┌ @[https://csvkit.readthedocs.io/en/latest/] ─────────────────────────────────┐ [[{]]]
 │  ·Convert from/to CSV/Excel/SQL-DDBB.      [[tool.desktop,02_doc_has.CSV]]]  │
 │  ·Query CSV using SQL.                                                       │
 │  ·No-code statistics on CSV data.                                            │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
+## GNU Text Utils: Standard TXT utilities in Linux/MacOSX
 ┌ @[http://gnu.ist.utl.pt/software/textutils/textutils.html] ──────────────────┐ [[{tool.desktop]]]
 │  sort     : sort lines of text files                                         │
 │  tsort    : perform topological sort                                         │
@@ -435,12 +422,14 @@
 │  ...                                                                         │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
+## ASCiinema: TXT Video recording
 ┌ @[https://asciinema.org/] ASCII VIDEO ───────────────────────────────────────┐ [[{]]
 │ Record+share terminal sessions, the simple way.                              │ [[tool.desktop,tool.online]]
 │ Enjoy a lightweight, purely text-based approach to terminal recording.       │ [[security.audit]]
 │ Example: @[https://asciinema.org/a/421164]                                   │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
+## Vim Editor: The Kint of Text:
 ┌─ vim: Then King of text ─────────────────────────────────────────────────────┐ [[{tool.desktop]]
 │ · Use Ctrl + V for visual block mode ("Paint mode")                          │
 │ · Pass selected text as STDIN to external txt-command and                    │
@@ -459,6 +448,7 @@
 │                         work.                                                │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
+## GNU Core Utils: Txt standard formating tools in Linux/MacOSX
 ┌─ https://www.gnu.org/software/coreutils/ ────────────────────────────────────┐ [[{tool.desktop]]
 │ · fold: Wrap input lines to fit in specified width                           │
 │ · fmt : Reformat paragraph text                                              │
@@ -466,13 +456,14 @@
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
 
-
+## TXT Bullets
 ┌─────────────────────────────────────────┐    [[{02_doc_has.bullets]]
 │ Bullets   : · • ● ✓ ✕ ◆ ◇               │
 │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
 │ SuperIndex: ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁱⁿ           │
 └─────────────────────────────────────────┘
 
+## TXT Arrows
  ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐
  │ ← ↑ → ↓   ⇠ ⇡ ⇢ ⇣   ↖ ↗ ⇖ ⇗   ↱ ↰   ↴   ◀ ▲ ▶ ▼       │
  │ ⇇ ⇈ ⇉ ⇊   ⇽   ⇾     ↙ ↘ ⇙ ⇘   ↳ ↲   ↵   ◁ △ ▷ ▽       │
@@ -481,6 +472,7 @@
  │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
  └───────────────────────────────────────────────────────┘                       [[}]]
 
+## TXT UML
  ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{02_doc_has.UML,02_doc_has.template]]
  │  ┌────────────┐   message      ↑ dependency  |              │
  │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
@@ -514,6 +506,7 @@
  │ └────────┘          └──────────┘  "IS A" inheritance.       │
  └─────────────────────────────────────────────────────────────┘ [[}]]
 
+## TXT BPMN: (Use Vim block-mode -Ctrl+v- to edit them)
 #[BPMN]
  ┌─ BPMN (Business Process Management Network) ────────────────────────────────────────┐
  │ See also: https://github.com/bpmn-io/bpmn-font/tree/master/dist/font                │
@@ -534,6 +527,8 @@
  │  └─┴────────────────────────────────────────┘│                  │        ▾         ││
  │                                              │                  │       YES        ││
  └─────────────────────────────────────────────────────────────────────────────────────┘
+
+## TXT Geometric symbols:
  ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
  │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│
  │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │
@@ -555,8 +550,8 @@
   └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚   └ ...           ╲╱   ╲ ╱   ╲ ╱
   └╴──┴─────╶┘                                         •     ▾
 
- #[math_symbols]
-┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐
+## TXT Math symbols:
+┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐ #[math_symbols]
 │ @[https://www.unicode.org/charts/PDF/U2200.pdf]                          │
 │ ● ORDER RELATIONS             ● LOGICAL OPs                              │
 │   ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                            │
@@ -641,7 +636,7 @@
  Time for Fun and Celebration!!  #[txt_world_domination_celebration]
 
 
-
+# TXT GAMES!!!
 
 ┌─ @[http://fph.altervista.org/prog/bastet.html] ──────────────────────────┐ [[{games.tetris]]
 │ Tetrisfy your TXT enemies with this Tetris clone for terminals.          │
