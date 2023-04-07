@@ -63,13 +63,19 @@ class ControlPanel extends Component {
 
       document.querySelectorAll(".h_anchor").forEach( anchorEl => {
         if (["H1","H2"].indexOf(anchorEl.tagName)>=0) {
-           const A = anchorEl.cloneNode(true)
-           A.classList=[anchorEl.tagName]
-           A.innerText = anchorEl.innerText
-console.log(A.innerText)
-           idxTable.append(A)
+           const H = anchorEl.cloneNode(true)
+           H.classList=[anchorEl.tagName]
+           H.innerText = anchorEl.innerText
+           const A = document.createElement("A");
+                 A.setAttribute("href", "#"+H.id);
+                 A.innerHTML = H.innerHTML
+           H.id = ""
+           H.innerHTML = ""
+           H.append(A)
+           idxTable.append(H)
         }
       })
+console.log(idxTable)
     }
 
     showSubMenu = () => {
@@ -271,7 +277,7 @@ console.log(A.innerText)
                </pre>
              `
           }
-          <pre id="idTableIndex" style="display:${this.state.showIndex?"":"none"}" size=s2></pre>
+          <div id="idTableIndex" style="display:${this.state.showIndex?"":"none"}" size=s2></div>
           </div>
           <div id="fixedMenu">
             <span id="grepMenu">

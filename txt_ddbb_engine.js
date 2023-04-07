@@ -199,7 +199,7 @@ class TXTDBEngine {
       const base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
-      this.file_ext         = url_txt_source.split(".").pop().toUpperCase()
+      this.file_ext_upper   = url_txt_source.split(".").pop().toUpperCase()
       this.url_txt_source   = url_txt_source.startsWith("http")
                               ? new URL(url_txt_source)
                               : new URL(`${base_url}/${url_txt_source}`)
@@ -211,75 +211,20 @@ class TXTDBEngine {
 
     async init( bShowLineNum ) {
       let payload = await this.fetchPayload(this.url_txt_source.href);
-      const doTxtPreProcessingMarkDown = (input) => {
-      //return window.markdown.parse(input,
-      //  {   parseFlags: 0
-      //    | window.markdown.ParseFlags.MD_FLAG_TABLES
-      //  } )
-      //  .replaceAll("<p>","")
-      //  .replaceAll("</p>","")
-        return parseMD2HTML(input)
-      }
-      // let html = markdown.parse(source, {
-      //       parseFlags: markdown.ParseFlags.DEFAULT | markdown.ParseFlags.NO_HTML,
-      //     })
       const doTxtPreProcessingTXT = (input) => {
-         /*
-          * apply simple utility-like replacements (convert @[...] to HTML links,
-          * scape < chars , ... that in general will apply to any type of txt content.
-          * Other custom (future) transformations will apply for selected blocks
-          * (markdown, csv-to-table, ..) using some custom filter.
-          */
          let H = input
          // NEXT) replace html scape chars
          H = H.replaceAll('<','&lt;')
               .replaceAll('>','&gt;')
-
-         // NEXT) replace anchors link
-         H = H.replace(
-             /[#]\[([^\]]*)\]/g,
-             "◆<span id='$1'>#$1</span>◆")
-
-         // NEXT) replace relative/absolute external links.
-         // TODO: Improve relative handling. There can be:
-         //       links to unrelated to viewer content (normal case)
-         //       links indicating viewer to reload current content
-         //       -non-standard links that jut the viewer will understand.
-         H = H.replace(
-             /@\[((http|[.][/]).?[^\]\n]*)\]/g,
-             " ▶<a target='_blank' href='$1'>$1</a>◀")
-
-         // NEXT) replace internal link
-         H = H.replace(
-             /@\[(#[^\]\n]*)\]/g,
-             " ▷<a onClick='window.scrollInto(\"$1\")'>$1</a>◁")
-
-         // NEXT) Replace External absolute URL images: i[http://.../test.svg|width=3em]
-         H = H.replace(
-           /i\[((http).?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
-           "<img src='$1' style='$2' />")
-         // NEXT) Replace External relative URL images: i[./test.svg|width=3em]
-         //       Note that relative images are relative to txt document
-         //       (vs html viewer)
-         H = H.replace(
-           /i\[((\.\/)?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
-           "<img src='"+this.relative_path+"/$1' style='$2' />")
-
-
-         // NEXT) Add style to topic blocks
-         H = H.replace(
-             /(\[\[[^\]\n]*\]\])/g,
-             "<span class='txtblock'>$1</span>")
-
-         return H
       }
-      this.cachePayload     = this.file_ext == "MD"  // TODO:(qa) Cache just source URL???
-                              ? doTxtPreProcessingMarkDown(
-                                  doTxtPreProcessingTXT(
-                                                           payload
-                                  )
-                                )
-                              : doTxtPreProcessingTXT(payload) // TODO:(qa) Cache just source URL???
+      this.cachePayload     =  // TODO:(qa) Cache just source URL???
+                              parseMD2HTML(
+                                   this.file_ext_upper == "TXT" 
+				      ? doTxtPreProcessingTXT(payload)
+				      : payload
+                                   ,
+				   this.relative_path
+                                );
       this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
       this.rowN             = this.immutableDDBB.length-1;
       const padding         = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
