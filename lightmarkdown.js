@@ -1,8 +1,52 @@
 // https://codepen.io/kvendrik/pen/bGKeEE
-function parseMD2HTML(md){
+
+const doMarkdownTXTExtension = (input, relative_path) => {
+  let H = input
+  // NEXT) replace anchors link
+  H = H.replace(
+      /[#]\[([^\]]*)\]/g,
+      "◆<span id='$1'>#$1</span>◆")
+
+  // NEXT) replace relative/absolute external links.
+  // TODO: Improve relative handling. There can be:
+  //       links to unrelated to viewer content (normal case)
+  //       links indicating viewer to reload current content
+  //       -non-standard links that jut the viewer will understand.
+  H = H.replace(
+      /@\[((http|[.][/]).?[^\]\n]*)\]/g,
+      " ▶<a target='_blank' href='$1'>$1</a>◀")
+
+  // NEXT) replace internal link
+  H = H.replace(
+      /@\[(#[^\]\n]*)\]/g,
+      " ▷<a onClick='window.scrollInto(\"$1\")'>$1</a>◁")
+
+  // NEXT) Replace External absolute URL images: i[http://.../test.svg|width=3em]
+  H = H.replace(
+    /i\[((http).?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
+    "<img src='$1' style='$2' />")
+  // NEXT) Replace External relative URL images: i[./test.svg|width=3em]
+  //       Note that relative images are relative to txt document
+  //       (vs html viewer)
+  H = H.replace(
+    /i\[((\.\/)?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
+    "<img src='"+relative_path+"/$1' style='$2' />")
+
+
+  // NEXT) Add style to topic blocks
+  H = H.replace(
+      /(\[\[[^\]\n]*\]\])/g,
+      "<span class='txtblock'>$1</span>")
+
+  return H
+}
+
+
+
+let debug_n=1;
+function parseMD2HTML(md, relative_path){
 
   const funReplaceList = function(match) {
-    console.debug(`match: ${match}`);
     return match
   }
   if (false) {
@@ -16,10 +60,13 @@ function parseMD2HTML(md){
     const ulEnd   = "(^$\n)?"
 //  const sULregex = ulStart + intTerm + ulEnd
     const sULregex = ulStart + intTerm + ulEnd
-console.log(sULregex)
+// console.log(sULregex)
     const ulRegex = new RegExp(sULregex, 'gm');
     md = md.replace(ulRegex, funReplaceList);
   }
+
+  const CLEAN_BUILD_ID_REGEX_0=new RegExp('\\[\\[([^\\[])*\\]\\]',"g");
+  const CLEAN_BUILD_ID_REGEX_1=new RegExp('[^",a-z\,A-Z,0-9,_,\']', 'g');
 
   //h
   const funReplaceHeader = function(match, m1){
@@ -34,11 +81,17 @@ console.log(sULregex)
               : ""
     if (tag === "") return match
 
-    const id=match.replace(new RegExp('[^a-zA-Z0-9_\']', 'g'), '');
-    const result = `<${tag} class='h_anchor' id='${id}'>${m1.trim()}</${tag}>`;
-if (id == "EVM") {
-    console.log(result)
+    const id=match
+		  .replace(CLEAN_BUILD_ID_REGEX_0, '')
+		  .replace(CLEAN_BUILD_ID_REGEX_1, '')
+		  .replaceAll('"', '') // for some weird reason '"' is not replaced by regex.
+if (match.indexOf('[[')>=0) {
+//  console.log(`${debug_n}: m1:${m1}`);
+  console.log(`${debug_n}: match:${match}`);
+  console.log(`${debug_n}: id:${id}`);
 }
+debug_n=debug_n+1;
+    const result = `<${tag} class='h_anchor' id='${id}'>${m1.trim()}</${tag}><br/>\n`;
     return result
   }
 
@@ -60,6 +113,9 @@ if (id == "EVM") {
   md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>  $1  </b>');
   md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '  <del>$1</del>  ');
 
+  if (true) { // Apply custom markdown extension
+    return doMarkdownTXTExtension(md, relative_path)
+  }
   return md;
 
 }
