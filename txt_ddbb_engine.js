@@ -119,7 +119,6 @@ class TXTDBEngine {
           (() => { div1.insertAdjacentHTML('afterend', html) }),
           60*1000 /* log every min */
         );
-//      const div1 = document.getElementById('printButton');
       }
       )()
 
@@ -195,11 +194,11 @@ class TXTDBEngine {
    // console.dir(this.topicsDB._db)
     }
 
-    constructor( url_txt_source ) {
+    constructor( url_txt_source, file_ext_upper ) {
       const base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
-      this.file_ext_upper   = url_txt_source.split(".").pop().toUpperCase()
+      this.file_ext_upper   = file_ext_upper
       this.url_txt_source   = url_txt_source.startsWith("http")
                               ? new URL(url_txt_source)
                               : new URL(`${base_url}/${url_txt_source}`)
@@ -209,37 +208,47 @@ class TXTDBEngine {
       this.topicsDB         = new TopicBlockDB();
     }
 
-    async init( bShowLineNum ) {
+    async init( UIOptionShowLineNum ) {
       let payload = await this.fetchPayload(this.url_txt_source.href);
-      const doTxtPreProcessingTXT = (input) => {
-         let H = input
-         // NEXT) replace html scape chars
-         H = H.replaceAll('<','&lt;')
-              .replaceAll('>','&gt;')
+      const CACHE_PAYLOAD = parseMD2HTML( // TODO:(document) No native HTML allowed 
+                payload     //      since '<'... '>' is always replaced.
+                  .replaceAll('<','&lt;')
+                  .replaceAll('>','&gt;')
+                ,
+                  this.relative_path
+            );
+      const VIEW_PADDING = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
+      const view_lpad    = function(value, VIEW_PADDING) {
+        // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
+        var zeroes = new Array(VIEW_PADDING+1).join("0");
+        return (zeroes + value).slice(-VIEW_PADDING);
       }
-      this.cachePayload     =  // TODO:(qa) Cache just source URL???
-                              parseMD2HTML(
-                                   this.file_ext_upper == "TXT" 
-				      ? doTxtPreProcessingTXT(payload)
-				      : payload
-                                   ,
-				   this.relative_path
-                                );
-      this.immutableDDBB    = this.cachePayload.split("\n").map(row => row.replace(/$/,'\n') );
-      this.rowN             = this.immutableDDBB.length-1;
-      const padding         = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
 
-      if (bShowLineNum) {
-        const lpad = function(value, padding) {
-          // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
-          var zeroes = new Array(padding+1).join("0");
-          return (zeroes + value).slice(-padding);
-        }
-        for (let idx=0; idx<this.rowN; idx++) {
-            this.immutableDDBB[idx] = "<span class='ln'>"+lpad(idx+1, padding)+"</span>" + this.immutableDDBB[idx];
-        }
-      }
-      this.cacheResult      =  this.immutableDDBB.join("");
+      /* 
+       *  this.immutableDDBB looks like:
+       *  index (== line number)  | string
+       *  0                       | ..... [[{topic1]]
+       *  1                       | ...
+       *  ...                     | ...
+       *  100                     | ...   [[topic1}]]
+       *  ^^^^
+       *  block topic1 will have index 0 as start and index 100 as end.
+       */
+      let idx=0;
+      this.immutableDDBB    = CACHE_PAYLOAD.split("\n").map(
+         (row) => {
+           const rowN = row.replace(/$/,'\n');
+           /* NOTE: row + "\n" will create internally 
+            * a string formed by a list of 2 elements
+            * while row.replace will create a final 
+            * single element with \n added. */
+         return UIOptionShowLineNum 
+         ? `<span class='ln'>${view_lpad(++idx, VIEW_PADDING)} </span>${rowN}`
+         : rowN
+     }
+      );
+      this.rowN             = this.immutableDDBB.length-1;
+      this.cacheResult      =  this.immutableDDBB.join(""); 
       this.buildTopicsDB()
     }
 
