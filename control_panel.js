@@ -292,8 +292,9 @@ console.log(idxTable)
              ${this.lpad(this.state.grep[0].after,2)}
              <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
              <span> </span>
-             <span onClick=${ (e) => this.switchShowLineNum() }
-               class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>
+             ${ this.file_ext_upper == "TXT" && 
+             html`<span onClick=${ (e) => this.switchShowLineNum() }
+               class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>`}
             </span>
           ${ html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
           ${ html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } >∷</span> ` }
