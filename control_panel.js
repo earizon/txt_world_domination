@@ -156,10 +156,9 @@ console.log(idxTable)
 
     constructor({ url_txt_source }) {
       super({ url_txt_source });
-   // const aux = url_txt_source.lastIndexOf("..")>0
-   // window.document.title = aux>=0 ? url_txt_source.substring(aux+3) : url_txt_source
       window.document.title = url_txt_source.split("/").pop()
-      this.txtDBEngine = new TXTDBEngine(url_txt_source);
+      this.file_ext_upper   = url_txt_source.split(".").pop().toUpperCase()
+      this.txtDBEngine = new TXTDBEngine(url_txt_source, this.file_ext_upper);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
       this.state.settings_font = 1;
@@ -168,7 +167,10 @@ console.log(idxTable)
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 2;
       this.state.settings_showbaseline = false;
-      this.state.settings_linebreak = true;
+      this.state.settings_linebreak = true; // default for Markdown
+      if (this.file_ext_upper == "TXT" && this.state.settings_linebreak ) {
+	setTimeout(() => { this.switchLineBreak(); }, 1000);
+      }
       this.state.showSettings = true;
       ControlPanel.thisPtr = this;
     }
