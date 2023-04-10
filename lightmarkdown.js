@@ -90,17 +90,16 @@ if (match.indexOf('[[')>=0) {
   console.log(`${debug_n}: match:${match}`);
   console.log(`${debug_n}: id:${id}`);
 }
-debug_n=debug_n+1;
-    const result = `<${tag} class='h_anchor' id='${id}'>${m1.trim()}</${tag}><br/>\n`;
+    const result = `<${tag} class='h_anchor' id='${id}'>${m1.trim()}</${tag}>\n`;
     return result
   }
 
-  md = md.replace(/[\#]{6}[ ](.+)/g, funReplaceHeader);
-  md = md.replace(/[\#]{5}[ ](.+)/g, funReplaceHeader);
-  md = md.replace(/[\#]{4}[ ](.+)/g, funReplaceHeader);
-  md = md.replace(/[\#]{3}[ ](.+)/g, funReplaceHeader);
-  md = md.replace(/[\#]{2}[ ](.+)/g, funReplaceHeader);
-  md = md.replace(/[\#]{1}[ ](.+)/g, funReplaceHeader);
+  md = md.replace(/^[\#]{6}[ ](.+)/mg, funReplaceHeader);
+  md = md.replace(/^[\#]{5}[ ](.+)/mg, funReplaceHeader);
+  md = md.replace(/^[\#]{4}[ ](.+)/mg, funReplaceHeader);
+  md = md.replace(/^[\#]{3}[ ](.+)/mg, funReplaceHeader);
+  md = md.replace(/^[\#]{2}[ ](.+)/mg, funReplaceHeader);
+  md = md.replace(/^[\#]{1}[ ](.+)/mg, funReplaceHeader);
 
 
   //images
