@@ -16,7 +16,8 @@ h1 {
   display: block;
   width: 95%;
 }
-#dbEngineOutput > h1 {
+/* #dbEngineOutput > h1 { */
+                     h1 { */
   border-bottom: 1px solid black;
 }
 
@@ -273,7 +274,8 @@ body {
 #idTableIndex > a {
   display: block;
 }
-#idTableIndex > h1 {
+#idTableIndex > h1,h2,h3,h4,h5,h6 {
+  margin: 0.1em;
 }
 #idTableIndex > h2 {
   padding-left: 2em;
@@ -329,6 +331,16 @@ input:not(:placeholder-shown) { color: white; background-color: black; }
 .txtblock {
   background-color: black;
   color: white;
+}
+
+
+a /*, a:link, a:visited, a:hover, a:active */ {
+  text-decoration: initial;
+  color: blue;
+}
+h1 > a {
+  text-decoration: underline;
+  color: green;
 }
 </style>
 <script src="./markdown.js"></script>
