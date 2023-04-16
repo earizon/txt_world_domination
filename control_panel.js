@@ -37,13 +37,14 @@ class Topic extends Component {
 }
 
 class ControlPanel extends Component {
-
     static thisPtr;
     menuSize2Icon = {
       1 : "▾▹▵",
       2 : "▿▸▵",
       3 : "▿▹▴",
     }
+
+    static topicToRemoveRegex = /\[\[[^\]]*\]\]/g
 
     state = {
       timerDoFind      : 0,
@@ -56,6 +57,7 @@ class ControlPanel extends Component {
       TC_id_selected   : { /*topic coord.id selected: bool*/ }
     }
 
+    const
     refreshIndexTableAsHTML = (newState) => {
       const idxTable=document.getElementById("idTableIndex")
       idxTable.innerText = "";
@@ -68,7 +70,7 @@ class ControlPanel extends Component {
            H.innerText = anchorEl.innerText
            const A = document.createElement("A");
                  A.setAttribute("href", "#"+H.id);
-                 A.innerHTML = H.innerHTML
+                 A.innerHTML = H.innerHTML.replaceAll(ControlPanel.topicToRemoveRegex,"")
            H.id = ""
            H.innerHTML = ""
            H.append(A)
@@ -292,7 +294,7 @@ console.log(idxTable)
              ${this.lpad(this.state.grep[0].after,2)}
              <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
              <span> </span>
-             ${ this.file_ext_upper == "TXT" && 
+             ${ this.file_ext_upper == "TXT" &&
              html`<span onClick=${ (e) => this.switchShowLineNum() }
                class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>`}
             </span>
