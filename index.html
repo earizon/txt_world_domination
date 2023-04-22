@@ -31,6 +31,7 @@ const doTextPreProcessing = function () {
 
    // 2nd) replace relative (to page) link
    H = H.replace(/@\[([^\]]*)\]/g," ▷<a target='_new' href='$1'>$1</a>◁")
+   H = H.replace(/\[([^\]]*)*\][(]([^)]*)[)]/g,"<a target='_new' href='$2'>$1</a>")
    N.innerHTML = H
 }
 window.addEventListener('load', doTextPreProcessing )
@@ -43,19 +44,12 @@ window.addEventListener('load', doTextPreProcessing )
 
 ──────────── Notes on Real topics ────────────────────
 ● Web Technologies Notes:
- @[./viewer.html?payload=../WebTechnologies/notes.txt]
- @[./viewer.html?payload=../WebTechnologies/react.txt]
- @[./viewer.html?payload=../WebTechnologies/preact.txt]
- @[./viewer.html?payload=../WebTechnologies/angular.txt]
- @[./viewer.html?payload=../WebTechnologies/CSS.txt]
- @[./viewer.html?payload=../WebTechnologies/gRPC.txt]
- @[./viewer.html?payload=../WebTechnologies/javascript.txt]
- @[./viewer.html?payload=../WebTechnologies/typescript.txt]
- @[./viewer.html?payload=../WebTechnologies/javascript_alternatives.txt]
- @[./viewer.html?payload=../WebTechnologies/javascript_binary_data.txt]
- @[./viewer.html?payload=../WebTechnologies/javascript_PWA.txt]
- @[./viewer.html?payload=../WebTechnologies/javascript_testing.txt]
- @[./viewer.html?payload=../WebTechnologies/nativescript.txt]
+ [All of JS](./viewer.html?payload=../WebTechnologies/javascript.payload):
+     [JS](./viewer.html?payload=../WebTechnologies/javascript.txt)  [testing](./viewer.html?payload=../WebTechnologies/javascript_testing.txt)  [bundlers](./viewer.html?payload=../WebTechnologies/bundlers.txt)  [nodejs](./viewer.html?payload=../WebTechnologies/nodejs.txt)  [NativeScript](./viewer.html?payload=../WebTechnologies/nativescript.txt)
+     [JS Alternatives](./viewer.html?payload=../WebTechnologies/javascript_alternatives.txt) [JS Bin Data](./viewer.html?payload=../WebTechnologies/javascript_binary_data.txt)  [PWA](./viewer.html?payload=../WebTechnologies/javascript_PWA.txt) [Typescript](./viewer.html?payload=../WebTechnologies/typescript.txt)
+ [notes](./viewer.html?payload=../WebTechnologies/notes.txt)
+ UI Frameworks: [react](./viewer.html?payload=../WebTechnologies/react.txt) [preact](./viewer.html?payload=../WebTechnologies/preact.txt) [angular](./viewer.html?payload=../WebTechnologies/angular.txt)
+ [CSS](./viewer.html?payload=../WebTechnologies/CSS.txt) [gRPC](./viewer.html?payload=../WebTechnologies/gRPC.txt)
 
 ● AWS Notes:
  @[./viewer.html?payload=../AWS/notes.txt]
