@@ -156,11 +156,16 @@ console.log(idxTable)
         this.execSearch();
     }
 
-    constructor({ url_txt_source }) {
-      super({ url_txt_source });
-      window.document.title = url_txt_source.split("/").pop()
-      this.file_ext_upper   = url_txt_source.split(".").pop().toUpperCase()
-      this.txtDBEngine = new TXTDBEngine(url_txt_source, this.file_ext_upper);
+    constructor({ url_txt_source_csv }) {
+      super({ url_txt_source_csv });
+      window.document.title = url_txt_source_csv.split(",")
+                              .map(URL => {
+                                URL.split("/").pop().replaceAll(/[.][^.]*$/g,"")
+                              })).join(" ")
+      // Arbitrarely we take last file for in CSV list for file extension
+      // TODO:(0) Improve
+      this.file_ext_upper   = url_txt_source_csv.split(".").pop().toUpperCase()
+      this.txtDBEngine = new TXTDBEngine(url_txt_source_csv, this.file_ext_upper);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
       this.state.settings_font = 1;

@@ -119,8 +119,7 @@ class TXTDBEngine {
           (() => { div1.insertAdjacentHTML('afterend', html) }),
           60*1000 /* log every min */
         );
-      }
-      )()
+      } )()
 
       return new Promise( (resolve,reject) => {
         xhr.open('GET', url, true);
@@ -194,29 +193,38 @@ class TXTDBEngine {
    // console.dir(this.topicsDB._db)
     }
 
-    constructor( url_txt_source, file_ext_upper ) {
+    constructor( url_txt_source_csv, file_ext_upper ) {
       const base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
       this.file_ext_upper   = file_ext_upper
-      this.url_txt_source   = url_txt_source.startsWith("http")
-                              ? new URL(url_txt_source)
-                              : new URL(`${base_url}/${url_txt_source}`)
-      this.relative_path    = ( this.url_txt_source.href
-                               .replace(this.url_txt_source.search,"")
-                               .replace(/[/][^/]*[?]?$/,"") )
+      this.url_txt_source_l = url_txt_source_csv.split(",")
+                              .map( (url_txt_source) =>
+                                     url_txt_source.startsWith("http")
+                                   ? new URL(url_txt_source)
+                                   : new URL(`${base_url}/${url_txt_source}`)
+                              )
+      this.relative_path_l = this.url_txt_source_l
+                             .map( (url_txt_source) => {
+                                 url_txt_source.href
+                                 .replace(url_txt_source.search,"")
+                                 .replace(/[/][^/]*[?]?$/,"")
+                               } )
       this.topicsDB         = new TopicBlockDB();
     }
 
     async init( UIOptionShowLineNum ) {
-      let payload = await this.fetchPayload(this.url_txt_source.href);
-      const CACHE_PAYLOAD = parseMD2HTML( // TODO:(document) No native HTML allowed 
-                payload     //      since '<'... '>' is always replaced.
-                  .replaceAll('<','&lt;')
-                  .replaceAll('>','&gt;')
-                ,
-                  this.relative_path
-            );
+// await Promise.all(posts.map( (post) => Card.render(post)).join('\n '))
+      this.url_txt_source_l
+      const CACHE_PAYLOAD_L =
+        ( await Promise.all(this.url_txt_source_l
+          .map( async (url_txt_source) => {
+            const payload = await this.fetchPayload(url_txt_source.href);
+            const CACHE_PAYLOAD = parseMD2HTML( payload , this.relative_path );
+            return CACHE_PAYLOAD
+          } )) ).join(" ---- new file ------")
+
+
       const VIEW_PADDING = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
       const view_lpad    = function(value, VIEW_PADDING) {
         // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
@@ -224,7 +232,7 @@ class TXTDBEngine {
         return (zeroes + value).slice(-VIEW_PADDING);
       }
 
-      /* 
+      /*
        *  this.immutableDDBB looks like:
        *  index (== line number)  | string
        *  0                       | ..... [[{topic1]]
@@ -235,20 +243,20 @@ class TXTDBEngine {
        *  block topic1 will have index 0 as start and index 100 as end.
        */
       let idx=0;
-      this.immutableDDBB    = CACHE_PAYLOAD.split("\n").map(
+      this.immutableDDBB    = CACHE_PAYLOAD_L.split("\n").map(
          (row) => {
            const rowN = row.replace(/$/,'\n');
-           /* NOTE: row + "\n" will create internally 
+           /* NOTE: row + "\n" will create internally
             * a string formed by a list of 2 elements
-            * while row.replace will create a final 
+            * while row.replace will create a final
             * single element with \n added. */
-         return UIOptionShowLineNum 
+         return UIOptionShowLineNum
          ? `<span class='ln'>${view_lpad(++idx, VIEW_PADDING)} </span>${rowN}`
          : rowN
      }
       );
       this.rowN             = this.immutableDDBB.length-1;
-      this.cacheResult      =  this.immutableDDBB.join(""); 
+      this.cacheResult      =  this.immutableDDBB.join("");
       this.buildTopicsDB()
     }
 

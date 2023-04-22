@@ -45,6 +45,8 @@ const doMarkdownTXTExtension = (input, relative_path) => {
 
 let debug_n=1;
 function parseMD2HTML(md, relative_path){
+  md = md.replaceAll('<','&lt;') // TODO:(document) No native HTML allowed
+         .replaceAll('>','&gt;') //      since '<'... '>' is always replaced.
 
   const funReplaceList = function(match) {
     return match
