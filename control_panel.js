@@ -161,11 +161,11 @@ console.log(idxTable)
       window.document.title = url_txt_source_csv.split(",")
                               .map(URL => {
                                 URL.split("/").pop().replaceAll(/[.][^.]*$/g,"")
-                              })).join(" ")
+                              }).join(" ")
       // Arbitrarely we take last file for in CSV list for file extension
       // TODO:(0) Improve
       this.file_ext_upper   = url_txt_source_csv.split(".").pop().toUpperCase()
-      this.txtDBEngine = new TXTDBEngine(url_txt_source_csv, this.file_ext_upper);
+      this.txtDBEngine = new TXTDBEngine(url_txt_source_csv);
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
       this.state.settings_font = 1;
