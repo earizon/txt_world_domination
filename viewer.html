@@ -362,7 +362,7 @@ const bootstrap = async function () {
   const URLtxtDDBB = getParameterByName('payload')
   window["markdown"].ready.then(markdown => {
     render(
-      html` <${ControlPanel} url_txt_source=${URLtxtDDBB} />`,
+      html` <${ControlPanel} url_txt_source_csv=${URLtxtDDBB} />`,
       document.getElementById("idControlPanel")
     )
   })

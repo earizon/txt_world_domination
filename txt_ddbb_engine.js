@@ -193,29 +193,45 @@ class TXTDBEngine {
    // console.dir(this.topicsDB._db)
     }
 
-    constructor( url_txt_source_csv, file_ext_upper ) {
-      const base_url = document.location.href
+    constructor( url_txt_source_csv ) {
+      this.base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
-      this.file_ext_upper   = file_ext_upper
-      this.url_txt_source_l = url_txt_source_csv.split(",")
-                              .map( (url_txt_source) =>
-                                     url_txt_source.startsWith("http")
-                                   ? new URL(url_txt_source)
-                                   : new URL(`${base_url}/${url_txt_source}`)
-                              )
+      this.topicsDB         = new TopicBlockDB();
+      this.url_txt_source_csv = url_txt_source_csv
+    }
+
+    async init( UIOptionShowLineNum ) {
+      this.url_txt_source_csv = (await Promise.all(
+        this.url_txt_source_csv.split(",")
+        .map(async (url_txt_source) => {
+          if (!url_txt_source.endsWith(".payload")){
+            return url_txt_source
+          } else {
+            // url_txt_source will be like ../../XXXX.payload
+            const base = url_txt_source.split("/").slice(0,-1).join("/")
+            const payload_l = (await this
+                           .fetchPayload(url_txt_source))
+                           .split(/\n/g).filter(line => !!line)
+                           .map(line => `${base}/${line}`)
+             return payload_l
+          }
+        }
+        )
+      )).flat().join(",")
+      this.url_txt_source_l = this.url_txt_source_csv.split(",")
+           .map( (url_txt_source) =>
+                  url_txt_source.startsWith("http")
+                ? new URL(url_txt_source)
+                : new URL(`${this.base_url}/${url_txt_source}`)
+           )
       this.relative_path_l = this.url_txt_source_l
                              .map( (url_txt_source) => {
                                  url_txt_source.href
                                  .replace(url_txt_source.search,"")
                                  .replace(/[/][^/]*[?]?$/,"")
                                } )
-      this.topicsDB         = new TopicBlockDB();
-    }
 
-    async init( UIOptionShowLineNum ) {
-// await Promise.all(posts.map( (post) => Card.render(post)).join('\n '))
-      this.url_txt_source_l
       const CACHE_PAYLOAD_L =
         ( await Promise.all(this.url_txt_source_l
           .map( async (url_txt_source) => {
