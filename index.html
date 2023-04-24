@@ -17,7 +17,7 @@
        url('./source-code-pro/OTF/SourceCodePro-Regular.otf') format('opentype'),
        url('./source-code-pro/TTF/SourceCodePro-Regular.ttf') format('truetype') ;
 }
-pre {
+#id_mainText {
   font-family:'source_code_pro',monospace, console;
   font-size:1em;
 }
@@ -37,89 +37,88 @@ const doTextPreProcessing = function () {
 window.addEventListener('load', doTextPreProcessing )
 </script>
     </head>
-<body on>
-<pre id="id_mainText">
-● TXT World domination Final Battle (with some testing just in case):
+<body>
+
+<div id="id_mainText">
+<h2>TXT World domination Final Battle</h2>
+  (with some testing just in case):
  @[./viewer.html?payload=test.txt]
 
-──────────── Notes on Real topics ────────────────────
-● Web Technologies Notes:
- [All of JS](./viewer.html?payload=../WebTechnologies/javascript.payload):
-     [JS](./viewer.html?payload=../WebTechnologies/javascript.txt)  [testing](./viewer.html?payload=../WebTechnologies/javascript_testing.txt)  [bundlers](./viewer.html?payload=../WebTechnologies/bundlers.txt)  [nodejs](./viewer.html?payload=../WebTechnologies/nodejs.txt)  [NativeScript](./viewer.html?payload=../WebTechnologies/nativescript.txt)
-     [JS Alternatives](./viewer.html?payload=../WebTechnologies/javascript_alternatives.txt) [JS Bin Data](./viewer.html?payload=../WebTechnologies/javascript_binary_data.txt)  [PWA](./viewer.html?payload=../WebTechnologies/javascript_PWA.txt) [Typescript](./viewer.html?payload=../WebTechnologies/typescript.txt)
- [notes](./viewer.html?payload=../WebTechnologies/notes.txt)
- UI Frameworks: [react](./viewer.html?payload=../WebTechnologies/react.txt) [preact](./viewer.html?payload=../WebTechnologies/preact.txt) [angular](./viewer.html?payload=../WebTechnologies/angular.txt)
- [CSS](./viewer.html?payload=../WebTechnologies/CSS.txt) [gRPC](./viewer.html?payload=../WebTechnologies/gRPC.txt)
+<p>
+● Web Technologies Notes<br/>
+[angular](./viewer.html?payload=../WebTechnologies/angular.txt)
+[gRPC](./viewer.html?payload=../WebTechnologies/gRPC.txt)
+[notes](./viewer.html?payload=../WebTechnologies/notes.txt)
+[javascript](./viewer.html?payload=../WebTechnologies/javascript.txt)
+[CSS](./viewer.html?payload=../WebTechnologies/CSS.txt)
+[react](./viewer.html?payload=../WebTechnologies/react.txt)
+[API_management](./viewer.html?payload=../WebTechnologies/API_management.txt)
+</p>
+<hr/>
 
-● AWS Notes:
- @[./viewer.html?payload=../AWS/notes.txt]
+<p>
+● Cloud:
+  [AWS](./viewer.html?payload=../AWS/notes.txt)   [Azure](./viewer.html?payload=../Azure/notes.txt)
+</p>
+<hr/>
 
-● Data Science Notes:
- @[./viewer.html?payload=../DataScience/notes.txt]
+<p>
+● [GOLang_notes](./viewer.html?payload=../GOLang/notes.txt) [vim_plugin](./viewer.html?payload=../GOLang/vim_plugin.txt)
+</p>
+<hr/>
 
-● GOLang Notes:
- @[./viewer.html?payload=../GOLang/notes.txt]
- @[./viewer.html?payload=../GOLang/vim_plugin.txt]
+<p>
+●    JAVA Core:
+    [notes](./viewer.html?payload=../JAVA/notes.txt)
+    [QA&testing](./viewer.html?payload=../JAVA/QA_and_testing.txt)
+    [debug&profiling](./viewer.html?payload=../JAVA/debug_and_profiling.txt)
+    [concurrent_prog](./viewer.html?payload=../JAVA/concurrent_programming.txt)
+    <br/>
+    Frameworks/Libs:
+    [spring](./viewer.html?payload=../JAVA/spring.txt)
+    [Guava](./viewer.html?payload=../JAVA/Google_guava.txt)
+    [persistence](./viewer.html?payload=../JAVA/persistence.txt)
+    [vertx](./viewer.html?payload=../JAVA/vertx.txt)
+    <br/>
+    DevOps: [maven](./viewer.html?payload=../JAVA/maven.txt)
+    [gradle](./viewer.html?payload=../JAVA/gradle.txt)
+</p>
+<hr/>
+<p>
+● Ethereum:
+ [notes](./viewer.html?payload=../ethereum/notes.md)    [marketplaces](./viewer.html?payload=../ethereum/marketplaces.txt)
+</p>
+<hr/>
 
-● JAVA Notes:
- @[./viewer.html?payload=../JAVA/notes.txt]
- @[./viewer.html?payload=../JAVA/QA_and_testing.txt]
- @[./viewer.html?payload=../JAVA/debug_and_profiling.txt]
- @[./viewer.html?payload=../JAVA/concurrent_programming.txt]
- @[./viewer.html?payload=../JAVA/Google_guava.txt]
- @[./viewer.html?payload=../JAVA/persistence.txt]
- @[./viewer.html?payload=../JAVA/vertx.txt]
- @[./viewer.html?payload=../JAVA/maven.txt]
- @[./viewer.html?payload=../JAVA/spring.txt]
- @[./viewer.html?payload=../JAVA/gradle.txt]
+<p>
+●   DevOps [Generic](./viewer.html?payload=../DevOps/notes.txt) (shell, git, containers, backups, monitoring, ...)
+    <br/>
+        [kubernetes](./viewer.html?payload=../kubernetes/kubernetes.txt)
+ [caddy_http_server](./viewer.html?payload=../DevOps/caddy_http_server.txt)
+               [vim](./viewer.html?payload=../DevOps/vim.txt)
+        [PostgreSQL](./viewer.html?payload=../PostgreSQL/notes.txt)
+  <br/>
+    Linux  [generic](./viewer.html?payload=../DevOps/linux.txt)
+           [storage](./viewer.html?payload=../DevOps/linux_storage.txt)
+           [SElinux](./viewer.html?payload=../DevOps/linux_SElinux.txt)
+</p>
+<hr/>
 
-● Kotlin Notes:
- @[./viewer.html?payload=../Kotlin/notes.txt]
-
-● Python Notes:
- @[./viewer.html?payload=../PYTHON/notes.txt]
-
-
-● Cryptography Notes:
- @[./viewer.html?payload=../cryptography/notes.txt]
-
-● Ethereum Notes:
- @[./viewer.html?payload=../ethereum/notes.md]
- @[./viewer.html?payload=../ethereum/marketplaces.txt]
-
-● DevOps Notes:
- @[./viewer.html?payload=../DevOps/notes.txt]
- @[./viewer.html?payload=../DevOps/linux.txt]
- @[./viewer.html?payload=../DevOps/linux_storage.txt]
- @[./viewer.html?payload=../DevOps/linux_SElinux.txt]
- @[./viewer.html?payload=../DevOps/caddy_http_server.txt]
- @[./viewer.html?payload=../DevOps/vim.txt]
- @[./viewer.html?payload=../PostgreSQL/notes.txt]
- @[./viewer.html?payload=../kubernetes/kubernetes.txt]
-
-● C/C++ Notes:
- @[./viewer.html?payload=../CLang/notes.txt]
-
-● IoT notes:
- @[./viewer.html?payload=../IoT/notes.txt]
-
+<p>
 ● Software Architecture:
- @[./viewer.html?payload=../SoftwareArchitecture/decoupled_microservices.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/enterprise_patterns.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/example_architectures.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/graphql.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/IPFS.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/kafka.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/messaging.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/observability.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/storage.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/AAA.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/api_management.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/bigdata.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/cache.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/Cassandra.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/CSV.txt]
- @[./viewer.html?payload=../SoftwareArchitecture/ddbb_engines.txt]
-</pre>
+ [ddbb_engines](./viewer.html?payload=../SoftwareArchitecture/ddbb_engines.txt) [kafka](./viewer.html?payload=../SoftwareArchitecture/kafka.txt)
+</p>
+<hr/>
+<p>
+● Others:
+[Kotlin](./viewer.html?payload=../Kotlin/notes.txt)
+[Python](./viewer.html?payload=../PYTHON/notes.txt)
+[Cryptography](./viewer.html?payload=../cryptography/notes.txt)
+[C/C++](./viewer.html?payload=../CLang/notes.txt)
+[IoT](./viewer.html?payload=../IoT/notes.txt)
+<hr/>
+
+
+</div>
 </body>
 </html>
