@@ -54,6 +54,7 @@ class ControlPanel extends Component {
       grep             : [ { input: "", before: 5, after: 5 } ],
       topicParentDepth : 0,
       showIndex        : false,
+      hideCtrPanel     : true,
       TC_id_selected   : { /*topic coord.id selected: bool*/ }
     }
 
@@ -104,6 +105,13 @@ console.log(idxTable)
         this.setState ( { showSettings: this.state.showSettings  && !newState } );
         this.setState ( { showTopics  : this.state.showTopics && !newState } );
         this.refreshIndexTableAsHTML()
+    }
+    switchCtrPanelView = ()=> {
+        const newState = !this.state.hideCtrPanel;
+        this.setState ( { hideCtrPanel   : newState } );
+        this.setState ( { showSettings   : this.state.showSettings  && newState } );
+        this.setState ( { showTopics     : this.state.showTopics && newState } );
+        this.setState ( { showIndex      : this.state.showIndex  && newState } );
     }
 
     switchTypeWritterFont = ()=> {
@@ -214,7 +222,7 @@ console.log(idxTable)
       this.componentDidMount();
     }
 
-    onTopicCoordOnOff(topicName, TC_id_selected) { // @ma
+    onTopicCoordOnOff(topicName, TC_id_selected) {
       ControlPanel.thisPtr.state.TC_id_selected[topicName] = TC_id_selected;
       ControlPanel.thisPtr.execSearch();
     }
@@ -271,7 +279,7 @@ console.log(idxTable)
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(+1)}>+</span>
                 <br/>
 
-               ${ this.txtDBEngine.topicsDB.getDimensionList() // @ma
+               ${ this.txtDBEngine.topicsDB.getDimensionList()
                   .map( (dimI) => {
                       return html`<${Topic}
                       CP=${this}
@@ -289,24 +297,30 @@ console.log(idxTable)
           <div id="idTableIndex" style="display:${this.state.showIndex?"":"none"}" size=s2></div>
           </div>
           <div id="fixedMenu">
-            <span id="grepMenu">
-            <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',+1)}>+</span>
-            ${this.lpad(this.state.grep[0].before,2)}
-            <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',-1)}>-</span>
-              ▲<input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
-              </input>▼${this.state.after}
-             <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',-1)}>-</span>
-             ${this.lpad(this.state.grep[0].after,2)}
-             <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
-             <span> </span>
-             ${ this.file_ext_upper == "TXT" &&
-             html`<span onClick=${ (e) => this.switchShowLineNum() }
-               class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>`}
-            </span>
-          ${ html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
-          ${ html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } >∷</span> ` }
-          ${ html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } >≣</span>` }
-          </div>
+            ${ this.state.hideCtrPanel == true &&
+            html`
+              <span id="grepMenu">
+              <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',+1)}>+</span>
+              ${this.lpad(this.state.grep[0].before,2)}
+              <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',-1)}>-</span>
+                ▲<input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
+                </input>▼${this.state.after}
+               <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',-1)}>-</span>
+               ${this.lpad(this.state.grep[0].after,2)}
+               <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
+               <span> </span>
+               ${ this.file_ext_upper == "TXT" &&
+               html`<span onClick=${ (e) => this.switchShowLineNum() }
+                 class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>`}
+              </span>` }
+           ${ this.state.hideCtrPanel == true &&
+              html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
+           ${ this.state.hideCtrPanel == true &&
+              html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } >∷</span> ` }
+           ${ this.state.hideCtrPanel == true &&
+              html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } >≣</span>` }
+           ${ html `<span class="button ${this.state.hideCtrPanel?'selected':''}" onClick=${() => this.switchCtrPanelView()} >◂</span>` }
+           </div>
       `);
     }
 }
