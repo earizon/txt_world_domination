@@ -37,13 +37,8 @@ class Topic extends Component {
 }
 
 class ControlPanel extends Component {
+    static isFirstRender = true;
     static thisPtr;
-    menuSize2Icon = {
-      1 : "▾▹▵",
-      2 : "▿▸▵",
-      3 : "▿▹▴",
-    }
-
     static topicToRemoveRegex = /\[\[[^\]]*\]\]/g
 
     state = {
@@ -128,14 +123,12 @@ console.log(idxTable)
             .setAttribute("colorstyle","s"+new_value);
     }
 
-
     switchBackground = ()=> {
         const new_value = this.state.bckg_texture == 4 ? 1 : this.state.bckg_texture+1;
         this.setState ( { bckg_texture : new_value });
         document.getElementById("dbEngineOutput")
             .setAttribute("background","b"+new_value);
     }
-
 
     switchLineHeight = ()=> {
         const new_value = this.state.settings_lineheight == 4 ? 1 : this.state.settings_lineheight+1;
@@ -173,7 +166,7 @@ console.log(idxTable)
       // Arbitrarely we take last file for in CSV list for file extension
       // TODO:(0) Improve
       this.file_ext_upper   = url_txt_source_csv.split(".").pop().toUpperCase()
-      this.txtDBEngine = new TXTDBEngine(url_txt_source_csv);
+      this.txtDBEngine = new TXTDBEngine( url_txt_source_csv );
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
       this.state.settings_font = 1;
@@ -186,7 +179,7 @@ console.log(idxTable)
       if (this.file_ext_upper == "TXT" && this.state.settings_linebreak ) {
 	setTimeout(() => { this.switchLineBreak(); }, 1000);
       }
-      this.state.showSettings = true;
+      // this.state.showSettings = true;
       ControlPanel.thisPtr = this;
     }
 
@@ -207,11 +200,20 @@ console.log(idxTable)
         () => {
           document.getElementById("dbEngineOutput").innerHTML =
                 this.txtDBEngine.grep(this.state.grep[0], this.state.TC_id_selected, this.state.topicParentDepth)
+          if (ControlPanel.isFirstRender) {
+            ControlPanel.isFirstRender = false;
+            setTimeout(this.switchIndexView, 1);
+          }
+          if (this.state.showIndex == true) {
+            this.refreshIndexTableAsHTML()
+          }
         }, 400)
 
     }
 
+
     onGrepRegexChanged = (inputEvent) => {
+      // TODO:(qa) Add timer.
       this.state.grep[0].input = inputEvent.target.value
       this.execSearch()
     }
