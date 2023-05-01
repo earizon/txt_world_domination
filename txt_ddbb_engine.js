@@ -166,12 +166,16 @@ class TXTDBEngine {
     buildTopicsDB() {
       this.docBlock         = new Block ( [0,this.rowN], {}, null )
       const parseCtrlTokens = function (lineIn) {
-        // TODO:(qa) contemplate 2+ [[...]] in single line
-        const idx0 = lineIn.indexOf('[[') ; if (idx0 < 0) return ""
-        const idx1 = lineIn.indexOf(']]') ; if (idx1 < 0) return ""
-        if (idx0 > idx1) return ""
-        return lineIn.substring(idx0+2,idx1).toUpperCase()
-               .replaceAll(" ","");
+        let a=`${lineIn}`
+        let result="";
+        while (a.indexOf("[[")>=0) {
+          a=a.slice(a.indexOf("[[")+2);
+          if (a.indexOf("]]")<0) break
+          result+=a.slice(0,a.indexOf("]]"))
+          a=a.slice(a.indexOf("]]")+2)
+          result+=","
+        }
+        return result.toUpperCase().replaceAll(" ","");
       }
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;

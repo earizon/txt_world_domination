@@ -2,7 +2,7 @@
 │@[https://github.com/earizon/txt_world_domination/]│
 ├───────────────────────────────────────────────────┤
 │ Quick Links:                                      │
-│ @[#uml] @[#bpmn] @[#geometric] @[#math_symbols]   │
+│ @[#UML] @[#BPMN] @[#geometric] @[#math_symbols]   │
 │                                                   │
 │ @[#txt_world_domination_ammunition]               │
 │ @[#txt_world_domination_celebration]              │
@@ -429,7 +429,7 @@
 │ Example: @[https://asciinema.org/a/421164]                                   │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
-## Vim Editor: The Kint of Text:
+## Vim Editor: The King of Text
 ┌─ vim: Then King of text ─────────────────────────────────────────────────────┐ [[{tool.desktop]]
 │ · Use Ctrl + V for visual block mode ("Paint mode")                          │
 │ · Pass selected text as STDIN to external txt-command and                    │
@@ -528,8 +528,8 @@
  │                                              │                  │       YES        ││
  └─────────────────────────────────────────────────────────────────────────────────────┘
 
-## TXT Geometric symbols:
- ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
+## TXT Geometric symbols
+ ┌ Geometric ──────────────────────────────────────────────┐ #[geometric]
  │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│
  │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │
  │ ◀ ▶ ◂ ▸ ◁ ▷ ◃ ▹ ◣ ◢ ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊ ◰ ◱ ◲ ◳         │
