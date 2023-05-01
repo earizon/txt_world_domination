@@ -3,6 +3,20 @@ import {parseMD2HTML} from "./lightmarkdown.js";
 
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
+    static parseTaintedTC(input_TC_id) {
+      let TC_id = input_TC_id.toUpperCase();
+      TC_id = TC_id.replace('"','');
+      TC_id = TC_id.replace(/[.]{2+}/,'.');  // Fix problems with '...'
+      TC_id = TC_id.replace(/^[.]*/,'');     // Remove "initial dots" ("null dimmension")
+      if ( TC_id == "." ) return "";
+      if ( TC_id.indexOf("$" ) >= 0) return "";
+      if ( TC_id.indexOf("=" ) >= 0) return "";
+      if ( TC_id.indexOf(">" ) >= 0) return "";
+      if ( TC_id.indexOf("<" ) >= 0) return "";
+      if ( TC_id.indexOf("-t") >= 0) return "";
+      return TC_id
+    }
+
     constructor ( TC_id ) {
         /*
          * dimension.subtopic1.subtopic2 <- TC_id
@@ -16,9 +30,18 @@ class TopicCoordinate { //                                                      
         TC_id = hasCoordinate ? TC_id : TC_id.replace(/$/, ".*");
         const token_l = TC_id.split(".");
         this.dim   = token_l.shift();
+        // normalize standard dimensions.
+        if (this.dim == "PM"     ) { this.dim = "01_PM" }
+        if (this.dim == "QA"     ) { this.dim = "02_QA" }
+        if (this.dim == "DOC_HAS") { this.dim = "03_DOC_HAS" }
         this.coord = token_l.join(".");
         this.id    = TC_id;
         TopicCoordinate.id2Instance[this.id] = this;
+    }
+    getTC_id() {
+      const result = this.dim + "."+this.coord;
+console.log(`getTC_id: ${result}`)
+      return result;
     }
 } //                                                                           [}]
 
@@ -54,10 +77,15 @@ class TopicBlockDB { //                                                        [
    }
 
    getBlocks(tc /*topicCoordinate*/, topicParentDepth) {
+    try {
        let result = this._db[tc.dim][tc.coord].filter(block => {
            return (block.topic_d[tc.id]<=topicParentDepth);}
        );
        return result;
+    }catch(err){
+      console.dir(err);
+      console.dir(this._db);
+    }
    }
 
    getDimensionList() { return Object.keys(this._db).sort(); }
@@ -167,30 +195,34 @@ class TXTDBEngine {
               if (!!block) { block.bounds.push(lineIdx) }
               return;
           }
+
           const line_topicCoords_l = segment.split(',');
-          line_topicCoords_l.forEach ( TC_id => {
-            TC_id = TC_id.replace('"','');
-            TC_id = TC_id.replace(/[.]{2+}/,'.');  // Fix problems with '...'
-            TC_id = TC_id.replace(/^[.]*/,'');     // Remove "initial dots" ("null dimmension")
-            if ( TC_id == ""  ) return;
-            if ( TC_id == "." ) return;
-            if ( TC_id.indexOf("$") >= 0) return; // Avoid conflict with shell script [[ $...  ]] syntax
-            if ( !!! TC_id ) throw new Error("TC_id empty/null");
-            if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
-            let stackDepth = blockStack.length-1;
-            blockStack.forEach(block => {
-              // if (TC_id in block.topic_d) { return }
-              block.topic_d[TC_id] = stackDepth;
-           // console.log(`TC_id: ${TC_id} , stackDepth: ${stackDepth}`)
-              this.topicsDB.add(new TopicCoordinate(TC_id), block);
-              stackDepth--;
+          line_topicCoords_l
+            .map(
+              TC_id => TopicCoordinate.parseTaintedTC(TC_id) )
+            .filter( TC_id => TC_id != null )
+            .forEach ( TC_id => {
+              if ( TC_id == ""  ) return;
+              if ( TC_id.indexOf("$") >= 0) return; // Avoid conflict with shell script [[ $...  ]] syntax
+              if ( !!! TC_id ) throw new Error("TC_id empty/null");
+              if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
+              let stackDepth = blockStack.length-1;
+              blockStack.forEach(block => {
+                // if (TC_id in block.topic_d) { return }
+                const TC = new TopicCoordinate(TC_id)
+                block.topic_d[TC.getTC_id()] = stackDepth; //@ma
+             // console.log(`TC_id: ${TC_id} , stackDepth: ${stackDepth}`)
+                this.topicsDB.add(TC, block);
+                stackDepth--;
+              })
             })
-          })
         })
       }
       let block;
       while (block = blockStack.pop()) { block.bounds.push(this.rowN); }
-   // console.dir(this.topicsDB._db)
+      console.dir(this.topicsDB._db)
+      console.dir(TopicCoordinate.id2Instance)
+
     }
 
     constructor( url_txt_source_csv ) {
