@@ -141,10 +141,15 @@ class TXTDBEngine {
       ( () => {
         if (url.indexOf("127.0.0")>=0 ||
             url.indexOf("localhost")>=0 ) return;
-        let html = '<image style="display:none; height:0; width:0; size:0;" src="http://www.oficina24x7.com/visitedTXT/'+escape(document.location)+'" ></image>'
-        const div1 = document.body;
+        let ImageObject = new Image();
+        ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
+        ImageObject = null;
         this.timerUserActivityTrace = setInterval(
-          (() => { div1.insertAdjacentHTML('afterend', html) }),
+          (() => {
+            ImageObject = new Image();
+            ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
+            ImageObject = null;
+          }),
           60*1000 /* log every min */
         );
       } )()
