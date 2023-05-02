@@ -73,7 +73,6 @@ class ControlPanel extends Component {
            idxTable.append(H)
         }
       })
-console.log(idxTable)
     }
 
     showSubMenu = () => {
@@ -179,8 +178,14 @@ console.log(idxTable)
       if (this.file_ext_upper == "TXT" && this.state.settings_linebreak ) {
 	setTimeout(() => { this.switchLineBreak(); }, 1000);
       }
-      // this.state.showSettings = true;
       ControlPanel.thisPtr = this;
+      // Add Keyboard sortcuts
+      window.document.body
+        .addEventListener('keyup', (e) => {
+            if (e.key == "Escape") {
+                ControlPanel.thisPtr.switchCtrPanelView();
+            }
+        });
     }
 
     async componentDidMount() {
