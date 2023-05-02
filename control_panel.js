@@ -172,7 +172,7 @@ class ControlPanel extends Component {
       this.state.color_style = 1;
       this.state.bckg_texture = 1;
       this.state.settings_lineheight = 1;
-      this.state.settings_fontsize = 2;
+      this.state.settings_fontsize = 1;
       this.state.settings_showbaseline = false;
       this.state.settings_linebreak = true; // default for Markdown
       if (this.file_ext_upper == "TXT" && this.state.settings_linebreak ) {
