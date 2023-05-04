@@ -219,7 +219,7 @@ class ControlPanel extends Component {
 
     onGrepRegexChanged = (inputEvent) => {
       // TODO:(qa) Add timer.
-      this.state.grep[0].input = inputEvent.target.value
+      this.state.grep[0].input = inputEvent.target.value.replaceAll(/\ +/g,".*")
       this.execSearch()
     }
 
