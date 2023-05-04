@@ -241,6 +241,8 @@ class ControlPanel extends Component {
     }
 
     setGrepBounds = (flag, delta) => {
+      if ( flag == 'b'/*before*/ && this.state.grep[0].before >9 ) { delta = delta * 10 }
+      if ( flag == 'a'/*before*/ && this.state.grep[0].after  >9 ) { delta = delta * 10 }
       if ( flag == 'b'/*before*/ ) this.state.grep[0].before += delta
       if ( this.state.grep[0].before < 0 ) this.state.grep[0].before = 0
       if ( flag == 'a'/*after */ ) this.state.grep[0].after  += delta
@@ -318,7 +320,7 @@ class ControlPanel extends Component {
                <span> </span>
                ${ this.file_ext_upper == "TXT" &&
                html`<span onClick=${ (e) => this.switchShowLineNum() }
-                 class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # Line </span>`}
+                 class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # </span>`}
               </span>` }
            ${ this.state.hideCtrPanel == true &&
               html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
