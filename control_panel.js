@@ -310,12 +310,12 @@ class ControlPanel extends Component {
             html`
               <span id="grepMenu">
               <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',+1)}>+</span>
-              ${this.lpad(this.state.grep[0].before,2)}
+              <span class="grepState">${this.lpad(this.state.grep[0].before,2)}</span>
               <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',-1)}>-</span>
-                ▲<input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
-                </input>▼${this.state.after}
+              <span class="grepState">▲</span><input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
+                </input><span class="grepState">▼</span>${this.state.after}
                <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',-1)}>-</span>
-               ${this.lpad(this.state.grep[0].after,2)}
+               <span class="grepState">${this.lpad(this.state.grep[0].after,2)}</span>
                <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
                <span> </span>
                ${ this.file_ext_upper == "TXT" &&
