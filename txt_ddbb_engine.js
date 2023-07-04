@@ -40,7 +40,6 @@ class TopicCoordinate { //                                                      
     }
     getTC_id() {
       const result = this.dim + "."+this.coord;
-console.log(`getTC_id: ${result}`)
       return result;
     }
 } //                                                                           [}]
@@ -242,7 +241,7 @@ class TXTDBEngine {
       this.url_txt_source_csv = url_txt_source_csv
     }
 
-    async init( UIOptionShowLineNum ) {
+    async init( ) {
       this.url_txt_source_csv = (await Promise.all(
         this.url_txt_source_csv.split(",")
         .map(async (url_txt_source) => {
@@ -277,18 +276,13 @@ class TXTDBEngine {
         ( await Promise.all(this.url_txt_source_l
           .map( async (url_txt_source) => {
             const payload = await this.fetchPayload(url_txt_source.href);
-            const CACHE_PAYLOAD = parseMD2HTML( payload , this.relative_path );
+            const CACHE_PAYLOAD =
+              parseMD2HTML( payload , this.relative_path );
             return CACHE_PAYLOAD
           } )) ).join(" ---- new file ------")
 
 
       const VIEW_PADDING = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
-      const view_lpad    = function(value, VIEW_PADDING) {
-        // https://stackoverflow.com/questions/10841773/javascript-format-number-to-day-with-always-3-digits
-        var zeroes = new Array(VIEW_PADDING+1).join("0");
-        return (zeroes + value).slice(-VIEW_PADDING);
-      }
-
       /*
        *  this.immutableDDBB looks like:
        *  index (== line number)  | string
@@ -299,17 +293,15 @@ class TXTDBEngine {
        *  ^^^^
        *  block topic1 will have index 0 as start and index 100 as end.
        */
-      let idx=0;
-      this.immutableDDBB    = CACHE_PAYLOAD_L.split("\n").map(
+      this.immutableDDBB    = CACHE_PAYLOAD_L.split("\n\n").map(
          (row) => {
-           const rowN = row.replace(/$/,'\n');
-           /* NOTE: row + "\n" will create internally
+           const rowN = row.replace(/$/,'\n'); // note1
+           /* note1: row + "\n" will create internally
             * a string formed by a list of 2 elements
             * while row.replace will create a final
             * single element with \n added. */
-         return UIOptionShowLineNum
-         ? `<span class='ln'>${view_lpad(++idx, VIEW_PADDING)} </span>${rowN}`
-         : rowN
+           console.log(row)
+         return rowN
      }
       );
       this.rowN             = this.immutableDDBB.length-1;
@@ -325,9 +317,15 @@ class TXTDBEngine {
            .filter(TC_id => { return (TC_id_d[TC_id]==true); })
            .forEach( TC_id => { selectedTopicsIds.push(TC_id); });
       });
-      const grepInput = grep0.input
-      if (!!! grepInput && selectedTopicsIds.length == 0) return this.cacheResult;
-      const grepRegex = new RegExp(grepInput, 'gi');
+      // REF: https://simonwillison.net/2004/Sep/20/newlines/
+      // '.*' will never match multiline. Use [\s\S] instead
+      const grepInput = grep0.input.replaceAll(/\ +/g,"[\\s\\S]*")
+      console.log(grepInput)
+      if (!!! grepInput && selectedTopicsIds.length == 0) {
+        // Nothing to do. Return cacheResult
+        return this.cacheResult;
+      }
+      const grepRegex = new RegExp(grepInput, 'gim');
       let result_l = Array(this.rowN).fill(false);
       if (grepInput == "") {
           result_l = [...this.immutableDDBB];

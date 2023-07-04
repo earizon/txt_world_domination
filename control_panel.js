@@ -45,8 +45,8 @@ class ControlPanel extends Component {
       timerDoFind      : 0,
       showSettings     : false,
       showTopics       : false,
-      showLineNumbers  : false,
-      grep             : [ { input: "", before: 5, after: 5 } ],
+      showLineNumbers  : false, // TODO:(1) Re-enable. Not used and weak implementation
+      grep             : [ { input: "", before: 1, after: 1 } ],
       topicParentDepth : 0,
       showIndex        : false,
       hideCtrPanel     : true,
@@ -218,8 +218,8 @@ class ControlPanel extends Component {
 
 
     onGrepRegexChanged = (inputEvent) => {
-      // TODO:(qa) Add timer.
-      this.state.grep[0].input = inputEvent.target.value.replaceAll(/\ +/g,".*")
+      // No need for timer. It ends up calling execSearch that already contains it.
+      this.state.grep[0].input = inputEvent.target.value
       this.execSearch()
     }
 
@@ -252,7 +252,7 @@ class ControlPanel extends Component {
     }
 
     async switchShowLineNum() {
-      await this.txtDBEngine.init(!this.state.showLineNumbers);
+      await this.txtDBEngine.init();
       this.setState({ showLineNumbers : !this.state.showLineNumbers});
       this.execSearch();
     }
@@ -318,7 +318,7 @@ class ControlPanel extends Component {
                <span class="grepState">${this.lpad(this.state.grep[0].after,2)}</span>
                <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
                <span> </span>
-               ${ this.file_ext_upper == "TXT" &&
+               ${ false /* disabled */ && this.file_ext_upper == "TXT" &&
                html`<span onClick=${ (e) => this.switchShowLineNum() }
                  class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # </span>`}
               </span>` }
