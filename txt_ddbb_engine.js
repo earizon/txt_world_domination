@@ -148,7 +148,7 @@ class TXTDBEngine {
           (() => {
             ImageObject = new Image();
             ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
-            ImageObject = null;
+            setTimeout(()=> {ImageObject = null;}, 1000)
           }),
           60*1000 /* log every min */
         );
