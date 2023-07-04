@@ -140,9 +140,7 @@ class TXTDBEngine {
       ( () => {
         if (url.indexOf("127.0.0")>=0 ||
             url.indexOf("localhost")>=0 ) return;
-        let ImageObject = new Image();
-        ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
-        ImageObject = null;
+        navigator.sendBeacon("http://www.oficina24x7.com/visitedTXT/"+escape(document.location),"-");
         this.timerUserActivityTrace = setInterval(
           (() => {
             ImageObject = new Image();
@@ -300,7 +298,7 @@ class TXTDBEngine {
             * a string formed by a list of 2 elements
             * while row.replace will create a final
             * single element with \n added. */
-           console.log(row)
+           // console.log(row)
          return rowN
      }
       );
@@ -320,7 +318,6 @@ class TXTDBEngine {
       // REF: https://simonwillison.net/2004/Sep/20/newlines/
       // '.*' will never match multiline. Use [\s\S] instead
       const grepInput = grep0.input.replaceAll(/\ +/g,"[\\s\\S]*")
-      console.log(grepInput)
       if (!!! grepInput && selectedTopicsIds.length == 0) {
         // Nothing to do. Return cacheResult
         return this.cacheResult;
