@@ -182,23 +182,23 @@ class TXTDBEngine {
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;
       this.topicsDB = new TopicBlockDB();
-      for (let lineIdx = 0; lineIdx <= this.rowN; lineIdx++) {
-        const line = this.immutableDDBB[lineIdx];
+      for (let idx = 0; idx < this.rowN; idx++) {
+        const line = this.immutableDDBB[idx];
 
         const ctrlToken_l = parseCtrlTokens(line).split(/([{}])/);
         ctrlToken_l.forEach( segment => {
           if ( segment == '') { return; }
           if ( segment == '{') {
-              blockStack.push( new Block ( [lineIdx], {}, blockStack.at(-1) ) )
+              blockStack.push( new Block ( [idx], {}, blockStack.at(-1) ) )
               if (maxStackLength<blockStack.length){
                 maxStackLength=blockStack.length;
-                // console.log(`maxStackLength ${maxStackLength},lineIdx: ${lineIdx+1}, ctrlToken_l:${ctrlToken_l}, line: ${line}`)
+                // console.log(`maxStackLength ${maxStackLength},idx: ${idx+1}, ctrlToken_l:${ctrlToken_l}, line: ${line}`)
               }
               return;
           }
           if ( segment == '}') {
               const block = blockStack.pop();
-              if (!!block) { block.bounds.push(lineIdx) }
+              if (!!block) { block.bounds.push(idx) }
               return;
           }
 
@@ -300,11 +300,11 @@ class TXTDBEngine {
             * single element with \n added. */
            // console.log(row)
          return rowN
-     }
-      );
+      } );
       this.rowN             = this.immutableDDBB.length-1;
       this.cacheResult      =  this.immutableDDBB.join("");
       this.buildTopicsDB()
+
     }
 
     grep( grep0, selectedCoordinatesByTopic , topicParentDepth) {
@@ -346,7 +346,7 @@ class TXTDBEngine {
           }
         }
       }
-      for (let idx=0; idx < this.rowN-1; idx++) {
+      for (let idx=0; idx < this.rowN; idx++) {
         const current_row_false = !!result_l[idx];
         const    next_row_false = !!result_l[idx+1];
         if (current_row_false == false  && next_row_false == true ) {
@@ -356,7 +356,7 @@ class TXTDBEngine {
 
       const topicMatchingLines_l = this.topicsDB.getMatchingLinesForTopicCoord(
           this.rowN, selectedTopicsIds, topicParentDepth)
-      for (let idx = 0 ; idx <= this.rowN; idx++) {
+      for (let idx = 0 ; idx < this.rowN; idx++) {
           if (topicMatchingLines_l[idx]==false) result_l[idx] = false;
       }
 
