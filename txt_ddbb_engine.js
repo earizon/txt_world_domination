@@ -1,6 +1,8 @@
 "use strict"
 import {parseMD2HTML} from "./lightmarkdown.js";
 
+const debug_topics_101=false
+
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
     static parseTaintedTC(input_TC_id) {
@@ -226,9 +228,13 @@ class TXTDBEngine {
       }
       let block;
       while (block = blockStack.pop()) { block.bounds.push(this.rowN); }
-      console.dir(this.topicsDB._db)
-      console.dir(TopicCoordinate.id2Instance)
-
+      if (debug_topics_101) {
+         console.log("buildTopicsDB() final results:")
+         console.log("this.topicsDB._db:")
+         console.dir(this.topicsDB._db)
+         console.log("TopicCoordinate.id2Instance:")
+         console.dir(TopicCoordinate.id2Instance)
+      }
     }
 
     constructor( url_txt_source_csv ) {
@@ -361,7 +367,7 @@ class TXTDBEngine {
       }
 
       const result = result_l.filter( row => (row != false) ).join("");
-   // console.log(result)
+      // console.log(result)
       return result
     }
 }
