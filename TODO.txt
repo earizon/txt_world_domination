@@ -1,0 +1,12 @@
+## Beacon API:  Sending analytics [[{]]
+https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API
+The Beacon API is used to send an asynchronous and non-blocking
+request to a web server. The request does not expect a response.
+Unlike requests made using XMLHttpRequest or the Fetch API, the
+browser guarantees to initiate beacon requests before the page is
+unloaded and to run them to completion.
+
+The main use case for the Beacon API is to send analytics such as
+client-side events or session data to the server.
+[[}]]
+
