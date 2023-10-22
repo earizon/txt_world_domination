@@ -18,7 +18,6 @@ l1.1 cont.
 l1.2 cont.
 * l1.3
 
-
 ## Subtitle
 
 This is another fine paragraph
