@@ -1,5 +1,6 @@
 # Example
 
+```
 ┌─ HEAD-Quarters ───────────────────────────────────┐
 │@[https://github.com/earizon/txt_world_domination/]│
 ├───────────────────────────────────────────────────┤
@@ -9,6 +10,7 @@
 │ @[#txt_world_domination_ammunition]               │
 │ @[#txt_world_domination_celebration]              │
 └───────────────────────────────────────────────────┘
+```
 
 ### ul Lists:
 
@@ -189,6 +191,7 @@ With default settings, markdown-wasm allows embedded HTML.
 
   - Documenting is not about looking cool or serious or expert.
 
+    ```
     ┌ [[{02_DOC_HAS.KEY-POINT]] ────────────────────────────────────────┐
     │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
     │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
@@ -209,6 +212,7 @@ With default settings, markdown-wasm allows embedded HTML.
     │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
     │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
     └─[[}]]─────────────────────────────────────────────────────────────┘
+    ```
 
   - Perfect documentation is a science-fiction dream:
     @[https://www.youtube.com/watch?v=SoAk7zBTrvo]

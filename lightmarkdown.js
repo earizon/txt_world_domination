@@ -1,7 +1,5 @@
 // https://codepen.io/kvendrik/pen/bGKeEE
 
-const debug_li_regex=true;
-
 const doMarkdownTXTExtension = (input, relative_path) => {
   let H = input
   // NEXT) md++ extension. replace anchors link #[target_id]
@@ -9,7 +7,7 @@ const doMarkdownTXTExtension = (input, relative_path) => {
 
   // NEXT) md++ extension. replace external link @[http... link]
   H = H.replace( /@\[((http|[.][/]).?[^\]\n]*)\]/g,
-      " ▶<a target='_blank' href='$1'>$1</a>◀")
+      " <<a target='_blank' href='$1'>$1</a>>")
 
 
   // NEXT) md++ extension. replace relative links @[#internal_link]
@@ -19,7 +17,7 @@ const doMarkdownTXTExtension = (input, relative_path) => {
   //    (non-standard) links that just the md++ parser/viewer will understand.
   H = H.replace(
       /@\[(#[^\]\n]*)\]/g,
-      " ▷<a onClick='window.scrollInto(\"$1\")'>$1</a>◁")
+      " ><a onClick='window.scrollInto(\"$1\")'>$1</a><")
 
   // NEXT) md++ extension. Replace External absolute URL images: i[http://.../test.svg|width=3em]
   H = H.replace(
@@ -38,70 +36,72 @@ const doMarkdownTXTExtension = (input, relative_path) => {
   return H
 }
 
+var preIsFalse=false;
+function funPreMap(s) {
+    const result = preIsFalse ? "<pre>\n"+s+"</pre>" : s
+    preIsFalse = !preIsFalse;
+    return result;
 
-
-let debug_n=1;
+}
 function parseMD2HTML(md, relative_path){
   md = md.replaceAll('<','&lt;') // TODO:(document) No native HTML allowed
          .replaceAll('>','&gt;') //      since '<'... '>' is always replaced.
 
-  const funULReplaceList = (match) => {
-    console.log("ul block match:"+match)
-    return "<ul>"+match+"</ul>"
+  if (true /* pre */) {
+     md = md.split("```").map(funPreMap).join("\n")
   }
-  if (false) {
-    md = md.replace(/^\s.*\n\*/gm, '<ul>\n*');
-    md = md.replace(/^(\*.+)\s*\n([^\*])/gm, '$1\n</ul>\n\n$2');
-    md = md.replace(/^\*(.+)/gm, '<li>$1</li>');
-  } else {
-    const ulStart = "^$\n[\*] " // ul start with empty line followed by * ...
-    const intTerm = "([\s\S]*)"   // \s\S match all white-space and all non-white-space chars
-    const ulEnd   = "^$"      // ul ends  with empty line
-    const sULregex = ulStart + intTerm + ulEnd
-    if (debug_li_regex) {
-       console.log(`regex matching ul start/end: ${sULregex}`)
-    }
-    const ulRegex = new RegExp(sULregex, 'gm'); // match global (all document) and multiline
-    md = md.replace(ulRegex, funULReplaceList);
+
+  if (true /* ul version 2 */) {
+    const paragraph_l = md.split("\n\n")
+    md = paragraph_l.map(p/*aragraph*/ => {
+      if (! p.startsWith("* ")) { return p; }
+      return p.split("\n* ").filter(li=>li.length>0).map(li=>"<li>"+li+"</li>").join("\n")
+    }).join("\n")
   }
 
   const CLEAN_BUILD_ID_REGEX_0=new RegExp('\\[\\[([^\\[])*\\]\\]',"g");
   const CLEAN_BUILD_ID_REGEX_1=new RegExp('[^",a-z\,A-Z,0-9,_,\']', 'g');
 
-  //h
-  const funReplaceHeader = function(match, m1){
-    const tag = match.startsWith("# "     ) ? "h1"
-              : match.startsWith("● "     ) ? "h1"
-              : match.startsWith("## "    ) ? "h2"
-              : match.startsWith("• "     ) ? "h2"
-              : match.startsWith("### "   ) ? "h3"
-              : match.startsWith("#### "  ) ? "h4"
-              : match.startsWith("##### " ) ? "h5"
-              : match.startsWith("###### ") ? "h6"
-              : ""
-    if (tag === "") return match
+  if (true/* headers */) {
+    const funReplaceHeader = function(match, m1){
+      const tag = match.startsWith("# "     ) ? "h1"
+                : match.startsWith("● "     ) ? "h1"
+                : match.startsWith("## "    ) ? "h2"
+                : match.startsWith("• "     ) ? "h2"
+                : match.startsWith("### "   ) ? "h3"
+                : match.startsWith("#### "  ) ? "h4"
+                : match.startsWith("##### " ) ? "h5"
+                : match.startsWith("###### ") ? "h6"
+                : ""
+      if (tag === "") return match
 
-    const id=match
-		  .replace(CLEAN_BUILD_ID_REGEX_0, '')
-		  .replace(CLEAN_BUILD_ID_REGEX_1, '')
-		  .replaceAll('"', '') // for some weird reason '"' is not replaced by regex.
-    const result = `<${tag} class='h_anchor' id='${id}'>${m1.trim()}</${tag}>\n`;
-    return result
+      const id=match
+        .replace(CLEAN_BUILD_ID_REGEX_0, '')
+        .replace(CLEAN_BUILD_ID_REGEX_1, '')
+        .replaceAll('"', '') // for some weird reason '"' is not replaced by regex.
+      const result = `<${tag} class='h_anchor' id='${id}'>${m1.trim()}</${tag}>\n`;
+      return result
+    }
+
+    md = md.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
   }
 
-  md = md.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
+  if (true /* images */) {
+    md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+  }
 
-  //images
-  md = md.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+  if (true /* links */) { 
+    md = md.replace(
+        /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g ,
+        '<a href="$2" title="$4">$1</a>');
+  }
 
-  //links
-  md = md.replace(/[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g, '<a href="$2" title="$4">$1</a>');
+  if (true/* font styles */) { 
+    md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>  $1  </b>');
+    md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '  <del>$1</del>  ');
+  }
 
-  //font styles
-  md = md.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>  $1  </b>');
-  md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '  <del>$1</del>  ');
-
-  if (true) { // Apply custom markdown extension
+  if (true/* custom markdown extension */) { 
     return doMarkdownTXTExtension(md, relative_path)
   }
   return md;
