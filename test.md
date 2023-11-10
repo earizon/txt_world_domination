@@ -1,5 +1,10 @@
 # Example
 
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
 ```
 ┌─ HEAD-Quarters ───────────────────────────────────┐
 │@[https://github.com/earizon/txt_world_domination/]│
@@ -27,6 +32,7 @@ This is another fine paragraph
 ### Smaller subtitle
 
 This is a paragraph `with` ~style~  italic  _italic_   bold   __bold__
+
 This is a paragraph `with` ~style~ *italic* _italic_ **bold** __bold__
 
 ![image](./test.svg)
@@ -38,9 +44,8 @@ Hello from *[link](https://rsms.me/)* to __everyone__ `reading this`
 
 Here's an [**important** anchor link](#example).
 
-line 1
-line 2
-
+line 1  
+line 2  
 
 ### Embedded HTML
 

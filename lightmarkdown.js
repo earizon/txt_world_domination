@@ -1,6 +1,7 @@
 // https://codepen.io/kvendrik/pen/bGKeEE
 
-const doMarkdownTXTExtension = (input, relative_path) => {
+/* step 2: markdown txt extensions for pre-like */
+const _02_markdown_extension = (input, relative_path) => {
   let H = input
   // NEXT) md++ extension. replace anchors link #[target_id]
   H = H.replace( /[#]\[([^\]]*)\]/g, "◆<span id='$1'>#$1</span>◆")
@@ -43,10 +44,19 @@ function funPreMap(s) {
     return result;
 
 }
-function parseMD2HTML(md, relative_path){
-  md = md.replaceAll('<','&lt;') // TODO:(document) No native HTML allowed
-         .replaceAll('>','&gt;') //      since '<'... '>' is always replaced.
 
+function _00_documentCleaning(md, relative_path){
+  md = md
+         .replaceAll('<!--','º--') // TODO:(document) No native HTML allowed
+         .replaceAll('-->','--º')  // except comments, since '<'... '>' is 
+         .replaceAll('<','&lt;')   // always replaced. 
+         .replaceAll('>','&gt;')
+         .replaceAll('º--','<!--') 
+         .replaceAll('--º','-->',)
+  return md;
+}
+
+function _01_standardMarkdownParsing(md, relative_path){
   if (true /* pre */) {
      md = md.split("```").map(funPreMap).join("\n")
   }
@@ -101,10 +111,14 @@ function parseMD2HTML(md, relative_path){
     md = md.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '  <del>$1</del>  ');
   }
 
-  if (true/* custom markdown extension */) { 
-    return doMarkdownTXTExtension(md, relative_path)
-  }
   return md;
+}
+
+function parseMD2HTML(md, relative_path){
+   md = _00_documentCleaning       (md, relative_path)
+   md = _01_standardMarkdownParsing(md, relative_path)
+   md = _02_markdown_extension     (md, relative_path)
+   return md;
 }
 
 // var rawMode = true;
