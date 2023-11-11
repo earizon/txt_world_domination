@@ -12,10 +12,15 @@
 │ Quick Links:                                      │
 │ (#uml) @[#bpmn] @[#geometric] @[#math_symbols]    │
 │                                                   │
-│ @[#txt_world_domination_ammunition]               │
-│ @[#txt_world_domination_celebration]              │
+│ @[#txt_world_domination_ammunition]  link ext     │
+│ @[#txt_world_domination_celebration] link ext     │
 └───────────────────────────────────────────────────┘
 ```
+
+
+* [ammunition](#txt_world_domination_ammunition)
+* [celebration](#txt_world_domination_celebration)
+
 
 ### ul Lists:
 
@@ -25,18 +30,23 @@ l1.1 cont.
 l1.2 cont.
 * l1.3
 
-## Subtitle
+# This is an h1 title
 
-This is another fine paragraph
+## This is an h2 (Sub)title
 
-### Smaller subtitle
+### This is an h3 (subsub) title
 
-This is a paragraph `with` ~style~  italic  _italic_   bold   __bold__
+### This is an h4 (subsubsub) title
 
-This is a paragraph `with` ~style~ *italic* _italic_ **bold** __bold__
+_This is a paragraph with style italic_
+
+__This is a paragraph with style bold__
+
+~This is an strike-through paragraph~
+
 
 ![image](./test.svg)
-i[./test.svg|width=5em]
+i[./test.svg,width=5em]
 
 Hello [**link**](https://rsms.me/) lol "cat"
 
@@ -111,18 +121,18 @@ With default settings, markdown-wasm allows embedded HTML.
 
 
 # Apropos:
-  - This text file has two purposes:
 
-  1) Serve as input data used by functional tests.
-
-  2) Final up-to-date documentation for users.
+- This text file has two purposes:<br/>
+  1) Serve as input data used by functional tests.<br/>
+  2) Final up-to-date documentation for users.<br/>
 
   Document source code:
 @[https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt]
 
-# TESTS START { ════════════════════════════════════════════════════════════════
+# TESTS START <!-- { test start -->
 
 ## TEST: Get sure readers understand the importance of good documentation
+
         by making a copy of the following paragraph:
 
         """ ... The documentation and samples are still bad today ...  We ended up
@@ -138,39 +148,44 @@ With default settings, markdown-wasm allows embedded HTML.
         https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b
 
 ## TEST: Make sure readers understand the key points when creating documentation:
-    ✓ PUTTING RELATED INFORMATION CLOSE TO EACH OTHER.
-    ✓ DON'T REPEAT TWICE.
-    ✓ USE YOUR HARD DISK TO SAVE CLASSIFIED INFORMATION, NOT PILES OF
-      DOCUMENTS SPREAD ("HIDDEN" OR "LOST") AMONGST HUNDRED OF EMAILS,
-      POSTS, CHATS, WORDS, CUSTOM DATABASES, EXCELS AND BINARY FILES OF
-      RANDOM NATURE.
-    ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION:
-      THE SIMPLEST, THE BEST.
 
-    ✓ AVOID USING (EXPENSIVE AND COMPLEX TO SETUP AND MAINTAIN)
-      SEARCH ENGINES TO FIND FOR LOST INFORMATION:
-      NEVER LOOSE THE INFORMATION IN FIRST PLACE.
+* ✓ PUTTING RELATED INFORMATION CLOSE TO EACH OTHER.
+* ✓ DON'T REPEAT TWICE.
+* ✓ USE YOUR HARD DISK TO SAVE CLASSIFIED INFORMATION, NOT PILES OF
+    DOCUMENTS SPREAD ("HIDDEN" OR "LOST") AMONGST HUNDRED OF EMAILS,
+    POSTS, CHATS, WORDS, CUSTOM DATABASES, EXCELS AND BINARY FILES OF
+    RANDOM NATURE.
+* ✓ DON'T USE PROPRIETARY FORMATS FOR IMPORTANT DOCUMENTATION:
+    THE SIMPLEST, THE BEST.
+* ✓ AVOID USING (EXPENSIVE AND COMPLEX TO SETUP AND MAINTAIN)
+    SEARCH ENGINES TO FIND FOR LOST INFORMATION:
+    NEVER LOOSE THE INFORMATION IN FIRST PLACE.
 
 ## TEST: Make sure readers understand that text files are enough for event
-      the most complex projects by adding links to well known successful
-      projects documented with plain text:
-      - TCP/IP Internet Protocol Documentation:
-        https://www.ietf.org/rfc/rfc793.txt
-      - HTTP "Web" protocol:
-        https://www.rfc-editor.org/rfc/rfc2616
-      - Linux Kernel documentation:
-        https://github.com/torvalds/linux/tree/master/Documentation
+
+the most complex projects by adding links to well known successful
+projects documented with plain text:
+
+- TCP/IP Internet Protocol Documentation:
+  https://www.ietf.org/rfc/rfc793.txt
+- HTTP "Web" protocol:
+  https://www.rfc-editor.org/rfc/rfc2616
+- Linux Kernel documentation:
+  https://github.com/torvalds/linux/tree/master/Documentation
 
 ## TEST: scaped p and html tags must be displayed properly:
+
+  ```
   <p> <html>
   └───┬────┘
   (vs hidden as html tags)
+  ```
 
 ## TEST: internal links must be converted properly:
  @[#internalLink1] @[#internalLink2]
 
 ## TEST: Image must render properly, resolving relative path issues:
- i[./test.svg|width=3em]
+ i[./test.svg,width=3em]
 
 ## TEST: External links must be converted properly:
   Go to @[https://www.w3.org/]
@@ -178,60 +193,54 @@ With default settings, markdown-wasm allows embedded HTML.
   Go to @[https://www.ieee.org/]
 
 ## TEST: MAP ONE-TO-ONE TO DOCUMENTATION: [[{02_DOC_HAS.KEY-POINT]]
-    ▸ By reading the tests you can learn how to write txt files
-      compatible with the TXT World Domination Project.
-    ▸ By documenting the tests we (developers) can have up-to-date
-      documentation for users in a single place.
-  [[}]]
+
+* By reading the tests you can learn how to write txt files
+  compatible with the TXT World Domination Project.
+* By documenting the tests we (developers) can have up-to-date
+  documentation for users in a single place.
+[[}]]
 
 ## TEST: DOCUMENTATION INTRODUCTION MUST BE IN PLACE:
 
-  ===========================
-  DOCUMENTATION INTRODUCTION:
-  ===========================
+### DOCUMENTATION INTRODUCTION
 
-  - Documenting is not about piling words and powerpoints
-    in random locations hoping that some poor soul will read
-    them in future.
+Documenting is not about piling words and powerpoints
+in random locations hoping that some poor soul will read
+them in future.
 
-  - Documenting is not about looking cool or serious or expert.
+Documenting is not about looking cool or serious or expert 
+```
+  ┌ [[{02_DOC_HAS.KEY-POINT]] ────────────────────────────────────────┐
+  │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
+  │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
+  │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
+  │                DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE    │
+  │                 DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE   │
+  │                 DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE   │
+  │                DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE    │
+  │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
+  │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
+  │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
+  │    DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                │
+  │  DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                  │
+  │ DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                   │
+  │ DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                   │
+  │  DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                  │
+  │    DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                │
+  │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
+  │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
+  └─[[}]]─────────────────────────────────────────────────────────────┘
+```
 
-    ```
-    ┌ [[{02_DOC_HAS.KEY-POINT]] ────────────────────────────────────────┐
-    │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
-    │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
-    │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
-    │                DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE    │
-    │                 DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE   │
-    │                 DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE   │
-    │                DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE    │
-    │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
-    │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
-    │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
-    │    DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                │
-    │  DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                  │
-    │ DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                   │
-    │ DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                   │
-    │  DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                  │
-    │    DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE                │
-    │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
-    │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
-    └─[[}]]─────────────────────────────────────────────────────────────┘
-    ```
-
-  - Perfect documentation is a science-fiction dream:
-    @[https://www.youtube.com/watch?v=SoAk7zBTrvo]
-
-    ... but good documentation is possible.
-
-  - Text books are examples of good documentation (or at least they ought to).
-
-    ... BUT ... text-books require lot of expertise and free-time to create.
-
-  - In real projects we still need good documentation and the more
-    people working in a project the biggest the need to have good
-    documentation but ....
-
+* Perfect documentation is a science-fiction dream
+  @[https://www.youtube.com/watch?v=SoAk7zBTrvo] ...
+* ... but good documentation is possible.
+* Text books are examples of good documentation (or at least they ought to)...
+* BUT ... text-books require lot of expertise and free-time to create.
+* In real projects we still need good documentation and the more
+  people working in a project the biggest the need to have good
+  documentation but ....
+* ```
     ┌ [[{02_DOC_HAS.KEY-POINT]]───────────────────────────────┐
     │ ▸ REAL WORLD is a very imperfect REAL WORLD.            │
     │   ▸ Projects misserably fail.                           │
@@ -242,83 +251,124 @@ With default settings, markdown-wasm allows embedded HTML.
     │     work in order to satisfy each other's EGOs and      │
     │     interests.                                          │
     └─[[}]]───────────────────────────────────────────────────┘
+  ```
 
-    ┌ [[{02_DOC_HAS.KEY-POINT]] ──────────────────────────────┐
-    │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
-    └─[[}]]───────────────────────────────────────────────────┘
+* ```
+  ┌ [[{02_DOC_HAS.KEY-POINT]] ──────────────────────────────┐
+  │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
+  └─[[}]]───────────────────────────────────────────────────┘
+  ```
+* Outside pure academic's enviroments, documentation skills are not
+  even considered when hiring new employees acording to 99% of job's
+  offers (while in pure academic's enviroment publishing
+  papers looks to be the only important thing to do with no
+  attention to any other real outcome).
+* ```
+  ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────────────────┐
+  │ ▸ PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS │
+  │   A CORE TASK OF ANY SUCCESFUL PROJECT.                │
+  └─[[}]]──────────────────────────────────────────────────┘
+  ```
+* ```
+  ┌ [[02_DOC_HAS.KEY-POINT]] ────────────────────────┐
+  │┌────────────────────────────────────────────────┐│
+  ││┌──────────────────────────────────────────────┐││
+  │││ TAKE CONTROL OF THE INFORMATION BEFORE THE   │││
+  │││  INFORMATION TAKES CONTROL OF YOU!           │││
+  ││└──────────────────────────────────────────────┘││
+  │└────────────────────────────────────────────────┘│
+  └──────────────────────────────────────────────────┘
+  ```
 
-    Outside pure academic's enviroments documentation skills is not
-   even considered when hiring new employees acording to 99% of job's
-   offers (while in pure academic's enviroment publishing
-   papers looks to be the only important thing to do with no
-   attention to any other real outcome).
+##  ABOUT THE TXT WORLD DOMINATION PROJECT
 
-    ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────────────────┐
-    │ ▸ PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS │
-    │   A CORE TASK OF ANY SUCCESFUL PROJECT.                │
-    └─[[}]]──────────────────────────────────────────────────┘
+TXTWD Project tries to implement documentation best [[{02_DOC_HAS.KEY-POINT]]
+practices by converting a simple and innocent "txt" file
+into a INDECENT and PERVERT Document Management System
+where information can be searched and classified in
+powerful ways to success in creating correct documentation
+(aka TRANSMISSION OF KNOWLEDGE)           
+[[}]]
 
-    ┌ [[02_DOC_HAS.KEY-POINT]] ────────────────────────┐
-    │┌────────────────────────────────────────────────┐│
-    ││┌──────────────────────────────────────────────┐││
-    │││ TAKE CONTROL OF THE INFORMATION BEFORE THE   │││
-    │││  INFORMATION TAKES CONTROL OF YOU!           │││
-    ││└──────────────────────────────────────────────┘││
-    │└────────────────────────────────────────────────┘│
-    └──────────────────────────────────────────────────┘
+<br/>.<br/>.<br/>.<br/>.
 
-##  ABOUT THE TXT WORLD DOMINATION PROJECT [[{02_DOC_HAS.KEY-POINT]]
-    - TXTWD Project tries to implement documentation best
-     practices by converting a simple and innocent "txt" file
-     into a INDECENT and PERVERT Document Management System
-     where information can be searched and classified in
-     powerful ways to success in creating correct documentation
-     (aka TRANSMISSION OF KNOWLEDGE)
-                                           [[}]]
-
-  .... this is the end of the introduction ...
-  Now follows the tests used to implement the TXT WD.
+.... this is the end of the introduction ...
+Now follows the tests used to implement the TXT WD.
 
 # Syntax Basic Rules:
-  - The TXT engine searchs for instructions codified along the normal
-    text in the file. To do so, the next delimiters are used
-    to "scape" or distingüish the instructions from normal text.
-    [[ - topics go here - ]]
-  - A BLOCK-OF-RELATED-CONTENT starts with [[{]] and ends with [[}]].
-  - New blocks can be placed inside existing blocks forming a tree of
-    blocks. Graphically you can imagine them as:
-     txt file [[{02_DOC_HAS.graph]]
-     ├─ block
-     │  ├──── block
-     │  │     └──── block
-     │  └──── block
-     ├─ block
-     │  └──── block
-     ├─ block
-     ┊        [[}]]
-  - each block can be "tagged" with on or more topics using the sintax
-    [[  ... topic1,topicB ... ]] or
-    Topics can be added anywhere before the start and end of a topic.
-    That means that the previous example is equivalent to:
-    [[$topicA]]
-    ...
-    [[$topicB]]
 
-  - Each topic can be subclassified in subtopics following the syntax
-    [[ topicA.subtopic.subsubtopic ]]
+* The TXT engine searchs for instructions codified along the normal
+  text in the file. To do so, the next delimiters are used
+  to "scape" or distingüish the instructions from normal text.
+  ```
+  [[ - topics go here - ]]
+  ```
+*  A BLOCK-OF-RELATED-CONTENT starts with 
+  ```
+  [[{]] 
+  ```
+  and ends with
+  ```
+  [[}]]
+  ```
+* New blocks can be placed inside existing blocks forming a tree of [[{02_DOC_HAS.graph]]
+  blocks. Graphically you can imagine them as:
+  ```
+  txt file
+  ├─ block
+  │  ├──── block
+  │  │     └──── block
+  │  └──── block
+  ├─ block
+  │  └──── block
+  ├─ block
+  ┊      
+  ``` 
+  [[}]]
 
-  - [[{KEY-POINT,02_DOC_HAS.graph]]
-     ▸ Think of a topic as a first or principal clasification of content.
-       For example in a document about Project Management main topics/coordinates
-       could be HHRR, PLANNING, DOCUMENTATION, RISK MANAGEMENT, ...
-     ▸ Think of a subtopic as a (finite) coordinate inside the topic dimension.
-       For example in the HHRR they could be:
-       HHRR.policies, HHRR.recruitment, HHRR.hiring, HHRR.Trainin, HHRR.Payroll, ...
-       (Subtopics can be seen as the taxonomy used for each main topic,
-        and subsubtopics as a way to further detail and classify each subtopic).
+* each block can be "tagged" with on or more topics using the syntax
+  ``` 
+  [[{ topic1,...,topicB]] 
+  ``` 
+  
+* Topic tags can be added anywhere before the start and end of a
+  block. 
+  ``` 
+__Example A__                  _Example B_
+  [[{topicA,topicB]]                                      [[{topicA]]
+  Lorem Ipsum will dominate     Lorem Ipsum will dominate [[topicB]]
+  the World                     the World 
+  [[}]]                                                   [[}]]
+  └──────────┬────────────┘     └──────────────┬────────────────────┘
+             │                                 │
+             └─────────────┬───────────────────┘
+  Both ways of tagging content with topic tags end up with the same result
+  (except for maybe some extra whitespace).
+  Placing 
+  ``` 
 
-     ▸ Graphically you can imagine them as:
+* Each topic can be subclassified in subtopics following the syntax
+  ```
+  [[ topicA.subtopic.subsubtopic ]]
+  ```
 
+* Think of a topic as a first or principal clasification of content.          [[{KEY-POINT,02_DOC_HAS.graph]]
+  For example in a document about Project Management main topics/coordinates
+  could be HHRR, PLANNING, DOCUMENTATION, RISK MANAGEMENT, ...
+* Think of a subtopic as a (finite) coordinate inside the topic dimension.
+  For example in the HHRR they could be:<br/>
+  ```
+  HHRR.policies, HHRR.recruitment, HHRR.hiring, HHRR.Training, HHRR.Payroll, ...
+  ```
+  In PM (Project Management) they coudl be:
+  ```
+  PM.BACKLOG,PM.TODO,PM.WiP,PM.TEST,PM.BLOCKED,PM.DONE,
+  ```
+  (Subtopics can be seen as the taxonomy used for each main topic,
+  and sub-subtopics as a way to further detail and classify each subtopic).
+
+* Graphically you can imagine them as:
+  ```
                           topicA
                             ^
                           ┌ ┤       ┌·························┐
@@ -335,9 +385,10 @@ With default settings, markdown-wasm allows embedded HTML.
                        ╱
                       ╱
                   topicC
+  ```
 
-       the relation among blocks and topics.subtopics can be visualized like:
-
+* The relation among blocks and topics.subtopics can be visualized like:
+  ```
        ├─ block                  topicA
        │  ├──── block                       topicB
        │  │     └──── block                             topicC
@@ -346,35 +397,41 @@ With default settings, markdown-wasm allows embedded HTML.
        │  └──── block                                   topicC.subtopic1
        ├─ block                  topicA
        ┊                         .subtopic3
-    [[}]]
-
+  ```
+[[KEY-POINT}]]
 
 
 ## TEST: dimensions and coordinates
-    [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
-    │ topic01.1 │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
-    │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks declatarions must work properly.
-    │ topic01.1 └ topic01.2 [[}]]               · Termination of blocks must work properly.
-    │ topic01.1                                   When selecting topic01.3, topic01.2, tests01.1
-    └ topic01.1 [[}]]                             only the corresponding text inside each block
-                                                  must be displayed
 
+```
+ [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
+ │ topic01.1 │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
+ │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks declatarions must work properly.
+ │ topic01.1 └ topic01.2 [[}]]               · Termination of blocks must work properly.
+ │ topic01.1                                   When selecting topic01.3, topic01.2, tests01.1
+ └ topic01.1 [[}]]                             only the corresponding text inside each block
+                                               must be displayed
+```
 
-    [[{ topic01.1 ]]
-      │        [[{ topic01.2]]                topic01.1 belongs to level 1 block.
-      │          │        [[{ topic01.3]]     topic01.2 belongs to level 1 and 2 blocks.
-      │ topic01.1 │ topic01.2 │ topic01.3       topic01.3 belongs to level 1, 2 and 3:
-      │ topic01.1 │ topic01.2 └ topic01.3       TEST: Select topic01.3 in menu. Level 3 block
-      │ topic01.1 │ topic01.2 [[}]]                  must be displayed.
-      │ topic01.1 └ [[}]]                       TEST: Select match parent-blocks up to 1
-      │ topic01.1                                     level 2 and 3 block must be displayed.
-      │ topic01.1                               TEST: Select match parent-blocks up to 2
-      └ [[}]]                                        level 1, 2 and 3 block must be displayed.
+```
+    [[{ topic01.1 ]]                           topic01.1 belongs to level 1 block.
+      │        [[{ topic01.2]]                 topic01.2 belongs to level 1 and 2 blocks.
+      │          │        [[{ topic01.3]]      topic01.3 belongs to level 1, 2 and 3:
+      │ topic01.1 │ topic01.2 │ topic01.3      
+      │ topic01.1 │ topic01.2 └ topic01.3      TEST: Select topic01.3 in menu. Level 3 block
+      │ topic01.1 │ topic01.2 [[}]]                 must be displayed.
+      │ topic01.1 └ [[}]]                      TEST: Select match parent-blocks up to 1
+      │ topic01.1                                    level 2 and 3 block must be displayed.
+      │ topic01.1                              TEST: Select match parent-blocks up to 2
+      └ [[}]]                                       level 1, 2 and 3 block must be displayed.
 
   ┌─[[{topic02. 1.]]  <- TEST: must be parsed as topic02.1
   └─[[}]]                     ignoring whitespaces and final dots(TODO:fix)
+```
 
 ## TEST subdimensions
+
+  ```
   ┌─[[{topic03]]       topic03.1      <- TEST: selected topic03 must also de/select
   └─[[}]]              topic03.1               topic03.*
   ┌─[[{topic03.1]]     topic03.1      <- TEST: selected topic03.1 must also de/select
@@ -385,8 +442,11 @@ With default settings, markdown-wasm allows embedded HTML.
   └─ [[}]]             topic03.1.1.1
   ┌─ [[{topic03.2]]    topic03.2
   └─ [[}]]             topic03.2
+  ```
 
 ## TEST: Avoiding clonflicts with Shell-script syntax:
+
+  ```
   [[{forbidden_topic.$}]]            <- TEST: topics including '$' character must be ignored
   [[{$forbidden_topic} ]]               to avoid synxtax conflicts with shell conditional-expressions
   [[{forbidden_topic $}]]               if [[ ... ${SOME_VARIABLE} ... ]]
@@ -397,6 +457,8 @@ With default settings, markdown-wasm allows embedded HTML.
 
 ## TEST: Unicode and AsciiArt by extension must display properly
   (blame OS of if it doesn't).
+
+  ```
   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒
   │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃
   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃
@@ -408,6 +470,7 @@ With default settings, markdown-wasm allows embedded HTML.
   ╠═╬═╣  ╟──╫──╢ ╞══╪══╡ ⎪ ⎨  ⎬
   ║ ║ ║  ║  ║  ║ │  │  │ ⎪ ⎪  ⎪
   ╚═╩═╝  ╙──╨──╜ ╘══╧══╛ ⎭ ⎩  ⎭
+  ```
 
 ## topic0, topic5 outside any block and must NOT be displayed [[topic0,topic5]]
    in topics menu.
@@ -415,11 +478,14 @@ With default settings, markdown-wasm allows embedded HTML.
 --------------------------------------------
 
 ## TEST: Internal Links:
+
+ ```
  #[internalLink1] must link here.
  ^              ^
  └──────────────┴ - width of original text must not change when replaced by
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
+ ```
 
   Pressing back in browser must scroll up to original link
 
@@ -446,12 +512,14 @@ With default settings, markdown-wasm allows embedded HTML.
                   - text must be converted to anchor with correct sytles.
   Pressing back in browser must scroll up to original link
 
-═ TESTS END } ══════════════════════════════════════════════════════════════════
+```
+<!-- } tests end -->
 
- ENOUGTH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
+ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
 # TXT World Domination Tools !!!
 
+  ```
     World Domination Tools !!!
 
       World Domination !!!
@@ -461,8 +529,11 @@ With default settings, markdown-wasm allows embedded HTML.
          W O R L D    D O M I N A T I O O O O O O O N ! ! !
 
                   Ah Ah Ah Ah Ah Ahhhh !!!! >:Ḑ-+-<
+  ```
 
 ## TXT Diagrams
+
+  ```
 ┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
 │  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
 │  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
@@ -489,9 +560,12 @@ With default settings, markdown-wasm allows embedded HTML.
 │  │   │  └─Mint               │                     │                         │
 │  └─────────────────────────────────────────────────┘                         │
 └──────────────────────────────────────────────────────────────────────────────┘[[}]]
+  ```
 
 
 ## Asciiflow: Box-like drawing with TXT
+
+  ```
 ┌ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) ─────────────────────┐[[{]]
 │         ┌───────┐    ┌──────┐     IO PORTS   [[02_doc_has.diagram]]          │
 │         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐  [[02_doc_has.UML.component]]    │
@@ -507,15 +581,21 @@ With default settings, markdown-wasm allows embedded HTML.
 │   │      │ CACHE │  │ ETH.DEV │  ┌Dev.10───┤                                 │
 │   └──────┴───────┴──┴─────────┴──┴─────────┘                                 │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+  ```
 
 ## CSVkit: TXT as database
+
+  ```
 ┌ @[https://csvkit.readthedocs.io/en/latest/] ─────────────────────────────────┐ [[{]]]
 │  ·Convert from/to CSV/Excel/SQL-DDBB.      [[tool.desktop,02_doc_has.CSV]]]  │
 │  ·Query CSV using SQL.                                                       │
 │  ·No-code statistics on CSV data.                                            │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+  ```
 
 ## GNU Text Utils: Standard TXT utilities in Linux/MacOSX
+
+  ```
 ┌ @[http://gnu.ist.utl.pt/software/textutils/textutils.html] ──────────────────┐ [[{tool.desktop]]]
 │  sort     : sort lines of text files                                         │
 │  tsort    : perform topological sort                                         │
@@ -532,8 +612,11 @@ With default settings, markdown-wasm allows embedded HTML.
 │ Enjoy a lightweight, purely text-based approach to terminal recording.       │ [[security.audit]]
 │ Example: @[https://asciinema.org/a/421164]                                   │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+  ```
 
-## Vim Editor: The Kint of Text:
+## Vim Editor: The King of Text:
+
+  ```
 ┌─ vim: Then King of text ─────────────────────────────────────────────────────┐ [[{tool.desktop]]
 │ · Use Ctrl + V for visual block mode ("Paint mode")                          │
 │ · Pass selected text as STDIN to external txt-command and                    │
@@ -551,32 +634,46 @@ With default settings, markdown-wasm allows embedded HTML.
 │                         input and writing results to STDOUT will             │
 │                         work.                                                │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+  ```
 
 ## GNU Core Utils: Txt standard formating tools in Linux/MacOSX
+
+  ```
 ┌─ https://www.gnu.org/software/coreutils/ ────────────────────────────────────┐ [[{tool.desktop]]
 │ · fold: Wrap input lines to fit in specified width                           │
 │ · fmt : Reformat paragraph text                                              │
 │ · pr  : Paginate or columnate files for printing                             │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+  ```
 
 
 ## TXT Bullets
-┌─────────────────────────────────────────┐    [[{02_doc_has.bullets]]
+
+  ```
+┌─────────────────────────────────────────┐ [[{02_doc_has.bullets]]
 │ Bullets   : · • ● ✓ ✕ ◆ ◇               │
 │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
 │ SuperIndex: ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁱⁿ           │
-└─────────────────────────────────────────┘
+└─────────────────────────────────────────┘ [[}]]
+  ```
 
-## TXT Arrows
- ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐
+## TXT Arrows <!-- { -->
+
+  ```
+ ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐ [[{02_doc_has.arrows]]
  │ ← ↑ → ↓   ⇠ ⇡ ⇢ ⇣   ↖ ↗ ⇖ ⇗   ↱ ↰   ↴   ◀ ▲ ▶ ▼       │
  │ ⇇ ⇈ ⇉ ⇊   ⇽   ⇾     ↙ ↘ ⇙ ⇘   ↳ ↲   ↵   ◁ △ ▷ ▽       │
  │ ↼ ↾ ⇀ ⇃   ↽ ↿ ⇁ ⇂   ↢   ↣     ⇤ ⇚ ⇥ ⇛                 │
  │ ↞ ↟ ↠ ↡   ↤ ↥ ↦ ↧   ↩   ↪     ↔   ↕                   │
  │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
- └───────────────────────────────────────────────────────┘                       [[}]]
+ └───────────────────────────────────────────────────────┘ [[}]]                     
+  ```
 
-## TXT UML
+<!-- } --> 
+
+## TXT UML <!-- { -->
+
+  ```
  ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{02_doc_has.UML,02_doc_has.template]]
  │  ┌────────────┐   message      ↑ dependency  |              │
  │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
@@ -609,9 +706,13 @@ With default settings, markdown-wasm allows embedded HTML.
  │ │ Car    │◇─────────┤Passengers│  (SAFER) alternative to the│
  │ └────────┘          └──────────┘  "IS A" inheritance.       │
  └─────────────────────────────────────────────────────────────┘ [[}]]
+  ```
+<!-- } -->
 
-## TXT BPMN: (Use Vim block-mode -Ctrl+v- to edit them)
-#[BPMN]
+## TXT BPMN: <!-- { -->
+(Use Vim block-mode -Ctrl+v- to edit them)
+
+  ```
  ┌─ BPMN (Business Process Management Network) ────────────────────────────────────────┐
  │ See also: https://github.com/bpmn-io/bpmn-font/tree/master/dist/font                │
  │ ○ Start Event, ◎ Intermediary/Boundary Event, ◇ Gateway,                            │
@@ -631,8 +732,12 @@ With default settings, markdown-wasm allows embedded HTML.
  │  └─┴────────────────────────────────────────┘│                  │        ▾         ││
  │                                              │                  │       YES        ││
  └─────────────────────────────────────────────────────────────────────────────────────┘
+  ```
+<!-- } -->
 
-## TXT Geometric symbols:
+## TXT Geometric symbols <!-- { -->
+
+  ```
  ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
  │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│
  │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │
@@ -653,8 +758,12 @@ With default settings, markdown-wasm allows embedded HTML.
   │ │ ┇    │   │ │ ╷┃ ┃   ┃  ┃   ├ zzz   ╱ ╲    ╲◟◞╱ •   • ◂   ▸
   └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚   └ ...           ╲╱   ╲ ╱   ╲ ╱
   └╴──┴─────╶┘                                         •     ▾
+  ```
+<!-- } -->
 
-## TXT Math symbols:
+## TXT Math symbols <!-- { -->
+
+  ```
 ┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐ #[math_symbols]
 │ @[https://www.unicode.org/charts/PDF/U2200.pdf]                          │
 │ ● ORDER RELATIONS             ● LOGICAL OPs                              │
@@ -724,23 +833,29 @@ With default settings, markdown-wasm allows embedded HTML.
 │ U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯    │
 │ U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
 └──────────────────────────────────────────────────────────────────────────┘
+  ```
+<!-- } -->
 
-- Greek&Related Symbols ("Physics symbols")
+## Greek&Related Symbols ("Physics symbols")  <!-- { -->
+
+  ```
   Alpha   A,α│Eta    Η,η  │nu      Ν,ν  │Tau     Τ,τ
   Beta    B,β│Theta  Θ,θ│ϑ│Xi      Ξ,ξ  │Upsilon Υ,υ│ϒ
   Gamma   Γ,γ│Iota   Ι,ι  │Omicron Ο,ο  │Phi     Φ,φ
   Delta   Δ,δ│Kappa  Κ,κ  │Pi      Π,π│ϖ│Chi     Χ,χ
   Epsilon Ε,ε│Lamda  Λ,λ  │Rho     Ρ,ρ  │Psi     Ψ,ψ
   Zeta    Ζ,ζ│Mu     Μ,μ  │Sigma   Σ,ς│σ│Omega   Ω,ω
+  ```
+<!-- } -->
 
+<br/><br/>
+# ─────────────────────────────────────────────────
 
-
-══════════════════════════════════════════════════════════════════════════════════
  If you are reading this paragraph, TXT already dominates the World,
  Time for Fun and Celebration!!  #[txt_world_domination_celebration]
 
 
-# TXT GAMES!!!
+# TXT GAMES!!! <!-- { -->
 
 ┌─ @[http://fph.altervista.org/prog/bastet.html] ──────────────────────────┐ [[{games.tetris]]
 │ Tetrisfy your TXT enemies with this Tetris clone for terminals.          │
@@ -770,3 +885,5 @@ With default settings, markdown-wasm allows embedded HTML.
 ┌ @[https://howtoinstall.co/en/pacman4console] ────────────────────────────┐ [[{games.pacman]]
 │ Pacman is here!!!                                                        │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+
+<

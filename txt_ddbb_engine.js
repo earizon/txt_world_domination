@@ -168,7 +168,7 @@ class TXTDBEngine {
     }
 
     buildTopicsDB() {
-      this.docBlock         = new Block ( [0,this.rowN], {}, null )
+      this.docBlock         = new Block ( [0,this.paragraphN], {}, null )
       const parseCtrlTokens = function (lineIn) {
         let a=`${lineIn}`
         let result="";
@@ -184,17 +184,17 @@ class TXTDBEngine {
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;
       this.topicsDB = new TopicBlockDB();
-      for (let idx = 0; idx < this.rowN; idx++) {
-        const line = this.immutableDDBB[idx];
+      for (let idx = 0; idx < this.paragraphN; idx++) {
+        const paragraph = this.immutableDDBB[idx];
 
-        const ctrlToken_l = parseCtrlTokens(line).split(/([{}])/);
+        const ctrlToken_l = parseCtrlTokens(paragraph).split(/([{}])/);
         ctrlToken_l.forEach( segment => {
           if ( segment == '') { return; }
           if ( segment == '{') {
               blockStack.push( new Block ( [idx], {}, blockStack.at(-1) ) )
               if (maxStackLength<blockStack.length){
                 maxStackLength=blockStack.length;
-                // console.log(`maxStackLength ${maxStackLength},idx: ${idx+1}, ctrlToken_l:${ctrlToken_l}, line: ${line}`)
+                // console.log(`maxStackLength ${maxStackLength},idx: ${idx+1}, ctrlToken_l:${ctrlToken_l}, paragraph: ${paragraph}`)
               }
               return;
           }
@@ -204,8 +204,8 @@ class TXTDBEngine {
               return;
           }
 
-          const line_topicCoords_l = segment.split(',');
-          line_topicCoords_l
+          const paragraph_topicCoords_l = segment.split(',');
+          paragraph_topicCoords_l
             .map(
               TC_id => TopicCoordinate.parseTaintedTC(TC_id) )
             .filter( TC_id => TC_id != null )
@@ -227,7 +227,7 @@ class TXTDBEngine {
         })
       }
       let block;
-      while (block = blockStack.pop()) { block.bounds.push(this.rowN); }
+      while (block = blockStack.pop()) { block.bounds.push(this.paragraphN); }
       if (debug_topics_101) {
          console.log("buildTopicsDB() final results:")
          console.log("this.topicsDB._db:")
@@ -269,6 +269,7 @@ class TXTDBEngine {
                 ? new URL(url_txt_source)
                 : new URL(`${this.base_url}/${url_txt_source}`)
            )
+
       this.relative_path_l = this.url_txt_source_l
                              .map( (url_txt_source) => {
                                  url_txt_source.href
@@ -276,20 +277,17 @@ class TXTDBEngine {
                                  .replace(/[/][^/]*[?]?$/,"")
                                } )
 
-      const CACHE_PAYLOAD_L =
+      this.immutableDDBB    = 
         ( await Promise.all(this.url_txt_source_l
           .map( async (url_txt_source) => {
             const payload = await this.fetchPayload(url_txt_source.href);
-            const CACHE_PAYLOAD =
+            const CACHE_PARAGRAPH_L =
               parseMD2HTML( payload , this.relative_path );
-            return CACHE_PAYLOAD
-          } )) ).join(" ---- new file ------")
-
-
-      const VIEW_PADDING = (this.rowN<10)?1:( (this.rowN<100)?2: ( (this.rowN<1000)?3:( (this.rowN<10000)?4:5 ) ) );
+            return CACHE_PARAGRAPH_L
+          } )) ).flat()
       /*
        *  this.immutableDDBB looks like:
-       *  index (== line number)  | string
+       *  index (== paragraph)    | paragraph
        *  0                       | ..... [[{topic1]]
        *  1                       | ...
        *  ...                     | ...
@@ -297,18 +295,8 @@ class TXTDBEngine {
        *  ^^^^
        *  block topic1 will have index 0 as start and index 100 as end.
        */
-      this.immutableDDBB    = CACHE_PAYLOAD_L.split("\n\n").map(
-         (row) => {
-           const rowN = row.replace(/$/,'\n'); // note1
-           /* note1: row + "\n" will create internally
-            * a string formed by a list of 2 elements
-            * while row.replace will create a final
-            * single element with \n added. */
-           // console.log(row)
-         return rowN
-      } );
-      this.rowN             = this.immutableDDBB.length-1;
-      this.cacheResult      =  this.immutableDDBB.join("");
+      this.paragraphN  = this.immutableDDBB.length-1;
+      this.cacheResult = this.immutableDDBB.join("");
       this.buildTopicsDB()
 
     }
@@ -329,21 +317,21 @@ class TXTDBEngine {
         return this.cacheResult;
       }
       const grepRegex = new RegExp(grepInput, 'gim');
-      let result_l = Array(this.rowN).fill(false);
+      let result_l = Array(this.paragraphN).fill(false);
       if (grepInput == "") {
           result_l = [...this.immutableDDBB];
       } else {
-        for (let idx=0; idx < this.rowN; idx++) {
-          const lineN = this.immutableDDBB[idx];
-          let isMatch = lineN.match(grepRegex);
+        for (let idx=0; idx < this.paragraphN; idx++) {
+          const paragraphN = this.immutableDDBB[idx];
+          let isMatch = paragraphN.match(grepRegex);
           if (!isMatch) continue;
           let start = idx - grep0.before;
           if (start < 0) start = 0;
           let end  = idx + grep0.after;
-          if (end > this.rowN) end = this.rowN;
+          if (end > this.paragraphN) end = this.paragraphN;
           for (let idx2 = start; idx2 <= end; idx2++) {
               if (idx2 == idx) {
-                  result_l[idx] = lineN.replace( grepRegex, (str) => `<span class='grepMatch'>${str}</span>`);
+                  result_l[idx] = paragraphN.replace( grepRegex, (str) => `<span class='grepMatch'>${str}</span>`);
               } else {
                   if (result_l[idx2] == false) {
                      result_l[idx2] = this.immutableDDBB[idx2];
@@ -352,7 +340,7 @@ class TXTDBEngine {
           }
         }
       }
-      for (let idx=0; idx < this.rowN; idx++) {
+      for (let idx=0; idx < this.paragraphN; idx++) {
         const current_row_false = !!result_l[idx];
         const    next_row_false = !!result_l[idx+1];
         if (current_row_false == false  && next_row_false == true ) {
@@ -361,8 +349,8 @@ class TXTDBEngine {
       }
 
       const topicMatchingLines_l = this.topicsDB.getMatchingLinesForTopicCoord(
-          this.rowN, selectedTopicsIds, topicParentDepth)
-      for (let idx = 0 ; idx < this.rowN; idx++) {
+          this.paragraphN, selectedTopicsIds, topicParentDepth)
+      for (let idx = 0 ; idx < this.paragraphN; idx++) {
           if (topicMatchingLines_l[idx]==false) result_l[idx] = false;
       }
 

@@ -7,29 +7,27 @@
    <head>
 
 <style>
-h1,h2,h3,h4,h5 {
-  font-size: inherit;
-}
 
 h1 {
   font-weight: bold;
   display: block;
   width: 95%;
-}
-/* #dbEngineOutput > h1 { */
-                     h1 { */
   border-bottom: 1px solid black;
 }
 
 h2 {
   font-weight: bold;
-  display: inline-block;
   width: auto;
 }
+
+#idTableIndex > h2 {
+  display: inline-block;
+  text-decoration: underline;
+}
+
 #dbEngineOutput > h2 {
   border-bottom: 1px solid gray;
 }
-
 ul {
   padding-top: 0;
   display: grid;
@@ -42,7 +40,8 @@ li {
 }
 
 p {
-  display: inline;
+  margin : 0;
+  padding: 0;
 }
 
 .button {
@@ -165,9 +164,17 @@ pre {
   /* font-family: 'font0', monospace, console; */
   line-height: 1.2em;
   outline:1px solid grey;
+  background: #EEE;
+  width: fit-content;
+}
+
+ul {
+  border-left: 1px solid black;
+  padding: 0;
 }
 
 #dbEngineOutput{
+  font-family: sans-serif;
   padding-top: 1.5em;
   overflow: auto;
   background-attachment: fixed;
@@ -356,6 +363,10 @@ a /*, a:link, a:visited, a:hover, a:active */ {
 h1 > a {
   text-decoration: underline;
   color: green;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family:monospace;
 }
 
 .grepState {
