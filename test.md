@@ -17,7 +17,6 @@
 └───────────────────────────────────────────────────┘
 ```
 
-
 * [ammunition](#txt_world_domination_ammunition)
 * [celebration](#txt_world_domination_celebration)
 
@@ -263,6 +262,7 @@ Documenting is not about looking cool or serious or expert
   offers (while in pure academic's enviroment publishing
   papers looks to be the only important thing to do with no
   attention to any other real outcome).
+
 * ```
   ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────────────────┐
   │ ▸ PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS │
@@ -270,14 +270,10 @@ Documenting is not about looking cool or serious or expert
   └─[[}]]──────────────────────────────────────────────────┘
   ```
 * ```
-  ┌ [[02_DOC_HAS.KEY-POINT]] ────────────────────────┐
-  │┌────────────────────────────────────────────────┐│
-  ││┌──────────────────────────────────────────────┐││
-  │││ TAKE CONTROL OF THE INFORMATION BEFORE THE   │││
-  │││  INFORMATION TAKES CONTROL OF YOU!           │││
-  ││└──────────────────────────────────────────────┘││
-  │└────────────────────────────────────────────────┘│
-  └──────────────────────────────────────────────────┘
+  ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────┐
+  │ TAKE CONTROL OF THE INFORMATION BEFORE THE │
+  │  INFORMATION TAKES CONTROL OF YOU!         │
+  └──[[}]]─────────────────────────────────────┘
   ```
 
 ##  ABOUT THE TXT WORLD DOMINATION PROJECT
@@ -412,6 +408,7 @@ __Example A__                  _Example B_
  └ topic01.1 [[}]]                             only the corresponding text inside each block
                                                must be displayed
 ```
+
 
 ```
     [[{ topic01.1 ]]                           topic01.1 belongs to level 1 block.
@@ -605,6 +602,7 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 │  cut      : remove columns on each line                                      │
 │  ...                                                                         │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
+ ```
 
 ## ASCiinema: TXT Video recording
 
@@ -647,7 +645,6 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 │ · pr  : Paginate or columnate files for printing                             │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
   ```
-
 
 ## TXT Bullets
 

@@ -170,12 +170,10 @@ class TXTDBEngine {
     buildTopicsDB() {
       this.docBlock         = new Block ( [0,this.paragraphN], {}, null )
       const parseCtrlTokens = function (paragraphN) {
-console.log("buildTopicsDB paragraphN:"+paragraphN)
         let result="";
         paragraphN.split("\n")
         .filter (lineN => {return lineN.indexOf("[[")>0})
         .forEach(lineN => {
-console.log("buildTopicsDB lineN:"+lineN)
           while (lineN.indexOf("[[")>=0) {
             lineN=lineN.slice(lineN.indexOf("[[")+2);
             if (lineN.indexOf("]]")<0) break
@@ -185,17 +183,14 @@ console.log("buildTopicsDB lineN:"+lineN)
           }
         })
         result = result.toUpperCase().replaceAll(" ","");
-console.log("buildTopicsDB result:"+result)
         return result
       }
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;
       this.topicsDB = new TopicBlockDB();
       for (let idx = 0; idx < this.paragraphN; idx++) {
-console.log("0 idx:"+idx);
         const paragraph = this.immutableDDBB[idx];
         const ctrlToken_l = parseCtrlTokens(paragraph).split(/([{}])/);
-console.log("ctrlToken_l:"+ctrlToken_l);
         ctrlToken_l.forEach( segment => {
           if ( segment == '') { return; }
           if ( segment == '{') {

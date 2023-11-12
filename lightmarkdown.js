@@ -5,13 +5,32 @@ function _00_documentCleaning(md, relative_path){
          .replaceAll('<br/>'  ,'ºbrº' )
          .replaceAll('<br>'   ,'ºbrº' )
          .replaceAll('<'      ,'&lt;' ) // always replaced. 
+         .replaceAll(/^[>] /mg,'ºbquoteº')
          .replaceAll('>'      ,'&gt;' )
          .replaceAll('º--'    ,'<!--' ) 
          .replaceAll('--º'    ,'-->', )
          .replaceAll('ºbrº'   ,'<br/>')
          .replaceAll(/^[-] /mg,'* '   )
          .replaceAll(/  $/mg,'<br/>'  )
-  return md;
+  let isPre=false;
+  let md_l = md.split("```")
+    .map(p/*aragraph*/ => {
+      let result = isPre
+        ? "<pre>"+p.replaceAll("\n\n","\n \n")+"</pre>" 
+        //                             ^                         
+        // ┌───────────────────────────┘                         
+        // enough to avoid splitting a pre block in two logical paragraphs
+        // later on. Otherwise when filtering by topics a paragraph inside
+        // a pre will enter into the "grep" and another one out, breaking 
+        // layout.
+        // TODO:(improvement) allow to split pre into logical topic blocks
+        // (in a transparent way to final user).
+        : p 
+      isPre=!isPre;
+       return result
+    })
+md.split("```").filter(p => p.indexOf("TAKE CONTROL")>0).forEach(p => {console.log(p)})
+  return md_l.join("");
 }
 
 const funReplaceHeader = function(match, m1){
@@ -56,25 +75,32 @@ function mdTables(str) {
     content += `${rowStart}${inner}${rowEnd}`
     i_res = row_l[i + 1]
   }
-  return (content) ? `${tableStart}${content}${tableEnd}` : '';
+  let result = (content) ? `${tableStart}${content}${tableEnd}` : '';
+  return result
 }
 
-const REGEX_PRE=new RegExp('```([^\n]*)(.*)```',"gs");
+//const REGEX_PRE=new RegExp('```([^\n]*)(.*)```',"gs");
+
 function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
+
+//if (p.indexOf("```")>0 /* pre */) {
+//  // https://stackoverflow.com/questions/1068280/javascript-regex-multiline-text-between-two-tags
+//  p = p.replace(REGEX_PRE,'<pre style="$1_lang">$2</pre>')
+//}
+
   if (true /* ul */) {
     if (p.startsWith("* ") /* ul li */) {
+if (p.indexOf("TAKE CONTROL")>0){console.log(p)}
+ 
       p = "<ul>"+p.split(/^[*] /gm).filter(li=>li.length>0).map(li=>"<li>"+li+"</li>").join("\n")+"</ul>"
     }
   }
 
-  if (p.match(/(\|)/gi) /*table*/) {
+  const REGEX_MAY_IS_TABLE=/^[|][^|]+[|].*\n[|][^|]+[|]/gs
+  if (p.match(REGEX_MAY_IS_TABLE) /*table*/) {
     p = mdTables(p)
   }
 
-  if (true /* pre */) {
-    // https://stackoverflow.com/questions/1068280/javascript-regex-multiline-text-between-two-tags
-    p = p.replace(REGEX_PRE,'<pre style="$1_lang">$2</pre>')
-  }
     
   if (true/* headers */) {
     p = p.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
