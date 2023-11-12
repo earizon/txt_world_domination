@@ -607,6 +607,8 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
 
 ## ASCiinema: TXT Video recording
+
+ ```
 ┌ @[https://asciinema.org/] ASCII VIDEO ───────────────────────────────────────┐ [[{]]
 │ Record+share terminal sessions, the simple way.                              │ [[tool.desktop,tool.online]]
 │ Enjoy a lightweight, purely text-based approach to terminal recording.       │ [[security.audit]]
@@ -661,11 +663,10 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
   ```
  ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐ [[{02_doc_has.arrows]]
- │ ← ↑ → ↓   ⇠ ⇡ ⇢ ⇣   ↖ ↗ ⇖ ⇗   ↱ ↰   ↴   ◀ ▲ ▶ ▼       │
- │ ⇇ ⇈ ⇉ ⇊   ⇽   ⇾     ↙ ↘ ⇙ ⇘   ↳ ↲   ↵   ◁ △ ▷ ▽       │
- │ ↼ ↾ ⇀ ⇃   ↽ ↿ ⇁ ⇂   ↢   ↣     ⇤ ⇚ ⇥ ⇛                 │
- │ ↞ ↟ ↠ ↡   ↤ ↥ ↦ ↧   ↩   ↪     ↔   ↕                   │
- │ ⇄ ⇅ ⇋ ⇌   ⇱ ⇲ ↶ ↷   ⇐ ⇑ ⇒ ⇓   ⇦ ⇧ ⇨ ⇩                 │
+ │ ↖ ↑ ↗  ↔ ↕ ↨                                          │
+ │ ← ↑ →                                                 │
+ │ ↙ ↓ ↘                                                 │
+ │ ↲ ↳ ⇅                                                 │
  └───────────────────────────────────────────────────────┘ [[}]]                     
   ```
 
@@ -886,4 +887,4 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 │ Pacman is here!!!                                                        │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 
-<
+<!-- } -->

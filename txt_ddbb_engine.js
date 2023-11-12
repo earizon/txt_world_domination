@@ -169,25 +169,33 @@ class TXTDBEngine {
 
     buildTopicsDB() {
       this.docBlock         = new Block ( [0,this.paragraphN], {}, null )
-      const parseCtrlTokens = function (lineIn) {
-        let a=`${lineIn}`
+      const parseCtrlTokens = function (paragraphN) {
+console.log("buildTopicsDB paragraphN:"+paragraphN)
         let result="";
-        while (a.indexOf("[[")>=0) {
-          a=a.slice(a.indexOf("[[")+2);
-          if (a.indexOf("]]")<0) break
-          result+=a.slice(0,a.indexOf("]]"))
-          a=a.slice(a.indexOf("]]")+2)
-          result+=","
-        }
-        return result.toUpperCase().replaceAll(" ","");
+        paragraphN.split("\n")
+        .filter (lineN => {return lineN.indexOf("[[")>0})
+        .forEach(lineN => {
+console.log("buildTopicsDB lineN:"+lineN)
+          while (lineN.indexOf("[[")>=0) {
+            lineN=lineN.slice(lineN.indexOf("[[")+2);
+            if (lineN.indexOf("]]")<0) break
+            result+=lineN.slice(0,lineN.indexOf("]]"))
+            lineN=lineN.slice(lineN.indexOf("]]")+2)
+            result+=","
+          }
+        })
+        result = result.toUpperCase().replaceAll(" ","");
+console.log("buildTopicsDB result:"+result)
+        return result
       }
       const blockStack = []; // Active stack for a given txt-line-input
       let maxStackLength = -1;
       this.topicsDB = new TopicBlockDB();
       for (let idx = 0; idx < this.paragraphN; idx++) {
+console.log("0 idx:"+idx);
         const paragraph = this.immutableDDBB[idx];
-
         const ctrlToken_l = parseCtrlTokens(paragraph).split(/([{}])/);
+console.log("ctrlToken_l:"+ctrlToken_l);
         ctrlToken_l.forEach( segment => {
           if ( segment == '') { return; }
           if ( segment == '{') {
@@ -218,7 +226,7 @@ class TXTDBEngine {
               blockStack.forEach(block => {
                 // if (TC_id in block.topic_d) { return }
                 const TC = new TopicCoordinate(TC_id)
-                block.topic_d[TC.getTC_id()] = stackDepth; //@ma
+                block.topic_d[TC.getTC_id()] = stackDepth;
              // console.log(`TC_id: ${TC_id} , stackDepth: ${stackDepth}`)
                 this.topicsDB.add(TC, block);
                 stackDepth--;

@@ -10,6 +10,7 @@ function _00_documentCleaning(md, relative_path){
          .replaceAll('--º'    ,'-->', )
          .replaceAll('ºbrº'   ,'<br/>')
          .replaceAll(/^[-] /mg,'* '   )
+         .replaceAll(/  $/mg,'<br/>'  )
   return md;
 }
 
