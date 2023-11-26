@@ -1,3 +1,4 @@
+const QUOT/*ationMark*/='ºq'
 function _00_documentCleaning(md, relative_path){
   md = md
          .replaceAll('<!--'   ,'º--'  ) // TODO:(document) No native HTML allowed
@@ -5,7 +6,7 @@ function _00_documentCleaning(md, relative_path){
          .replaceAll('<br/>'  ,'ºbrº' )
          .replaceAll('<br>'   ,'ºbrº' )
          .replaceAll('<'      ,'&lt;' ) // always replaced. 
-         .replaceAll(/^[>] /mg,'ºbquoteº')
+         .replaceAll(/^[>] /mg,QUOT   )
          .replaceAll('>'      ,'&gt;' )
          .replaceAll('º--'    ,'<!--' ) 
          .replaceAll('--º'    ,'-->', )
@@ -29,7 +30,6 @@ function _00_documentCleaning(md, relative_path){
       isPre=!isPre;
        return result
     })
-md.split("```").filter(p => p.indexOf("TAKE CONTROL")>0).forEach(p => {console.log(p)})
   return md_l.join("");
 }
 
@@ -90,8 +90,6 @@ function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
 
   if (true /* ul */) {
     if (p.startsWith("* ") /* ul li */) {
-if (p.indexOf("TAKE CONTROL")>0){console.log(p)}
- 
       p = "<ul>"+p.split(/^[*] /gm).filter(li=>li.length>0).map(li=>"<li>"+li+"</li>").join("\n")+"</ul>"
     }
   }
@@ -101,7 +99,6 @@ if (p.indexOf("TAKE CONTROL")>0){console.log(p)}
     p = mdTables(p)
   }
 
-    
   if (true/* headers */) {
     p = p.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
   }
@@ -120,7 +117,12 @@ if (p.indexOf("TAKE CONTROL")>0){console.log(p)}
     p = p.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>  $1  </b>');
     p = p.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '  <del>$1</del>  ');
   }
-  return "\n<p>"+p+"</p>";
+
+  if (p.startsWith(QUOT) /* quotations */ ) {
+    p = "<blockquote>"+p.replaceAll(QUOT, "")+"</blockquote>"
+  }
+
+  return p.length>0 ? "\n<p>"+p+"</p>" : "";
 }
 
 /* step 2: markdown txt extensions for pre-like */

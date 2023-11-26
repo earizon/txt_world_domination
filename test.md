@@ -58,19 +58,13 @@ line 2
 
 ### Embedded HTML
 
-With default settings, markdown-wasm allows embedded HTML.
-
-> It has been disabled in this demo for safety reasons, by means of setting `ParseFlags.NO_HTML`.
-> Not setting the `NO_HTML` flag allows embedding HTML like this:
-
-<input type=“text” value=“type”></input>
-
+Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 
 ### Block Quotes
 
 > You can insert quotes by
-> preceeding each line with `>`.
->
+> preceeding each line with `>`.<br/>
+>   
 > Blockquotes can also contain line
 > breaks.
 
@@ -449,6 +443,7 @@ __Example A__                  _Example B_
   [[{forbidden_topic $}]]               if [[ ... ${SOME_VARIABLE} ... ]]
      └──────┬────────┘
             └ those topics must not appear in topics menu.
+  ```
 
 ## TEST: grep regex search '*grep.*gex' must display this line.
 
@@ -459,7 +454,7 @@ __Example A__                  _Example B_
   │ ┌─────┐┌─────────┐┌─────┐ │ ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒
   │ │socks││underwear││shirt│ │ │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃
   │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃
-  │  │      │┌▽─────┐  │┌▽──┐ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃
+  │  │      │┌v─────┐  │┌v──┐ │ │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃
   └───────────────────────────┘ ├─┼─┼────┼───┼─┤ ┤┠─╂───╂──┨
                                 └─┴─┴────┴───┴─┘ ┘┖─┸───┸──┚
   ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧ ⎧  ⎫
@@ -482,38 +477,38 @@ __Example A__                  _Example B_
  └──────────────┴ - width of original text must not change when replaced by
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
- ```
 
   Pressing back in browser must scroll up to original link
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---------------------------------------------
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  --------------------------------------------
  #[internalLink2] must link here.
  ^              ^
  └──────────────┴ - width of original text must not change when replaced by
                   - html anchor.
                   - text must be converted to anchor with correct sytles.
   Pressing back in browser must scroll up to original link
-
 ```
 <!-- } tests end -->
-
+  .
+  .
+  .
 ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
-
+  
 # TXT World Domination Tools !!!
 
   ```
@@ -539,10 +534,10 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 │  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │                         │[[tool.online,tool.desktop]]
 │  │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                         │
 │  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │                         │
-│  │  │      │┌▽─────┐  │┌▽──┐ │    │ Hello Bob! │   │                         │
+│  │  │      │┌v─────┐  │┌v──┐ │    │ Hello Bob! │   │                         │
 │  │  │      ││pants │  ││tie│ │    │───────────>│   │                         │
 │  │  │      │└┬──┬──┘  │└───┘ │    │Hello Alice!│   │                         │
-│  │ ┌▽──────▽─▽┐┌▽─────▽┐     │    │<───────────│   │                         │
+│  │ ┌v──────v─v┐┌v─────v┐     │    │<───────────│   │                         │
 │  │ │shoes     ││belt   │     │ ┌──┴──┐       ┌─┴─┐ │                         │
 │  │ └──────────┘└───────┘     │ │Alice│       │Bob│ │                         │
 │  │                           │ └─────┘       └───┘ │                         │
@@ -719,11 +714,11 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
  │     │ Task │  │○ Expanded   │   ▴            │     Actor A      │    Actor B       ││
  │     └──────┘  │  Subproccess│  ◂ ▸           ├──────────────────┼──────────────────┤│
  │               └─────────────┘   ▾            │      ○           │                  ││
- │  ┌─┬─ Pool Participant "A" ─────────────────┐│      │           │    ┌──────────┐  ││
- │  │A│                            Some con-   ││      ▼           │ ┌─▶│○ Expanded│  ││
+ │  ┌─┬─ Pool Participant "A" ─────────────────┐│      ·           │    ┌──────────┐  ││
+ │  │A│                            Some con-   ││      ▼           │ ┌·▸│○ Expanded│  ││
  │  │c│    ┌──────┐  ┌──────────┐     • dition?││   ┌──────┐       │ │  │  Subproc.│  ││
- │  │t│○──▶│ Task •─▶│○ Expanded│    ╱ ╲       ││   │ Task •─────────┘  └───•──────┘  ││
- │  │o│    └──────┘  │  Subproc.•──▶• ? ▸ No   ││   └──────┘       │        ▼ Some    ││
+ │  │t│○··▸│ Task •·▸│○ Expanded│    ╱ ╲       ││   │ Task •·········┘  └───•──────┘  ││
+ │  │o│    └──────┘  │  Subproc.•··▸• ? ▸ No   ││   └──────┘       │        ▾ Some    ││
  │  │r│              └──────────┘    ╲ ╱       ││                  │       ╱ ╲ condi- ││
  │  │ │                               ▾        ││                  │    NO◂   • tion? ││
  │  │A│                              Yes       ││                  │       ╲ ╱        ││
@@ -738,12 +733,9 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
   ```
  ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
  │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│
- │  ▲   ▴   △   ▵  ◤ ◥ ◸ ◹ ◜ ◝ ◠  ◄ ►     ◅ ▻              │
- │ ◀ ▶ ◂ ▸ ◁ ▷ ◃ ▹ ◣ ◢ ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊ ◰ ◱ ◲ ◳         │
- │  ▼   ▾   ▽   ▿                          ◴ ◵ ◶ ◷         │
- │ ■ □ ▢ ▣ ▤ ▥ ▦ ▧ ▨ ▩ ◼ ◻ ▪ ▫ ▬ ▭ ▮ ▯ ▰ ▱ ◧ ◨ ◩ ◪ ◫       │
- │ ◯ ○ ◦ ◌ ◍ ◉ ◎ ● ◐ ◑ ◒ ◓ ◔ ◕ ◖ ◗         ◬ ◭ ◮           │
- │ ◘ ◙ ◚ ◛                                                 │
+ │  ▴   ▵          ◸ ◹ ◜ ◝ ◠  ◄ ►                          │
+ │ ◂ ▸ ◃ ▹         ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊                     │
+ │  ▾   ▿          ◴ ◵ ◶ ◷                                 │
  └─────────────────────────────────────────────────────────┘
 
   ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧⎧ ⎧     ⎫

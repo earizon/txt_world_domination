@@ -32,11 +32,18 @@ ul {
   padding-top: 0;
   display: grid;
   margin: 0;
+  border-left: 1px dotted grey;
+  padding: 0;
+}
+ul > ul{
+  margin: 1.0em;
 }
 li {
   max-width: 50em;
   white-space: normal;
   margin-left: 2ch;
+  padding: 0;
+  margin-left: 0.7em;
 }
 
 p {
@@ -168,11 +175,6 @@ pre {
   width: fit-content;
 }
 
-ul {
-  border-left: 1px solid black;
-  padding: 0;
-}
-
 #dbEngineOutput{
   font-family: sans-serif;
   padding-top: 1.5em;
@@ -291,8 +293,11 @@ body {
   font-weight: normal;
   font-family: sans;
 }
+#idTableIndex > h1 { font-size: 1em; }
 #idTableIndex > h2, #idTableIndex > h3 {
-  padding-left: 2em;
+  padding-left: 1em;
+  font-size: 1.2em;
+  line-height:1.1em;
 }
 
 #idTableTopics[size=s1], #idTableIndex[size=s1] {
@@ -363,6 +368,14 @@ h1,h2,h3,h4,h5,h6 {
 
 .grepState {
   font-size:0.7em;
+}
+
+blockquote {
+  border-left: 10px solid black;
+  padding: 0.5em;
+  max-width: auto;
+  margin-left: 1em;
+  background-color: beige;
 }
 </style>
 <script src="./markdown.js"></script>
