@@ -81,17 +81,25 @@ function mdTables(str) {
 
 //const REGEX_PRE=new RegExp('```([^\n]*)(.*)```',"gs");
 
+
+
+const listRegex_l=[/^[*] /gm  ,
+                   /^  [*] /gm,
+                   /^    [*] /gm]
+function handleLists(nLevel, p/*aragraph*/) {
+   if (nLevel>listRegex_l.length-1) return p;
+   const li_list = p.split(listRegex_l[nLevel])
+   if (li_list.length == 1) return p;
+   return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleLists(nLevel+1,li)+"</li>").join("\n")+"</ul>"
+   return p;
+}
+/**
+ * Apply markdown to each paragraph.
+ */
 function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
 
-//if (p.indexOf("```")>0 /* pre */) {
-//  // https://stackoverflow.com/questions/1068280/javascript-regex-multiline-text-between-two-tags
-//  p = p.replace(REGEX_PRE,'<pre style="$1_lang">$2</pre>')
-//}
-
   if (true /* ul */) {
-    if (p.startsWith("* ") /* ul li */) {
-      p = "<ul>"+p.split(/^[*] /gm).filter(li=>li.length>0).map(li=>"<li>"+li+"</li>").join("\n")+"</ul>"
-    }
+     p =handleLists(0, p);
   }
 
   const REGEX_MAY_IS_TABLE=/^[|][^|]+[|].*\n[|][^|]+[|]/gs
