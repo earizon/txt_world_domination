@@ -130,9 +130,9 @@ function handleLinks(p/*aragraph*/) {
 }
 function handleFontStyles(p/*aragraph*/) {
     return p
-        .replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '  <b>$1</b>  ')
-        .replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, ' <i>$1</i> ')
-        .replace(/[\~]{1}([^\~]+)[\~]{1}/g      , ' <del>$1</del> ')
+        .replace(/\b[\*\_]{2}([^\*\_]+)[\*\_]{2}\b/g, '  <b>$1</b>  ')
+        .replace(/\b[\*\_]{1}([^\*\_]+)[\*\_]{1}\b/g, ' <i>$1</i> ')
+        .replace(/[~]{2}([^\~]+)[~]{2}/g      , '  <del>$1</del>  ')
         ;
 }
 

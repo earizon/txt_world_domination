@@ -40,15 +40,15 @@ _This is a paragraph with style italic_
 
 __This is a paragraph with style bold__
 
-~This is an strike-through paragraph~
+~~This is an strikethrough paragraph~~
 
  ```
  Font Styles respect white-space
  (column alignment) in monospace/pre blocks.
- ┌─────────────────────┬───────────────────────┬────────────────────┐
- │_This is a paragraph_│__This is a paragraph__│~This is an strike~ │
- │_ with style italic_ │__with style bold__    │~-through paragraph~│
- └─────────────────────┴───────────────────────┴────────────────────┘
+ ┌─────────────────────┬───────────────────────┬──────────────────────┐
+ │_This is a paragraph_│__This is a paragraph__│~~This is an strike-~~│
+ │_ with style italic_ │__with style bold__    │~~through paragraph~~ │
+ └─────────────────────┴───────────────────────┴──────────────────────┘
  ```
 
 ![image](./test.svg)
@@ -139,19 +139,19 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 
 ## TEST: Get sure readers understand the importance of good documentation
 
-        by making a copy of the following paragraph:
+by making a copy of the following paragraph:
 
-        """ ... The documentation and samples are still bad today ...  We ended up
-        with a painful difficult-to-understand, hard-to-test,
-        even-harder-to-modify mess. Not because we didn't follow the "(Google
-        Android) best practices", but precisely because we did!...a large
-        part of the official  documentation and samples are still poorly
-        written. And it continues to mislead the new generation of
-        inexperienced developers. And as Uncle Bob would tell you, most
-        developers are new since the IT industry double its size every five
-        years ..."
-        Citation extracted from:
-        https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b
+> """ ... The documentation and samples are still bad today ...  We ended up
+> with a painful difficult-to-understand, hard-to-test,
+> even-harder-to-modify mess. Not because we didn't follow the "(Google
+> Android) best practices", but precisely because we did!...a large
+> part of the official  documentation and samples are still poorly
+> written. And it continues to mislead the new generation of
+> inexperienced developers. And as Uncle Bob would tell you, most
+> developers are new since the IT industry double its size every five
+> years ..."
+  Citation extracted from:
+  @[https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b]
 
 ## TEST: Make sure readers understand the key points when creating documentation:
 
