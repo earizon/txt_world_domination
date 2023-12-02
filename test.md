@@ -19,22 +19,22 @@
 │ Quick Links:                                      │
 │ (#uml) @[#bpmn]                                   │
 │  @[#TXTGeometricsymbols] @[#TXTMathsymbols]       │
-│ @[#txt_world_domination_ammunition]  link ext     │
-│ @[#txt_world_domination_celebration] link ext     │
+│ @[#TXTWorldDominationAmmunition]  link ext        │
+│ @[#TXTWorldDominationCellebration] link ext       │
 └───────────────────────────────────────────────────┘
 ```
 
-* [ammunition](#txt_world_domination_ammunition)
-* [celebration](#txt_world_domination_celebration)
+# This is an header Level 1
 
+## This is an header Level 2
 
-# This is an h1 title
+### This is an header Level 3
 
-## This is an h2 (Sub)title
+#### This is an header Level 4
 
-### This is an h3 (subsub) title
+##### This is an header Level 5
 
-### This is an h4 (subsubsub) title
+###### This is an header Level 6
 
 _This is a paragraph with style italic_
 
@@ -42,6 +42,14 @@ __This is a paragraph with style bold__
 
 ~This is an strike-through paragraph~
 
+ ```
+ Font Styles respect white-space
+ (column alignment) in monospace/pre blocks.
+ ┌─────────────────────┬───────────────────────┬────────────────────┐
+ │_This is a paragraph_│__This is a paragraph__│~This is an strike~ │
+ │_ with style italic_ │__with style bold__    │~-through paragraph~│
+ └─────────────────────┴───────────────────────┴────────────────────┘
+ ```
 
 ![image](./test.svg)
 i[./test.svg,width=5em]
@@ -527,9 +535,9 @@ __Example A__                  _Example B_
   .
   .
   .
-ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
+ENOUGH WITH TESTING. TIME FOR ...
   
-# TXT World Domination Tools !!!
+# TXT World Domination Ammunition !!!
 
   ```
     World Domination Tools !!!
@@ -876,10 +884,10 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 # ─────────────────────────────────────────────────
 
  If you are reading this paragraph, TXT already dominates the World,
- Time for Fun and Celebration!!  #[txt_world_domination_celebration]
+ Time for Fun and Celebration!!
 
-
-# TXT GAMES!!! <!-- { -->
+# TXT World Domination Cellebration
+## TXT GAMES!!! <!-- { -->
 
 ```
 ┌─ @[http://fph.altervista.org/prog/bastet.html] ──────────────────────────┐ [[{games.tetris]]

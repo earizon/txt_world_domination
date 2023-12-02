@@ -11,18 +11,17 @@
 h1 {
   font-weight: bold;
   display: block;
-  width: 95%;
-  border-bottom: 1px solid black;
 }
+h1,h2,h3,h4,h5,h6 { font-weight: bold; width: 95%; border-bottom: 1px solid black; }
+  
 
-h2 {
-  font-weight: bold;
-  width: auto;
-}
+h1, h3, h5 { text-align: left; }
+h2, h4, h6 { text-align: right; }
 
 #idTableIndex > h2 {
-  display: inline-block;
+  display: inline;
   text-decoration: underline;
+  width: auto;
 }
 
 #dbEngineOutput > h2 {
@@ -293,6 +292,7 @@ body {
   font-weight: normal;
   font-family: sans;
 }
+
 #idTableIndex > h1 { font-size: 1em; }
 #idTableIndex > h2, #idTableIndex > h3 {
   padding-left: 1em;
