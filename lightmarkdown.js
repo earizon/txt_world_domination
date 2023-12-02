@@ -83,24 +83,46 @@ function mdTables(str) {
 
 
 
-const listRegex_l=[/^[*] /gm  ,
-                   /^  [*] /gm,
-                   /^    [*] /gm]
-function handleLists(nLevel, p/*aragraph*/) {
-   if (nLevel>listRegex_l.length-1) return p;
-   const li_list = p.split(listRegex_l[nLevel])
+const ulistRegex_l=[/^[*] /gm   ,
+                   /^  [*] /gm  ,
+                   /^    [*] /gm  ]
+function handleUnorderedLists(nLevel, p/*aragraph*/) {
+   if (nLevel>ulistRegex_l.length-1) return p;
+   const li_list = p.split(ulistRegex_l[nLevel])
    if (li_list.length == 1) return p;
-   return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleLists(nLevel+1,li)+"</li>").join("\n")+"</ul>"
+   return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleUnorderedLists(nLevel+1,li)+"</li>").join("\n")+"</ul>"
    return p;
 }
+
+const olistRegex_l=[/(^[0-9]+. )/gm   ,
+                   ]
+function handleOrderedLists(nLevel, p/*aragraph*/) {
+  if (nLevel>olistRegex_l.length-1) return p;
+  const li_list = p.split(olistRegex_l[nLevel])
+  if (li_list.length == 1) return p;
+  let even=true;
+  const l = li_list
+    .slice(1)
+    .map(it => { 
+       even = !even
+       if (even) {
+           return `${it}</li>`
+       } else {
+           if (it == "1. ") return "<li>"
+           it = it.replace(". ","")
+           return `<li value="${it}">`
+       }
+    }).join("\n")
+  return `<ol>${l}</ol>`
+}
+
 /**
  * Apply markdown to each paragraph.
  */
 function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
 
-  if (true /* ul */) {
-     p =handleLists(0, p);
-  }
+  p =handleUnorderedLists(0, p);
+  p =handleOrderedLists  (0, p);
 
   const REGEX_MAY_IS_TABLE=/^[|][^|]+[|].*\n[|][^|]+[|]/gs
   if (p.match(REGEX_MAY_IS_TABLE) /*table*/) {
@@ -150,7 +172,7 @@ const _02_markdown_extension = (p, relative_path) => {
   //    (non-standard) links that just the md++ parser/viewer will understand.
   p = p.replace(
       /@\[(#[^\]\n]*)\]/g,
-      " ><a onClick='window.scrollInto(\"$1\")'>$1</a><")
+      " ◐<a onClick='window.scrollInto(\"$1\")'>$1</a>◑")
 
   // NEXT) md++ extension. Replace External absolute URL images: i[http://.../test.svg|width=3em]
   p = p.replace(

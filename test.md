@@ -5,13 +5,20 @@
 <!-- non visible HTML comment -->
 <!-- non visible HTML comment -->
 <!-- non visible HTML comment -->
+## Tables  <!-- { -->
+
+| Column 1 | Column 2 | Column 3 | Column 4
+|----------|:---------|:--------:|---------:
+| default | left | center | right
+<!-- } -->
+
 ```
 ┌─ HEAD-Quarters ───────────────────────────────────┐
 │@[https://github.com/earizon/txt_world_domination/]│
 ├───────────────────────────────────────────────────┤
 │ Quick Links:                                      │
-│ (#uml) @[#bpmn] @[#geometric] @[#math_symbols]    │
-│                                                   │
+│ (#uml) @[#bpmn]                                   │
+│  @[#TXTGeometricsymbols] @[#TXTMathsymbols]       │
 │ @[#txt_world_domination_ammunition]  link ext     │
 │ @[#txt_world_domination_celebration] link ext     │
 └───────────────────────────────────────────────────┘
@@ -20,19 +27,6 @@
 * [ammunition](#txt_world_domination_ammunition)
 * [celebration](#txt_world_domination_celebration)
 
-
-### ul Lists:
-
-* l1
-  l1 cont.
-* l2
-  * l2.1 cont.
-    * l2.1.1 cont.
-    * l2.1.2 cont.
-  * l2.2 cont.
-* l3
-*   
-* l4
 
 # This is an h1 title
 
@@ -74,15 +68,20 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 > breaks.
 
 
-## Lists
+## Unordered (ul) lists
 
-### Unordered lists
+* l1
+  l1 cont.
+* l2
+  * l2.1 cont.
+    * l2.1.1 cont.
+    * l2.1.2 cont.
+  * l2.2 cont.
+* l3
+*   
+* l4
 
-- Unordered
-- Lists
-- Hello
-
-### Ordered lists
+## Ordered lists
 
 1. Ordered
 2. Lists
@@ -100,11 +99,12 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 - [ ] Task 3
 - Regular list item
 
-## Tables
+## Tables  <!-- { -->
 
 | Column 1 | Column 2 | Column 3 | Column 4
 |----------|:---------|:--------:|---------:
 | default | left | center | right
+<!-- } -->
 
 ### Table of image file types
 
@@ -190,7 +190,7 @@ projects documented with plain text:
   Go to @[https://www.ietf.org/]
   Go to @[https://www.ieee.org/]
 
-## TEST: MAP ONE-TO-ONE TO DOCUMENTATION: [[{02_DOC_HAS.KEY-POINT]]
+## TEST: MAP ONE-TO-ONE TO DOCUMENTATION: [[{DOC_HAS.KEY-POINT]]
 
 * By reading the tests you can learn how to write txt files
   compatible with the TXT World Domination Project.
@@ -208,7 +208,7 @@ them in future.
 
 Documenting is not about looking cool or serious or expert 
 ```
-  ┌ [[{02_DOC_HAS.KEY-POINT]] ────────────────────────────────────────┐
+  ┌ [[{DOC_HAS.KEY-POINT]] ───────────────────────────────────────────┐
   │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
   │           DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE         │
   │              DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE      │
@@ -239,7 +239,7 @@ Documenting is not about looking cool or serious or expert
   people working in a project the biggest the need to have good
   documentation but ....
 * ```
-    ┌ [[{02_DOC_HAS.KEY-POINT]]───────────────────────────────┐
+    ┌ [[{DOC_HAS.KEY-POINT]]──────────────────────────────────┐
     │ ▸ REAL WORLD is a very imperfect REAL WORLD.            │
     │   ▸ Projects misserably fail.                           │
     │   ▸ Companies spend lot of money in project managers,   │
@@ -251,8 +251,10 @@ Documenting is not about looking cool or serious or expert
     └─[[}]]───────────────────────────────────────────────────┘
   ```
 
-* ```
-  ┌ [[{02_DOC_HAS.KEY-POINT]] ──────────────────────────────┐
+[[{DOC_HAS.FAQ]]
+## Why wasting time writing booOOoooring documentarion? 
+   ```
+  ┌ [[{DOC_HAS.KEY-POINT]] ─────────────────────────────────┐
   │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
   └─[[}]]───────────────────────────────────────────────────┘
   ```
@@ -263,28 +265,29 @@ Documenting is not about looking cool or serious or expert
   attention to any other real outcome).
 
 * ```
-  ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────────────────┐
+  ┌ [[{DOC_HAS.KEY-POINT]] ────────────────────────────────┐
   │ ▸ PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS │
   │   A CORE TASK OF ANY SUCCESFUL PROJECT.                │
   └─[[}]]──────────────────────────────────────────────────┘
   ```
 * ```
-  ┌ [[{02_DOC_HAS.KEY-POINT]] ─────────────────┐
+  ┌ [[{DOC_HAS.KEY-POINT]] ────────────────────┐
   │ TAKE CONTROL OF THE INFORMATION BEFORE THE │
   │  INFORMATION TAKES CONTROL OF YOU!         │
   └──[[}]]─────────────────────────────────────┘
   ```
+[[DOC_HAS.FAQ}]]
 
 ##  ABOUT THE TXT WORLD DOMINATION PROJECT
 
-TXTWD Project tries to implement documentation best [[{02_DOC_HAS.KEY-POINT]]
+[[{DOC_HAS.KEY-POINT]]
+* TXTWD Project tries to implement documentation best 
 practices by converting a simple and innocent "txt" file
 into a INDECENT and PERVERT Document Management System
 where information can be searched and classified in
 powerful ways to success in creating correct documentation
-(aka TRANSMISSION OF KNOWLEDGE)           
+(aka TRANSMISSION OF KNOWLEDGE)
 [[}]]
-
 <br/>.<br/>.<br/>.<br/>.
 
 .... this is the end of the introduction ...
@@ -306,7 +309,7 @@ Now follows the tests used to implement the TXT WD.
   ```
   [[}]]
   ```
-* New blocks can be placed inside existing blocks forming a tree of [[{02_DOC_HAS.graph]]
+* New blocks can be placed inside existing blocks forming a tree of [[{DOC_HAS.template.tree]]
   blocks. Graphically you can imagine them as:
   ```
   txt file
@@ -330,10 +333,10 @@ Now follows the tests used to implement the TXT WD.
   block. 
   ``` 
 __Example A__                  _Example B_
-  [[{topicA,topicB]]                                      [[{topicA]]
+                                                          [[{topicA]]
   Lorem Ipsum will dominate     Lorem Ipsum will dominate [[topicB]]
   the World                     the World 
-  [[}]]                                                   [[}]]
+                                                          [[}]]
   └──────────┬────────────┘     └──────────────┬────────────────────┘
              │                                 │
              └─────────────┬───────────────────┘
@@ -344,10 +347,10 @@ __Example A__                  _Example B_
 
 * Each topic can be subclassified in subtopics following the syntax
   ```
-  [[ topicA.subtopic.subsubtopic ]]
+  [[ { topicA.subtopic.subsubtopic } ]]
   ```
 
-* Think of a topic as a first or principal clasification of content.          [[{KEY-POINT,02_DOC_HAS.graph]]
+* Think of a topic as a first or principal clasification of content.          [[{doc_has.KEY-POINT]]
   For example in a document about Project Management main topics/coordinates
   could be HHRR, PLANNING, DOCUMENTATION, RISK MANAGEMENT, ...
 * Think of a subtopic as a (finite) coordinate inside the topic dimension.
@@ -362,7 +365,7 @@ __Example A__                  _Example B_
   (Subtopics can be seen as the taxonomy used for each main topic,
   and sub-subtopics as a way to further detail and classify each subtopic).
 
-* Graphically you can imagine them as:
+* Graphically you can imagine them as:                                       [[{doc_has.graph]]
   ```
                           topicA
                             ^
@@ -379,10 +382,10 @@ __Example A__                  _Example B_
                         ╱           topicB.subtopic
                        ╱
                       ╱
-                  topicC
+                  topicC                                                   [[doc_has.graph}]]
   ```
 
-* The relation among blocks and topics.subtopics can be visualized like:
+* The relation among blocks and topics.subtopics can be visualized like:  [[{doc_has.graph]]
   ```
        ├─ block                  topicA
        │  ├──── block                       topicB
@@ -393,6 +396,7 @@ __Example A__                  _Example B_
        ├─ block                  topicA
        ┊                         .subtopic3
   ```
+[[doc_has.graph}]]
 [[KEY-POINT}]]
 
 
@@ -400,27 +404,38 @@ __Example A__                  _Example B_
 
 ```
  [[{ topic01.1,{ topic01.2,{ topic01.3]]  <- · topics(dimensions) and subtopics (coord.) must be
- │ topic01.1 │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
+ Lorem Ipsum │ topic01.2 │ topic01.3           detected properly and rendered into menu->topics
  │ topic01.1 │ topic01.2 └ topic01.3 [[}]]   · Concatenated blocks declatarions must work properly.
+```
+```
  │ topic01.1 └ topic01.2 [[}]]               · Termination of blocks must work properly.
+```
+```
  │ topic01.1                                   When selecting topic01.3, topic01.2, tests01.1
  └ topic01.1 [[}]]                             only the corresponding text inside each block
-                                               must be displayed
 ```
-
 
 ```
     [[{ topic01.1 ]]                           topic01.1 belongs to level 1 block.
+```
+
+```
       │        [[{ topic01.2]]                 topic01.2 belongs to level 1 and 2 blocks.
+```
+```
       │          │        [[{ topic01.3]]      topic01.3 belongs to level 1, 2 and 3:
       │ topic01.1 │ topic01.2 │ topic01.3      
       │ topic01.1 │ topic01.2 └ topic01.3      TEST: Select topic01.3 in menu. Level 3 block
       │ topic01.1 │ topic01.2 [[}]]                 must be displayed.
+```
+```
       │ topic01.1 └ [[}]]                      TEST: Select match parent-blocks up to 1
       │ topic01.1                                    level 2 and 3 block must be displayed.
       │ topic01.1                              TEST: Select match parent-blocks up to 2
       └ [[}]]                                       level 1, 2 and 3 block must be displayed.
+```
 
+```
   ┌─[[{topic02. 1.]]  <- TEST: must be parsed as topic02.1
   └─[[}]]                     ignoring whitespaces and final dots(TODO:fix)
 ```
@@ -534,8 +549,8 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 ┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
 │  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
 │  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
-│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[02_doc_has.diagram,02_doc_has.UML.DAG,02_doc_has.UML.sequence]]
-│  │                           │                     │                         │[[02_doc_has.math,01_PM.low_code]]
+│  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[doc_has.diagram,doc_has.template.UML]]
+│  │                           │                     │                         │[[doc_has.template.math,PM.low_code]]
 │  │ ┌─────┐┌─────────┐┌─────┐ │ ┌─────┐       ┌───┐ │                         │[[tool.online,tool.desktop]]
 │  │ │socks││underwear││shirt│ │ │Alice│       │Bob│ │                         │
 │  │ └┬────┘└┬─┬──────┘└┬─┬──┘ │ └──┬──┘       └─┬─┘ │                         │
@@ -551,7 +566,7 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 │  │  Linux                    │                     │                         │
 │  │   ├─Android               │    1            3   │                         │
 │  │   ├─Debian                │    ⌠  2        n    │                         │
-│  │   │  ├─Ubuntu             │    ⌡ x  ⋅ dx = ──   │                         │
+│  │   │  ├─Ubuntu             │    ⌡ x  · dx = ──   │                         │
 │  │   │  │  ├─Lubuntu         │    0            3   │                         │
 │  │   │  │  └─Xubuntu         │                     │                         │
 │  │   │  └─Mint               │                     │                         │
@@ -564,9 +579,9 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
   ```
 ┌ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) ─────────────────────┐[[{]]
-│         ┌───────┐    ┌──────┐     IO PORTS   [[02_doc_has.diagram]]          │
-│         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐  [[02_doc_has.UML.component]]    │
-│         │xxxxxxx│    │xxxxxx│     ││││ ││││  [[tool.online]]                 │
+│         ┌───────┐    ┌──────┐     IO PORTS                                   │  [[doc_has.template.diagram]] 
+│         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐                                  │  [[doc_has.template.UML]]
+│         │xxxxxxx│    │xxxxxx│     ││││ ││││                                  │  [[tool.online]]
 │   ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐                                 │
 │   │ ┌─Comp.1────┐             │┼┼┼┼┼┼┼│    │                                 │
 │   │ │           ├────────┐    └───────┘    │                                 │
@@ -584,9 +599,9 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
   ```
 ┌ @[https://csvkit.readthedocs.io/en/latest/] ─────────────────────────────────┐ [[{]]]
-│  ·Convert from/to CSV/Excel/SQL-DDBB.      [[tool.desktop,02_doc_has.CSV]]]  │
-│  ·Query CSV using SQL.                                                       │
-│  ·No-code statistics on CSV data.                                            │
+│ Convert from/to CSV/Excel/SQL-DDBB.      [[tool.desktop,doc_has.CSV]]]       │
+│ Query CSV using SQL.                                                         │
+│ No-code statistics on CSV data.                                              │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
   ```
 
@@ -648,22 +663,35 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
 ## TXT Bullets
 
+[[{doc_has.template,doc_has.template.bullets]]
   ```
-┌─────────────────────────────────────────┐ [[{02_doc_has.bullets]]
-│ Bullets   : · • ● ✓ ✕ ◆ ◇               │
-│   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
-│ SuperIndex: ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁱⁿ           │
-└─────────────────────────────────────────┘ [[}]]
+  ┌─────────────────────────────────────────┐ 
+  │ Bullets   : · • ●                       │
+  │             ○ ◉ ◙ □   ■    ◔ ◗          │
+  │             ◦ ◌ ◎ ▫ ◘ ▪    ● ◕          │
+  │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
+  │ SuperIndex: ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁱⁿ           │
+  └─────────────────────────────────────────┘ 
+   ◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛
+   ◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡
+     ▲      ▴      ▵      ◓    ◸ ◹   ◜ ◝ 
+   ◄ ■ ►  ◂ ▪ ▸  ◃ ◊ ▹  ◐   ◑   ◦      
+     ▼      ▾      ▿      ◒    ◺ ◿   ◟ ◞
+   ◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡
+   ◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛
+   ▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯   
+   ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮ 
   ```
+[[}]]
 
 ## TXT Arrows <!-- { -->
 
   ```
- ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐ [[{02_doc_has.arrows]]
+ ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐ [[{doc_has.template.arrows]]
  │ ↖ ↑ ↗  ↔ ↕ ↨                                          │
  │ ← ↑ →                                                 │
  │ ↙ ↓ ↘                                                 │
- │ ↲ ↳ ⇅                                                 │
+ │ ↲ ↳                                                   │
  └───────────────────────────────────────────────────────┘ [[}]]                     
   ```
 
@@ -672,40 +700,43 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 ## TXT UML <!-- { -->
 
   ```
- ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{02_doc_has.UML,02_doc_has.template]]
- │  ┌────────────┐   message      ↑ dependency  |              │
- │ ─┼─ UML       │   ─────────▶   | ----------→ |              │
+ ┌ UML (Unified Modeling Language) TXT template ───────────────┐ #[UML] [[{doc_has.template.UML]]
+ │  ┌────────────┐   message      ^ dependency  |              │
+ │ ─┼─ UML       │   ─────────►   | ----------> |              │
  │ ─┼─ Component │                | dependency  |              │
- │  │            │                | ←---------- ↓              │
+ │  │            │                | <---------- v              │
  │  └────────────┘                                             │
- │  ╭─────╮ ● Initi.state     ◀─ ASSOCIATION ─▶ ▲              │
- │  │state│ ◉ Final.state                       │              │
- │  ╰─────╯                                     ▼              │
+ │  ╭─────╮ ● Initi.state   ◄──  ASSOCIATION ──►  ▲            │
+ │  │state│ ◉ Final.state                         │            │
+ │  ╰─────╯                                       ▼            │
  │                                                             │
- │ ● GENERALIZATION     │△   ● REALIZATION  △                  │
- │     par.◁───── child ││     ○◁╴╴╴╴...   ┆┆                  │
- │     child ────▷ par. ▽│     ···╶╶╶╶▷○   ▽                   │
+ │ * GENERALIZATION     │^   * REALIZATION  ^                  │
+ │     par.<───── child ││     ○<╴╴╴╴...   ┆┆                  │
+ │     child ────> par. v│     ···╶╶╶╶>○   v                   │
  │   "IS A" inheritance        ○ Interfaz                      │
  │                             ··· Implementation              │
  │ ● DELEGATION:                                               │
- │  par.◇───── child       ┌────────┐         ┌────────┐       │
- │                         │ClassA  │       ┌─│ Shape  │       │
- │  Makes child part of    ├────────┤       │ ├────────┤       │
- │  parent class by using  │ shape  ·◇──────┘ │ ...    │       │
- │  aggregation.           ├────────┤         ├────────┤       │
- │                         │ draw() │         │ draw() │       │
- │                         └────────┘         └─△──────┘       │
- │ ● COMPOSITION: Every car has an              │"IS A"        │
- │ ┌────────┐ engine  ┌────────┐        ┌───────┴────┬───···   │
- │ │ Car    │◆────────┤ Engine │     ┌──┴─────┐   ┌──┴────┐    │
+ │  par.◊───── child          ┌────────┐         ┌────────┐    │
+ │                            │ClassA  │       ┌─│ Shape  │    │
+ │  Makes child part of       ├────────┤       │ ├────────┤    │
+ │  parent class by using     │ shape  ·◊──────┘ │ ...    │    │
+ │  aggregation.              ├────────┤         ├────────┤    │
+ │                            │ draw() │         │ draw() │    │
+ │                            └────────┘         └─▵──────┘    │
+ │ ● COMPOSITION: Every car has an           "IS A"│           │
+ │ ┌────────┐ engine  ┌────────┐        ┌──────────┴─┬───···   │
+ │ │ Car    │◄►-------┤ Engine │     ┌──┴─────┐   ┌──┴────┐    │
  │ └────────┘         └────────┘     │ Circle │   │Ellipse│    │
  │ ● Aggregation: Cars may have      COMPOSITION+AGGREGATION   │
  │ ┌────────┐passengers┌──────────┐  allow  DELEGATION as a    │
- │ │ Car    │◇─────────┤Passengers│  (SAFER) alternative to the│
+ │ │ Car    │◊─────────┤Passengers│  (SAFER) alternative to the│
  │ └────────┘          └──────────┘  "IS A" inheritance.       │
  └─────────────────────────────────────────────────────────────┘ [[}]]
   ```
 <!-- } -->
+
+
+
 
 ## TXT BPMN: <!-- { -->
 (Use Vim block-mode -Ctrl+v- to edit them)
@@ -736,12 +767,11 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 ## TXT Geometric symbols <!-- { -->
 
   ```
- ┌ Geometric ──────────────────────────────────────────────┐ #[Geometric]
- │ https://www.w3schools.com/charsets/ref_utf_geometric.asp│
- │  ▴   ▵          ◸ ◹ ◜ ◝ ◠  ◄ ►                          │
- │ ◂ ▸ ◃ ▹         ◺ ◿ ◟ ◞ ◡  ◆ ◇ ◈  ◊                     │
- │  ▾   ▿          ◴ ◵ ◶ ◷                                 │
- └─────────────────────────────────────────────────────────┘
+ @[https://www.w3schools.com/charsets/ref_utf_geometric.asp]
+    ▴   ▵          ◸ ◹ ◜ ◝ ◠  ◄ ►                          │
+   ◂ ▸ ◃ ▹         ◺ ◿ ◟ ◞ ◡  ◊                            │
+    ▾   ▿          ◴ ◵ ◶ ◷                                 │
+                                                            
 
   ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧⎧ ⎧     ⎫
   │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │ ⎭⎪ ⎪⎧   ⎫⎪
@@ -759,87 +789,86 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 ## TXT Math symbols <!-- { -->
 
   ```
-┌─── Math Unicode Symbols ─────────────────────────────────────────────────┐ #[math_symbols]
-│ @[https://www.unicode.org/charts/PDF/U2200.pdf]                          │
-│ ● ORDER RELATIONS             ● LOGICAL OPs                              │
-│   ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                            │
-│   ≼ ≽ PRECEDES/SUCCEEDS         ∨ LOGICAL OR                             │
-│       OR EQUAL TO                                                        │
-│   ≾ ≿ PRECEDES/SUCCEEDS OR                                               │
-│       EQUIVALENT TO                                                      │
-│   ⊀ ⊁ DOES NOT PREC./SUCC.                                               │
-│                                                                          │
-│ ● MISCELLANEOUS               ● SET MEMBERSHIP                           │
-│   ∞   INFINITY                  ∈ ∉ ELEMENT OF                           │
-│   π   PI                        ∋ ∌ CONTAINS AS MEMBER                   │
-│   ∀   FOR ALL                 ● SET RELATIONS:                           │
-│   ʗ   COMPLEMENT                ⊂ ⊄ (NOT) A SUBSET OF                    │
-│   ∂   PARTIAL DIFFERENTIAL      ⊃ ⊅ (NOT) SUPERSET OF                    │
-│   ∃ ∄ THERE DOES(/NOT) EXISTS   ⊆ ⊇ SUB/SUPER-SET OF OR = TO             │
-│   Ø   EMPTY SET               ● SET OPERATIONS:                          │
-│   Δ   "DELTA" Inc|Laplace Op    ∩ INTERSECTION                           │
-│   ∇   "NABLA" gradient,         ∪ UNION                                  │
-│   ∴ ∵ THEREFORE,  BECAUSE       ⋃  n-ary UNION                           │
-│                                                                          │
-│ ● N-ary operators        ● OPERATORS             ● INTEGRALS             │
-│   (N inputs, 1 output)     ±                       ∫ ∫∫ ∫∫∫  (DOUBLE/...)│
-│   ∏ N-ARY PRODUCT          ∘ RING OPERATOR         ∮ ∲ (ANTI)CONTOUR INT.│
-│   ∐ N-ARY COPRODUCT        √ ∛ ∜ SQUARE/... ROOT   ∮∮ ∮∮∮ SURFACE/VOLUME │
-│   Σ N-ARY SUMMATION        α PROPORTIONAL TO       ∱ CLOCKWISE INTEGRAL  │
-│                                                                          │
-│ ● RELATION                      ● "QUANTITATIVE" RELATIONS               │
-│   ∣ ∤ DOES (NOT) DIVIDES          ≤ ≥ LESS/GREATER-THAN OR = TO          │
-│   ǁ ∦ (NOT) PARALLEL TO           ≦ ≧ LESS/GREATER-THAN OVER = TO        │
-│   ∶   RATIO                       ≨ ≩ LESS/GREATER-THAN BUT NOT = TO     │
-│   ∷   PROPORTION                  ≮ ≯ NOT LESS/GREATER-THAN              │
-│   ∺   GEOMETRIC PROPORTION        ≰ ≱ NEITHER LESS/GREA.-THAN NOR = TO   │
-│   ≃ ≄ (!) ASYMPTOTICALLY = TO     ≲ ≳ LESS/GREA.-THAN OR EQUIVALENT TO   │
-│   ≅   APPROX. EQUAL TO            ≴ ≵ NEITHER LESS/GREATER-THAN          │
-│   ≆   APPROX. BUT NOT EQUAL           NOR EQUIVALENT TO                  │
-│   ≇   NEITHER APPROX. NOR ACTUA.  ≶ ≷ LESS/GREATER-THAN OR GREATER-THAN  │
-│   ≈ ≉ (!) ALMOST EQUAL TO         ≸ ≹ NEITHER LESS/GREATER-THAN          │
-│   ≊   ALMOST EQUAL OR EQUAL TO        NOR GREATER-THAN                   │
-│   ≍ ≭ (!) EQUIVALENT TO                                                  │
-│   ≖   RING-IN EQUAL TO          ● GROUP RELATIONS                        │
-│   ≗   RING EQUAL                  ⊲ ⋪ (NOT) NORMAL SUBGROUP OF           │
-│   ≝   EQUAL TO BY DEFINITION      ⊴ ⋬ (NOT) NORMAL SUBGROUP OF           │
-│   ≞   MEASURED BY                     OR = TO                            │
-│   ≟   QUESTIONED EQUAL TO         ⊳ ⋫ DOES (NOT) CONTAIN AS              │
-│   ≠   NOT EQUAL TO                    NORMAL SUBGROUP                    │
-│   ≡ ≢ (NOT) IDENTICAL TO          ⋭ ⊵ DOES (NOT) CONTAIN AS              │
-│   ≣   STRICTLY EQUIVALENT TO          NORMAL SUBGROUP                    │
-│                                                                          │
-│ ● https://en.wikipedia.org/wiki/Mathematical_Operators_(Unicode_block)   │
-│     0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F        │
-│ U+220x  ∀   ∁   ∂   ∃   ∄   ∅   ∆   ∇   ∈   ∉   ∊   ∋   ∌   ∍   ∎   ∏    │
-│ U+221x  ∐   ∑   −   ∓   ∔   ∕   ∖   ∗   ∘   ∙   √   ∛   ∜   ∝   ∞   ∟    │
-│ U+222x  ∠   ∡   ∢   ∣   ∤   ∥   ∦   ∧   ∨   ∩   ∪   ∫   ∬   ∭   ∮   ∯    │
-│ U+223x  ∰   ∱   ∲   ∳   ∴   ∵   ∶   ∷   ∸   ∹   ∺   ∻   ∼   ∽   ∾   ∿    │
-│ U+224x  ≀   ≁   ≂   ≃   ≄   ≅   ≆   ≇   ≈   ≉   ≊   ≋   ≌   ≍   ≎   ≏    │
-│ U+225x  ≐   ≑   ≒   ≓   ≔   ≕   ≖   ≗   ≘   ≙   ≚   ≛   ≜   ≝   ≞   ≟    │
-│ U+226x  ≠   ≡   ≢   ≣   ≤   ≥   ≦   ≧   ≨   ≩   ≪   ≫   ≬   ≭   ≮   ≯    │
-│ U+227x  ≰   ≱   ≲   ≳   ≴   ≵   ≶   ≷   ≸   ≹   ≺   ≻   ≼   ≽   ≾   ≿    │
-│ U+228x  ⊀   ⊁   ⊂   ⊃   ⊄   ⊅   ⊆   ⊇   ⊈   ⊉   ⊊   ⊋   ⊌   ⊍   ⊎   ⊏    │
-│ U+229x  ⊐   ⊑   ⊒   ⊓   ⊔   ⊕   ⊖   ⊗   ⊘   ⊙   ⊚   ⊛   ⊜   ⊝   ⊞   ⊟    │
-│ U+22Ax  ⊠   ⊡   ⊢   ⊣   ⊤   ⊥   ⊦   ⊧   ⊨   ⊩   ⊪   ⊫   ⊬   ⊭   ⊮   ⊯    │
-│ U+22Bx  ⊰   ⊱   ⊲   ⊳   ⊴   ⊵   ⊶   ⊷   ⊸   ⊹   ⊺   ⊻   ⊼   ⊽   ⊾   ⊿    │
-│ U+22Cx  ⋀   ⋁   ⋂   ⋃   ⋄   ⋅   ⋆   ⋇   ⋈   ⋉   ⋊   ⋋   ⋌   ⋍   ⋎   ⋏    │
-│ U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟    │
-│ U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯    │
-│ U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿    │
-└──────────────────────────────────────────────────────────────────────────┘
+  Unicode Symbols                                                                  |
+  @[https://www.unicode.org/charts/PDF/U2200.pdf]                                  |
+  ● ORDER RELATIONS             ● LOGICAL OPs                                      |
+    ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                                    |
+                                  ∨ LOGICAL OR                                     |
+    ≼ ≽ PRECEDES/SUCCEEDS OR EQUALS                                                |
+    ≾ ≿ PRECEDES/SUCCEEDS OR EQUIVALENT-TO                                         |
+    ⊀ ⊁ DOES NOT PREC./SUCC.                                                       |
+                                                                                   |
+  ● MISCELLANEOUS               ● SET MEMBERSHIP                                   |
+    ∞   INFINITY                  ∈ ∉ ELEMENT OF                                   |
+    π   PI                        ∋ ∌ CONTAINS AS MEMBER                           |
+    ∀   FOR ALL                 ● SET RELATIONS:                                   |
+    ʗ   COMPLEMENT                ⊂ ⊄ (NOT) A SUBSET OF                            |
+    ∂   PARTIAL DIFFERENTIAL      ⊃ ⊅ (NOT) SUPERSET OF                            |
+    ∃ ∄ THERE DOES(/NOT) EXISTS   ⊆ ⊇ SUB/SUPER-SET OF OR = TO                     |
+    Ø   EMPTY SET               ● SET OPERATIONS:                                  |
+    Δ   "DELTA" Inc|Laplace Op    ∩ INTERSECTION                                   |
+    ∇   "NABLA" gradient,         ∪ UNION                                          |
+    ∴ ∵ THEREFORE,  BECAUSE       ⋃  n-ary UNION                                   |
+                                                                                   |
+  ● N-ary operators        ● OPERATORS             ● INTEGRALS                     |
+    (N inputs, 1 output)     ±                       ∫ ∫∫ ∫∫∫  (DOUBLE/...)        |
+    ∏ N-ARY PRODUCT          ∘ RING OPERATOR         ∲ ∲ (ANTI)CONTOUR INT.        |
+    ∐ N-ARY COPRODUCT        √∛∜ SQUARE/... ROOT     ∲∲ ∲∲∲ SURFACE/VOLUME         |
+    Σ N-ARY SUMMATION        α PROPORTIONAL TO       ∱ CLOCKWISE INTEGRAL          |
+                                                                                   |
+  ● RELATION                      ● "QUANTITATIVE" RELATIONS                       |
+    ∣ ∤ DOES (NOT) DIVIDES          ≤ ≥ LESS/GREATER-THAN OR = TO                  |
+    ǁ ∦ (NOT) PARALLEL TO           ≦ ≧ LESS/GREATER-THAN OVER = TO                |
+    ∶   RATIO                       ≨ ≩ LESS/GREATER-THAN BUT NOT = TO             |
+    ∷   PROPORTION                  ≮ ≯ NOT LESS/GREATER-THAN                      |
+    ∺   GEOMETRIC PROPORTION        ≰ ≱ NEITHER LESS/GREA.-THAN NOR = TO           |
+    ≃ ≄ (!) ASYMPTOTICALLY = TO     ≲ ≳ LESS/GREA.-THAN OR EQUIVALENT TO           |
+    ≅   APPROX. EQUAL TO            ≴ ≵ NEITHER LESS/GREATER-THAN                  |
+    ≆   APPROX. BUT NOT EQUAL           NOR EQUIVALENT TO                          |
+    ≇   NEITHER APPROX. NOR ACTUA.  ≶ ≷ LESS/GREATER-THAN OR GREATER-THAN          |
+    ≈ ≉ (!) ALMOST EQUAL TO         ≸ ≹ NEITHER LESS/GREATER-THAN                  |
+    ≊   ALMOST EQUAL OR EQUAL TO        NOR GREATER-THAN                           |
+    ≍ ≭ (!) EQUIVALENT TO                                                          |
+    ≖   RING-IN EQUAL TO          ● GROUP RELATIONS                                |
+    ≗   RING EQUAL                  ⊲ ⋪ (NOT) NORMAL SUBGROUP OF                   |
+    ≝   EQUAL TO BY DEFINITION      ⊴ ⋬ (NOT) NORMAL SUBGROUP OF                   |
+    ≞   MEASURED BY                     OR = TO                                    |
+    ≟   QUESTIONED EQUAL TO         ⊳ ⋫ DOES (NOT) CONTAIN AS                      |
+    ≠   NOT EQUAL TO                    NORMAL SUBGROUP                            |
+    ≡ ≢ (NOT) IDENTICAL TO          ⋭ ⊵ DOES (NOT) CONTAIN AS                      |
+    ≣   STRICTLY EQUIVALENT TO          NORMAL SUBGROUP                            |
+                                                                                   |
+  ● https://en.wikipedia.org/wiki/Mathematical_Operators_(Unicode_block)           |
+      0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F                |
+  U+220x  ∀   ∁   ∂   ∃   ∄   ∅   ∆   ∇   ∈   ∉   ∊   ∋   ∌   ∍   ∎   ∏            |
+  U+221x  ∐   ∑   −   ∓   ∔   ∕   ∖   ∗   ∘   ∙   √   ∛   ∜   ∝   ∞   ∟            |
+  U+222x  ∠   ∡   ∢   ∣   ∤   ∥   ∦   ∧   ∨   ∩   ∪               ∮   ∯            |
+  U+223x  ∰   ∱   ∲   ∳   ∴   ∵   ∶   ∷   ∸   ∹   ∺   ∻   ∼   ∽   ∾   ∿            |
+  U+224x  ≀   ≁   ≂   ≃   ≄   ≅   ≆   ≇   ≈   ≉   ≊   ≋   ≌   ≍   ≎   ≏            |
+  U+225x  ≐   ≑   ≒   ≓   ≔   ≕   ≖   ≗   ≘   ≙   ≚   ≛   ≜   ≝   ≞   ≟            |
+  U+226x  ≠   ≡   ≢   ≣   ≤   ≥   ≦   ≧   ≨   ≩   ≪   ≫   ≬   ≭   ≮   ≯            |
+  U+227x  ≰   ≱   ≲   ≳   ≴   ≵   ≶   ≷   ≸   ≹   ≺   ≻   ≼   ≽   ≾   ≿            |
+  U+228x  ⊀   ⊁   ⊂   ⊃   ⊄   ⊅   ⊆   ⊇   ⊈   ⊉   ⊊   ⊋   ⊌   ⊍   ⊎   ⊏            |
+  U+229x  ⊐   ⊑   ⊒   ⊓   ⊔   ⊕   ⊖   ⊗   ⊘   ⊙   ⊚   ⊛   ⊜   ⊝   ⊞   ⊟            |
+  U+22Ax  ⊠   ⊡   ⊢   ⊣   ⊤   ⊥   ⊦   ⊧   ⊨   ⊩   ⊪   ⊫   ⊬   ⊭   ⊮   ⊯            |
+  U+22Bx  ⊰   ⊱   ⊲   ⊳   ⊴   ⊵   ⊶   ⊷   ⊸   ⊹   ⊺   ⊻   ⊼   ⊽   ⊾   ⊿            |
+  U+22Cx  ⋀   ⋁   ⋂   ⋃   ⋄   ⋅   ⋆   ⋇   ⋈   ⋉   ⋊   ⋋   ⋌   ⋍   ⋎   ⋏            |
+  U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟            |
+  U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯            |
+  U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿            |
+                                                                            
   ```
 <!-- } -->
 
 ## Greek&Related Symbols ("Physics symbols")  <!-- { -->
 
   ```
-  Alpha   A,α│Eta    Η,η  │nu      Ν,ν  │Tau     Τ,τ
-  Beta    B,β│Theta  Θ,θ│ϑ│Xi      Ξ,ξ  │Upsilon Υ,υ│ϒ
-  Gamma   Γ,γ│Iota   Ι,ι  │Omicron Ο,ο  │Phi     Φ,φ
-  Delta   Δ,δ│Kappa  Κ,κ  │Pi      Π,π│ϖ│Chi     Χ,χ
-  Epsilon Ε,ε│Lamda  Λ,λ  │Rho     Ρ,ρ  │Psi     Ψ,ψ
-  Zeta    Ζ,ζ│Mu     Μ,μ  │Sigma   Σ,ς│σ│Omega   Ω,ω
+  Alpha   A,α   Eta     Η,η     nu       Ν,ν     Tau     Τ,τ     |
+  Beta    B,β   Theta   Θ,θ│ϑ   Xi       Ξ,ξ     Upsilon Υ,υ│ϒ   |
+  Gamma   Γ,γ   Iota    Ι,ι     Omicron  Ο,ο     Phi     Φ,φ     |
+  Delta   Δ,δ   Kappa   Κ,κ     Pi       Π,π│ϖ   Chi     Χ,χ     |
+  Epsilon Ε,ε   Lamda   Λ,λ     Rho      Ρ,ρ     Psi     Ψ,ψ     |
+  Zeta    Ζ,ζ   Mu      Μ,μ     Sigma    Σ,ς│σ   Omega   Ω,ω     |
   ```
 <!-- } -->
 
@@ -852,33 +881,46 @@ ENOUGH WITH TESTING. TIME FOR ...             #[txt_world_domination_ammunition]
 
 # TXT GAMES!!! <!-- { -->
 
+```
 ┌─ @[http://fph.altervista.org/prog/bastet.html] ──────────────────────────┐ [[{games.tetris]]
 │ Tetrisfy your TXT enemies with this Tetris clone for terminals.          │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
+```
 ┌ @[https://github.com/bfontaine/term2048] ────────────────────────────────┐ [[{games.puzzle]]
 │ Puzzle your terminal.                                                    │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
+```
 ┌ @[https://www.seehuhn.de/pages/moon-buggy] ──────────────────────────────┐ [[{games.moon_buggy]]
 │ The World is now under control, time for TXT Moon Domination!!!          │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
-
+```
 ┌ @[https://www.nethack.org/] ─────────────────────────────────────────────┐ [[{games.NetHack]]
 │ TXT is not afraid of Dungeons and Dragons!!!                             │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
+```
 ┌ @[https://linuxcommandlibrary.com/man/ninvaders] ────────────────────────┐ [[{games.ninvaders]]
 │ Defend your TXT from alien invaders!!!                                   │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
+```
 ┌ @[https://askubuntu.com/questions/376558/how-to-play-snake-in-terminal] ─┐ [[{games.snake]]
 │ Don't let your TXT eat itself!!!                                         │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
+```
 ┌ @[https://howtoinstall.co/en/pacman4console] ────────────────────────────┐ [[{games.pacman]]
 │ Pacman is here!!!                                                        │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
+```
 
 <!-- } -->
