@@ -54,13 +54,16 @@ const funReplaceHeader = function(match, m1){
   return result
 }
 
-function mdTables(str) {
-  str = str.trim()
+const REGEX_MAYBE_IS_TABLE=/^[|][^|]+[|].*\n[|][^|]+[|]/gs
+function handleTables(p/*aragraph*/) {
+  if (! (p.match(REGEX_MAYBE_IS_TABLE) /*table*/)) { return p; }
+
+  p = p.trim()
   const  tableStart = '<table><tbody>', tableEnd = '</tbody></table>',
            rowStart = '<tr>'          ,   rowEnd = '</tr>',
           headStart = '<th>'          ,  headEnd = '</th>',
            colStart = '<td>'          ,   colEnd = '</td>';
-  const row_l = str.split('\n')
+  const row_l = p.split('\n')
   let content = '';
   for (let i=0; i < row_l.length; i += 1) {
     let i_res = row_l[i]
@@ -91,11 +94,9 @@ function handleUnorderedLists(nLevel, p/*aragraph*/) {
    const li_list = p.split(ulistRegex_l[nLevel])
    if (li_list.length == 1) return p;
    return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleUnorderedLists(nLevel+1,li)+"</li>").join("\n")+"</ul>"
-   return p;
 }
 
-const olistRegex_l=[/(^[0-9]+. )/gm   ,
-                   ]
+const olistRegex_l=[/(^[0-9]+. )/gm, ]
 function handleOrderedLists(nLevel, p/*aragraph*/) {
   if (nLevel>olistRegex_l.length-1) return p;
   const li_list = p.split(olistRegex_l[nLevel])
@@ -116,42 +117,42 @@ function handleOrderedLists(nLevel, p/*aragraph*/) {
   return `<ol>${l}</ol>`
 }
 
+function handleHeaders(p/*aragraph*/) {
+  return p.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
+}
+function handleImages(p/*aragraph*/) {
+  return p.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+}
+function handleLinks(p/*aragraph*/) {
+  return p.replace(
+        /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g ,
+        '<a href="$2" title="$4">$1</a>');
+}
+function handleFontStyles(p/*aragraph*/) {
+    return p
+        .replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '  <b>$1</b>  ')
+        .replace(/[\*\_]{1}([^\*\_]+)[\*\_]{1}/g, ' <i>$1</i> ')
+        .replace(/[\~]{1}([^\~]+)[\~]{1}/g      , ' <del>$1</del> ')
+        ;
+}
+
+function handleBlockQuotes(p/*aragraph*/) {
+  if (! (p.startsWith(QUOT) /* quotations */ )) { return p; }
+  return "<blockquote>"+p.replaceAll(QUOT, "")+"</blockquote>"
+}
+
 /**
  * Apply markdown to each paragraph.
  */
 function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
-
-  p =handleUnorderedLists(0, p);
-  p =handleOrderedLists  (0, p);
-
-  const REGEX_MAY_IS_TABLE=/^[|][^|]+[|].*\n[|][^|]+[|]/gs
-  if (p.match(REGEX_MAY_IS_TABLE) /*table*/) {
-    p = mdTables(p)
-  }
-
-  if (true/* headers */) {
-    p = p.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
-  }
-
-  if (true /* images */) {
-    p = p.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
-  }
-
-  if (true /* links */) { 
-    p = p.replace(
-        /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g ,
-        '<a href="$2" title="$4">$1</a>');
-  }
-
-  if (true/* font styles */) { 
-    p = p.replace(/[\*\_]{2}([^\*\_]+)[\*\_]{2}/g, '<b>  $1  </b>');
-    p = p.replace(/[\~]{2}([^\~]+)[\~]{2}/g, '  <del>$1</del>  ');
-  }
-
-  if (p.startsWith(QUOT) /* quotations */ ) {
-    p = "<blockquote>"+p.replaceAll(QUOT, "")+"</blockquote>"
-  }
-
+  p = handleUnorderedLists(0, p);
+  p = handleOrderedLists  (0, p);
+  p = handleTables(p);
+  p = handleHeaders(p);
+  p = handleImages(p); 
+  p = handleLinks(p); 
+  p = handleFontStyles(p); 
+  p = handleBlockQuotes(p);
   return p.length>0 ? "\n<p>"+p+"</p>" : "";
 }
 
