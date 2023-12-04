@@ -40,6 +40,8 @@ _This is a paragraph with style italic_
 
 __This is a paragraph with style bold__
 
+**This is a paragraph with style bold**
+
 ~~This is an strikethrough paragraph~~
 
  ```
