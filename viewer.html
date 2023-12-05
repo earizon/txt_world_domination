@@ -171,6 +171,9 @@ pre {
   background: #EFE;
   width: fit-content;
   min-width: 80%;
+  overflow: scroll;
+  max-width: 99%;
+  padding: 0;
 }
 
 #dbEngineOutput{
@@ -332,12 +335,6 @@ body {
 }
  #hideButtom { float:right; }
 
-@media only screen and (pointer  : coarse) {
- .topicClass > .topic {
-    min-width: 6em;
-  }
-}
-
 .selected { background-color:black; color: white ; }
 
 .grepMatch { background-color:#DDD; }
@@ -399,6 +396,25 @@ blockquote {
 a:link {
     text-decoration: none;
 }
+
+@media only screen and (pointer  : coarse) {
+ #dbEngineOutput {
+   font-size: 0.7rem;
+ }
+ p,li {
+   max-width: 45ch;
+ }
+
+ body {
+  max-width: 100%;
+  position: absolute;
+  top: 0; left: 0;
+  margin: 0;
+  padding: 0;
+ }
+}
+
+
 
 </style>
 <script src="./markdown.js"></script>
