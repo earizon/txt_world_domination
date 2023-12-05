@@ -19,6 +19,7 @@ class Topic extends Component {
         });
         this.setState({ TC_id_selected : this.CP.state.TC_id_selected });
         this.props.CP.onTopicCoordOnOff(this.props.topicName, this.CP.state.TC_id_selected);
+        this.CP.updateHideCtrPanelTimeout();
     }
 
     render( { topicName, topicCoord_id_l } ) {
@@ -49,7 +50,8 @@ class ControlPanel extends Component {
       topicParentDepth : 0,
       showIndex        : false,
       hideCtrPanel     : true,
-      TC_id_selected   : { /*topic coord.id selected: bool*/ }
+      TC_id_selected   : { /*topic coord.id selected: bool*/ },
+      timerHideCtrPanel: 0
     }
 
     const
@@ -80,19 +82,37 @@ class ControlPanel extends Component {
              this.state.showIndex
     }
 
+    updateHideCtrPanelTimeout = () => {
+        this.resetHideCtrPanelTimeout()
+        let thisPtr = this;
+        // timeout must match #progressBarTimer.timeout animation
+        let timer = setTimeout(thisPtr.switchCtrPanelView, 20*1000)
+        setTimeout( () => {
+          thisPtr.setState ( { timerHideCtrPanel   :  timer } )
+        }, 100);
+    }
+    resetHideCtrPanelTimeout = () => {
+      if (this.state.timerHideCtrPanel != 0) {
+        clearTimeout(this.state.timerHideCtrPanel)
+        this.setState ( { timerHideCtrPanel   : 0 } );
+      }
+    }
     switchSettingsView = () => {
+        this.resetHideCtrPanelTimeout()
         const newState =  !this.state.showSettings;
         this.setState ( { showSettings: newState } );
         this.setState ( { showTopics: this.state.showTopics && !newState } );
         this.setState ( { showIndex : this.state.showIndex  && !newState } );
     }
     switchTopicView = ()=> {
+        this.resetHideCtrPanelTimeout()
         const newState =  !this.state.showTopics;
         this.setState ( { showTopics  : newState } );
         this.setState ( { showSettings: this.state.showSettings && !newState } );
         this.setState ( { showIndex   : this.state.showIndex    && !newState } );
     }
     switchIndexView = ()=> {
+        this.resetHideCtrPanelTimeout()
         const newState =  !this.state.showIndex;
         this.setState ( { showIndex   : newState } );
         this.setState ( { showSettings: this.state.showSettings  && !newState } );
@@ -100,6 +120,8 @@ class ControlPanel extends Component {
         this.refreshIndexTableAsHTML()
     }
     switchCtrPanelView = ()=> {
+        this.resetHideCtrPanelTimeout()
+        this.setState ( { timerHideCtrPanel   : 0 } );
         const newState = !this.state.hideCtrPanel;
         this.setState ( { hideCtrPanel   : newState } );
         this.setState ( { showSettings   : this.state.showSettings  && newState } );
@@ -264,6 +286,7 @@ class ControlPanel extends Component {
           ${ this.state.showTopics &&
              html`
                <div id="idTableTopics" size=s2>
+                 <div id="progressBarTimer" val="${this.state.timerHideCtrPanel}" class="${(this.state.timerHideCtrPanel!=0)?'timeout':''}"></div>
                <span>  </span>Match parent blocks up to:
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(-1)}>-</span>
                  ${this.state.topicParentDepth}
