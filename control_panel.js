@@ -76,6 +76,7 @@ class ControlPanel extends Component {
       })
     }
 
+    showRule = () => { return true; }
     showSubMenu = () => {
       return this.state.showSettings ||
              this.state.showTopics   ||
@@ -265,6 +266,11 @@ class ControlPanel extends Component {
     render( props ) {
       return (
        html`
+       <div id="rule1"></div>
+       <div id="rule2"></div>
+       <div id="rule3"></div>
+       <div id="rule4"></div>
+       <div id="rule5"></div>
        <div id="nonFixedMenu" style="display: ${this.showSubMenu() ? "": "none"}">
           ${ this.state.showSettings &&
              html`

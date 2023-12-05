@@ -100,7 +100,6 @@ p,li {
   top: 1em;
   bottom: 3.7em;
   box-shadow: 0 0 10px black;
-  border-radius: 1em;
   background-color: #DDD;
   border: 5px solid black;
   padding: 0.2em;
@@ -423,8 +422,8 @@ td, th {
 }
 
 @keyframes progressBarTimerAnimation {
-  from {left: 0;}
-    to {left: -100%;}
+  from {opacity: 1; left: 0;}
+    to {opacity: 0; left: -100%;}
 }
 #progressBarTimer {
   position:absolute;
@@ -441,7 +440,19 @@ td, th {
   animation-duration: 22s; /* must match updateHideCtrPanelTimeout @ control_panel*/
 }
 
-
+#rule1,#rule2,#rule3,#rule4,#rule5 {
+  position:fixed;
+  left:0;
+  width:100%;
+  opacity:0.2;
+  background-color: yellow;
+  height:10%;
+}
+#rule1 { top:00%; }
+#rule2 { top:20%; }
+#rule3 { top:40%; }
+#rule4 { top:60%; }
+#rule5 { top:80%; }
 
 </style>
 <script src="./markdown.js"></script>
