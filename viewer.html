@@ -52,13 +52,17 @@ p,li {
   max-width: 80ch;
 }
 
-.button {
+.button, .button2 {
   display: inline-block;
   min-width: 1em;
   text-align: center;
 
   padding: 0.2em 0.3em 0.2em 0.3em;
   line-height: 1.0em;
+}
+.button2 {
+  border: 1px solid black;
+  margin-right: 2ch;
 }
 .buttonCompact {
   display: inline-block;
@@ -335,7 +339,7 @@ body {
 }
  #hideButtom { float:right; }
 
-.selected { background-color:black; color: white ; }
+.selected { background-color:black !important; color: white ; }
 
 .grepMatch { background-color:#DDD; }
 
@@ -398,9 +402,8 @@ a:link {
 }
 
 @media only screen and (pointer  : coarse) {
- #dbEngineOutput {
-   font-size: 0.7rem;
- }
+ #dbEngineOutput { font-size: 0.7rem; }
+ #nonFixedMenu   { font-size: 0.9rem; }
  p,li {
    max-width: 45ch;
  }

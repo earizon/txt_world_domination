@@ -248,7 +248,7 @@ class TXTDBEngine {
       this.url_txt_source_csv = url_txt_source_csv
     }
 
-    async init( ) {
+    async init() {
       this.url_txt_source_csv = (await Promise.all(
         this.url_txt_source_csv.split(",")
         .map(async (url_txt_source) => {
