@@ -17,7 +17,7 @@ function _00_documentCleaning(md, relative_path){
   let md_l = md.split("```")
     .map(p/*aragraph*/ => {
       let result = isPre
-        ? "<pre>"+p.replaceAll("\n\n","\n \n")+"</pre>" 
+        ? "<pre>"+p.replaceAll("\n\n","\n \n").trimEnd()+"</pre>" 
         //                             ^                         
         // ┌───────────────────────────┘                         
         // enough to avoid splitting a pre block in two logical paragraphs
@@ -93,7 +93,7 @@ function handleUnorderedLists(nLevel, p/*aragraph*/) {
    if (nLevel>ulistRegex_l.length-1) return p;
    const li_list = p.split(ulistRegex_l[nLevel])
    if (li_list.length == 1) return p;
-   return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleUnorderedLists(nLevel+1,li)+"</li>").join("\n")+"</ul>"
+   return li_list[0]+"<p><ul>"+li_list.slice(1).map(li=>"<li>"+handleUnorderedLists(nLevel+1,li)+"</li>").join("\n")+"</ul></p>"
 }
 
 const olistRegex_l=[/(^[0-9]+. )/gm, ]

@@ -42,11 +42,15 @@ li {
   margin-left: 2ch;
   padding: 0;
   margin-left: 0.7em;
+  text-indent: 2ch; /* indent first line */
 }
 
 p {
-  margin : 0;
+  text-indent: 0.8ch; /* indent first line */
   padding: 0;
+}
+p,li {
+  max-width: 80ch;
 }
 
 .button {
@@ -167,6 +171,7 @@ code > .ln, ol >.ln, ul > .ln, li >.ln {
 
 pre {
   /* font-family: 'font0', monospace, console; */
+  text-indent: 0;
   line-height: 1.4em;
   outline:1px solid grey;
   background: #EFE;
