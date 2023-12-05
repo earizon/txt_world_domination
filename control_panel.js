@@ -45,7 +45,6 @@ class ControlPanel extends Component {
       timerDoFind      : 0,
       showSettings     : false,
       showTopics       : false,
-      showLineNumbers  : false, // TODO:(1) Re-enable. Not used and weak implementation
       grep             : [ { input: "", before: 1, after: 1 } ],
       topicParentDepth : 0,
       showIndex        : false,
@@ -181,7 +180,7 @@ class ControlPanel extends Component {
     async componentDidMount() {
       const thisPtr = this;
       const auxFunc = async () => {
-        await this.txtDBEngine.init(this.state.showLineNumbers);
+        await this.txtDBEngine.init();
         this.execSearch();
         this.setState({ showTopics: this.state.showTopics});
         this.timerRefresh = setTimeout(auxFunc, this.state.settings_secsRefreshInterval*1000);
@@ -241,12 +240,6 @@ class ControlPanel extends Component {
       this.execSearch()
     }
 
-    async switchShowLineNum() {
-      await this.txtDBEngine.init();
-      this.setState({ showLineNumbers : !this.state.showLineNumbers});
-      this.execSearch();
-    }
-
     render( props ) {
       return (
        html`
@@ -258,13 +251,13 @@ class ControlPanel extends Component {
                <input style='width:3em; text-align:right;' value='${this.state.settings_secsRefreshInterval}' placeholder='update time'
                    onInput=${ (e) => this.onUpdateTimeChanged(e) } >
                </input> secs <br/>
-               ● Font: <span class="button" onClick=${() => this.switchTypeWritterFont() }>type ${this.state.settings_font}/5</span>
-                <span class="button" onClick=${() => this.switchFontSize()        }>size ${this.state.settings_fontsize}/4</span>
+               ● Font: <span class="button2" onClick=${() => this.switchTypeWritterFont() }>type ${this.state.settings_font}/5</span>
+                <span class="button2" onClick=${() => this.switchFontSize()        }>size ${this.state.settings_fontsize}/4</span>
                  <br/>
-               ● Style: <span class="button" onClick=${() => this.switchBackground()      }>BCK ${this.state.bckg_texture}/4</span>
-               , <span class="button" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}/6</span>
+               ● Style: <span class="button2" onClick=${() => this.switchBackground()      }>BCK ${this.state.bckg_texture}/4</span>
+                 <span class="button2" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}/6</span>
                <br/>
-               ● Line: <span class="button" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span>
+               ● Line: <span class="button2" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span>
              </div>
              `
           }
@@ -307,9 +300,6 @@ class ControlPanel extends Component {
                <span class="grepState">${this.lpad(this.state.grep[0].after,2)}</span>
                <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
                <span> </span>
-               ${ false /* disabled */ && this.file_ext_upper == "TXT" &&
-               html`<span onClick=${ (e) => this.switchShowLineNum() }
-                 class='buttonCompact ${this.state.showLineNumbers?"selected":""}'> # </span>`}
               </span>` }
            ${ this.state.hideCtrPanel == true &&
               html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
