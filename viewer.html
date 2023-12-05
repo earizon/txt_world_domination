@@ -20,7 +20,6 @@ h2, h4, h6 { text-align: right; }
 
 #idTableIndex > h2 {
   display: inline;
-  text-decoration: underline;
   width: auto;
 }
 
@@ -55,14 +54,11 @@ p,li {
 
 .button {
   display: inline-block;
-  border: 1px solid gray;
-  min-width: 2em;
+  min-width: 1em;
   text-align: center;
-  box-shadow: 5px 5px 10px black;
-  margin: 0.1em 0.3em 0 0.2em;
+
   padding: 0.2em 0.3em 0.2em 0.3em;
   line-height: 1.0em;
-  border-radius: 0.5em;
 }
 .buttonCompact {
   display: inline-block;
@@ -75,10 +71,10 @@ p,li {
   border-radius: 0.5em;
 }
 
-#fixedMenu    {
+#fixedMenu {
   position: fixed;
   bottom: 0;
-  right: 0.3ch;
+  right: 0;
   width: auto;
   overflow: auto;
   opacity: 0.9;
@@ -88,27 +84,25 @@ p,li {
   font-size: 1.2em;
   white-space: break-spaces;
   text-align: center;
-  border-radius: 1em;
-  padding: 0 0 0.1em 0.3em;
-  box-shadow: 0 0 10px black;
+  border: 1px solid black;
 }
+
 #nonFixedMenu {
   overflow: auto;
-  -ms-overflow-style: none;
   scrollbar-width: none;
   position: fixed;
-  right: 1em;
+  right: 0.1ch;
   width: auto;
-/*  top: 1em; */
-  bottom: 3em;
+  top: 1em;
+  bottom: 3.7em;
   box-shadow: 0 0 10px black;
   border-radius: 1em;
   background-color: #DDD;
   border: 5px solid black;
   padding: 0.2em;
-  max-width: 80%;
+  max-width: 94%;
   max-height: 80%;
-
+  opacity: 0.9;
 }
 
 
@@ -281,14 +275,11 @@ body {
   overflow: auto;
   margin: 0;
   max-width: 75ch;
+ font-size: 0.8em;
 }
 
 #idTableTopics { background-color: #DDF; }
 #idTableIndex  { background-color: #FDD; }
-
-#idTableIndex {
-    font-size: 0.8em;
-}
 #idTableIndex > a {
   display: block;
 }
@@ -300,9 +291,14 @@ body {
 
 #idTableIndex > h1 { font-size: 1em; }
 #idTableIndex > h2, #idTableIndex > h3 {
-  padding-left: 1em;
-  font-size: 1.2em;
-  line-height:1.1em;
+  font-size: 1em;
+  line-height: 1.5em;
+  text-align: initial;
+  margin-right: 1em;
+  padding: 0 2px 0 2px;
+  font-family: sans-serif;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 #idTableTopics[size=s1], #idTableIndex[size=s1] {
@@ -310,19 +306,32 @@ body {
 }
 
 .topicClass {
-  margin: 0px;
+  margin: 2px 0 0 -2px;
   padding: 0px;
-/*padding-left: 10em;
-  text-indent :-10em; */ /* un-indent 1st line */
-  white-space:pre-line;
+  border-top: 2px;
   border-bottom: 1px solid grey;
   width:100%;
+  white-space:normal;
 }
 .topicClass > .topic {
-  float:right;
-  text-overflow: ellipsis;
+  float: right;
+  display: inline-block;
   font-weight: bold;
 }
+
+.topicClass > .topicButtom {
+  display: inline-block;
+  background-color: #AFA;
+  padding: 0px 2px 0px 2px;
+  border: 1px solid gray;
+  width: auto;
+  min-width: 3ch;
+  text-align: center;
+  margin-left: 0.3ch;
+  margin-bottom: 0.3em;
+}
+ #hideButtom { float:right; }
+
 @media only screen and (pointer  : coarse) {
  .topicClass > .topic {
     min-width: 6em;
@@ -386,6 +395,11 @@ blockquote {
   margin-left: 1em;
   background-color: beige;
 }
+
+a:link {
+    text-decoration: none;
+}
+
 </style>
 <script src="./markdown.js"></script>
 <script type="module">

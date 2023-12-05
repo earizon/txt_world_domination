@@ -23,15 +23,15 @@ class Topic extends Component {
 
     render( { topicName, topicCoord_id_l } ) {
       return (html`
-        <pre class="topicClass">
-        <div class="topic">${topicName}</div>:
+        <div class="topicClass">
+        <div class="topic">${topicName}</div>
         ${ topicCoord_id_l.map( (TC_id) => {
-           return html`[<span key=${TC_id} class='${this.CP.state.TC_id_selected[TC_id]?"selected":""}'
+           return html`<div key=${TC_id} class='topicButtom ${this.CP.state.TC_id_selected[TC_id]?"selected":""}'
               onclick=${(e) => this.tcSwitch(TC_id,e)} >
-              ${TC_id.replace(topicName+".","")}</span>] `
+              ${TC_id.replace(topicName+".","")}</div>`
            } )
         }
-        </pre>`
+        </div>`
       );
     }
 }
@@ -143,12 +143,6 @@ class ControlPanel extends Component {
             .setAttribute("fontSize","s"+new_value);
     }
 
-    switchLineBreak = ()=> {
-        this.setState ( { settings_linebreak : !this.state.settings_linebreak });
-        document.getElementById("dbEngineOutput")
-            .setAttribute("linebreak",`${!!!this.state.settings_linebreak}`);
-    }
-
     setTopicMatchDepth(inc) {
         if (inc==-1 && this.state.topicParentDepth == 0) return;
         this.setState ( {topicParentDepth:  this.state.topicParentDepth + inc } );
@@ -174,10 +168,6 @@ class ControlPanel extends Component {
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 1;
       this.state.settings_showbaseline = false;
-      this.state.settings_linebreak = true; // default for Markdown
-      if (this.file_ext_upper == "TXT" && this.state.settings_linebreak ) {
-	setTimeout(() => { this.switchLineBreak(); }, 1000);
-      }
       ControlPanel.thisPtr = this;
       // Add Keyboard sortcuts
       window.document.body
@@ -275,14 +265,13 @@ class ControlPanel extends Component {
                , <span class="button" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}/6</span>
                <br/>
                ● Line: <span class="button" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span>
-                       <span onClick=${() => this.switchLineBreak()}  class='button ${this.state.settings_linebreak?"selected":""}'>line break</span> <br/>
              </div>
              `
           }
           ${ this.state.showTopics &&
              html`
-               <pre id="idTableTopics" size=s2>
-               <span>  </span>Match parents up to:
+               <div id="idTableTopics" size=s2>
+               <span>  </span>Match parent blocks up to:
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(-1)}>-</span>
                  ${this.state.topicParentDepth}
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(+1)}>+</span>
@@ -300,7 +289,7 @@ class ControlPanel extends Component {
                       `
                   })
                }
-               </pre>
+               </div>
              `
           }
           <div id="idTableIndex" style="display:${this.state.showIndex?"":"none"}" size=s2></div>
@@ -328,7 +317,7 @@ class ControlPanel extends Component {
               html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } >∷</span> ` }
            ${ this.state.hideCtrPanel == true &&
               html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } >≣</span>` }
-           ${ html `<span class="button ${this.state.hideCtrPanel?'selected':''}" onClick=${() => this.switchCtrPanelView()} >◂</span>` }
+           ${ html `<span class="button ${this.state.hideCtrPanel?'selected':''}" onClick=${() => this.switchCtrPanelView()}  id="hideButtom">◂</span>` }
            </div>
       `);
     }
