@@ -87,19 +87,27 @@ function handleTables(p/*aragraph*/) {
 
 
 const ulistRegex_l=[/^[*] /gm   ,
-                   /^  [*] /gm  ,
-                   /^    [*] /gm  ]
+                   /^ {2,3}[*] /gm  ,
+                   /^ {4,6}[*] /gm  ]
 function handleUnorderedLists(nLevel, p/*aragraph*/) {
    if (nLevel>ulistRegex_l.length-1) return p;
    const li_list = p.split(ulistRegex_l[nLevel])
    if (li_list.length == 1) return p;
-   return li_list[0]+"<p><ul>"+li_list.slice(1).map(li=>"<li>"+handleUnorderedLists(nLevel+1,li)+"</li>").join("\n")+"</ul></p>"
+   return li_list[0]+"<p><ul>"+li_list.slice(1).map(li=>"<li>"+handleOrderedLists(nLevel+1,handleUnorderedLists(nLevel+1,li))+"</li>").join("\n")+"</ul></p>"
 }
 
-const olistRegex_l=[/(^[0-9]+. )/gm, ]
+const olistRegex_l=[/^([0-9·]+. )/gm,
+                    /^ {2,3}([0-9·]+. )/gm,
+                    /^ {4,6}([0-9·]+. )/gm,
+                   ]
 function handleOrderedLists(nLevel, p/*aragraph*/) {
   if (nLevel>olistRegex_l.length-1) return p;
   const li_list = p.split(olistRegex_l[nLevel])
+if (nLevel>0) {
+    console.log(p);
+    console.log(li_list);
+    // debugger; // deleteme
+} 
   if (li_list.length == 1) return p;
   let even=true;
   const l = li_list
@@ -107,14 +115,18 @@ function handleOrderedLists(nLevel, p/*aragraph*/) {
     .map(it => { 
        even = !even
        if (even) {
-           return `${it}</li>`
+           const liContent=
+               handleUnorderedLists(nLevel+1,
+                   handleOrderedLists(nLevel+1,it))
+               
+           return `${liContent}</li>`
        } else {
            if (it == "1. ") return "<li>"
            it = it.replace(". ","")
            return `<li value="${it}">`
        }
     }).join("\n")
-  return `<ol>${l}</ol>`
+  return `${li_list[0]}<ol>${l}</ol>`
 }
 
 function handleHeaders(p/*aragraph*/) {

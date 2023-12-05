@@ -1,5 +1,26 @@
 # Example
 
+## Ordered lists <!-- { -->
+
+1. Ordered
+   11. a <br/> 
+     line continuation.
+     111. a 111<br/>
+        line continuation a111
+     112. a<br/>
+        line continuation a112
+   12. b
+   13. c
+2. Lists
+  * a
+    20. a1
+    21. a2
+  * b
+4. Numbers are ignored
+1. Ordered
+<!-- } -->
+
+
 <!-- non visible HTML comment -->
 <!-- non visible HTML comment -->
 <!-- non visible HTML comment -->
@@ -91,12 +112,16 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 *   
 * l4
 
-## Ordered lists
+## Ordered lists <!-- { -->
 
 1. Ordered
+   1. a
+   2. b
+   3. c
 2. Lists
 4. Numbers are ignored
 1. Ordered
+<!-- } -->
 
 121) Ordered lists can start
 122) with any number and
