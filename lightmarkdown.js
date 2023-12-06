@@ -59,7 +59,7 @@ function handleTables(p/*aragraph*/) {
   if (! (p.match(REGEX_MAYBE_IS_TABLE) /*table*/)) { return p; }
 
   p = p.trim()
-  const  tableStart = '<table><tbody>', tableEnd = '</tbody></table>',
+  const  tableStart = '<table cellspacing="0"><tbody>', tableEnd = '</tbody></table>',
            rowStart = '<tr>'          ,   rowEnd = '</tr>',
           headStart = '<th>'          ,  headEnd = '</th>',
            colStart = '<td>'          ,   colEnd = '</td>';
@@ -71,6 +71,7 @@ function handleTables(p/*aragraph*/) {
     let k = 0
     let inner = ''
     for (k; k < column_l.length; k += 1) {
+      if (k == 0) {continue;}
       let k_res = column_l[k].trim()
       inner += i==0 ? `${headStart}${k_res}${headEnd}\n`
                     :  `${colStart}${k_res}${colEnd}\n`
@@ -103,11 +104,6 @@ const olistRegex_l=[/^([0-9·]+. )/gm,
 function handleOrderedLists(nLevel, p/*aragraph*/) {
   if (nLevel>olistRegex_l.length-1) return p;
   const li_list = p.split(olistRegex_l[nLevel])
-if (nLevel>0) {
-    console.log(p);
-    console.log(li_list);
-    // debugger; // deleteme
-} 
   if (li_list.length == 1) return p;
   let even=true;
   const l = li_list
@@ -132,8 +128,11 @@ if (nLevel>0) {
 function handleHeaders(p/*aragraph*/) {
   return p.replace(/^[\#]{1,6}[ ](.+)/mg, funReplaceHeader);
 }
+const imageRegex=/\!\[([^\]]+)\]\(([^\)]+)\){([^}]+)}?/g
+//                                                        
 function handleImages(p/*aragraph*/) {
-  return p.replace(/\!\[([^\]]+)\]\(([^\)]+)\)/g, '<img src="$2" alt="$1" />');
+  return p.replace(imageRegex,
+        '<img src="$2" alt="$1" style="$3" />');
 }
 function handleLinks(p/*aragraph*/) {
   return p.replace(
@@ -170,35 +169,30 @@ function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
 
 /* step 2: markdown txt extensions for pre-like */
 const _02_markdown_extension = (p, relative_path) => {
-  // NEXT) md++ extension. replace anchors link #[target_id]
+  // NEXT) TXTWD extension. replace anchors link #[target_id]
   p = p.replace( /[#]\[([^\]]*)\]/g, "◆<span id='$1'>#$1</span>◆")
 
-  // NEXT) md++ extension. replace external link @[http... link]
+  // NEXT) TXTWD extension. replace external link @[http... link]
   p = p.replace( /@\[((http|[.][/]).?[^\]\n]*)\]/g,
       " <<a target='_blank' href='$1'>$1</a>>")
 
 
-  // NEXT) md++ extension. replace relative links @[#internal_link]
+  // NEXT) TXTWD extension. replace relative links @[#internal_link]
   // TODO: Improve relative handling. There can be:
   // 1. links to external but relative to viewer content (normal case)
   // 2. links indicating viewer to reload current content
-  //    (non-standard) links that just the md++ parser/viewer will understand.
+  //    (non-standard) links that just the TXTWD parser/viewer will understand.
   p = p.replace(
       /@\[(#[^\]\n]*)\]/g,
       " ◐<a onClick='window.scrollInto(\"$1\")'>$1</a>◑")
 
-  // NEXT) md++ extension. Replace External absolute URL images: i[http://.../test.svg|width=3em]
-  p = p.replace(
-    /i\[((http).?[^|\]\n]*)[,]?([^\]\n]*)\]/g,
-    "<img src='$1' style='$2' />")
-  // NEXT) md++ extension. Replace External relative URL images: i[./test.svg|width=3em]
   //       Note that relative images are relative to txt document
   //       (vs html viewer)
   p = p.replace(
     /i\[((\.\/)?[^|\]\n]*)[|]?([^\]\n]*)\]/g,
     "<img src='"+relative_path+"/$1' style='$2' />")
 
-  // NEXT) md++ extension. Add style to topic blocks [[topic1,topic2.subtopicA,...]]
+  // NEXT) TXTWD extension. Add style to topic blocks [[topic1,topic2.subtopicA,...]]
   p = p.replace( /(\[\[[^\]\n]*\]\])/g, "<span class='txtblock'>$1</span>")
 
   return p

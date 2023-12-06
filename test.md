@@ -1,7 +1,11 @@
 # Example
 
-## Ordered lists <!-- { -->
-
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+<!-- non visible HTML comment -->
+# Ordered/Unordered (ul) list mix <!-- { -->
 1. Ordered
    11. a <br/> 
      line continuation.
@@ -21,12 +25,7 @@
 <!-- } -->
 
 
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-## Tables  <!-- { -->
+# Tables  <!-- { -->
 
 | Column 1 | Column 2 | Column 3 | Column 4
 |----------|:---------|:--------:|---------:
@@ -74,8 +73,16 @@ __This is a paragraph with style bold__
  └─────────────────────┴───────────────────────┴──────────────────────┘
  ```
 
-![image](./test.svg)
-i[./test.svg,width=5em]
+[[{doc_has.image]]
+<br/> <br/> <br/>
+    ![image](./test.svg){width:10ch;}
+    ![image](./test.svg){width:20ch;}
+    ![image](./test.svg){width:30ch;transform: rotate(90deg);}
+<!--                    └───────────────────┬────────────────┘
+    Markdown TXT World domination extension to bring
+    enemy images under control ah, Ah, Ah!!!!  -->
+[[doc_has.image}]]
+
 
 Hello [**link**](https://rsms.me/) lol "cat"
 
@@ -97,31 +104,6 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 >   
 > Blockquotes can also contain line
 > breaks.
-
-
-## Unordered (ul) lists
-
-* l1
-  l1 cont.
-* l2
-  * l2.1 cont.
-    * l2.1.1 cont.
-    * l2.1.2 cont.
-  * l2.2 cont.
-* l3
-*   
-* l4
-
-## Ordered lists <!-- { -->
-
-1. Ordered
-   1. a
-   2. b
-   3. c
-2. Lists
-4. Numbers are ignored
-1. Ordered
-<!-- } -->
 
 121) Ordered lists can start
 122) with any number and
@@ -363,7 +345,9 @@ Now follows the tests used to implement the TXT WD.
   ``` 
   [[{ topic1,...,topicB]] 
   ``` 
-  
+ 
+# Topic Testing
+
 * Topic tags can be added anywhere before the start and end of a
   block. 
   ``` 
