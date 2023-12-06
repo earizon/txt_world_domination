@@ -1,9 +1,5 @@
 # Bugs [[{QA.BUG]]
 
-## Error when selecting a parent topic <!-- { -->
-* At http://127.0.0.1:9000/txt_world_domination/viewer.html?payload=../JAVA/notes.txt
-  when selecting 01_PM.LOW_CODE a bug is raised.
-
 ## Settings > Font-size doesn't work anymore <!-- { -->
 <!-- } -->
 [[QA.BUG}]] 

@@ -1,7 +1,7 @@
 "use strict"
 import {parseMD2HTML} from "./lightmarkdown.js";
 
-const debug_topics_101=false
+const debug_topics_101=true
 
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
@@ -37,7 +37,7 @@ class TopicCoordinate { //                                                      
         if (this.dim == "QA"     ) { this.dim = "02_QA" }
         if (this.dim == "DOC_HAS") { this.dim = "03_DOC_HAS" }
         this.coord = token_l.join(".");
-        this.id    = TC_id;
+        this.id    = [this.dim,this.coord].join(".")
         TopicCoordinate.id2Instance[this.id] = this;
     }
     getTC_id() {
@@ -77,15 +77,18 @@ class TopicBlockDB { //                                                        [
        }
    }
 
-   getBlocks(tc /*topicCoordinate*/, topicParentDepth) {
+   getBlocks(TC_id /*topicCoordinate_id*/, topicParentDepth) {
+    const tc = TopicCoordinate.id2Instance[TC_id];
     try {
        let result = this._db[tc.dim][tc.coord].filter(block => {
            return (block.topic_d[tc.id]<=topicParentDepth);}
        );
        return result;
     }catch(err){
+      console.log("TC_id:"+TC_id);
       console.dir(err);
       console.dir(this._db);
+      console.dir(TopicCoordinate.id2Instance);
     }
    }
 
@@ -112,8 +115,7 @@ class TopicBlockDB { //                                                        [
      if (TC_id_l.length==0) return Array(ddbbRowLength).fill(true);
      const result_l = Array(ddbbRowLength).fill(false);
      TC_id_l.forEach(TC_id => {
-         const TC = TopicCoordinate.id2Instance[TC_id];
-         const block_l = this.getBlocks(TC, topicParentDepth);
+         const block_l = this.getBlocks(TC_id, topicParentDepth);
          block_l.forEach(block => {
            for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
                result_l[idx] = true;
