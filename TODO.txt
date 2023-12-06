@@ -1,7 +1,5 @@
 # Bugs [[{QA.BUG]]
 
-## Settings > Font-size doesn't work anymore <!-- { -->
-<!-- } -->
 [[QA.BUG}]] 
 
 
