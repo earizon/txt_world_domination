@@ -182,6 +182,11 @@ class TXTDBEngine {
             result+=","
           }
         })
+        if ( result.indexOf("$") > 0 ) {
+            // '$' forbidden. Avoid conflicts with shell like expressions:
+            // if [[ ${var} ]] ...
+            return ""; 
+        }
         result = result.toUpperCase().replaceAll(" ","");
         return result
       }
@@ -211,11 +216,8 @@ class TXTDBEngine {
           paragraph_topicCoords_l
             .map(
               TC_id => TopicCoordinate.parseTaintedTC(TC_id) )
-            .filter( TC_id => TC_id != null )
+            .filter( TC_id => { return ( TC_id != null  && TC_id != "" ) })
             .forEach ( TC_id => {
-              if ( TC_id == ""  ) return;
-              if ( TC_id.indexOf("$") >= 0) return; // Avoid conflict with shell script [[ $...  ]] syntax
-              if ( !!! TC_id ) throw new Error("TC_id empty/null");
               if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
               let stackDepth = blockStack.length-1;
               blockStack.forEach(block => {
