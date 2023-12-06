@@ -158,6 +158,10 @@ class ControlPanel extends Component {
             .setAttribute("lineheight","height"+new_value);
     }
 
+    switchRulesOnOff = () => {
+        this.setState ( { settings_ruleOnOff : !this.state.settings_ruleOnOff });
+    }
+
     switchFontSize = ()=> {
         const new_value = this.state.settings_fontsize == 4 ? 0 : this.state.settings_fontsize+1;
         this.setState ( { settings_fontsize : new_value });
@@ -190,6 +194,7 @@ class ControlPanel extends Component {
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 1;
       this.state.settings_showbaseline = false;
+      this.state.settings_ruleOnOff = true;
       ControlPanel.thisPtr = this;
       // Add Keyboard sortcuts
       window.document.body
@@ -266,11 +271,12 @@ class ControlPanel extends Component {
     render( props ) {
       return (
        html`
-       <div id="rule1"></div>
-       <div id="rule2"></div>
-       <div id="rule3"></div>
-       <div id="rule4"></div>
-       <div id="rule5"></div>
+       <div id="rule1" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
+       <div id="rule2" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
+       <div id="rule3" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
+       <div id="rule4" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
+       <div id="rule5" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
+
        <div id="nonFixedMenu" style="display: ${this.showSubMenu() ? "": "none"}">
           ${ this.state.showSettings &&
              html`
@@ -285,7 +291,8 @@ class ControlPanel extends Component {
                ● Style: <span class="button2" onClick=${() => this.switchBackground()      }>BCK ${this.state.bckg_texture}/4</span>
                  <span class="button2" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}/6</span>
                <br/>
-               ● Line: <span class="button2" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span>
+               ● Line: <span class="button2" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span><br/>
+               ● Rules: <span class="button2 ${this.state.settings_ruleOnOff && html`selected`}" onClick=${() => this.switchRulesOnOff()      }>Switch ON/OFF</span><br/>
              </div>
              `
           }
