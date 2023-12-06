@@ -1,19 +1,40 @@
-## Custom 'highlight' tags for:
-* Risk     : eg: Rº**
-* Keypoint : eg: Kº**
-* Important: eg: Iº**
-* ... 
+# Bugs [[{QA.BUG]]
+
+## Topics with `$` must be ignored <!-- { -->
+* At @[http://127.0.0.1:9000/txt_world_domination/viewer.html?payload=test.md]<br/>
+  `${SOME_VARIABLE}` is recognized as topic.
+<!-- } -->
+ 
+## Error when selecting a parent topic <!-- { -->
+* At http://127.0.0.1:9000/txt_world_domination/viewer.html?payload=../JAVA/notes.txt
+  when selecting 01_PM.LOW_CODE a bug is raised.
+<!-- } -->
+
+[[QA.BUG}]] 
+
+
+# Feature Requests
+
+## Custom 'highlight' tags
+* Example:
+  ```
+  - Risk     : eg: Rº**
+  - Keypoint : eg: Kº**
+  - Important: eg: Iº**
+  * ... 
+  ```
 tags must be independent of rendering (as color, decorated, ...)
  
-## Beacon API:  Sending analytics [[{]]
-https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API
-The Beacon API is used to send an asynchronous and non-blocking
-request to a web server. The request does not expect a response.
-Unlike requests made using XMLHttpRequest or the Fetch API, the
-browser guarantees to initiate beacon requests before the page is
-unloaded and to run them to completion.
-
-The main use case for the Beacon API is to send analytics such as
-client-side events or session data to the server.
+## Use Beacon API [[{]]
+* "anonymous analytics"
+* [REF](https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API)
+  The Beacon API is used to send an asynchronous and non-blocking
+  request to a web server. The request does not expect a response.
+  Unlike requests made using XMLHttpRequest or the Fetch API, the
+  browser guarantees to initiate beacon requests before the page is
+  unloaded and to run them to completion.
+    
+  The main use case for the Beacon API is to send analytics such as
+  client-side events or session data to the server.
 [[}]]
 
