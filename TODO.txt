@@ -5,12 +5,17 @@
 
 # Feature Requests
 
+## Allow AND/OR topic selection
+* Only or is active now.
+
 ## Custom 'highlight' tags
 * Example:
   ```
-  - Risk     : eg: Rº**
-  - Keypoint : eg: Kº**
-  - Important: eg: Iº**
+  - Risk         : eg: Rº**
+  - WARN         : eg: Wº**
+  - Keypoint     : eg: Kº**
+  - Important    : eg: Iº**
+  - Tip/Reminder : eg: Tº**
   * ... 
   ```
 tags must be independent of rendering (as color, decorated, ...)
