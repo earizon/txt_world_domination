@@ -139,12 +139,34 @@ function handleLinks(p/*aragraph*/) {
         /[\[]{1}([^\]]+)[\]]{1}[\(]{1}([^\)\"]+)(\"(.+)\")?[\)]{1}/g ,
         '<a href="$2" title="$4">$1</a>');
 }
+
+const stylesParseHelp={
+  "bold"          : ["<b>"  ,"</b>"  , /\b[\*\_]{2}|[\*\_]{2}\b/, "  ","  "],
+  "italic"        : ["<i>"  ,"</i>"  , /\b[\*\_]{1}|[\*\_]{1}\b/, " " ," " ],
+  "strikethrough" : ["<del>","</del>", /\b[\~]{2}|[\~]{2}\b/    , "  ","  "],
+}
+const styleList = Object.keys(stylesParseHelp)
 function handleFontStyles(p/*aragraph*/) {
-    return p
-        .replace(/\b[\*\_]{2}([^\*\_]+)[\*\_]{2}\b/g, '  <b>$1</b>  ')
-        .replace(/\b[\*\_]{1}([^\*\_]+)[\*\_]{1}\b/g, ' <i>$1</i> ')
-        .replace(/[~]{2}([^\~]+)[~]{2}/g      , '  <del>$1</del>  ')
-        ;
+  for (let styleIdx=0; styleIdx < styleList.length; styleIdx++){ 
+    let even=true; // due to next slice(1)
+    const  styleKey=styleList[styleIdx]
+    const  oTag=stylesParseHelp[styleKey][0], // openTag
+           cTag=stylesParseHelp[styleKey][1], // closeTag
+          regex=stylesParseHelp[styleKey][2], // split regex
+             oW=stylesParseHelp[styleKey][3], // open white-space
+             cW=stylesParseHelp[styleKey][4]; // close white-space
+    const list = p.split(regex)
+    if (list.length==1) continue;
+    p = list.slice(0,-1).map(it => {
+         even = !even
+         if (even) { return `${it}${cTag}${cW}` }
+         else      { return `${it}${oW}${oTag}` }
+      }).join("")+list.slice(-1)
+    if (list.length%2==0) { 
+        p=p+cTag+cW // Finally close any open tag.
+    }
+  }
+  return p
 }
 
 function handleBlockQuotes(p/*aragraph*/) {
@@ -193,7 +215,7 @@ const _02_markdown_extension = (p, relative_path) => {
     "<img src='"+relative_path+"/$1' style='$2' />")
 
   // NEXT) TXTWD extension. Add style to topic blocks [[topic1,topic2.subtopicA,...]]
-  p = p.replace( /(\[\[[^\]\n]*\]\])/g, "<span class='txtblock'>$1</span>")
+  p = p.replace(/(\[\[[^\]\n]*\]\])/g, "<span class='txtblock'>$1</span>")
 
   return p
 }

@@ -1,5 +1,13 @@
 # Example
 
+   ```
+   |[[{]]|||
+   |^^^^^|||
+   |vvvvv|||
+   |[[}]]||| 
+  ```
+
+
 <!-- non visible HTML comment -->
 <!-- non visible HTML comment -->
 <!-- non visible HTML comment -->
@@ -56,19 +64,23 @@
 
 ###### This is an header Level 6
 
-_This is a paragraph with style italic_
+Non italic *italic* non italic *italic*<br/>
+Non italic _italic_ non italic _italic_<br/>
+_Wrongly closed italic must be automatically fixed 
 
-__This is a paragraph with style bold__
 
-**This is a paragraph with style bold**
+Non bold **bold** non bold **bold**<br/>
+Non bold __bold__ non bold __bold__<br/>
+__Wrongly closed bold must be automatically fixed 
 
-~~This is an strikethrough paragraph~~
+Non strikethrough ~~strikethrough~~ non strikethrough ~~strikethrough~~<br/>
+~~Wrongly closed strikethrough must be automatically fixed 
 
  ```
  Font Styles respect white-space
  (column alignment) in monospace/pre blocks.
  ┌─────────────────────┬───────────────────────┬──────────────────────┐
- │_This is a paragraph_│__This is a paragraph__│~~This is an strike-~~│
+ │_This is a paragraph_│__This is a paragraph__│~~This is an strike~~ │
  │_ with style italic_ │__with style bold__    │~~through paragraph~~ │
  └─────────────────────┴───────────────────────┴──────────────────────┘
  ```
