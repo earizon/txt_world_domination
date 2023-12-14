@@ -1,21 +1,14 @@
-# Example
-
-   ```
-   |[[{]]|||
-   |^^^^^|||
-   |vvvvv|||
-   |[[}]]||| 
-  ```
+# Welcome to the TXT World Domination Project
 
 
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
-<!-- non visible HTML comment -->
+<!-- non visible HTML comment --> <!-- non visible HTML comment -->
+<!-- non visible HTML comment --> <!-- non visible HTML comment -->
+<!-- non visible HTML comment --> <!-- non visible HTML comment -->
+
 # Ordered/Unordered (ul) list mix <!-- { -->
+
 1. Ordered
-   11. a <br/> 
+   11. a <br/>
      line continuation.
      111. a 111<br/>
         line continuation a111
@@ -30,23 +23,23 @@
   * b
 4. Numbers are ignored
 1. Ordered
+
+
+121) Ordered lists can start
+122) with any number and
+123) use . as well as ) as a separator.
+
+
 <!-- } -->
 
-
-# Tables  <!-- { -->
-
-| Column 1 | Column 2 | Column 3 | Column 4
-|----------|:---------|:--------:|---------:
-| default | left | center | right
-<!-- } -->
 
 ```
 ┌─ HEAD-Quarters ───────────────────────────────────┐
-│@[https://github.com/earizon/txt_world_domination/]│
+│<https://github.com/earizon/txt_world_domination/> │
 ├───────────────────────────────────────────────────┤
 │ Quick Links:                                      │
 │ (#uml) @[#bpmn]                                   │
-│  @[#TXTGeometricsymbols] @[#TXTMathsymbols]       │
+│ @[#TXTGeometricsymbols]  @[#TXTMathsymbols]       │
 │ @[#TXTWorldDominationAmmunition]  link ext        │
 │ @[#TXTWorldDominationCellebration] link ext       │
 └───────────────────────────────────────────────────┘
@@ -66,15 +59,15 @@
 
 Non italic *italic* non italic *italic*<br/>
 Non italic _italic_ non italic _italic_<br/>
-_Wrongly closed italic must be automatically fixed 
+_Wrongly closed italic must be automatically fixed
 
 
 Non bold **bold** non bold **bold**<br/>
 Non bold __bold__ non bold __bold__<br/>
-__Wrongly closed bold must be automatically fixed 
+__Wrongly closed bold must be automatically fixed
 
 Non strikethrough ~~strikethrough~~ non strikethrough ~~strikethrough~~<br/>
-~~Wrongly closed strikethrough must be automatically fixed 
+~~Wrongly closed strikethrough must be automatically fixed
 
  ```
  Font Styles respect white-space
@@ -102,8 +95,8 @@ Hello from *[link](https://rsms.me/)* to __everyone__ `reading this`
 
 Here's an [**important** anchor link](#example).
 
-line 1  
-line 2  
+line 1
+line 2
 
 ### Embedded HTML
 
@@ -112,14 +105,10 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 ### Block Quotes
 
 > You can insert quotes by
-> preceeding each line with `>`.<br/>
->   
-> Blockquotes can also contain line
-> breaks.
+  preceeding each line with `>`.<br/>
+  like in this example/test.  
+  yet another quotation line.
 
-121) Ordered lists can start
-122) with any number and
-123) use . as well as ) as a separator.
 
 ### Task lists
 
@@ -127,6 +116,7 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 - [x] Task 2
 - [ ] Task 3
 - Regular list item
+
 
 ## Tables  <!-- { -->
 
@@ -149,12 +139,12 @@ Embedded HTML is disabled except for &gt;br&lt; and HTML comments.
 
 # Apropos:
 
-- This text file has two purposes:<br/>
+* This text file has two purposes:<br/>
   1) Serve as input data used by functional tests.<br/>
   2) Final up-to-date documentation for users.<br/>
 
-  Document source code:
-@[https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt]
+* Document source code:
+  <https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt>
 
 # TESTS START <!-- { test start -->
 
@@ -172,7 +162,7 @@ by making a copy of the following paragraph:
 > developers are new since the IT industry double its size every five
 > years ..."
   Citation extracted from:
-  @[https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b]
+  <https://dev.to/jmfayard/android-s-billion-dollar-mistake-327b>
 
 ## TEST: Make sure readers understand the key points when creating documentation:
 
@@ -200,6 +190,16 @@ projects documented with plain text:
 - Linux Kernel documentation:
   https://github.com/torvalds/linux/tree/master/Documentation
 
+Some low-level mardown parsing follows:
+
+## TEST: pre block automatically closed
+<!-- { -->
+```
+lets forget to close pre block before next parragraph.
+
+This paragraph must look normal (vs inside a pre)
+<!-- } -->
+
 ## TEST: scaped p and html tags must be displayed properly:
 
   ```
@@ -215,9 +215,9 @@ projects documented with plain text:
  i[./test.svg,width=3em]
 
 ## TEST: External links must be converted properly:
-  Go to @[https://www.w3.org/]
-  Go to @[https://www.ietf.org/]
-  Go to @[https://www.ieee.org/]
+*  Go to <https://www.w3.org/>
+*  Go to <https://www.ietf.org/>
+*  Go to <https://www.ieee.org/>
 
 ## TEST: MAP ONE-TO-ONE TO DOCUMENTATION: [[{DOC_HAS.KEY-POINT]]
 
@@ -235,7 +235,7 @@ Documenting is not about piling words and powerpoints
 in random locations hoping that some poor soul will read
 them in future.
 
-Documenting is not about looking cool or serious or expert 
+Documenting is not about looking cool or serious or expert
 ```
   ┌ [[{DOC_HAS.KEY-POINT]] ───────────────────────────────────────────┐
   │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
@@ -260,7 +260,7 @@ Documenting is not about looking cool or serious or expert
 ```
 
 * Perfect documentation is a science-fiction dream
-  @[https://www.youtube.com/watch?v=SoAk7zBTrvo] ...
+  <https://www.youtube.com/watch?v=SoAk7zBTrvo> ...
 * ... but good documentation is possible.
 * Text books are examples of good documentation (or at least they ought to)...
 * BUT ... text-books require lot of expertise and free-time to create.
@@ -281,7 +281,7 @@ Documenting is not about looking cool or serious or expert
   ```
 
 [[{DOC_HAS.FAQ]]
-## Why wasting time writing booOOoooring documentarion? 
+## Why wasting time writing booOOoooring documentarion?
    ```
   ┌ [[{DOC_HAS.KEY-POINT]] ─────────────────────────────────┐
   │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
@@ -310,7 +310,7 @@ Documenting is not about looking cool or serious or expert
 ##  ABOUT THE TXT WORLD DOMINATION PROJECT
 
 [[{DOC_HAS.KEY-POINT]]
-* TXTWD Project tries to implement documentation best 
+* TXTWD Project tries to implement documentation best
 practices by converting a simple and innocent "txt" file
 into a INDECENT and PERVERT Document Management System
 where information can be searched and classified in
@@ -330,9 +330,9 @@ Now follows the tests used to implement the TXT WD.
   ```
   [[ - topics go here - ]]
   ```
-*  A BLOCK-OF-RELATED-CONTENT starts with 
+*  A BLOCK-OF-RELATED-CONTENT starts with
   ```
-  [[{]] 
+  [[{]]
   ```
   and ends with
   ```
@@ -349,32 +349,32 @@ Now follows the tests used to implement the TXT WD.
   ├─ block
   │  └──── block
   ├─ block
-  ┊      
-  ``` 
+  ┊
+  ```
   [[}]]
 
 * each block can be "tagged" with on or more topics using the syntax
-  ``` 
-  [[{ topic1,...,topicB]] 
-  ``` 
- 
+  ```
+  [[{ topic1,...,topicB]]
+  ```
+
 # Topic Testing
 
 * Topic tags can be added anywhere before the start and end of a
-  block. 
-  ``` 
+  block.
+  ```
 __Example A__                  _Example B_
                                                           [[{topicA]]
   Lorem Ipsum will dominate     Lorem Ipsum will dominate [[topicB]]
-  the World                     the World 
+  the World                     the World
                                                           [[}]]
   └──────────┬────────────┘     └──────────────┬────────────────────┘
              │                                 │
              └─────────────┬───────────────────┘
   Both ways of tagging content with topic tags end up with the same result
   (except for maybe some extra whitespace).
-  Placing 
-  ``` 
+  Placing
+  ```
 
 * Each topic can be subclassified in subtopics following the syntax
   ```
@@ -455,7 +455,7 @@ __Example A__                  _Example B_
 ```
 ```
       │          │        [[{ topic01.3]]      topic01.3 belongs to level 1, 2 and 3:
-      │ topic01.1 │ topic01.2 │ topic01.3      
+      │ topic01.1 │ topic01.2 │ topic01.3
       │ topic01.1 │ topic01.2 └ topic01.3      TEST: Select topic01.3 in menu. Level 3 block
       │ topic01.1 │ topic01.2 [[}]]                 must be displayed.
 ```
@@ -530,22 +530,22 @@ __Example A__                  _Example B_
                   - text must be converted to anchor with correct sytles.
 
   Pressing back in browser must scroll up to original link
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   --------------------------------------------
  #[internalLink2] must link here.
  ^              ^
@@ -559,7 +559,7 @@ __Example A__                  _Example B_
   .
   .
 ENOUGH WITH TESTING. TIME FOR ...
-  
+
 # TXT World Domination Ammunition !!!
 
   ```
@@ -577,7 +577,7 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## TXT Diagrams
 
   ```
-┌ @[https://arthursonzogni.com/Diagon/] ───────────────────────────────────────┐
+┌ <https://arthursonzogni.com/Diagon/>  ───────────────────────────────────────┐
 │  Quickly create sequence Diagrams, GRAPHs, FlowCharts, Tables, ....          │
 │  ┌─ Gallery ───────────────────────────────────────┐                         │[[{]]
 │  │ DIRECTED ACYCLIC GRAPH    │ SEQUENCE DIAGRAM    │                         │[[doc_has.diagram,doc_has.template.UML]]
@@ -609,8 +609,8 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## Asciiflow: Box-like drawing with TXT
 
   ```
-┌ @[https://asciiflow.com/#/] (Free BOX-like TXT Drawing) ─────────────────────┐[[{]]
-│         ┌───────┐    ┌──────┐     IO PORTS                                   │  [[doc_has.template.diagram]] 
+┌ <https://asciiflow.com/#/> (Free BOX-like TXT Drawing)  ─────────────────────┐[[{]]
+│         ┌───────┐    ┌──────┐     IO PORTS                                   │  [[doc_has.template.diagram]]
 │         │xxxxxxx│    │xxxxxx│     ┌┐┌┐ ┌┐┌┐                                  │  [[doc_has.template.UML]]
 │         │xxxxxxx│    │xxxxxx│     ││││ ││││                                  │  [[tool.online]]
 │   ┌─────┴───────┴────┴──────┴─┬───┴┴┴┴┬┴┴┴┴┐                                 │
@@ -629,7 +629,7 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## CSVkit: TXT as database
 
   ```
-┌ @[https://csvkit.readthedocs.io/en/latest/] ─────────────────────────────────┐ [[{]]]
+┌ <https://csvkit.readthedocs.io/en/latest/>  ─────────────────────────────────┐ [[{]]]
 │ Convert from/to CSV/Excel/SQL-DDBB.      [[tool.desktop,doc_has.CSV]]]       │
 │ Query CSV using SQL.                                                         │
 │ No-code statistics on CSV data.                                              │
@@ -639,7 +639,7 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## GNU Text Utils: Standard TXT utilities in Linux/MacOSX
 
   ```
-┌ @[http://gnu.ist.utl.pt/software/textutils/textutils.html] ──────────────────┐ [[{tool.desktop]]]
+┌  <http://gnu.ist.utl.pt/software/textutils/textutils.html> ──────────────────┐ [[{tool.desktop]]]
 │  sort     : sort lines of text files                                         │
 │  tsort    : perform topological sort                                         │
 │  uniq     : remove duplicate lines from a sorted file                        │
@@ -653,10 +653,10 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## ASCiinema: TXT Video recording
 
  ```
-┌ @[https://asciinema.org/] ASCII VIDEO ───────────────────────────────────────┐ [[{]]
+┌  <https://asciinema.org/> ASCII VIDEO ───────────────────────────────────────┐ [[{]]
 │ Record+share terminal sessions, the simple way.                              │ [[tool.desktop,tool.online]]
 │ Enjoy a lightweight, purely text-based approach to terminal recording.       │ [[security.audit]]
-│ Example: @[https://asciinema.org/a/421164]                                   │
+│ Example:  <https://asciinema.org/a/421164>                                   │
 └──────────────────────────────────────────────────────────────────────────────┘ [[}]]
   ```
 
@@ -685,7 +685,7 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## GNU Core Utils: Txt standard formating tools in Linux/MacOSX
 
   ```
-┌─ https://www.gnu.org/software/coreutils/ ────────────────────────────────────┐ [[{tool.desktop]]
+┌─ <https://www.gnu.org/software/coreutils/> ──────────────────────────────────┐ [[{tool.desktop]]
 │ · fold: Wrap input lines to fit in specified width                           │
 │ · fmt : Reformat paragraph text                                              │
 │ · pr  : Paginate or columnate files for printing                             │
@@ -696,37 +696,39 @@ ENOUGH WITH TESTING. TIME FOR ...
 
 [[{doc_has.template,doc_has.template.bullets]]
   ```
-  ┌─────────────────────────────────────────┐ 
+  ┌─────────────────────────────────────────┐
   │ Bullets   : · • ●                       │
   │             ○ ◉ ◙ □   ■    ◔ ◗          │
   │             ◦ ◌ ◎ ▫ ◘ ▪    ● ◕          │
   │   SubIndex: ₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₔₕₖₗₘₙₚₛₜ│
   │ SuperIndex: ⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁱⁿ           │
-  └─────────────────────────────────────────┘ 
+  └─────────────────────────────────────────┘
    ◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛
    ◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡
-     ▲      ▴      ▵      ◓    ◸ ◹   ◜ ◝ 
-   ◄ ■ ►  ◂ ▪ ▸  ◃ ◊ ▹  ◐   ◑   ◦      
+     ▲      ▴      ▵      ◓    ◸ ◹   ◜ ◝
+   ◄ ■ ►  ◂ ▪ ▸  ◃ ◊ ▹  ◐   ◑   ◦
      ▼      ▾      ▿      ◒    ◺ ◿   ◟ ◞
    ◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡◠◡
    ◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛◚◛
-   ▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯   
-   ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮ 
+   ▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯▯
+   ▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮▮
   ```
 [[}]]
 
 ## TXT Arrows <!-- { -->
 
   ```
- ┌@[https://en.wikipedia.org/wiki/Arrows_(Unicode_block)]┐ [[{doc_has.template.arrows]]
- │ ↖ ↑ ↗  ↔ ↕ ↨                                          │
- │ ← ↑ →                                                 │
- │ ↙ ↓ ↘                                                 │
- │ ↲ ↳                                                   │
- └───────────────────────────────────────────────────────┘ [[}]]                     
+ [[{doc_has.template.arrows]]
+ ┌ <https://en.wikipedia.org/wiki/Arrows>
+ │ (Unicode_block) │
+ │ ↖ ↑ ↗  ↔ ↕ ↨    │
+ │ ← ↑ →           │
+ │ ↙ ↓ ↘           │
+ └─────────────────┘
+ [[}]]
   ```
 
-<!-- } --> 
+<!-- } -->
 
 ## TXT UML <!-- { -->
 
@@ -798,12 +800,11 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## TXT Geometric symbols <!-- { -->
 
   ```
- @[https://www.w3schools.com/charsets/ref_utf_geometric.asp]
-    ▴   ▵          ◸ ◹ ◜ ◝ ◠  ◄ ►                          │
-   ◂ ▸ ◃ ▹         ◺ ◿ ◟ ◞ ◡  ◊                            │
-    ▾   ▿          ◴ ◵ ◶ ◷                                 │
-                                                            
-
+  <https://www.w3schools.com/charsets/ref_utf_geometric.asp>
+    ▴   ▵          ◸ ◹ ◜ ◝ ◠  ◄ ► │
+   ◂ ▸ ◃ ▹         ◺ ◿ ◟ ◞ ◡  ◊   │
+    ▾   ▿          ◴ ◵ ◶ ◷        │
+  
   ┌─┬─┬┈┈┈┈┬╌──┬─┐ ┐┎─┰┄─┄┰┅┅┒ ╔═╦═╗  ╓──╥──╖ ╒══╤══╕ ⎧⎧ ⎧     ⎫
   │ ┊ ┆╌╌╌╌│     │ ╵┃ ┃   ┃  ┃ ║ ║ ║  ║  ║  ║ │  │  │ ⎭⎪ ⎪⎧   ⎫⎪
   │ ┊ ┆    │   │ │ │┃ ┃   ┃  ┃ ╠═╬═╣  ╟──╫──╢ ╞══╪══╡  ⎪ ⎨⎨   ⎬⎬
@@ -821,7 +822,7 @@ ENOUGH WITH TESTING. TIME FOR ...
 
   ```
   Unicode Symbols                                                                  |
-  @[https://www.unicode.org/charts/PDF/U2200.pdf]                                  |
+   <https://www.unicode.org/charts/PDF/U2200.pdf>                                  |
   ● ORDER RELATIONS             ● LOGICAL OPs                                      |
     ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                                    |
                                   ∨ LOGICAL OR                                     |
@@ -887,7 +888,7 @@ ENOUGH WITH TESTING. TIME FOR ...
   U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟            |
   U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯            |
   U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿            |
-                                                                            
+
   ```
 <!-- } -->
 
@@ -913,45 +914,51 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## TXT GAMES!!! <!-- { -->
 
 ```
-┌─ @[http://fph.altervista.org/prog/bastet.html] ──────────────────────────┐ [[{games.tetris]]
+┌─  <http://fph.altervista.org/prog/bastet.html> ──────────────────────────┐ [[{games.tetris]]
 │ Tetrisfy your TXT enemies with this Tetris clone for terminals.          │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
 
 ```
-┌ @[https://github.com/bfontaine/term2048] ────────────────────────────────┐ [[{games.puzzle]]
+┌  <https://github.com/bfontaine/term2048> ────────────────────────────────┐ [[{games.puzzle]]
 │ Puzzle your terminal.                                                    │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
 
 ```
-┌ @[https://www.seehuhn.de/pages/moon-buggy] ──────────────────────────────┐ [[{games.moon_buggy]]
+┌  <https://www.seehuhn.de/pages/moon-buggy> ──────────────────────────────┐ [[{games.moon_buggy]]
 │ The World is now under control, time for TXT Moon Domination!!!          │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
 
 ```
-┌ @[https://www.nethack.org/] ─────────────────────────────────────────────┐ [[{games.NetHack]]
+┌ <https://www.nethack.org/>  ─────────────────────────────────────────────┐ [[{games.NetHack]]
 │ TXT is not afraid of Dungeons and Dragons!!!                             │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
 
 ```
-┌ @[https://linuxcommandlibrary.com/man/ninvaders] ────────────────────────┐ [[{games.ninvaders]]
+┌ <https://linuxcommandlibrary.com/man/ninvaders>  ────────────────────────┐ [[{games.ninvaders]]
 │ Defend your TXT from alien invaders!!!                                   │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
 
 ```
-┌ @[https://askubuntu.com/questions/376558/how-to-play-snake-in-terminal] ─┐ [[{games.snake]]
+┌  <https://askubuntu.com/questions/376558/how-to-play-snake-in-terminal> ─┐ [[{games.snake]]
 │ Don't let your TXT eat itself!!!                                         │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
 
+
 ```
-┌ @[https://howtoinstall.co/en/pacman4console] ────────────────────────────┐ [[{games.pacman]]
+┌  <https://howtoinstall.co/en/pacman4console> ────────────────────────────┐ [[{games.pacman]]
 │ Pacman is here!!!                                                        │
 └──────────────────────────────────────────────────────────────────────────┘ [[}]]
 ```
+
+```
+ pre-blocks must be automatically closed in markdown forgets to do.
+
+
 
 <!-- } -->

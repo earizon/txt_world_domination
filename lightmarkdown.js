@@ -1,36 +1,27 @@
-const QUOT/*ationMark*/='ºq'
+const QUOT/*ationMark*/='ºq '
+// A single empty line delimits paragraphs
+const PARAGRAPH_MARK_REGEX=/^\n/gm
 function _00_documentCleaning(md, relative_path){
+
+  // NEXT) Replace external link <http...> link
+
+  // NEXT) Clean/replace conflictive chars.
   md = md
-         .replaceAll('<!--'   ,'º--'  ) // TODO:(document) No native HTML allowed
-         .replaceAll('-->'    ,'--º'  ) // except comments, since '<'... '>' is 
-         .replaceAll('<br/>'  ,'ºbrº' )
-         .replaceAll('<br>'   ,'ºbrº' )
-         .replaceAll('<'      ,'&lt;' ) // always replaced. 
+         .replace(/\<((https?|\.\/).*[^>\n]+)\>/g," º[a target='_blank' href='$1']º$1º[/a]º ")
+         .replaceAll('<!--'   ,'º[!--' ) // TODO:(document) No native HTML allowed
+         .replaceAll('-->'    ,'--]º' ) // except comments, since '<'... '>' is 
+         .replaceAll('<br/>'  ,'º[br/]º' )
+         .replaceAll('<br>'   ,'º[br/]º' )
+         .replaceAll('<hr/>'  ,'º[hr/]º' )
+         .replaceAll('<hr xxl/>'  ,'º[hr xxl/]º' )
          .replaceAll(/^[>] /mg,QUOT   )
+         .replaceAll('<'      ,'&lt;' ) // always replaced.
          .replaceAll('>'      ,'&gt;' )
-         .replaceAll('º--'    ,'<!--' ) 
-         .replaceAll('--º'    ,'-->', )
-         .replaceAll('ºbrº'   ,'<br/>')
+         .replaceAll('º['     ,'<'    ) 
+         .replaceAll(']º'     ,'>'    ) 
          .replaceAll(/^[-] /mg,'* '   )
          .replaceAll(/  $/mg,'<br/>'  )
-  let isPre=false;
-  let md_l = md.split("```")
-    .map(p/*aragraph*/ => {
-      let result = isPre
-        ? "<pre>"+p.replaceAll("\n\n","\n \n").trimEnd()+"</pre>" 
-        //                             ^                         
-        // ┌───────────────────────────┘                         
-        // enough to avoid splitting a pre block in two logical paragraphs
-        // later on. Otherwise when filtering by topics a paragraph inside
-        // a pre will enter into the "grep" and another one out, breaking 
-        // layout.
-        // TODO:(improvement) allow to split pre into logical topic blocks
-        // (in a transparent way to final user).
-        : p 
-      isPre=!isPre;
-       return result
-    })
-  return md_l.join("");
+  return md
 }
 
 const funReplaceHeader = function(match, m1){
@@ -83,9 +74,22 @@ function handleTables(p/*aragraph*/) {
   return result
 }
 
-//const REGEX_PRE=new RegExp('```([^\n]*)(.*)```',"gs");
+function handlePre(p/*aragraph*/) {
+  let split_l = p.split("```")
+  if (split_l.length==1) { return p; }
+  let isPre=false;
+  let md_l = split_l
+     .map(block => {
+      let result = isPre
+        ? "<pre>"+block.trimEnd()+"</pre>"
+        : block
+      isPre=!isPre;
+      return result
+    })
+  let result = md_l.join("");
+  return result;
 
-
+}
 
 const ulistRegex_l=[/^[*] /gm   ,
                    /^ {2,3}[*] /gm  ,
@@ -94,7 +98,7 @@ function handleUnorderedLists(nLevel, p/*aragraph*/) {
    if (nLevel>ulistRegex_l.length-1) return p;
    const li_list = p.split(ulistRegex_l[nLevel])
    if (li_list.length == 1) return p;
-   return li_list[0]+"<p><ul>"+li_list.slice(1).map(li=>"<li>"+handleOrderedLists(nLevel+1,handleUnorderedLists(nLevel+1,li))+"</li>").join("\n")+"</ul></p>"
+   return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleOrderedLists(nLevel+1,handleUnorderedLists(nLevel+1,li))+"</li>").join("\n")+"</ul>"
 }
 
 const olistRegex_l=[/^([0-9·]+. )/gm,
@@ -178,6 +182,7 @@ function handleBlockQuotes(p/*aragraph*/) {
  * Apply markdown to each paragraph.
  */
 function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
+  p = handlePre(p);
   p = handleUnorderedLists(0, p);
   p = handleOrderedLists  (0, p);
   p = handleTables(p);
@@ -193,11 +198,6 @@ function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
 const _02_markdown_extension = (p, relative_path) => {
   // NEXT) TXTWD extension. replace anchors link #[target_id]
   p = p.replace( /[#]\[([^\]]*)\]/g, "◆<span id='$1'>#$1</span>◆")
-
-  // NEXT) TXTWD extension. replace external link @[http... link]
-  p = p.replace( /@\[((http|[.][/]).?[^\]\n]*)\]/g,
-      " <<a target='_blank' href='$1'>$1</a>>")
-
 
   // NEXT) TXTWD extension. replace relative links @[#internal_link]
   // TODO: Improve relative handling. There can be:
@@ -222,7 +222,7 @@ const _02_markdown_extension = (p, relative_path) => {
 
 function parseMD2HTML(md, relative_path){
   md = _00_documentCleaning(md, relative_path)
-  const paragraph_l = md.split(/^\n/gm).filter(p => p.length>0)
+  const paragraph_l = md.split(PARAGRAPH_MARK_REGEX).filter(p => p.length>0)
   const result = paragraph_l
         .map(p/*aragraph*/ => {
           return _01_standardMarkdownParsing(p, relative_path)
