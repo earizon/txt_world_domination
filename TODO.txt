@@ -1,7 +1,10 @@
 # Bugs [[{QA.BUG]]
 
-[[QA.BUG}]] 
+* payload files ("All content") doesn't work anymore
+* Internal links @+[+# .. ]  do not work 
 
+* Rules do not work with some browser extensions (CSS invert color)
+[[QA.BUG}]] 
 
 # Feature Requests
 
