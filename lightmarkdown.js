@@ -86,7 +86,8 @@ function handlePre(p/*aragraph*/) {
       isPre=!isPre;
       return result
     })
-  let result = md_l.join("");
+  let result = md_l.join("")
+      result = result.replaceAll(/[\n]^[^|\n]*[|]/gm,"\n ");
   return result;
 
 }
@@ -101,9 +102,9 @@ function handleUnorderedLists(nLevel, p/*aragraph*/) {
    return li_list[0]+"<ul>"+li_list.slice(1).map(li=>"<li>"+handleOrderedLists(nLevel+1,handleUnorderedLists(nLevel+1,li))+"</li>").join("\n")+"</ul>"
 }
 
-const olistRegex_l=[/^([0-9·]+. )/gm,
-                    /^ {2,3}([0-9·]+. )/gm,
-                    /^ {4,6}([0-9·]+. )/gm,
+const olistRegex_l=[      /^([0-9,.]+\. )/gm,
+                    /^ {2,3}([0-9,.]+\. )/gm,
+                    /^ {4,6}([0-9,.]+\. )/gm,
                    ]
 function handleOrderedLists(nLevel, p/*aragraph*/) {
   if (nLevel>olistRegex_l.length-1) return p;

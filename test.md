@@ -1,9 +1,31 @@
 # Welcome to the TXT World Domination Project
 
+## Quick Tour
+
+* you can switch-off the yellow translucent rules in the settings menu 
+  `( **click ⚙ button** )` ... but I suggest not to do so:<br/>
+  On-screen rules offer a great visual help while reading.
+* The topics menu ( **click  ∷ button** ) allows to select content based on multidimensional
+  "topics", filtering out non selected contect with a granularity of 
+  one or more paragraphs.
+* The index menu ( **click '≣' button** ) shows a conventional index with "chapters" and
+  "sections". If topics have been selected, only chapters and "sections"
+  included will be listed.
+* Finally, **clicking on '◂' button** let you hide all control pannels.
+* You can use your favourite text editor to write the markdown content.
+* To see how it renders in real time, open the browser in parallel 
+  with the page you are editing, go to settings(⚙), and change the 
+  default refresh rate from the default (1 hour/3600 secs) to just a
+  few seconds (7 secs will be enough unless you write "too fast").
 
 <!-- non visible HTML comment --> <!-- non visible HTML comment -->
 <!-- non visible HTML comment --> <!-- non visible HTML comment -->
 <!-- non visible HTML comment --> <!-- non visible HTML comment -->
+
+* The original source file for this document is available at:<br/>
+  <https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.md>
+* The rendered markdown is available at:<br/>
+  <https://earizon.github.io/txt_world_domination/viewer.html?payload=test.md>
 
 # Ordered/Unordered (ul) list mix <!-- { -->
 
@@ -69,14 +91,14 @@ __Wrongly closed bold must be automatically fixed
 Non strikethrough ~~strikethrough~~ non strikethrough ~~strikethrough~~<br/>
 ~~Wrongly closed strikethrough must be automatically fixed
 
- ```
- Font Styles respect white-space
- (column alignment) in monospace/pre blocks.
- ┌─────────────────────┬───────────────────────┬──────────────────────┐
- │_This is a paragraph_│__This is a paragraph__│~~This is an strike~~ │
- │_ with style italic_ │__with style bold__    │~~through paragraph~~ │
- └─────────────────────┴───────────────────────┴──────────────────────┘
- ```
+        ```
+      | Font Styles respect white-space
+      | (column alignment) in monospace/pre blocks.
+      | ┌─────────────────────┬───────────────────────┬──────────────────────┐
+      | │_This is a paragraph_│__This is a paragraph__│~~This is an strike~~ │
+      | │_ with style italic_ │__with style bold__    │~~through paragraph~~ │
+      | └─────────────────────┴───────────────────────┴──────────────────────┘
+        ```
 
 [[{doc_has.image]]
 <br/> <br/> <br/>
@@ -211,9 +233,6 @@ This paragraph must look normal (vs inside a pre)
 ## TEST: internal links must be converted properly:
  @[#internalLink1] @[#internalLink2]
 
-## TEST: Image must render properly, resolving relative path issues:
- i[./test.svg,width=3em]
-
 ## TEST: External links must be converted properly:
 *  Go to <https://www.w3.org/>
 *  Go to <https://www.ietf.org/>
@@ -267,44 +286,26 @@ Documenting is not about looking cool or serious or expert
 * In real projects we still need good documentation and the more
   people working in a project the biggest the need to have good
   documentation but ....
-* ```
-    ┌ [[{DOC_HAS.KEY-POINT]]──────────────────────────────────┐
-    │ ▸ REAL WORLD is a very imperfect REAL WORLD.            │
-    │   ▸ Projects misserably fail.                           │
-    │   ▸ Companies spend lot of money in project managers,   │
-    │     scrum masters, QA specialists, ITIL masters, ...    │
-    │     none of which understand each other.                │
-    │   ▸ Real workers doing real work end up NOT doing real  │
-    │     work in order to satisfy each other's EGOs and      │
-    │     interests.                                          │
-    └─[[}]]───────────────────────────────────────────────────┘
+* REAL WORLD is a very imperfect REAL WORLD.  [[{DOC_HAS.KEY-POINT]]
+  * Projects misserably fail.
+  * Companies spend lot of money in project managers, scrum masters, QA specialists, ITIL masters, ...
+    none of which understand each other.
+  * Real workers doing real work end up NOT doing real work in order to satisfy each other's EGOs and
+    interests.
+  [[DOC_HAS.KEY-POINT}]]
   ```
 
-[[{DOC_HAS.FAQ]]
+[[{DOC_HAS.FAQ,DOC_HAS.KEY-POINT]]
 ## Why wasting time writing booOOoooring documentarion?
-   ```
-  ┌ [[{DOC_HAS.KEY-POINT]] ─────────────────────────────────┐
-  │ ▸ BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.    │
-  └─[[}]]───────────────────────────────────────────────────┘
-  ```
+
+* BAD DOCUMENTATION MAKES US LEAVE THE OFFICE LATER.
 * Outside pure academic's enviroments, documentation skills are not
   even considered when hiring new employees acording to 99% of job's
   offers (while in pure academic's enviroment publishing
   papers looks to be the only important thing to do with no
   attention to any other real outcome).
-
-* ```
-  ┌ [[{DOC_HAS.KEY-POINT]] ────────────────────────────────┐
-  │ ▸ PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS │
-  │   A CORE TASK OF ANY SUCCESFUL PROJECT.                │
-  └─[[}]]──────────────────────────────────────────────────┘
-  ```
-* ```
-  ┌ [[{DOC_HAS.KEY-POINT]] ────────────────────┐
-  │ TAKE CONTROL OF THE INFORMATION BEFORE THE │
-  │  INFORMATION TAKES CONTROL OF YOU!         │
-  └──[[}]]─────────────────────────────────────┘
-  ```
+* PROPER DOCUMENTATION (TRANSMISSION OF KNOWLEDGE)  IS A CORE TASK OF ANY SUCCESFUL PROJECT.
+* TAKE CONTROL OF THE INFORMATION BEFORE THE INFORMATION TAKES CONTROL OF YOU!
 [[DOC_HAS.FAQ}]]
 
 ##  ABOUT THE TXT WORLD DOMINATION PROJECT
@@ -317,7 +318,8 @@ where information can be searched and classified in
 powerful ways to success in creating correct documentation
 (aka TRANSMISSION OF KNOWLEDGE)
 [[}]]
-<br/>.<br/>.<br/>.<br/>.
+<hr/> <br/> <hr/> <br/>
+<hr/> <br/> <hr/> <br/>
 
 .... this is the end of the introduction ...
 Now follows the tests used to implement the TXT WD.
@@ -396,25 +398,28 @@ __Example A__                  _Example B_
   (Subtopics can be seen as the taxonomy used for each main topic,
   and sub-subtopics as a way to further detail and classify each subtopic).
 
-* Graphically you can imagine them as:                                       [[{doc_has.graph]]
+* Graphically you can imagine them as: <!-- { --> 
   ```
-                          topicA
-                            ^
-                          ┌ ┤       ┌·························┐
-                          · │       · block of text related to·
-          topicA.subtopic · │       · topicA.subtopic and     ·
-                          · │       · topicB.subtopic.subsubtopic
-                          └ ┤       └·························┘
-                            │
-                            +───────┬────────────────────────────topicB
-                           ╱        └─······················─┘
-                          ╱          topicB.subtopic.subsubtopic
-                         ╱    └─····························─┘
-                        ╱           topicB.subtopic
-                       ╱
-                      ╱
-                  topicC                                                   [[doc_has.graph}]]
+  [[{doc_has.graph]]
+  |                 topicA
+  |                   ^
+  |                 ┌ ┤       ┌·························┐
+  |                 · │       · block of text related to·
+  | topicA.subtopic · │       · topicA.subtopic and     ·
+  |                 · │       · topicB.subtopic.subsubtopic
+  |                 └ ┤       └·························┘
+  |                   │
+  |                   +───────┬────────────────────────────topicB
+  |                  ╱        └─······················─┘
+  |                 ╱          topicB.subtopic.subsubtopic
+  |                ╱    └─····························─┘
+  |               ╱           topicB.subtopic
+  |              ╱
+  |             ╱
+  |         topicC
+  [[doc_has.graph}]]
   ```
+<!-- } -->
 
 * The relation among blocks and topics.subtopics can be visualized like:  [[{doc_has.graph]]
   ```
