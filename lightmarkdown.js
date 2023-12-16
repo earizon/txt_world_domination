@@ -7,18 +7,16 @@ function _00_documentCleaning(md, relative_path){
 
   // NEXT) Clean/replace conflictive chars.
   md = md
-         .replace(/\<((https?|\.\/).*[^>\n]+)\>/g," º[a target='_blank' href='$1']º$1º[/a]º ")
          .replaceAll('<!--'   ,'º[!--' ) // TODO:(document) No native HTML allowed
          .replaceAll('-->'    ,'--]º' ) // except comments, since '<'... '>' is 
          .replaceAll('<br/>'  ,'º[br/]º' )
          .replaceAll('<br>'   ,'º[br/]º' )
          .replaceAll('<hr/>'  ,'º[hr/]º' )
          .replaceAll('<hr xxl/>'  ,'º[hr xxl/]º' )
+         .replace(/\<((https?|\.\/).*[^>\n]+)\>/g," º[a target='_blank' href='$1']º$1º[/a]º ")
          .replaceAll(/^[>] /mg,QUOT   )
          .replaceAll('<'      ,'&lt;' ) // always replaced.
          .replaceAll('>'      ,'&gt;' )
-         .replaceAll('º['     ,'<'    ) 
-         .replaceAll(']º'     ,'>'    ) 
          .replaceAll(/^[-] /mg,'* '   )
   //     .replaceAll(/  $/mg,'<br/>'  ) <·· Commented. 
   return md
@@ -89,7 +87,9 @@ function handlePre(p/*aragraph*/) {
   let result = md_l.join("")
       result = result
                .replaceAll(/[\n]^[^|\n]*[|]/gm,"\n ")
-               .replaceAll(/[|]\s*$/gm,"") ;
+               .replaceAll(/[|]\s*$/gm,"")
+               .replaceAll(/  *$/mg,"") // avoid <br/> problems
+    ;
   return result;
 
 }
@@ -194,7 +194,9 @@ function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
   p = handleLinks(p); 
   p = handleFontStyles(p); 
   p = handleBlockQuotes(p);
-  p = p.replaceAll(/  $/mg,'<br/>'  )
+  p = p.replaceAll(/  $/mg,"º[br/]º"  )
+       .replaceAll("º[","<") 
+       .replaceAll("]º",">") 
   return p.length>0 ? "\n<p>"+p+"</p>" : "";
 }
 
@@ -212,6 +214,7 @@ const _02_markdown_extension = (p, relative_path) => {
       /@\[(#[^\]\n]*)\]/g,
       " ◐<a onClick='window.scrollInto(\"$1\")'>$1</a>◑")
 
+  // TODO:(0) move to standard markdown (paragraph) parsing
   //       Note that relative images are relative to txt document
   //       (vs html viewer)
   p = p.replace(
