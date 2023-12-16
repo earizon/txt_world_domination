@@ -41,7 +41,6 @@ class ControlPanel extends Component {
     static isFirstRender = true;
     static thisPtr;
     static topicToRemoveRegex = /\[\[[^\]]*\]\]/g
-
     state = {
       timerDoFind      : 0,
       showSettings     : false,
@@ -203,6 +202,12 @@ class ControlPanel extends Component {
                 ControlPanel.thisPtr.switchCtrPanelView();
             }
         });
+      document.getElementById("dbEngineOutput")
+        .onclick=() => {
+          if (ControlPanel.thisPtr.state.hideCtrPanel) {
+            ControlPanel.thisPtr.switchCtrPanelView(); 
+          }
+        }
     }
 
     async componentDidMount() {
