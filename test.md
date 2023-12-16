@@ -29,7 +29,7 @@
 
 # Ordered/Unordered (ul) list mix <!-- { -->
 
-1. Ordered
+11. Ordered
    11. a <br/>
      line continuation.
      111. a 111<br/>
@@ -38,7 +38,7 @@
         line continuation a112
    12. b
    13. c
-2. Lists
+22. Lists
   * a
     20. a1
     21. a2
@@ -92,22 +92,49 @@ Non strikethrough ~~strikethrough~~ non strikethrough ~~strikethrough~~<br/>
 ~~Wrongly closed strikethrough must be automatically fixed
 
         ```
-      | Font Styles respect white-space
-      | (column alignment) in monospace/pre blocks.
-      | ┌─────────────────────┬───────────────────────┬──────────────────────┐
-      | │_This is a paragraph_│__This is a paragraph__│~~This is an strike~~ │
-      | │_ with style italic_ │__with style bold__    │~~through paragraph~~ │
-      | └─────────────────────┴───────────────────────┴──────────────────────┘
+      | Font Styles respect white-space                                       |    
+      | (column alignment) in monospace/pre blocks.                           |    
+      | ┌─────────────────────┬───────────────────────┬──────────────────────┐|    
+      | │_This is a paragraph_│__This is a paragraph__│~~This is an strike~~ │|    
+      | │_ with style italic_ │__with style bold__    │~~through paragraph~~ │|    
+      | └─────────────────────┴───────────────────────┴──────────────────────┘|    
+└─────┘                                                                       └────┘
+                                                                                     |
+| The Pipe symbol (|) can be used to eliminate whitespace columns to left and right. |
+| (Markdown extension, recommended). Pipe symbol itself will be eliminated.          |
+      |                                                                                  |
+      | Notice that preformated text is a 2 dimensional graph, allowing for diagramatic  |
+      | content (information with arbitrary read/walk-over order, while standard text is |
+      | 1-dimensional with a well defined read/walk-over order.                          |
+      | **Mathematically, they are completly different** !!!. Brain likes reading and    |
+      | learning in 1 dimension, but real world and real problems are not unidimensional.| 
         ```
 
 [[{doc_has.image]]
 <br/> <br/> <br/>
-    ![image](./test.svg){width:10ch;}
+
+Let's embbed an svg image with 30ch width ...
+    ![image](./test.svg){width:30ch;}
+* Let's embbed it again inside a list
     ![image](./test.svg){width:20ch;}
-    ![image](./test.svg){width:30ch;transform: rotate(90deg);}
+  1. Let's do it again:
+    ![image](./test.svg){width:10ch;transform: rotate(90deg);}
 <!--                    └───────────────────┬────────────────┘
     Markdown TXT World domination extension to bring
     enemy images under control ah, Ah, Ah!!!!  -->
+    11. And again!!!!!
+       ```
+       | ![image](./test.svg){width:10ch;}
+       ```
+
+**You hate images, don't you? Let's trap them in a table**!!
+
+| Column 1                         | Column 2 |
+|----------------------------------|:---------|
+| ![image](./test.svg){width:5ch;} |                                 | 
+|                                  |![image](./test.svg){width:5ch;transform: rotate(270deg);} | 
+
+Now images are under the control of TXT!!! ah, Ah, ah!!!
 [[doc_has.image}]]
 
 

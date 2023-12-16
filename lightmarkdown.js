@@ -20,7 +20,7 @@ function _00_documentCleaning(md, relative_path){
          .replaceAll('º['     ,'<'    ) 
          .replaceAll(']º'     ,'>'    ) 
          .replaceAll(/^[-] /mg,'* '   )
-         .replaceAll(/  $/mg,'<br/>'  )
+  //     .replaceAll(/  $/mg,'<br/>'  ) <·· Commented. 
   return md
 }
 
@@ -87,7 +87,9 @@ function handlePre(p/*aragraph*/) {
       return result
     })
   let result = md_l.join("")
-      result = result.replaceAll(/[\n]^[^|\n]*[|]/gm,"\n ");
+      result = result
+               .replaceAll(/[\n]^[^|\n]*[|]/gm,"\n ")
+               .replaceAll(/[|]\s*$/gm,"") ;
   return result;
 
 }
@@ -192,6 +194,7 @@ function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
   p = handleLinks(p); 
   p = handleFontStyles(p); 
   p = handleBlockQuotes(p);
+  p = p.replaceAll(/  $/mg,'<br/>'  )
   return p.length>0 ? "\n<p>"+p+"</p>" : "";
 }
 
