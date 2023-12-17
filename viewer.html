@@ -30,22 +30,21 @@ ul,ol {
   padding-top: 0;
   margin: 0;
   border-left: 2px dashed #AAA;
-  padding: 2ch;
+  padding: 0 0 0 2ch;
 }
 ul > ul, ol > ol, ul > ol, ol > ul {
   margin: 1.0ch;
 }
 li {
   white-space: normal;
-  margin-left: 2ch;
   padding: 0;
-  margin-left: 0.7em;
-  text-indent: 2ch; /* indent first line */
+  margin-left: 0.5em;
 }
 
 p {
   text-indent: 0.8ch; /* indent first line */
   padding: 0;
+  margin: 1ch 0 0 0;
 }
 
 .button, .button2 {
@@ -359,13 +358,19 @@ input:not(:placeholder-shown) { color: white; background-color: black; }
 }
 
 .txtblock {
+  display: inline-block;
   background-color: black;
   color: white;
   font-family: monospace;
   font-size: 0.7rem;
   padding: 0 0 2px 0;
   vertical-align: top;
+  max-width: 99%;
+  overflow: scroll;
+  height: 2em;
+  white-space: nowrap;
 }
+
 pre > .txtblock {
   font-size: 1em; 
   font-family: inherit;

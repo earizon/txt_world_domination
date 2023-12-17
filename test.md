@@ -84,7 +84,7 @@ Non italic _italic_ non italic _italic_<br/>
 _Wrongly closed italic must be automatically fixed
 
 
-Non bold **bold** non bold **bold**<br/>
+Non bold **bold** non bold **bold**<br>
 Non bold __bold__ non bold __bold__<br/>
 __Wrongly closed bold must be automatically fixed
 
@@ -382,10 +382,12 @@ Now follows the tests used to implement the TXT WD.
   ```
   [[}]]
 
-* each block can be "tagged" with on or more topics using the syntax
+* each block (paragraph, ordered/unordered list, pre-formatted 2D) can be
+  "tagged" with on or more topics using the syntax
   ```
   [[{ topic1,...,topicB]]
   ```
+  The tag can be almost "anyware" (top/bottom, left/right or in the midst).
 
 # Topic Testing
 
@@ -508,12 +510,28 @@ __Example A__                  _Example B_
   ```
   ┌─[[{topic03]]       topic03.1      <- TEST: selected topic03 must also de/select
   └─[[}]]              topic03.1               topic03.*
+  ```
+
+
+  ```
   ┌─[[{topic03.1]]     topic03.1      <- TEST: selected topic03.1 must also de/select
   └─[[}]]              topic03.1               topic03.1.*
+  ```
+
+
+  ```
   ┌─ [[{topic03.1.1]]  topic03.1.1    <- TEST: selected topic03.1.1 must also de/select
   └─ [[}]]             topic03.1.1             topic03.1.1.
+  ```
+
+
+  ```
   ┌─ [[{topic03.1.1.1]]topic03.1.1.1
   └─ [[}]]             topic03.1.1.1
+  ```
+
+
+  ```
   ┌─ [[{topic03.2]]    topic03.2
   └─ [[}]]             topic03.2
   ```
@@ -555,36 +573,29 @@ __Example A__                  _Example B_
 ## TEST: Internal Links:
 
  ```
- #[internalLink1] must link here.
- ^              ^
- └──────────────┴ - width of original text must not change when replaced by
-                  - html anchor.
-                  - text must be converted to anchor with correct sytles.
-
-  Pressing back in browser must scroll up to original link
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  --------------------------------------------
- #[internalLink2] must link here.
- ^              ^
- └──────────────┴ - width of original text must not change when replaced by
-                  - html anchor.
-                  - text must be converted to anchor with correct sytles.
-  Pressing back in browser must scroll up to original link
+ | #[internalLink1] must link here.
+ | ^              ^
+ | └──────────────┴ - width of original text must not change when replaced by
+ |                  - html anchor.
+ |                  - text must be converted to anchor with correct sytles.
+ |
+ |  Pressing back in browser must scroll up to original link
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |
+ |  --------------------------------------------
+ | #[internalLink2] must link here.
+ | ^              ^
+ | └──────────────┴ - width of original text must not change when replaced by
+ |                  - html anchor.
+ |                  - text must be converted to anchor with correct sytles.
+ |  Pressing back in browser must scroll up to original link
 ```
 <!-- } tests end -->
   .
@@ -595,15 +606,15 @@ ENOUGH WITH TESTING. TIME FOR ...
 # TXT World Domination Ammunition !!!
 
   ```
-    World Domination Tools !!!
-
-      World Domination !!!
-
-         WORLD DOMINATION !!!
-
-         W O R L D    D O M I N A T I O O O O O O O N ! ! !
-
-                  Ah Ah Ah Ah Ah Ahhhh !!!! >:Ḑ-+-<
+  | World Domination Tools !!!
+  |
+  |   World Domination !!!
+  |
+  |      WORLD DOMINATION !!!
+  |
+  |      W O R L D    D O M I N A T I O O O O O O O N ! ! !
+  |
+  |               Ah Ah Ah Ah Ah Ahhhh !!!! >:Ḑ-+-<
   ```
 
 ## TXT Diagrams
@@ -853,86 +864,85 @@ ENOUGH WITH TESTING. TIME FOR ...
 ## TXT Math symbols <!-- { -->
 
   ```
-  Unicode Symbols                                                                  |
-   <https://www.unicode.org/charts/PDF/U2200.pdf>                                  |
-  ● ORDER RELATIONS             ● LOGICAL OPs                                      |
-    ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                                    |
-                                  ∨ LOGICAL OR                                     |
-    ≼ ≽ PRECEDES/SUCCEEDS OR EQUALS                                                |
-    ≾ ≿ PRECEDES/SUCCEEDS OR EQUIVALENT-TO                                         |
-    ⊀ ⊁ DOES NOT PREC./SUCC.                                                       |
-                                                                                   |
-  ● MISCELLANEOUS               ● SET MEMBERSHIP                                   |
-    ∞   INFINITY                  ∈ ∉ ELEMENT OF                                   |
-    π   PI                        ∋ ∌ CONTAINS AS MEMBER                           |
-    ∀   FOR ALL                 ● SET RELATIONS:                                   |
-    ʗ   COMPLEMENT                ⊂ ⊄ (NOT) A SUBSET OF                            |
-    ∂   PARTIAL DIFFERENTIAL      ⊃ ⊅ (NOT) SUPERSET OF                            |
-    ∃ ∄ THERE DOES(/NOT) EXISTS   ⊆ ⊇ SUB/SUPER-SET OF OR = TO                     |
-    Ø   EMPTY SET               ● SET OPERATIONS:                                  |
-    Δ   "DELTA" Inc|Laplace Op    ∩ INTERSECTION                                   |
-    ∇   "NABLA" gradient,         ∪ UNION                                          |
-    ∴ ∵ THEREFORE,  BECAUSE       ⋃  n-ary UNION                                   |
-                                                                                   |
-  ● N-ary operators        ● OPERATORS             ● INTEGRALS                     |
-    (N inputs, 1 output)     ±                       ∫ ∫∫ ∫∫∫  (DOUBLE/...)        |
-    ∏ N-ARY PRODUCT          ∘ RING OPERATOR         ∲ ∲ (ANTI)CONTOUR INT.        |
-    ∐ N-ARY COPRODUCT        √∛∜ SQUARE/... ROOT     ∲∲ ∲∲∲ SURFACE/VOLUME         |
-    Σ N-ARY SUMMATION        α PROPORTIONAL TO       ∱ CLOCKWISE INTEGRAL          |
-                                                                                   |
-  ● RELATION                      ● "QUANTITATIVE" RELATIONS                       |
-    ∣ ∤ DOES (NOT) DIVIDES          ≤ ≥ LESS/GREATER-THAN OR = TO                  |
-    ǁ ∦ (NOT) PARALLEL TO           ≦ ≧ LESS/GREATER-THAN OVER = TO                |
-    ∶   RATIO                       ≨ ≩ LESS/GREATER-THAN BUT NOT = TO             |
-    ∷   PROPORTION                  ≮ ≯ NOT LESS/GREATER-THAN                      |
-    ∺   GEOMETRIC PROPORTION        ≰ ≱ NEITHER LESS/GREA.-THAN NOR = TO           |
-    ≃ ≄ (!) ASYMPTOTICALLY = TO     ≲ ≳ LESS/GREA.-THAN OR EQUIVALENT TO           |
-    ≅   APPROX. EQUAL TO            ≴ ≵ NEITHER LESS/GREATER-THAN                  |
-    ≆   APPROX. BUT NOT EQUAL           NOR EQUIVALENT TO                          |
-    ≇   NEITHER APPROX. NOR ACTUA.  ≶ ≷ LESS/GREATER-THAN OR GREATER-THAN          |
-    ≈ ≉ (!) ALMOST EQUAL TO         ≸ ≹ NEITHER LESS/GREATER-THAN                  |
-    ≊   ALMOST EQUAL OR EQUAL TO        NOR GREATER-THAN                           |
-    ≍ ≭ (!) EQUIVALENT TO                                                          |
-    ≖   RING-IN EQUAL TO          ● GROUP RELATIONS                                |
-    ≗   RING EQUAL                  ⊲ ⋪ (NOT) NORMAL SUBGROUP OF                   |
-    ≝   EQUAL TO BY DEFINITION      ⊴ ⋬ (NOT) NORMAL SUBGROUP OF                   |
-    ≞   MEASURED BY                     OR = TO                                    |
-    ≟   QUESTIONED EQUAL TO         ⊳ ⋫ DOES (NOT) CONTAIN AS                      |
-    ≠   NOT EQUAL TO                    NORMAL SUBGROUP                            |
-    ≡ ≢ (NOT) IDENTICAL TO          ⋭ ⊵ DOES (NOT) CONTAIN AS                      |
-    ≣   STRICTLY EQUIVALENT TO          NORMAL SUBGROUP                            |
-                                                                                   |
-  ● https://en.wikipedia.org/wiki/Mathematical_Operators_(Unicode_block)           |
-      0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F                |
-  U+220x  ∀   ∁   ∂   ∃   ∄   ∅   ∆   ∇   ∈   ∉   ∊   ∋   ∌   ∍   ∎   ∏            |
-  U+221x  ∐   ∑   −   ∓   ∔   ∕   ∖   ∗   ∘   ∙   √   ∛   ∜   ∝   ∞   ∟            |
-  U+222x  ∠   ∡   ∢   ∣   ∤   ∥   ∦   ∧   ∨   ∩   ∪               ∮   ∯            |
-  U+223x  ∰   ∱   ∲   ∳   ∴   ∵   ∶   ∷   ∸   ∹   ∺   ∻   ∼   ∽   ∾   ∿            |
-  U+224x  ≀   ≁   ≂   ≃   ≄   ≅   ≆   ≇   ≈   ≉   ≊   ≋   ≌   ≍   ≎   ≏            |
-  U+225x  ≐   ≑   ≒   ≓   ≔   ≕   ≖   ≗   ≘   ≙   ≚   ≛   ≜   ≝   ≞   ≟            |
-  U+226x  ≠   ≡   ≢   ≣   ≤   ≥   ≦   ≧   ≨   ≩   ≪   ≫   ≬   ≭   ≮   ≯            |
-  U+227x  ≰   ≱   ≲   ≳   ≴   ≵   ≶   ≷   ≸   ≹   ≺   ≻   ≼   ≽   ≾   ≿            |
-  U+228x  ⊀   ⊁   ⊂   ⊃   ⊄   ⊅   ⊆   ⊇   ⊈   ⊉   ⊊   ⊋   ⊌   ⊍   ⊎   ⊏            |
-  U+229x  ⊐   ⊑   ⊒   ⊓   ⊔   ⊕   ⊖   ⊗   ⊘   ⊙   ⊚   ⊛   ⊜   ⊝   ⊞   ⊟            |
-  U+22Ax  ⊠   ⊡   ⊢   ⊣   ⊤   ⊥   ⊦   ⊧   ⊨   ⊩   ⊪   ⊫   ⊬   ⊭   ⊮   ⊯            |
-  U+22Bx  ⊰   ⊱   ⊲   ⊳   ⊴   ⊵   ⊶   ⊷   ⊸   ⊹   ⊺   ⊻   ⊼   ⊽   ⊾   ⊿            |
-  U+22Cx  ⋀   ⋁   ⋂   ⋃   ⋄   ⋅   ⋆   ⋇   ⋈   ⋉   ⋊   ⋋   ⋌   ⋍   ⋎   ⋏            |
-  U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟            |
-  U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯            |
-  U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿            |
-
+  | Unicode Symbols                                                                  |
+  |  <https://www.unicode.org/charts/PDF/U2200.pdf>                                  |
+  | ● ORDER RELATIONS             ● LOGICAL OPs                                      |
+  |   ≺ ≻ PRECEDES/SUCCEEDS         ∧ LOGICAL AND                                    |
+  |                                 ∨ LOGICAL OR                                     |
+  |   ≼ ≽ PRECEDES/SUCCEEDS OR EQUALS                                                |
+  |   ≾ ≿ PRECEDES/SUCCEEDS OR EQUIVALENT-TO                                         |
+  |   ⊀ ⊁ DOES NOT PREC./SUCC.                                                       |
+  |                                                                                  |
+  | ● MISCELLANEOUS               ● SET MEMBERSHIP                                   |
+  |   ∞   INFINITY                  ∈ ∉ ELEMENT OF                                   |
+  |   π   PI                        ∋ ∌ CONTAINS AS MEMBER                           |
+  |   ∀   FOR ALL                 ● SET RELATIONS:                                   |
+  |   ʗ   COMPLEMENT                ⊂ ⊄ (NOT) A SUBSET OF                            |
+  |   ∂   PARTIAL DIFFERENTIAL      ⊃ ⊅ (NOT) SUPERSET OF                            |
+  |   ∃ ∄ THERE DOES(/NOT) EXISTS   ⊆ ⊇ SUB/SUPER-SET OF OR = TO                     |
+  |   Ø   EMPTY SET               ● SET OPERATIONS:                                  |
+  |   Δ   "DELTA" Inc|Laplace Op    ∩ INTERSECTION                                   |
+  |   ∇   "NABLA" gradient,         ∪ UNION                                          |
+  |   ∴ ∵ THEREFORE,  BECAUSE       ⋃  n-ary UNION                                   |
+  |                                                                                  |
+  | ● N-ary operators        ● OPERATORS             ● INTEGRALS                     |
+  |   (N inputs, 1 output)     ±                       ∫ ∫∫ ∫∫∫  (DOUBLE/...)        |
+  |   ∏ N-ARY PRODUCT          ∘ RING OPERATOR         ∲ ∲ (ANTI)CONTOUR INT.        |
+  |   ∐ N-ARY COPRODUCT        √∛∜ SQUARE/... ROOT     ∲∲ ∲∲∲ SURFACE/VOLUME         |
+  |   Σ N-ARY SUMMATION        α PROPORTIONAL TO       ∱ CLOCKWISE INTEGRAL          |
+  |                                                                                  |
+  | ● RELATION                      ● "QUANTITATIVE" RELATIONS                       |
+  |   ∣ ∤ DOES (NOT) DIVIDES          ≤ ≥ LESS/GREATER-THAN OR = TO                  |
+  |   ǁ ∦ (NOT) PARALLEL TO           ≦ ≧ LESS/GREATER-THAN OVER = TO                |
+  |   ∶   RATIO                       ≨ ≩ LESS/GREATER-THAN BUT NOT = TO             |
+  |   ∷   PROPORTION                  ≮ ≯ NOT LESS/GREATER-THAN                      |
+  |   ∺   GEOMETRIC PROPORTION        ≰ ≱ NEITHER LESS/GREA.-THAN NOR = TO           |
+  |   ≃ ≄ (!) ASYMPTOTICALLY = TO     ≲ ≳ LESS/GREA.-THAN OR EQUIVALENT TO           |
+  |   ≅   APPROX. EQUAL TO            ≴ ≵ NEITHER LESS/GREATER-THAN                  |
+  |   ≆   APPROX. BUT NOT EQUAL           NOR EQUIVALENT TO                          |
+  |   ≇   NEITHER APPROX. NOR ACTUA.  ≶ ≷ LESS/GREATER-THAN OR GREATER-THAN          |
+  |   ≈ ≉ (!) ALMOST EQUAL TO         ≸ ≹ NEITHER LESS/GREATER-THAN                  |
+  |   ≊   ALMOST EQUAL OR EQUAL TO        NOR GREATER-THAN                           |
+  |   ≍ ≭ (!) EQUIVALENT TO                                                          |
+  |   ≖   RING-IN EQUAL TO          ● GROUP RELATIONS                                |
+  |   ≗   RING EQUAL                  ⊲ ⋪ (NOT) NORMAL SUBGROUP OF                   |
+  |   ≝   EQUAL TO BY DEFINITION      ⊴ ⋬ (NOT) NORMAL SUBGROUP OF                   |
+  |   ≞   MEASURED BY                     OR = TO                                    |
+  |   ≟   QUESTIONED EQUAL TO         ⊳ ⋫ DOES (NOT) CONTAIN AS                      |
+  |   ≠   NOT EQUAL TO                    NORMAL SUBGROUP                            |
+  |   ≡ ≢ (NOT) IDENTICAL TO          ⋭ ⊵ DOES (NOT) CONTAIN AS                      |
+  |   ≣   STRICTLY EQUIVALENT TO          NORMAL SUBGROUP                            |
+  |                                                                                  |
+  | ● https://en.wikipedia.org/wiki/Mathematical_Operators_(Unicode_block)           |
+  |     0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F                |
+  | U+220x  ∀   ∁   ∂   ∃   ∄   ∅   ∆   ∇   ∈   ∉   ∊   ∋   ∌   ∍   ∎   ∏            |
+  | U+221x  ∐   ∑   −   ∓   ∔   ∕   ∖   ∗   ∘   ∙   √   ∛   ∜   ∝   ∞   ∟            |
+  | U+222x  ∠   ∡   ∢   ∣   ∤   ∥   ∦   ∧   ∨   ∩   ∪               ∮   ∯            |
+  | U+223x  ∰   ∱   ∲   ∳   ∴   ∵   ∶   ∷   ∸   ∹   ∺   ∻   ∼   ∽   ∾   ∿            |
+  | U+224x  ≀   ≁   ≂   ≃   ≄   ≅   ≆   ≇   ≈   ≉   ≊   ≋   ≌   ≍   ≎   ≏            |
+  | U+225x  ≐   ≑   ≒   ≓   ≔   ≕   ≖   ≗   ≘   ≙   ≚   ≛   ≜   ≝   ≞   ≟            |
+  | U+226x  ≠   ≡   ≢   ≣   ≤   ≥   ≦   ≧   ≨   ≩   ≪   ≫   ≬   ≭   ≮   ≯            |
+  | U+227x  ≰   ≱   ≲   ≳   ≴   ≵   ≶   ≷   ≸   ≹   ≺   ≻   ≼   ≽   ≾   ≿            |
+  | U+228x  ⊀   ⊁   ⊂   ⊃   ⊄   ⊅   ⊆   ⊇   ⊈   ⊉   ⊊   ⊋   ⊌   ⊍   ⊎   ⊏            |
+  | U+229x  ⊐   ⊑   ⊒   ⊓   ⊔   ⊕   ⊖   ⊗   ⊘   ⊙   ⊚   ⊛   ⊜   ⊝   ⊞   ⊟            |
+  | U+22Ax  ⊠   ⊡   ⊢   ⊣   ⊤   ⊥   ⊦   ⊧   ⊨   ⊩   ⊪   ⊫   ⊬   ⊭   ⊮   ⊯            |
+  | U+22Bx  ⊰   ⊱   ⊲   ⊳   ⊴   ⊵   ⊶   ⊷   ⊸   ⊹   ⊺   ⊻   ⊼   ⊽   ⊾   ⊿            |
+  | U+22Cx  ⋀   ⋁   ⋂   ⋃   ⋄   ⋅   ⋆   ⋇   ⋈   ⋉   ⋊   ⋋   ⋌   ⋍   ⋎   ⋏            |
+  | U+22Dx  ⋐   ⋑   ⋒   ⋓   ⋔   ⋕   ⋖   ⋗   ⋘   ⋙   ⋚   ⋛   ⋜   ⋝   ⋞   ⋟            |
+  | U+22Ex  ⋠   ⋡   ⋢   ⋣   ⋤   ⋥   ⋦   ⋧   ⋨   ⋩   ⋪   ⋫   ⋬   ⋭   ⋮   ⋯            |
+  | U+22Fx                  ⋴   ⋵   ⋶   ⋷   ⋸   ⋹   ⋺   ⋻   ⋼   ⋽   ⋾   ⋿            |
   ```
 <!-- } -->
 
 ## Greek&Related Symbols ("Physics symbols")  <!-- { -->
 
   ```
-  Alpha   A,α   Eta     Η,η     nu       Ν,ν     Tau     Τ,τ     |
-  Beta    B,β   Theta   Θ,θ│ϑ   Xi       Ξ,ξ     Upsilon Υ,υ│ϒ   |
-  Gamma   Γ,γ   Iota    Ι,ι     Omicron  Ο,ο     Phi     Φ,φ     |
-  Delta   Δ,δ   Kappa   Κ,κ     Pi       Π,π│ϖ   Chi     Χ,χ     |
-  Epsilon Ε,ε   Lamda   Λ,λ     Rho      Ρ,ρ     Psi     Ψ,ψ     |
-  Zeta    Ζ,ζ   Mu      Μ,μ     Sigma    Σ,ς│σ   Omega   Ω,ω     |
+  | Alpha   A,α   Eta     Η,η     nu       Ν,ν     Tau     Τ,τ     |
+  | Beta    B,β   Theta   Θ,θ│ϑ   Xi       Ξ,ξ     Upsilon Υ,υ│ϒ   |
+  | Gamma   Γ,γ   Iota    Ι,ι     Omicron  Ο,ο     Phi     Φ,φ     |
+  | Delta   Δ,δ   Kappa   Κ,κ     Pi       Π,π│ϖ   Chi     Χ,χ     |
+  | Epsilon Ε,ε   Lamda   Λ,λ     Rho      Ρ,ρ     Psi     Ψ,ψ     |
+  | Zeta    Ζ,ζ   Mu      Μ,μ     Sigma    Σ,ς│σ   Omega   Ω,ω     |
   ```
 <!-- } -->
 
@@ -944,53 +954,41 @@ ENOUGH WITH TESTING. TIME FOR ...
 
 # TXT World Domination Cellebration
 ## TXT GAMES!!! <!-- { -->
-
 ```
-┌─  <http://fph.altervista.org/prog/bastet.html> ──────────────────────────┐ [[{games.tetris]]
-│ Tetrisfy your TXT enemies with this Tetris clone for terminals.          │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
-```
-
-```
-┌  <https://github.com/bfontaine/term2048> ────────────────────────────────┐ [[{games.puzzle]]
-│ Puzzle your terminal.                                                    │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+  <http://fph.altervista.org/prog/bastet.html>
+  Tetrisfy your TXT enemies with this Tetris clone for terminals.  
+  [[{games.tetris}]]
 ```
 
 ```
-┌  <https://www.seehuhn.de/pages/moon-buggy> ──────────────────────────────┐ [[{games.moon_buggy]]
-│ The World is now under control, time for TXT Moon Domination!!!          │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+  <https://github.com/bfontaine/term2048>
+  Puzzle your terminal.  [[{games.puzzle}]]
 ```
 
 ```
-┌ <https://www.nethack.org/>  ─────────────────────────────────────────────┐ [[{games.NetHack]]
-│ TXT is not afraid of Dungeons and Dragons!!!                             │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+  <https://www.seehuhn.de/pages/moon-buggy> 
+  The World is now under control, time for TXT Moon Domination!!!
+  [[{games.moon_buggy}]]
 ```
 
 ```
-┌ <https://linuxcommandlibrary.com/man/ninvaders>  ────────────────────────┐ [[{games.ninvaders]]
-│ Defend your TXT from alien invaders!!!                                   │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+  <https://www.nethack.org/>  
+  TXT is not afraid of Dungeons and Dragons!!! [[{games.NetHack}]]
 ```
 
 ```
-┌  <https://askubuntu.com/questions/376558/how-to-play-snake-in-terminal> ─┐ [[{games.snake]]
-│ Don't let your TXT eat itself!!!                                         │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
-```
-
-
-```
-┌  <https://howtoinstall.co/en/pacman4console> ────────────────────────────┐ [[{games.pacman]]
-│ Pacman is here!!!                                                        │
-└──────────────────────────────────────────────────────────────────────────┘ [[}]]
+  <https://linuxcommandlibrary.com/man/ninvaders> 
+  Defend your TXT from alien invaders!!! [[{games.ninvaders}]]
 ```
 
 ```
- pre-blocks must be automatically closed in markdown forgets to do.
+  <https://askubuntu.com/questions/376558/how-to-play-snake-in-terminal>
+  Don't let your TXT eat itself!!!  [[{games.snake}]]
+```
 
-
+```
+  <https://howtoinstall.co/en/pacman4console>
+  Pacman is here!!!  [[{games.pacman}]]
+```
 
 <!-- } -->

@@ -96,7 +96,9 @@ function handlePre(p/*aragraph*/) {
 
 const ulistRegex_l=[/^[*] /gm   ,
                    /^ {2,3}[*] /gm  ,
-                   /^ {4,6}[*] /gm  ]
+                   /^ {4,6}[*] /gm  ,
+                   /^ {7,8}[*] /gm  ,
+]
 function handleUnorderedLists(nLevel, p/*aragraph*/) {
    if (nLevel>ulistRegex_l.length-1) return p;
    const li_list = p.split(ulistRegex_l[nLevel])
@@ -107,6 +109,7 @@ function handleUnorderedLists(nLevel, p/*aragraph*/) {
 const olistRegex_l=[      /^([0-9,.]+\. )/gm,
                     /^ {2,3}([0-9,.]+\. )/gm,
                     /^ {4,6}([0-9,.]+\. )/gm,
+                    /^ {7,8}([0-9,.]+\. )/gm,
                    ]
 function handleOrderedLists(nLevel, p/*aragraph*/) {
   if (nLevel>olistRegex_l.length-1) return p;
@@ -186,14 +189,23 @@ function handleBlockQuotes(p/*aragraph*/) {
  */
 function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
   p = handlePre(p);
+console.log(p)
   p = handleUnorderedLists(0, p);
+console.log(p)
   p = handleOrderedLists  (0, p);
+console.log(p)
   p = handleTables(p);
+console.log(p)
   p = handleHeaders(p);
+console.log(p)
   p = handleImages(p); 
+console.log(p)
   p = handleLinks(p); 
+console.log(p)
   p = handleFontStyles(p); 
+console.log(p)
   p = handleBlockQuotes(p);
+console.log(p)
   p = p.replaceAll(/  $/mg,"º[br/]º"  )
        .replaceAll("º[","<") 
        .replaceAll("]º",">") 
@@ -222,7 +234,7 @@ const _02_markdown_extension = (p, relative_path) => {
     "<img src='"+relative_path+"/$1' style='$2' />")
 
   // NEXT) TXTWD extension. Add style to topic blocks [[topic1,topic2.subtopicA,...]]
-  p = p.replace(/(\[\[[^\]\n]*\]\])/g, "<span class='txtblock'>$1</span>")
+  p = p.replace(/(\[\[[^\]\n]*\]\])/g, "<div class='txtblock'>$1</div>")
 
   return p
 }
