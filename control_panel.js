@@ -329,28 +329,37 @@ class ControlPanel extends Component {
           <div id="idTableIndex" style="display:${this.state.showIndex?"":"none"}" size=s2></div>
           </div>
           <div id="fixedMenu">
-            ${ this.state.hideCtrPanel == true &&
-            html`
-              <span id="grepMenu">
-              <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',+1)}>+</span>
-              <span class="grepState">${this.lpad(this.state.grep[0].before,2)}</span>
-              <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',-1)}>-</span>
-              <span class="grepState">▲</span><input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
-                </input><span class="grepState">▼</span>${this.state.after}
-               <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',-1)}>-</span>
-               <span class="grepState">${this.lpad(this.state.grep[0].after,2)}</span>
-               <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>+</span>
-               <span> </span>
+              ${ this.state.hideCtrPanel == true &&
+              html`
+              <span id="fixesMenu01">
+                <span id="grepMenu">
+                  <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',+1)}>↑</span>
+ 
+                  <span class="grepState">${this.lpad(this.state.grep[0].before,2)}</span>
+                  <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('b',-1)}>↓</span>
+                  <input value='${this.state.grep[0].input}' placeholder='search' id='idGrepInput' onInput=${ (e) => this.onGrepRegexChanged(e) } >
+                    </input>${this.state.after}
+                   <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',-1)}>↑</span>
+                   <span class="grepState">${this.lpad(this.state.grep[0].after,2)}</span>
+                   <span class="buttonCompact" onClick=${ (e) => this.setGrepBounds('a',+1)}>↓</span>
+                 </span>
+                 <br/>
               </span>` }
-           ${ this.state.hideCtrPanel == true &&
-              html `<span class="button ${this.state.showSettings?'selected':''}" onClick=${() => this.switchSettingsView()} >⚙</span> ` }
-           ${ this.state.hideCtrPanel == true &&
-              html `<span class="button ${this.state.showTopics  ?'selected':''}" onClick=${() => this.switchTopicView()   } >∷</span> ` }
-           ${ this.state.hideCtrPanel == true &&
-              html `<span class="button ${this.state.showIndex   ?'selected':''}" onClick=${() => this.switchIndexView()   } >≣</span>` }
-           ${ html `<span class="button ${this.state.hideCtrPanel?'selected':''}" onClick=${() => this.switchCtrPanelView()}  id="hideButtom">◂</span>` }
+              <span class="button ${this.state.hideCtrPanel?'selected':''}" 
+                    onClick=${() => this.switchCtrPanelView()}  
+                    id="hideButtom"    >◂</span>
+              <span class="button ${this.state.showIndex   ?'selected':''}" 
+                    onClick=${() => this.switchIndexView()   }
+                    id="indexButton"   >≣</span>
+              <span class="button ${this.state.showTopics  ?'selected':''}" 
+                    onClick=${() => this.switchTopicView()   }
+                    id="topicsButton"  >∷</span>
+              <span class="button ${this.state.showSettings?'selected':''}" 
+                    onClick=${() => this.switchSettingsView()} 
+                    id="settingsButton">⚙</span>
            </div>
-      `);
+       `
+       );
     }
 }
 

@@ -64,26 +64,34 @@ p {
   border: 1px solid gray;
   text-align: center;
   box-shadow: 5px 5px 10px black;
-  margin: 0 0.1em 0 0.1em;
+  margin: 0 0.4em 0 0.4em;
   line-height: 1.0em;
   min-width: 1em;
-  border-radius: 0.5em;
+  vertical-align: baseline;
+  padding-bottom: 0.1em;
 }
 
 #fixedMenu {
   position: fixed;
   bottom: 0;
-  right: 0;
-  width: auto;
+  right: 0.5em;
+  width: 95%;
   overflow: auto;
   opacity: 0.9;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  background-color: #CFC;
-  font-size: 1.2em;
+  font-size: 1.0em;
   white-space: break-spaces;
   text-align: center;
+  border: 0;
+}
+#fixesMenu01 {
   border: 1px solid black;
+  background-color: #CFC;
+  display: block;
+  padding:0.2em;
+  margin-bottom:0.3em;
+  text-align:right;
 }
 
 #nonFixedMenu {
@@ -118,7 +126,8 @@ p {
   border: 0px;
   font-size: 0.7em;
   outline: 1px solid gray;
-  width: 15ch;
+  width: 30ch;
+  max-width:40%;
 }
 
 p > .ln {
@@ -332,8 +341,6 @@ body {
   margin-left: 0.3ch;
   margin-bottom: 0.3em;
 }
- #hideButtom { float:right; }
-
 .selected { background-color:black !important; color: white ; }
 
 .grepMatch { background-color:#DDD; }
@@ -452,6 +459,15 @@ hr {
 }
 hr[xxl]{
   height: 80em;
+}
+
+
+#hideButtom, #indexButton, #topicsButton, #settingsButton {
+  float:right;
+  background-color:transparent;
+  opacity: 0.7;
+  font-size: 0.9em;
+  padding: 0.2em;
 }
 @media only screen and (pointer  : coarse) {
  #dbEngineOutput { font-size: 0.7rem; }
