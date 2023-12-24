@@ -158,24 +158,12 @@ code > .ln, ol >.ln, ul > .ln, li >.ln {
   font-family: 'font4'; font-style: normal; font-weight: 400; font-stretch: normal;
   src: url(fonts/font4/font.woff2) format('woff2');
 }
-@font-face {
-  font-family: 'font5'; font-style: normal; font-weight: 400; font-stretch: normal;
-  src: url(fonts/font5/font.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'font6'; font-style: normal; font-weight: 400; font-stretch: normal;
-  src: url(fonts/font6/font.woff2) format('woff2');
-}
-@font-face {
-  font-family: 'font7'; font-style: normal; font-weight: 400; font-stretch: normal;
-  src: url(fonts/font7/font.woff2) format('woff2');
-}
 
 pre {
-  /* font-family: 'font0', monospace, console; */
+  font-family: 'font1', monospace, console;
   text-indent: 0;
-  line-height: 1.4em;
-  outline:1px solid grey;
+  line-height: 1.2em;
+  outline: 1px solid grey;
   background: #EFE;
   width: fit-content;
   min-width: 80%;
@@ -201,7 +189,6 @@ pre {
 #dbEngineOutput[font=font6]{ font-family:'font6', monospace, console; }
 #dbEngineOutput[font=font7]{ font-family:'font7', monospace, console; }
 
-/*#dbEngineOutput[linebreak=false]   {  white-space: pre; }*/
 #dbEngineOutput[lineheight=height1]{ line-height: 1.5em }
 #dbEngineOutput[lineheight=height2]{ line-height: 1.2em }
 #dbEngineOutput[lineheight=height3]{ line-height: 2.0em }
@@ -380,9 +367,10 @@ input:not(:placeholder-shown) { color: white; background-color: black; }
 }
 
 pre > .txtblock {
-  font-size: 1em; 
+  font-size: inherit; 
   font-family: inherit;
   padding: unset;
+  display: inline;
 }
 
 
