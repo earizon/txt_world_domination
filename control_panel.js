@@ -168,6 +168,14 @@ class ControlPanel extends Component {
             .setAttribute("fontSize","s"+new_value);
     }
 
+    switchMarging = ()=> {
+        const new_value = this.state.margin == 5 ? 0 : this.state.margin+1;
+        this.setState ( { margin : new_value });
+        document.body.setAttribute("margin","margin"+new_value);
+    }
+
+
+
     setTopicMatchDepth(inc) {
         if (inc==-1 && this.state.topicParentDepth == 0) return;
         this.setState ( {topicParentDepth:  this.state.topicParentDepth + inc } );
@@ -192,6 +200,7 @@ class ControlPanel extends Component {
       this.state.bckg_texture = 1;
       this.state.settings_lineheight = 1;
       this.state.settings_fontsize = 1;
+      this.state.margin = 0;
       this.state.settings_showbaseline = false;
       this.state.settings_ruleOnOff = true;
       ControlPanel.thisPtr = this;
@@ -276,11 +285,8 @@ class ControlPanel extends Component {
     render( props ) {
       return (
        html`
-       <div id="rule1" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
-       <div id="rule2" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
-       <div id="rule3" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
-       <div id="rule4" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
-       <div id="rule5" class='${!this.state.settings_ruleOnOff && html`off`}  '></div>
+       <div id="rule1" class='${!this.state.settings_ruleOnOff && html`off`}  '>
+       </div>
 
        <div id="nonFixedMenu" style="display: ${this.showSubMenu() ? "": "none"}">
           ${ this.state.showSettings &&
@@ -297,6 +303,7 @@ class ControlPanel extends Component {
                  <span class="button2" onClick=${() => this.switchColorStyle() }>Color ${this.state.color_style}/6</span>
                <br/>
                ● Line: <span class="button2" onClick=${() => this.switchLineHeight()      }>height ${this.state.settings_lineheight}/4</span><br/>
+               ● Margin: <span class="button2" onClick=${() => this.switchMarging()       }>Margin ${this.state.margin}/5</span><br/>
                ● Rules: <span class="button2 ${this.state.settings_ruleOnOff && html`selected`}" onClick=${() => this.switchRulesOnOff()      }>Switch ON/OFF</span><br/>
              </div>
              `

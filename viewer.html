@@ -236,6 +236,12 @@ pre {
   #dbEngineOutput[fontSize=s4]{ font-size: 1.5em }
 }
 
+body[margin=margin0]{ margin-left: 1%; width: 98% }
+body[margin=margin1]{ margin-left: 5%; width: 90% }
+body[margin=margin2]{ margin-left:10%; width: 80% }
+body[margin=margin3]{ margin-left:15%; width: 70% }
+body[margin=margin4]{ margin-left:20%; width: 60% }
+
 span[id] { font-weight: bold; }
 
 body {
@@ -429,18 +435,15 @@ td, th {
 
 #rule1,#rule2,#rule3,#rule4,#rule5 {
   position:fixed;
-  left:0;
+  left:0%;
   width:100%;
   opacity:0.2;
   background-color: yellow;
   height:10%;
 }
 #rule1.off,#rule2.off,#rule3.off,#rule4.off,#rule5.off { display:none; }
-#rule1 { top:00%; }
-#rule2 { top:20%; }
-#rule3 { top:40%; }
-#rule4 { top:60%; }
-#rule5 { top:80%; }
+#rule1 { top:50%; }
+
 
 hr {
   background-color: black;
@@ -508,7 +511,7 @@ window.scrollInto = function(id) {
 window.addEventListener('load', bootstrap )
 </script>
 </head>
-<body>
+<body margin="margin0">
 <div id="idControlPanel" class="textSelectOff"></div>
 
 <div id="dbEngineOutput" lineheight="height1" font="font1" fontSize="s1" background="b1" colorstyle="s1" >
