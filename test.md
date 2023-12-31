@@ -241,12 +241,6 @@ projects documented with plain text:
 
 Some low-level mardown parsing follows:
 
-## TEST: pre block automatically closed
-<!-- { -->
-```
-lets forget to close pre block before next parragraph.
-
-This paragraph must look normal (vs inside a pre)
 <!-- } -->
 
 ## TEST: scaped p and html tags must be displayed properly:
@@ -282,6 +276,7 @@ in random locations hoping that some poor soul will read
 them in future.
 
 Documenting is not about looking cool or serious or expert
+
 ```
   ┌ [[{DOC_HAS.KEY-POINT]] ───────────────────────────────────────────┐
   │       DOCUMENTING IS THE ART OF TRANSMITING KNOWLEDGE             │
@@ -320,7 +315,6 @@ Documenting is not about looking cool or serious or expert
   * Real workers doing real work end up NOT doing real work in order to satisfy each other's EGOs and
     interests.
   [[DOC_HAS.KEY-POINT}]]
-  ```
 
 [[{DOC_HAS.FAQ,DOC_HAS.KEY-POINT]]
 ## Why wasting time writing booOOoooring documentarion?

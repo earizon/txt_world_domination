@@ -72,24 +72,17 @@ function handleTables(p/*aragraph*/) {
   return result
 }
 
+let deleteme=0;
 function handlePre(p/*aragraph*/) {
-  let split_l = p.split("```")
-  if (split_l.length==1) { return p; }
-  let isPre=false;
-  let md_l = split_l
-     .map(block => {
-      let result = isPre
-        ? "<pre>"+block.trimEnd()+"</pre>"
-        : block
-      isPre=!isPre;
-      return result
-    })
-  let result = md_l.join("")
-      result = result
-               .replaceAll(/[\n]^[^|\n]*[|]/gm,"\n ")
-               .replaceAll(/[|]\s*$/gm,"")
-               .replaceAll(/  *$/mg,"") // avoid <br/> problems
+  let result = "<pre>"
+             + ( p.trimEnd()
+                 .replaceAll(/^\s*[|]/gm,"\n ")
+                 .replaceAll(/[|]\s*$/gm,"")
+                 .replaceAll(/\s\s*$/mg,"") // avoid problems
+               )
+             + "</pre>"
     ;
+    if (deleteme==0) { console.log(result);  deleteme++; }
   return result;
 
 }
@@ -187,27 +180,22 @@ function handleBlockQuotes(p/*aragraph*/) {
 /**
  * Apply markdown to each paragraph.
  */
-function _01_standardMarkdownParsing(p/*aragraph*/, relative_path){
-  p = handlePre(p);
-console.log(p)
+function _01_standardMarkdownParsing(p_m/*paragraph meta*/, relative_path){
+  let p = p_m.content;
+  if (p_m.isPre) {
+    p = handlePre(p);
+  } else {
   p = handleUnorderedLists(0, p);
-console.log(p)
   p = handleOrderedLists  (0, p);
-console.log(p)
   p = handleTables(p);
-console.log(p)
   p = handleHeaders(p);
-console.log(p)
   p = handleImages(p); 
-console.log(p)
   p = handleLinks(p); 
-console.log(p)
   p = handleFontStyles(p); 
-console.log(p)
   p = handleBlockQuotes(p);
-console.log(p)
   p = p.replaceAll(/  $/mg,"º[br/]º"  )
-       .replaceAll("º[","<") 
+  }
+  p = p.replaceAll("º[","<") 
        .replaceAll("]º",">") 
   return p.length>0 ? "\n<p>"+p+"</p>" : "";
 }
@@ -239,9 +227,19 @@ const _02_markdown_extension = (p, relative_path) => {
   return p
 }
 
-function parseMD2HTML(md, relative_path){
-  md = _00_documentCleaning(md, relative_path)
-  const paragraph_l = md.split(PARAGRAPH_MARK_REGEX).filter(p => p.length>0)
+function parseMD2HTML(md_payload, relative_path){
+  md_payload = _00_documentCleaning(md_payload, relative_path)
+  let even=true
+  // const paragraph_l = md_payload.split(PARAGRAPH_MARK_REGEX).filter(p => p.length>0)
+  const paragraph_l = md_payload.split("```").map(it => {
+    const p_list = (even)
+                   ? it.split(PARAGRAPH_MARK_REGEX).filter(it => it!="") 
+                   : [it]
+    const result = p_list.map(it2 => { return { isPre:!even, content:it2 } })
+    even = !even
+    // console.log(result)
+    return result
+  }).flat()
   const result = paragraph_l
         .map(p/*aragraph*/ => {
           return _01_standardMarkdownParsing(p, relative_path)

@@ -284,7 +284,7 @@ class TXTDBEngine {
                                  .replace(/[/][^/]*[?]?$/,"")
                                } )
 
-      this.immutableDDBB    = 
+      this.immutableDDBB    =  // @ma
         ( await Promise.all(this.url_txt_source_l
           .map( async (url_txt_source) => {
             const payload = await this.fetchPayload(url_txt_source.href);
