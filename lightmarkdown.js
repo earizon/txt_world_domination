@@ -190,12 +190,12 @@ function _01_standardMarkdownParsing(p_m/*paragraph meta*/, relative_path){
   p = handleTables(p);
   p = handleHeaders(p);
   p = handleImages(p); 
-  p = handleLinks(p); 
   p = handleFontStyles(p); 
   p = handleBlockQuotes(p);
   p = p.replaceAll(/  $/mg,"º[br/]º"  )
   }
-  p = p.replaceAll("º[","<") 
+  p = handleLinks(p)
+       .replaceAll("º[","<") 
        .replaceAll("]º",">") 
   return p.length>0 ? "\n<p>"+p+"</p>" : "";
 }
