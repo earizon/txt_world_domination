@@ -202,7 +202,7 @@ class ControlPanel extends Component {
       this.state.settings_fontsize = 1;
       this.state.margin = 0;
       this.state.settings_showbaseline = false;
-      this.state.settings_ruleOnOff = true;
+      this.state.settings_ruleOnOff = false;
       ControlPanel.thisPtr = this;
       // Add Keyboard sortcuts
       window.document.body
