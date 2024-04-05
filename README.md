@@ -26,7 +26,7 @@ Since content is just plain text (vs some weird binary database format) it means
 [edit](https://en.wikipedia.org/wiki/Comparison_of_text_editors) 
 and
 [manage](https://ftp.gnu.org/old-gnu/Manuals/textutils-2.0/html_mono/textutils.html) the content
-following the "Do once thing and do it right!" UNIX philosophy.
+following the "Do one thing and do it right!" UNIX philosophy.
 
 
 
