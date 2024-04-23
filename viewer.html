@@ -475,7 +475,7 @@ hr[xxl]{
 }
 
 </style>
-<script src="./markdown.js"></script>
+<!-- script src="./markdown.js"></script -->
 <script type="module">
 import { html, render } from './preact.standalone.module.js';
 import { ControlPanel } from './control_panel.js';
@@ -492,12 +492,10 @@ const getParameterByName = function(name, url) {
 
 const bootstrap = async function () {
   const URLtxtDDBB = getParameterByName('payload')
-  window["markdown"].ready.then(markdown => {
-    render(
-      html` <${ControlPanel} url_txt_source_csv=${URLtxtDDBB} />`,
-      document.getElementById("idControlPanel")
-    )
-  })
+  render(
+    html` <${ControlPanel} url_txt_source_csv=${URLtxtDDBB} />`,
+    document.getElementById("idControlPanel")
+  )
 }
 
 window.scrollInto = function(id) {
