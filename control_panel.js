@@ -195,6 +195,7 @@ class ControlPanel extends Component {
       this.txtDBEngine = new TXTDBEngine( url_txt_source_csv );
       this.timerRefresh = 0;
       this.state.settings_secsRefreshInterval = 3600;
+      this.state.topicFilter = "";
       this.state.settings_font = 1;
       this.state.color_style = 1;
       this.state.bckg_texture = 1;
@@ -247,7 +248,10 @@ class ControlPanel extends Component {
 
     }
 
-
+    onTopicFilterChanged = (inputEvent) => {
+      this.state.topicFilter = inputEvent.target.value.toUpperCase()
+      this.setState ( { showTopics  : this.state.showTopics } );
+    }
     onGrepRegexChanged = (inputEvent) => {
       // No need for timer. It ends up calling execSearch that already contains it.
       this.state.grep[0].input = inputEvent.target.value
@@ -312,19 +316,28 @@ class ControlPanel extends Component {
              html`
                <div id="idTableTopics" size=s2>
                  <div id="progressBarTimer" val="${this.state.timerHideCtrPanel}" class="${(this.state.timerHideCtrPanel!=0)?'timeout':''}"></div>
+
+               <input value='${this.state.topicFilter}' style="width:10ch" placeholder='topic filter' id='idTopicFilter' onInput=${ (e) => this.onTopicFilterChanged(e) } >
+               </input>
                <span>  </span>Match parent blocks up to:
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(-1)}>-</span>
                  ${this.state.topicParentDepth}
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(+1)}>+</span>
-                <br/>
+                 <br/>
 
                ${ this.txtDBEngine.topicsDB.getDimensionList()
+                  .filter( (dimI) => {
+                    if (this.state.topicFilter.length==0) { return true; }
+                    const topic_l=this.txtDBEngine.topicsDB.getCoordForDim(dimI)
+                    const matchingTopics=topic_l.filter(it => it.indexOf(this.state.topicFilter)>=0)
+                    return matchingTopics.length>0
+                  })
                   .map( (dimI) => {
                       return html`<${Topic}
                       CP=${this}
                       key=${dimI}
                       topicName=${dimI}
-                      topicCoord_id_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI)}
+                      topicCoord_id_l=${this.txtDBEngine.topicsDB.getCoordForDim(dimI).filter(it => it.indexOf(this.state.topicFilter)>=0)}
                       onTopicCoordOnOff=${this.onTopicCoordOnOff}
                       //>
                       `
