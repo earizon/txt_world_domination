@@ -137,33 +137,51 @@ class Block {
     setLineEnd(lineEnd) { this.bounds[1] = lineEnd; }
 }
 
+var txt_loadError_l = [];
 class TXTDBEngine {
 
     fetchPayload = async function (url) {
+      console.log("fetchPayload url:"+url)
       const xhr  = new XMLHttpRequest();
       ( () => {
         if (url.indexOf("127.0.0")>=0 ||
             url.indexOf("localhost")>=0 ) return;
         navigator.sendBeacon("http://www.oficina24x7.com/visitedTXT/"+escape(document.location),"-");
-        this.timerUserActivityTrace = setInterval(
-          (() => {
-            ImageObject = new Image();
-            ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
-            setTimeout(()=> {ImageObject = null;}, 1000)
-          }),
-          60*1000 /* log every min */
-        );
+       // this.timerUserActivityTrace = setInterval(
+       // (() => {
+       //   ImageObject = new Image();
+       //   ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
+       //   setTimeout(()=> {ImageObject = null;}, 1000)
+       // }),
+       //   60*1000 /* log every min */
+       // );
       } )()
 
       return new Promise( (resolve,reject) => {
         xhr.open('GET', url, true);
         xhr.setRequestHeader('Cache-Control', 'no-cache')
+        xhr.onerror = function(err) {
+            console.error("url:"+url+", GET error: "+ err);
+        };
         xhr.onreadystatechange = function() {
-          if (xhr.readyState != 4) return
-          if (xhr.status != 200) return
-          resolve(
-             xhr.responseText
-          )
+          // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
+          // Value  State             Description
+          // 0      UNSENT            Client has been created. open() not called yet.
+          // 1      OPENED            open() has been called.
+          // 2      HEADERS_RECEIVED  send() has been called, and headers and status are available.
+          // 3      LOADING           Downloading; responseText holds partial data.
+          // 4      DONE              The operation is complete.
+          if (xhr.readyState != 4  /* UNSENT, ... LOADING */  ) {
+            return
+          }
+          if (xhr.status      != 200 ) {
+            txt_loadError_l.push({ href: url, err: xhr.status})
+            console.error("url:"+url+", error: xhr.status: "+xhr.status);
+            resolve( "" )
+            return
+          } else { 
+              resolve( xhr.responseText )
+          }
         }
         xhr.send()
       } )
@@ -253,13 +271,20 @@ class TXTDBEngine {
     }
 
     async init() {
+
       this.url_txt_source_csv = (await Promise.all(
         this.url_txt_source_csv.split(",")
         .map(async (url_txt_source) => {
           if (!url_txt_source.endsWith(".payload")){
             return url_txt_source
           } else {
-            // url_txt_source will be like ../../XXXX.payload
+            /*
+             * url_txt_source will be like:
+             * ../../../XXXX.payload
+             *               └─────┴─ Identify file as payload (list of other files)
+             *          └──────────┴─ doesn't matter.
+             * └───────┴─ base 
+             */
             const base = url_txt_source.split("/").slice(0,-1).join("/")
             const payload_l = (await this
                            .fetchPayload(url_txt_source))
@@ -283,15 +308,21 @@ class TXTDBEngine {
                                  .replace(url_txt_source.search,"")
                                  .replace(/[/][^/]*[?]?$/,"")
                                } )
-
-      this.immutableDDBB    =  // @ma
+      txt_loadError_l = []
+      this.immutableDDBB    =  
         ( await Promise.all(this.url_txt_source_l
           .map( async (url_txt_source) => {
-            const payload = await this.fetchPayload(url_txt_source.href);
-            const CACHE_PARAGRAPH_L =
-              parseMD2HTML( payload , this.relative_path );
+              const payload = await this.fetchPayload(url_txt_source.href);
+              const CACHE_PARAGRAPH_L =
+                parseMD2HTML( payload , this.relative_path );
             return CACHE_PARAGRAPH_L
           } )) ).flat()
+      if (txt_loadError_l.length != 0 ) {
+          this.immutableDDBB = [
+              ... txt_loadError_l.map(it => `<code style="color:red;">error loading ${it.href}</code><br/>`),
+              ... this.immutableDDBB ]
+          // txt_loadError_l.push({ href: url, err: xhr.status})
+      }
       /*
        *  this.immutableDDBB looks like:
        *  index (== paragraph)    | paragraph

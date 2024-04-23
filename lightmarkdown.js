@@ -72,7 +72,6 @@ function handleTables(p/*aragraph*/) {
   return result
 }
 
-let deleteme=0;
 function handlePre(p/*aragraph*/) {
   let result = "<pre>"
              + ( p.trimEnd()
@@ -82,7 +81,6 @@ function handlePre(p/*aragraph*/) {
                )
              + "</pre>"
     ;
-    if (deleteme==0) { console.log(result);  deleteme++; }
   return result;
 
 }
