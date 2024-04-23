@@ -138,6 +138,7 @@ class Block {
 }
 
 var txt_loadError_l = [];
+var txt_loadOK_l = [];
 class TXTDBEngine {
 
     fetchPayload = async function (url) {
@@ -180,7 +181,8 @@ class TXTDBEngine {
             resolve( "" )
             return
           } else { 
-              resolve( xhr.responseText )
+            txt_loadOK_l.push({ href: url})
+            resolve( xhr.responseText )
           }
         }
         xhr.send()
@@ -309,6 +311,7 @@ class TXTDBEngine {
                                  .replace(/[/][^/]*[?]?$/,"")
                                } )
       txt_loadError_l = []
+      txt_loadOK_l = []
       this.immutableDDBB    =  
         ( await Promise.all(this.url_txt_source_l
           .map( async (url_txt_source) => {
@@ -319,9 +322,13 @@ class TXTDBEngine {
           } )) ).flat()
       if (txt_loadError_l.length != 0 ) {
           this.immutableDDBB = [
-              ... txt_loadError_l.map(it => `<code style="color:red;">error loading ${it.href}</code><br/>`),
+              ... txt_loadError_l.map(it => `<code style="color:red;">${it.href}</code>, `),
               ... this.immutableDDBB ]
-          // txt_loadError_l.push({ href: url, err: xhr.status})
+      }
+      if (txt_loadOK_l.length != 0 ) {
+          this.immutableDDBB = [
+              ... txt_loadOK_l.map(it => `<code style="color:blue;"><a href="${it.href}" target="_blank">${it.href}</a></code>, `),
+              ... this.immutableDDBB ]
       }
       /*
        *  this.immutableDDBB looks like:
