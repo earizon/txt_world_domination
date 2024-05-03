@@ -111,20 +111,48 @@ class TopicBlockDB { //                                                        [
          .map(i => TC.dim+"."+i);
    }
 
-   getMatchingLinesForTopicCoord(ddbbRowLength, TC_id_l,  topicParentDepth) {
+   getMatchingLinesForTopicCoord(ddbbRowLength, TC_id_l,  topicParentDepth, isTopicFilterAnd) {
+     const setUnion = function(...sets) { 
+       // REF: https://stackoverflow.com/questions/32000865/simplest-way-to-merge-es6-maps-sets
+       return sets.reduce((combined, list) => {
+         return new Set([...combined, ...list]);
+       }, new Set());
+     }
+
      if (TC_id_l.length==0) return Array(ddbbRowLength).fill(true);
-     const result_l = Array(ddbbRowLength).fill(false);
+
+     let global_MatchSet = isTopicFilterAnd 
+            ? new Set(Array.from(Array(ddbbRowLength).keys()))
+            : new Set() ;
+     let setIntersect = function(set1, set2) { 
+       // https://stackoverflow.com/questions/32000865/simplest-way-to-merge-es6-maps-sets
+       let newSet = new Set();
+       for (let item of set1) {
+         if (set2.has(item)) {
+             newSet.add(item);
+         }
+       }
+       return newSet;
+     }
+
      TC_id_l.forEach(TC_id => {
+         const TC_matching_set = new Set();
          const block_l = this.getBlocks(TC_id, topicParentDepth);
          block_l.forEach(block => {
            for (let idx = block.bounds[0]; idx <= block.bounds[1]; idx++) {
-               result_l[idx] = true;
+               TC_matching_set.add(idx);
            }
          });
+         if (isTopicFilterAnd) {
+             global_MatchSet = setIntersect(global_MatchSet,TC_matching_set);
+         } else /* union */ {
+             global_MatchSet = setUnion(global_MatchSet,TC_matching_set);
+         }
      });
+     const result_l = Array(ddbbRowLength).fill(false);
+     global_MatchSet.forEach(it => result_l[it] = true)
      return result_l;
    }
-
 
 }//                                                                           [}]
 
@@ -342,20 +370,22 @@ class TXTDBEngine {
        *  ^^^^
        *  block topic1 will have index 0 as start and index 100 as end.
        */
-      this.paragraphN  = this.immutableDDBB.length-1;
+      this.paragraphN  = this.immutableDDBB.length;
       this.cacheResult = this.immutableDDBB.join("");
       this.buildTopicsDB()
 
     }
 
-    grep( grep0, selectedCoordinatesByTopic , topicParentDepth) {
+    grep( grep0, selectedCoordinatesByTopic , topicParentDepth, isTopicFilterAnd /* @ma */) {
       let selectedTopicsIds = [];
-      Object.keys(selectedCoordinatesByTopic).forEach( topicName => {
+      Object.keys(selectedCoordinatesByTopic)
+        .forEach( topicName => {
          const TC_id_d = selectedCoordinatesByTopic[topicName];
          Object.keys(TC_id_d)
            .filter(TC_id => { return (TC_id_d[TC_id]==true); })
            .forEach( TC_id => { selectedTopicsIds.push(TC_id); });
       });
+
       // REF: https://simonwillison.net/2004/Sep/20/newlines/
       // '.*' will never match multiline. Use [\s\S] instead
       const grepInput = grep0.input.replaceAll(/\ +/g,"[\\s\\S]*")
@@ -396,11 +426,10 @@ class TXTDBEngine {
       }
 
       const topicMatchingLines_l = this.topicsDB.getMatchingLinesForTopicCoord(
-          this.paragraphN, selectedTopicsIds, topicParentDepth)
+          this.paragraphN, selectedTopicsIds, topicParentDepth, isTopicFilterAnd)
       for (let idx = 0 ; idx < this.paragraphN; idx++) {
           if (topicMatchingLines_l[idx]==false) result_l[idx] = false;
       }
-
       const result = result_l.filter( row => (row != false) ).join("");
       // console.log(result)
       return result

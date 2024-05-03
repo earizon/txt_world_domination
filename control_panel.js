@@ -49,6 +49,7 @@ class ControlPanel extends Component {
       topicParentDepth : 0,
       showIndex        : false,
       hideCtrPanel     : true,
+      topicFilterAndMode: true,
       TC_id_selected   : { /*topic coord.id selected: bool*/ },
       timerHideCtrPanel: 0
     }
@@ -127,6 +128,10 @@ class ControlPanel extends Component {
         this.setState ( { showSettings   : this.state.showSettings  && newState } );
         this.setState ( { showTopics     : this.state.showTopics && newState } );
         this.setState ( { showIndex      : this.state.showIndex  && newState } );
+    }
+    switchSettingsTopicAndOr = ()=> {
+        this.resetHideCtrPanelTimeout()
+        this.setState ( { topicFilterAndMode : !this.state.topicFilterAndMode });
     }
 
     switchTypeWritterFont = ()=> {
@@ -236,7 +241,10 @@ class ControlPanel extends Component {
       this.state.timerDoFind = setTimeout(
         () => {
           document.getElementById("dbEngineOutput").innerHTML =
-                this.txtDBEngine.grep(this.state.grep[0], this.state.TC_id_selected, this.state.topicParentDepth)
+                this.txtDBEngine.grep(
+                    this.state.grep[0], this.state.TC_id_selected, this.state.topicParentDepth,
+                    this.state.topicFilterAndMode
+                )
           if (ControlPanel.isFirstRender) {
             ControlPanel.isFirstRender = false;
             setTimeout(this.switchIndexView, 1);
@@ -323,7 +331,11 @@ class ControlPanel extends Component {
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(-1)}>-</span>
                  ${this.state.topicParentDepth}
                  <span class="buttonCompact" onClick=${ (e) => this.setTopicMatchDepth(+1)}>+</span>
-                 <br/>
+               <span class="button ${ !!this.state.topicFilterAndMode?'selected':''}"
+                    onClick=${() => this.switchSettingsTopicAndOr()}>AND</span>
+               <span class="button ${!!!this.state.topicFilterAndMode?'selected':''}"
+                    onClick=${() => this.switchSettingsTopicAndOr()}>OR</span>
+               <br/>
 
                ${ this.txtDBEngine.topicsDB.getDimensionList()
                   .filter( (dimI) => {
