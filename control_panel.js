@@ -23,7 +23,6 @@ class Topic extends Component {
             this.CP.state.TC_id_selected[TC_id_i] = newState
           }
         });
-//      this.setState({ TC_id_selected : this.CP.state.TC_id_selected });
         this.props.CP.onTopicCoordOnOff(this.props.topicName, this.CP.state.TC_id_selected);
         this.CP.updateHideCtrPanelTimeout();
     }
@@ -141,6 +140,7 @@ class ControlPanel extends Component {
     switchSettingsTopicAndOr = ()=> {
         this.resetHideCtrPanelTimeout()
         this.setState ( { topicFilterAndMode : !this.state.topicFilterAndMode });
+        this.execSearch();
     }
 
     switchTypeWritterFont = ()=> {
