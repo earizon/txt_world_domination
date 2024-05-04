@@ -1,7 +1,9 @@
 "use strict"
 import {parseMD2HTML} from "./lightmarkdown.js";
 
-const debug_topics_101=true
+const debug_topics_101=false
+const debug_fetch=false
+const debug_topic_proximity=true
 
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
@@ -77,10 +79,6 @@ class TopicBlockDB { //                                                        [
        }
    }
 
-   _someElementInArraysMatch(array1, array2) {
-     // REF: https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
-     return array1.some( el1 => array2.includes(el1))
-   }
    /**
     * Given a topic01 and a reference set of
     * topics (for example topics selected in a UI), 
@@ -89,6 +87,19 @@ class TopicBlockDB { //                                                        [
     * "Close" is an arbitrary "close" measure.
     */
    isTopicClose(tc_id_01, tc_ref_l /* topicCoordinate list */) {
+     const numberOfCoincidences = function(tc_id_array1, tc_id_array2) {
+       let result = 0;
+       tc_id_array2.forEach(tc_id2 => {
+           if (tc_id_array1.indexOf(tc_id2)>=0) {  result = result+1 }
+       })
+       if (debug_topic_proximity) {
+           console.log(`tc_id_array1:${tc_id_array1}`)
+           console.log(`tc_id_array2:${tc_id_array2}`)
+           console.log("numberOfCoincidences: " + result) 
+       }
+       if (result>=3) result = 3;
+       return result
+     }
      const blockStackDepth = 0; // TODO:(0) Parameterize
      const tc01 = new TopicCoordinate(tc_id_01)
      const blocks_matching_topic01_l = this._db[tc01.dim][tc01.coord]
@@ -105,7 +116,7 @@ class TopicBlockDB { //                                                        [
        )
      })
      const tc_id_matching_l = Object.keys(tc_id_d) // Only keys are important.
-     const result = _someElementInArraysMatch(tc_id_matching_l, tc_ref_l)
+     const result = numberOfCoincidences(tc_id_matching_l, tc_ref_l)
      return result
    }
 
@@ -201,7 +212,7 @@ var txt_loadOK_l = [];
 class TXTDBEngine {
 
     fetchPayload = async function (url) {
-      console.log("fetchPayload url:"+url)
+      if (debug_fetch) { console.log("fetchPayload url:"+url) }
       const xhr  = new XMLHttpRequest();
       ( () => {
         if (url.indexOf("127.0.0")>=0 ||

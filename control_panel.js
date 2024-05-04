@@ -36,9 +36,7 @@ class Topic extends Component {
            return html`<div key=${TC_id} class='topicButtom ${
              this.CP.state.TC_id_selected[TC_id]
                ? "selected"
-               : this.CP.txtDBEngine.isTopicClose(TC_id,Object.keys(this.CP.state.TC_id_selected))
-                  ? "related"
-                  : ""
+               : (`related${this.CP.txtDBEngine.isTopicClose(TC_id,Object.keys(this.CP.state.TC_id_selected))}`)
            }' onclick=${(e) => this.tcSwitch(TC_id,e)} >
               ${TC_id.replace(topicName+".","")}</div>`
            } )
