@@ -77,6 +77,38 @@ class TopicBlockDB { //                                                        [
        }
    }
 
+   _someElementInArraysMatch(array1, array2) {
+     // REF: https://stackoverflow.com/questions/16312528/check-if-an-array-contains-any-element-of-another-array-in-javascript
+     return array1.some( el1 => array2.includes(el1))
+   }
+   /**
+    * Given a topic01 and a reference set of
+    * topics (for example topics selected in a UI), 
+    * return if the topic01 is close (in a matching block)
+    * to any of the topics in the reference set.
+    * "Close" is an arbitrary "close" measure.
+    */
+   isTopicClose(tc_id_01, tc_ref_l /* topicCoordinate list */) {
+     const blockStackDepth = 0; // TODO:(0) Parameterize
+     const tc01 = new TopicCoordinate(tc_id_01)
+     const blocks_matching_topic01_l = this._db[tc01.dim][tc01.coord]
+     const tc_id_d = {} // ¹
+     /* ¹ keys in tc_id_d represent topics (id) "meeting" tc_id_01 
+      *   in one or more blocks */
+     blocks_matching_topic01_l.forEach(block => {
+       Object.keys(block.topic_d).forEach(
+         tc_id => { 
+           const depth = block.topic_d[tc_id]
+           if (depth > blockStackDepth) { return; }
+           tc_id_d[tc_id] = true;
+         }
+       )
+     })
+     const tc_id_matching_l = Object.keys(tc_id_d) // Only keys are important.
+     const result = _someElementInArraysMatch(tc_id_matching_l, tc_ref_l)
+     return result
+   }
+
    getBlocks(TC_id /*topicCoordinate_id*/, topicParentDepth) {
     const tc = TopicCoordinate.id2Instance[TC_id];
     try {
@@ -158,11 +190,10 @@ class TopicBlockDB { //                                                        [
 
 class Block {
     constructor(bounds, topic_d, parent) {
-        this.bounds = bounds // /*[lineStart,lineEnd]
+        this.bounds = bounds // /*[paragraphStart,paragraphEnd]
         this.topic_d = {}
         this.parent = parent
     }
-    setLineEnd(lineEnd) { this.bounds[1] = lineEnd; }
 }
 
 var txt_loadError_l = [];
@@ -271,7 +302,6 @@ class TXTDBEngine {
               if ( TC_id.indexOf('.')<0 ) TC_id = `${TC_id}.*`
               let stackDepth = blockStack.length-1;
               blockStack.forEach(block => {
-                // if (TC_id in block.topic_d) { return }
                 const TC = new TopicCoordinate(TC_id)
                 block.topic_d[TC.getTC_id()] = stackDepth;
              // console.log(`TC_id: ${TC_id} , stackDepth: ${stackDepth}`)
@@ -433,6 +463,10 @@ class TXTDBEngine {
       const result = result_l.filter( row => (row != false) ).join("");
       // console.log(result)
       return result
+    }
+
+    isTopicClose(tc01, tc_ref_l /* topicCoordinate list */) {
+       return this.topicsDB.isTopicClose(tc01, tc_ref_l)
     }
 }
 

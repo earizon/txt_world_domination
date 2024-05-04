@@ -12,12 +12,18 @@ class Topic extends Component {
 
     tcSwitch(TC_id, e) {
         e.stopImmediatePropagation();
-        const TC_id_l = this.props.CP.txtDBEngine.topicsDB.getSubtopicsIDList(TC_id);
+        const TC_id_l =  this.CP.state.topicFilterAndMode
+            ? [TC_id] 
+            : this.props.CP.txtDBEngine.topicsDB.getSubtopicsIDList(TC_id);
         const newState = ! this.CP.state.TC_id_selected[TC_id_l[0]];
         TC_id_l.forEach( (TC_id_i) => {
-          this.CP.state.TC_id_selected[TC_id_i] = newState;
+          if (newState == false) {
+            delete  this.CP.state.TC_id_selected[TC_id_i]
+          } else  {
+            this.CP.state.TC_id_selected[TC_id_i] = newState
+          }
         });
-        this.setState({ TC_id_selected : this.CP.state.TC_id_selected });
+//      this.setState({ TC_id_selected : this.CP.state.TC_id_selected });
         this.props.CP.onTopicCoordOnOff(this.props.topicName, this.CP.state.TC_id_selected);
         this.CP.updateHideCtrPanelTimeout();
     }
@@ -27,8 +33,13 @@ class Topic extends Component {
         <div class="topicClass">
         <div class="topic">${topicName}</div>
         ${ topicCoord_id_l.map( (TC_id) => {
-           return html`<div key=${TC_id} class='topicButtom ${this.CP.state.TC_id_selected[TC_id]?"selected":""}'
-              onclick=${(e) => this.tcSwitch(TC_id,e)} >
+           return html`<div key=${TC_id} class='topicButtom ${
+             this.CP.state.TC_id_selected[TC_id]
+               ? "selected"
+               : this.CP.txtDBEngine.isTopicClose(TC_id,Object.keys(this.CP.state.TC_id_selected))
+                  ? "related"
+                  : ""
+           }' onclick=${(e) => this.tcSwitch(TC_id,e)} >
               ${TC_id.replace(topicName+".","")}</div>`
            } )
         }
