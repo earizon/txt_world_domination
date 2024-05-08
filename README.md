@@ -18,8 +18,8 @@ to navigate the content based on topics and subtopics.
 always growning number of features to browse the content. You can copy and embed it into your project
 for free. It's just an standard set of html+js+css+fonts files.
    
-Refer to the [test page](https://earizon.github.io/txt_world_domination/viewer.html?payload=test.txt) and
-the original [txt file](https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt) to 
+Refer to the [test page](https://earizon.github.io/txt_world_domination/viewer.html?payload=test.md) and
+the original [markdown file](https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.md) to 
 get an idea of daily ussage.
 
 Since content is just plain text (vs some weird binary database format) it means that many tools can be reused to 
