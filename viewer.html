@@ -366,8 +366,8 @@ input:not(:placeholder-shown) { color: white; background-color: black; }
 
 .txtblock {
   display: inline-block;
-  background-color: black;
-  color: white;
+  /* background-color: black; */
+  /* color: white; */
   font-family: monospace;
   font-size: 0.7rem;
   padding: 0 0 2px 0;
@@ -377,6 +377,7 @@ input:not(:placeholder-shown) { color: white; background-color: black; }
   text-overflow: ellipsis;
   height: 2em;
   white-space: nowrap;
+  opacity: 45%;
 }
 
 pre > .txtblock {
@@ -481,6 +482,9 @@ hr[xxl]{
  }
 }
 
+math {
+    display: inline;
+}
 </style>
 <!-- script src="./markdown.js"></script -->
 <script type="module">
@@ -514,6 +518,9 @@ window.scrollInto = function(id) {
 }
 
 window.addEventListener('load', bootstrap )
+</script>
+
+<script id="MathJax-script" src="tex-mml-chtml.js">
 </script>
 </head>
 <body margin="margin0">
