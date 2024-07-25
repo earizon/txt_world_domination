@@ -13,8 +13,6 @@ documentation management.
  Recommended to safely store and classify research (PhD) work, complex software documentation,
 complex procedures, book writing, "industrial" web pages.
 
-  Refer to the [test page](https://earizon.github.io/txt_world_domination/viewer.html?payload=test.txt) and
-the original [txt file](https://raw.githubusercontent.com/earizon/txt_world_domination/main/test.txt) to
 get an idea of daily ussage.
 
 Since content is just plain text (vs some weird binary database format) it means that many tools can be reused to
@@ -65,7 +63,7 @@ By reusing standard text (markdown) next features comes for free:
    │          ·               ·                      ·            │
    │          ·               ·                      v            │
    │          ·      2) Compile                  4)"Fool" Browser │
-   |          └─····>  ─────────────────           ────────────── │
+   │          └─····>  ─────────────────           ────────────── │
    │                   Generates HTML              Render content │
    │                   in opinionated ways                        │
    │                   using "complex" tooling                    │
@@ -79,9 +77,9 @@ By reusing standard text (markdown) next features comes for free:
    │1) "Source" Content            2) "Inteligent" Browser        │
    │   ───────────────────────── ··>  ─────────────────────────── │
    │   markdown+topic.sub. tags       Fetch local/remote "payload"│
-   │   (git versioned, p2p            Processes it. Generates     │
-   │    distributed)                  HTML, taxonomy, indexes, ...│
-   │           ·                      (extensions for Mermaid,    │
+   │   (git versioned, p2p            Processes it. Generate      │
+   │    distributed)                  HTML, taxonomy, indexes,    │
+   │           ·                      extensions, ...             │
    │           ·                                                  │
    │           ├─·· or  ··········>2) Printer                     │
    │           ·                      ─────────────────────────── │
@@ -99,10 +97,10 @@ By reusing standard text (markdown) next features comes for free:
    │           ·                      ─────────────────────────── │
    │           ·                      Improve source code         │
    │           ·                      navigation based on         │
-   │           ·                      topics.subtopics concerns   |
+   │           ·                      topics.subtopics concerns   │
    │           ·                      like UI, QA, security, .... │
    │           ·                                                  │
-   │           ├─·· or ···········>2) (Fill with new ideas and    |
+   │           ├─·· or ···········>2) (Fill with new ideas and    │
    │           ·                      use-cases)                  │
    └──────────────────────────────────────────────────────────────┘
    ```
