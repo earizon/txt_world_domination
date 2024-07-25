@@ -1,38 +1,65 @@
 # Bugs [[{QA.BUG]]
 
-* payload files ("All content") doesn't work anymore
-* Internal links @+[+# .. ]  do not work 
+* pre blocks do not indent properly.
 
-* Rules do not work with some browser extensions (CSS invert color)
 [[QA.BUG}]] 
 
-# Feature Requests
+# Work in Progress [[{PM.WiP]]
+## Support for Latex
+[[PM.WiP}]]
 
-## Allow AND/OR topic selection
-* Only or is active now.
+# RoadMap [[{PM.backlog]]
 
-## Custom 'highlight' tags
-* Example:
+## Allow for common or prefix tags.  [[{QA.UX]]
+
+* For example, allow a given tag to be added to all internal paragraphs.
   ```
-  - Risk         : eg: Rº**
-  - WARN         : eg: Wº**
-  - Keypoint     : eg: Kº**
-  - Important    : eg: Iº**
-  - Tip/Reminder : eg: Tº**
-  * ... 
+  [[{common.tag+]]
+  paragraph 1 [[{tag1}]]  <·· common.tag automatically added
+  paragraph 2 [[{tag2}]]  <·· common.tag automatically added
+  [[common.tag-}]]
   ```
-tags must be independent of rendering (as color, decorated, ...)
+[[QA.UX}]]
+
+## Support for Mermaid Diagrams.  [[{QA.UX]]
+* This will allow for sequence/BPML/Gantt/... diagrams "for free".
+[[QA.UX}]]
+
+## Encryption support [[{security]]
+* Allow to publish encrypted content in public pages.
+* Ideally encrypted content is not displayed to "recipients"
+  without the proper "cryptographic artifacts". For example,
+  if using a public encryption key, only those with the private
+  key will show the content.
+* Consider also support for 
+  [Bell LaPadula security model](https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model)
+[[security}]]
+
+## Custom 'highlight' tags?  [[{QA.UX]]
+* sort of  'lightweight" markdown extensions for common "highlighting" patterns. 
+  * Example:
+    ```
+    - Risk         : eg: Rº** some risk **
+    - WARN         : eg: Wº** some warning **
+    - Keypoint     : eg: Kº** some keypoint **
+    - Tip/Reminder : eg: Tº** some reminder **
+    ```
+  * Ummm, the fewer non-standard extensions the best.
+  * Comment: Maybe this just maps to translating to a set of common and 
+    well-known, well-defined tasks.
+  * In any case tags must be independent of rendering even if viewers
+    are allowed to assign default styles (color, text decoration, ...).
+[[QA.UX}]]
  
-## Use Beacon API [[{]]
-* "anonymous analytics"
-* [REF](https://developer.mozilla.org/en-US/docs/Web/API/Beacon_API)
-  The Beacon API is used to send an asynchronous and non-blocking
-  request to a web server. The request does not expect a response.
-  Unlike requests made using XMLHttpRequest or the Fetch API, the
-  browser guarantees to initiate beacon requests before the page is
-  unloaded and to run them to completion.
-    
-  The main use case for the Beacon API is to send analytics such as
-  client-side events or session data to the server.
-[[}]]
-
+## Add "transparent" mindmap support [[{QA.UX]]
+* Re-enable old "Single Page Book Project" "map-with-zoom view". Example:
+  <https://earizon.github.io/IT_notes/General/cryptography_map.html?showSearchMenu=true>
+  NOTE: It was visually (much) more attractive but note-taking was not effective 
+  with lot of manual html tagging.
+  The idea is to take notes "a la markdown" (plain text with plain text editors) and
+  autogenerate anything else (views) automatically.
+* See also: <https://markmap.js.org/docs/markmap>. Markdown+mindmap combination. <br/>
+  NOTE: It looks to "just" render the index with arrows, visually appealing but not very
+   useful. There is no way to "walk in a graph".
+[[QA.UX}]]
+[[PM.backlog}]]
