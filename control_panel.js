@@ -256,7 +256,7 @@ class ControlPanel extends Component {
                 )
           if (ControlPanel.isFirstRender) {
             ControlPanel.isFirstRender = false;
-            setTimeout(this.switchIndexView, 1);
+            setTimeout(this.switchTopicView, 1);
           }
           if (this.state.showIndex == true) {
             this.refreshIndexTableAsHTML()
