@@ -8,15 +8,45 @@
 
 <style>
 
+body {
+  counter-reset: h1Counter;
+  counter-reset: h1CounterMenu;
+  counter-increment: h1Counter;
+}
+#dbEngineOutput > h1:before {
+  content: counter(h1Counter)" ";
+  counter-increment: h1Counter;
+}
+#dbEngineOutput > h1 {
+  counter-reset: h2Counter;
+}
+#dbEngineOutput > h2 {
+  counter-reset: h3Counter;
+}
+#dbEngineOutput > h2:before {
+  content: counter(h1Counter)"." counter(h2Counter)" ";
+  counter-increment: h2Counter;
+}
+#dbEngineOutput > h3:before {
+  content: counter(h1Counter)"." counter(h2Counter)"." counter(h3Counter)" ";
+  counter-increment: h3Counter;
+}
+
+#idTableIndex > h1:before {
+  content: counter(h1CounterMenu)" ";
+  counter-increment: h1CounterMenu;
+}
+
 h1 {
   font-weight: bold;
   display: block;
 }
 h1,h2,h3,h4,h5,h6 { font-weight: bold; width: 95%; border-bottom: 1px solid black; }
   
-
+/*
 h1, h3, h5 { text-align: left; }
 h2, h4, h6 { text-align: right; }
+*/
 
 #idTableIndex > h2 {
   display: inline;
