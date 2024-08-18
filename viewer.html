@@ -8,6 +8,28 @@
 
 <style>
 
+:root {
+      --foreground_s1: #000   ;     --background_s1: #FFF;
+      --foreground_s2: #000   ;     --background_s2: #DDD;
+      --foreground_s3: #000   ;     --background_s3: #AAA;
+      --foreground_s4: #FFF   ;     --background_s4: #000;
+      --foreground_s5: #FFF   ;     --background_s5: #222;
+      --foreground_s6: #FFF   ;     --background_s6: #444;
+  --pre_foreground_s1: #020   ; --pre_background_s1: #DFD;
+  --pre_foreground_s2: #020   ; --pre_background_s2: #ADA;
+  --pre_foreground_s3: #020   ; --pre_background_s3: #8A8;
+  --pre_foreground_s4: #DFD   ; --pre_background_s4: #020;
+  --pre_foreground_s5: #DFD   ; --pre_background_s5: #242;
+  --pre_foreground_s6: #DFD   ; --pre_background_s6: #464;
+    --a_foreground_s1: #00F   ;   --a_background_s1: inherit;
+    --a_foreground_s2: #00F   ;   --a_background_s2: inherit;
+    --a_foreground_s3: #00F   ;   --a_background_s3: inherit;
+    --a_foreground_s4: #AFF   ;   --a_background_s4: inherit;
+    --a_foreground_s5: #AFF   ;   --a_background_s5: inherit;
+    --a_foreground_s6: #AFF   ;   --a_background_s6: inherit;
+
+
+}
 body {
   counter-reset: h1Counter;
   counter-reset: h1CounterMenu;
@@ -194,7 +216,7 @@ pre {
   text-indent: 0;
   line-height: 1.2em;
   outline: 1px solid grey;
-  background: #EFE;
+  background: var(--pre-background_s1);
   width: fit-content;
   min-width: 80%;
   overflow: scroll;
@@ -207,7 +229,8 @@ pre {
   padding-top: 1.5em;
   overflow: auto;
   background-attachment: fixed;
-  color: green;
+  color: var(--foreground_s1);
+
   padding: 0.1em;
 }
 #dbEngineOutput[font=font0]{ font-family:      serif; }
@@ -224,17 +247,24 @@ pre {
 #dbEngineOutput[lineheight=height3]{ line-height: 2.0em }
 #dbEngineOutput[lineheight=height4]{ line-height: 2.5em }
 
-#dbEngineOutput[colorstyle=s1]{  }
-#dbEngineOutput[colorstyle=s2]   { background-color: #022; color: #FFF;}
-#dbEngineOutput[colorstyle=s2] a {                         color: #FFF;}
-#dbEngineOutput[colorstyle=s3]   { background-color: #022; color: #0F0;}
-#dbEngineOutput[colorstyle=s3] a {                         color: #0F0;}
-#dbEngineOutput[colorstyle=s4]   { background-color: #022; color: #F00;}
-#dbEngineOutput[colorstyle=s4] a {                         color: #F00;}
-#dbEngineOutput[colorstyle=s5]   { background-color: #022; color: #0FF;}
-#dbEngineOutput[colorstyle=s5] a {                         color: #0FF;}
-#dbEngineOutput[colorstyle=s6]{ background-color: #AAA   ; color: #033;}
-#dbEngineOutput[colorstyle=s6] a {                         color: #033;}
+#dbEngineOutput[colorstyle=s1]       { background-color: var(    --background_s1); color: var(    --foreground_s1); }
+#dbEngineOutput[colorstyle=s1] pre   { background-color: var(--pre_background_s1); color: var(--pre_foreground_s1); }
+#dbEngineOutput[colorstyle=s1] a     { background-color: var(  --a_background_s1); color: var(--a_foreground_s1); }
+#dbEngineOutput[colorstyle=s2]       { background-color: var(    --background_s2); color: var(    --foreground_s2); }
+#dbEngineOutput[colorstyle=s2] pre   { background-color: var(--pre_background_s2); color: var(--pre_foreground_s2); }
+#dbEngineOutput[colorstyle=s2] a     { background-color: var(  --a_background_s2); color: var(--a_foreground_s2); }
+#dbEngineOutput[colorstyle=s3]       { background-color: var(    --background_s3); color: var(    --foreground_s3); }
+#dbEngineOutput[colorstyle=s3] pre   { background-color: var(--pre_background_s3); color: var(--pre_foreground_s3); }
+#dbEngineOutput[colorstyle=s3] a     { background-color: var(  --a_background_s3); color: var(--a_foreground_s3); }
+#dbEngineOutput[colorstyle=s4]       { background-color: var(    --background_s4); color: var(    --foreground_s4); }
+#dbEngineOutput[colorstyle=s4] pre   { background-color: var(--pre_background_s4); color: var(--pre_foreground_s4); }
+#dbEngineOutput[colorstyle=s4] a     { background-color: var(  --a_background_s4); color: var(--a_foreground_s4); }
+#dbEngineOutput[colorstyle=s5]       { background-color: var(    --background_s5); color: var(    --foreground_s5); }
+#dbEngineOutput[colorstyle=s5] pre   { background-color: var(--pre_background_s5); color: var(--pre_foreground_s5); }
+#dbEngineOutput[colorstyle=s5] a     { background-color: var(  --a_background_s5); color: var(--a_foreground_s5); }
+#dbEngineOutput[colorstyle=s6]       { background-color: var(    --background_s6); color: var(    --foreground_s6); }
+#dbEngineOutput[colorstyle=s6] pre   { background-color: var(--pre_background_s6); color: var(--pre_foreground_s6); }
+#dbEngineOutput[colorstyle=s6] a     { background-color: var(  --a_background_s6); color: var(--a_foreground_s6); }
 
 #dbEngineOutput[background=b1] { }
 #dbEngineOutput[background=b2] {
@@ -492,7 +522,8 @@ hr[xxl]{
 }
 
 
-#hideButtom, #indexButton, #topicsButton, #settingsButton {
+/* #hideButtom, #indexButton, #topicsButton, #settingsButton { */
+.fixedMenuButton { 
   float:right;
   background-color:transparent;
   opacity: 0.7;

@@ -386,16 +386,16 @@ class ControlPanel extends Component {
                  </span>
                  <br/>
               </span>` }
-              <span class="button ${this.state.hideCtrPanel?'selected':''}" 
+              <span class="button fixedMenuButton ${this.state.hideCtrPanel?'selected':''}" 
                     onClick=${() => this.switchCtrPanelView()}  
                     id="hideButtom"    >◂</span>
-              <span class="button ${this.state.showIndex   ?'selected':''}" 
+              <span class="button fixedMenuButton ${this.state.showIndex   ?'selected':''}" 
                     onClick=${() => this.switchIndexView()   }
                     id="indexButton"   >≣</span>
-              <span class="button ${this.state.showTopics  ?'selected':''}" 
+              <span class="button fixedMenuButton  ${this.state.showTopics  ?'selected':''}" 
                     onClick=${() => this.switchTopicView()   }
                     id="topicsButton"  >∷</span>
-              <span class="button ${this.state.showSettings?'selected':''}" 
+              <span class="button fixedMenuButton ${this.state.showSettings?'selected':''}" 
                     onClick=${() => this.switchSettingsView()} 
                     id="settingsButton">⚙</span>
            </div>
