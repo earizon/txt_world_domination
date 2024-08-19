@@ -33,14 +33,13 @@
 body {
   counter-reset: h1Counter;
   counter-reset: h1CounterMenu;
-  counter-increment: h1Counter;
 }
 #dbEngineOutput > h1:before {
   content: counter(h1Counter)" ";
-  counter-increment: h1Counter;
 }
 #dbEngineOutput > h1 {
   counter-reset: h2Counter;
+  counter-increment: h1Counter;
 }
 #dbEngineOutput > h2 {
   counter-reset: h3Counter;
@@ -64,12 +63,10 @@ h1 {
   display: block;
 }
 h1,h2,h3,h4,h5,h6 { font-weight: bold; width: 95%; border-bottom: 1px solid black; }
+h1                { border-bottom: 1px solid  black; }
+   h2             { border-bottom: 1px dotted black; }
+      h3,h4,h5,h6 { width: fit-content; }
   
-/*
-h1, h3, h5 { text-align: left; }
-h2, h4, h6 { text-align: right; }
-*/
-
 #idTableIndex > h2 {
   display: inline;
   width: auto;
@@ -529,6 +526,7 @@ hr[xxl]{
   opacity: 0.7;
   font-size: 0.9em;
   padding: 0.2em;
+  background-color: white;
 }
 @media only screen and (pointer  : coarse) {
  #dbEngineOutput { font-size: 0.7rem; }
