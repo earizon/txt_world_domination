@@ -1,6 +1,25 @@
 # Bugs [[{QA.BUG]]
 
-* pre blocks do not indent properly.
+## pre blocks do not indent properly. 
+* Right now, pre blocks/paragraphs are parsed "asymetrically" respect to other 
+  type of content since rendering is completing different (pre is actually 2-dimensional
+  while anything else is 1-(DOM-tree)-dimensional actually).<br/>
+  Check Python mardown parser as reference. It uses the concept of "sibling" to
+  "join" related pre (paragraphs) into a single block ("unit of information").<br/>
+  <https://github.com/Python-Markdown/markdown/tree/master/markdown>
+  See also pre-processing and post-processing for reference.
+
+* Fix: 
+  ```
+  [[{ $topicA ]]
+  ...
+     [[{$topicB} ]]
+  ...
+  [[  $topicA}]]
+  ```
+  when selecting topicB, topicA must be displayed as "related" topic.
+
+* In "AND" mode selecting a "topic.*" does not work.
 
 [[QA.BUG}]] 
 
@@ -14,10 +33,10 @@
 
 * For example, allow a given tag to be added to all internal paragraphs.
   ```
-  [[{common.tag+]]
-  paragraph 1 [[{tag1}]]  <·· common.tag automatically added
-  paragraph 2 [[{tag2}]]  <·· common.tag automatically added
-  [[common.tag-}]]
+  [[{$ common.tag+]]
+  paragraph 1 [[{$ tag1}]]  <·· common.tag automatically added
+  paragraph 2 [[{$ tag2}]]  <·· common.tag automatically added
+  [[$ common.tag-}]]
   ```
 [[QA.UX}]]
 
@@ -25,7 +44,7 @@
 * This will allow for sequence/BPML/Gantt/... diagrams "for free".
 [[QA.UX}]]
 
-## Encryption support [[{security]]
+## Encryption support [[{security.secret_mng,use_case.privacy]]
 * Allow to publish encrypted content in public pages.
 * Ideally encrypted content is not displayed to "recipients"
   without the proper "cryptographic artifacts". For example,
@@ -33,16 +52,16 @@
   key will show the content.
 * Consider also support for 
   [Bell LaPadula security model](https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model)
-[[security}]]
+[[security.secret_mng}]]
 
 ## Custom 'highlight' tags?  [[{QA.UX]]
 * sort of  'lightweight" markdown extensions for common "highlighting" patterns. 
   * Example:
     ```
-    - Risk         : eg: Rº** some risk **
-    - WARN         : eg: Wº** some warning **
-    - Keypoint     : eg: Kº** some keypoint **
-    - Tip/Reminder : eg: Tº** some reminder **
+    | - Risk         : eg: Rº** some risk **
+    | - WARN         : eg: Wº** some warning **
+    | - Keypoint     : eg: Kº** some keypoint **
+    | - Tip/Reminder : eg: Tº** some reminder **
     ```
   * Ummm, the fewer non-standard extensions the best.
   * Comment: Maybe this just maps to translating to a set of common and 
@@ -62,4 +81,7 @@
   NOTE: It looks to "just" render the index with arrows, visually appealing but not very
    useful. There is no way to "walk in a graph".
 [[QA.UX}]]
+
+## Support for Observable Framework:
+* <https://observablehq.com/framework/>
 [[PM.backlog}]]
