@@ -106,6 +106,9 @@ class ControlPanel extends Component {
         this.setState ( { timerHideCtrPanel   : 0 } );
       }
     }
+    reloadContent = () => {
+      this.componentDidMount();
+    }
     switchSettingsView = () => {
         this.resetHideCtrPanelTimeout()
         const newState =  !this.state.showSettings;
@@ -398,6 +401,10 @@ class ControlPanel extends Component {
               <span class="button fixedMenuButton ${this.state.showSettings?'selected':''}" 
                     onClick=${() => this.switchSettingsView()} 
                     id="settingsButton">⚙</span>
+              <span class="button fixedMenuButton                                         " 
+                    onClick=${() => this.reloadContent()} 
+                    id="settingsButton">R</span>
+
            </div>
        `
        );
