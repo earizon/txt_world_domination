@@ -21,6 +21,49 @@
   font-family:'source_code_pro',monospace, console;
   font-size:1em;
 }
+
+hr {
+    line-height: 3em;
+}
+
+book { 
+  display: inline-block;
+  margin: 1em;
+  border-bottom: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 40ch;
+  vertical-align: top;
+  background-color: #FFF;
+}
+book > description { display: block; }
+book > chapters {
+  display: block;
+  padding-left: 1em;
+  padding-bottom: 2em;
+  border-left: 1px; 
+  max-width: 70em;
+}
+a { white-space: nowrap; }
+
+
+main_page_title {
+  font-family: 'dragon_is_comingregular';
+  text-align: center;
+  width: auto;
+  display: inline-block;
+  font-family: sans;
+  letter-spacing: -1px;
+  font-size: 30px;
+  border-bottom: 1px solid gray;
+}
+
+body {
+    margin: 1em 4ch 1em 4ch;
+    box-shadow: #232 5px 12px 17px;
+    background-color: #EEE;
+}
+
+
 </style>
 <script>
 const doTextPreProcessing = function () {
@@ -35,92 +78,54 @@ const doTextPreProcessing = function () {
    N.innerHTML = H
 }
 window.addEventListener('load', doTextPreProcessing )
+
 </script>
     </head>
 <body>
 
+<div>
+<main_page_title>TXT World domination Final Battle</main_page_title>
+</div>
+
 <div id="id_mainText">
-<h2>TXT World domination Final Battle</h2>
 
 <ul>
     <li><a href="./viewer.html?payload=test.payload">with some testing just in case</a></li>
     <li><a href="./viewer.html?payload=TODO.txt">and a planning of TO-DO tasks</a></li>
     <li><a href="./viewer.html?payload=ADR.md">and some Architecture Decission Records</a></li>
 </ul>
-<hr/>
-● Web Technologies
-[HTTP State Management ("Cookies")](./viewer.html?payload=../WebTechnologies/cookies_state_management.txt),&nbsp;&nbsp;
-[angular](./viewer.html?payload=../WebTechnologies/angular_ALL.payload),&nbsp;&nbsp; <br/>
-[typescript](./viewer.html?payload=../WebTechnologies/typescript.txt),&nbsp;&nbsp; <br/>
- &nbsp;&nbsp;NOTE: many other topics are Work in progress:<br/>
- &nbsp;&nbsp;&nbsp;&nbsp; (API management, bundlers, CSS, data 
-  visualization, HAPPI framework, JS alternatives, PWA, multimedia, 
-  NodeJS, react/preact, SEO positioning and monetization, static site 
-  generators, Typescript, WASM, WebGPU, ...).<br/>
- <a href="https://github.com/earizon/txt_world_domination/issues" target="_blank">Open an Issue</a>
- to vote for the next topic to include.
 
-<hr/>
-<p>
-● GOLang
-[ALL](./viewer.html?payload=../GOLang/ALL.payload), &nbsp;&nbsp;
-[101](./viewer.html?payload=../GOLang/notes.txt),               &nbsp;&nbsp;
-[Functional with lo](./viewer.html?payload=../GOLang/functional_Samber_lo.md), &nbsp;&nbsp;
-[Cheat Sheet](./viewer.html?payload=../GOLang/cheat_sheet.txt),         &nbsp;&nbsp;
-[vim plugin](./viewer.html?payload=../GOLang/vim_plugin.txt),          &nbsp;&nbsp;
-[Kala](./viewer.html?payload=../GOLang/kala.txt),                &nbsp;&nbsp;
-[Modules](./viewer.html?payload=../GOLang/go_ref_mod.txt),          &nbsp;&nbsp;
-[TODO](./viewer.html?payload=../GOLang/TODO.txt),                &nbsp;&nbsp;
-
-</p>
-
-<!-- 
-<p>
-<br/>&nbsp;&nbsp;
-[General](./viewer.html?payload=../WebTechnologies/notes.txt)
-<br/>&nbsp;&nbsp;
-Client Side:
-[javascript](./viewer.html?payload=../WebTechnologies/javascript.txt)
-[CSS](./viewer.html?payload=../WebTechnologies/CSS.txt)
-[react](./viewer.html?payload=../WebTechnologies/react.txt)
-<br/>&nbsp;&nbsp;
-Server side:
-[gRPC](./viewer.html?payload=../WebTechnologies/gRPC.txt)
-[API_management](./viewer.html?payload=../WebTechnologies/API_management.txt)
-</p>
-<hr/>
-
-<p>
-● Cloud:
-  [AWS](./viewer.html?payload=../AWS/notes.txt)   [Azure](./viewer.html?payload=../Azure/notes.txt)
-</p>
-<hr/>
--->
-
-<p>
-● Android:
-  [ALL](./viewer.html?payload=../Android/ALL.payload)
-  [basics](./viewer.html?payload=../Android/notes.txt)
-  [persistence](./viewer.html?payload=../Android/persistence.txt)
-  [GUI](./viewer.html?payload=../Android/GUI.txt)
-  [GUI Jetpack](./viewer.html?payload=../Android/GUI_jetpack.txt)
-  [GUI Mavericks](./viewer.html?payload=../Android/GUI_mavericks.txt)
-  [Identity Credential Store](./viewer.html?payload=../Android/security_identity_credential_store.txt)
-  [Keystore](./viewer.html?payload=../Android/security_keystore.txt)
-  [Firebase](./viewer.html?payload=../Android/cloud_firebase.txt)
-  [Media Player](./viewer.html?payload=../Android/media_player.txt)
-  [What's New](./viewer.html?payload=../Android/whats_new.txt)
-  [JNI](./viewer.html?payload=../Android/JNI_C.txt)
-  [TODO](./viewer.html?payload=../Android/TODO.txt)
-</p>
-<hr/>
 
 <hr/>
 
-<p>
-● JAVA:[ALL content](./viewer.html?payload=../JAVA/ALL.payload)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
-  General: 
+<book>
+  <description> Cryptography </description>
+  <chapters>
+  [ALL](./viewer.html?payload=../cryptography/ALL.payload)&nbsp;&nbsp;
+  [101](./viewer.html?payload=../cryptography/101.payload)&nbsp;&nbsp;
+  [Advanced Primitives](./viewer.html?payload=../cryptography/advanced_primitives.txt)&nbsp;&nbsp;
+  [Data Integrity and Protection](./viewer.html?payload=../cryptography/data_integrity_and_protection.txt)&nbsp;&nbsp;
+  [TLS protocol](./viewer.html?payload=../cryptography/protocol_TLS.txt)&nbsp;&nbsp;
+  [PKCS standards](./viewer.html?payload=../cryptography/PKCS_standard.txt)&nbsp;&nbsp;
+  [XML Signatures](./viewer.html?payload=../cryptography/XML_Signatures.txt)&nbsp;&nbsp;
+  [JWT JWS JOSE](./viewer.html?payload=../Identity/JWT_JWS_JOSE.txt)&nbsp;&nbsp;
+  [Vaults & HSMs](./viewer.html?payload=../Identity/vaults_and_HSMs.txt)&nbsp;&nbsp;
+  [Smart Cards](./viewer.html?payload=../Identity/smartcards.txt)&nbsp;&nbsp;
+  [Azure_Sphere(IoT)](./viewer.html?payload=../Identity/IoT_azure_sphere.txt)&nbsp;&nbsp;
+  [openssl](./viewer.html?payload=../cryptography/openssl.txt)&nbsp;&nbsp;
+  [openPGP protocol](./viewer.html?payload=../cryptography/opengpg.txt)&nbsp;&nbsp;
+  [Smart Cards](./viewer.html?payload=../cryptography/IoT_smart_cards.txt)&nbsp;&nbsp;
+  [java crypto](./viewer.html?payload=../cryptography/java_cryptography.txt)&nbsp;&nbsp;
+  [Who is Who](./viewer.html?payload=../cryptography/who-is-who.txt)&nbsp;&nbsp;
+  <chapters>
+</book>
+
+<hr/>
+
+<book>
+  <description>JAVA Core</description>
+  <chapters>
+  [ALL content](./viewer.html?payload=../JAVA/ALL.payload)&nbsp;&nbsp;
   [Basics](./viewer.html?payload=../JAVA/101.txt)&nbsp;&nbsp;
   [Functional](./viewer.html?payload=../JAVA/functional_java.txt)&nbsp;&nbsp;
   [Collections](./viewer.html?payload=../JAVA/Collections.txt)&nbsp;&nbsp;
@@ -134,56 +139,164 @@ Server side:
   [Async/Reactive](./viewer.html?payload=../JAVA/async_reactive.txt)&nbsp;&nbsp;
   [debug&profiling](./viewer.html?payload=../JAVA/debug_and_profiling.txt)&nbsp;&nbsp;
   [concurrent_prog](./viewer.html?payload=../JAVA/concurrent_programming.txt)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
-  Frameworks/Libs:
-  [Learning-Spring-Boot-3.0-Third-Edition Summary](./viewer.html?payload=../JAVA/Learning-Spring-Boot-3.0-Third-Edition/notes.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>JAVA Frameworks/Libs</description>
+  <chapters>
+  [Learning Spring Boot 3.0 3rd Ed.Summary](./viewer.html?payload=../JAVA/Learning-Spring-Boot-3.0-Third-Edition/notes.txt)&nbsp;&nbsp;
   [Guava](./viewer.html?payload=../JAVA/Google_guava.txt)&nbsp;&nbsp;
   [vertx](./viewer.html?payload=../JAVA/vertx.txt)&nbsp;&nbsp;
   [JEE ("wars")](./viewer.html?payload=../JAVA/jee_war_apps.txt)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
-  CI/CD: [maven](./viewer.html?payload=../JAVA/maven.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>JAVA DevOps</description>
+  <chapters>
+  [maven](./viewer.html?payload=../JAVA/maven.txt)&nbsp;&nbsp;
   [gradle](./viewer.html?payload=../JAVA/gradle.txt)&nbsp;&nbsp;
   [Containerization](./viewer.html?payload=../JAVA/containerization.txt)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
-  Monitorization: [Monitorization](./viewer.html?payload=../JAVA/monitorization.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>JAVA Monitorization</description>
+  <chapters>
+  [Monitorization](./viewer.html?payload=../JAVA/monitorization.txt)&nbsp;&nbsp;
+  [Open Telemetry](./viewer.html?payload=../JAVA/monitorization_opentelemetry.txt)&nbsp;&nbsp;
   [Micrometer](./viewer.html?payload=../JAVA/monitorization_micrometer.txt)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>JAVA JVMs</description>
+  <chapters>
   JVM: [JVM](./viewer.html?payload=../JAVA/JVM.txt)&nbsp;&nbsp;
   [TornadoVM](./viewer.html?payload=../JAVA/TornadoVM.txt)&nbsp;&nbsp;
   [GraalVM](./viewer.html?payload=../JAVA/GraalVM.txt)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
-  Others:
+  </chapters>
+</book>
+
+<book>
+  <description>JAVA Non Classified / TODOs</description>
+  <chapters>
   [What's new](./viewer.html?payload=../JAVA/whats_new.txt)&nbsp;&nbsp;
   [TODO](./viewer.html?payload=../JAVA/TODO.txt)&nbsp;&nbsp;
   [VertX](./viewer.html?payload=../JAVA/vertx.txt)&nbsp;&nbsp;
   [Who is Who](./viewer.html?payload=../JAVA/who_is_who.txt)&nbsp;&nbsp;
-</p>
+  </chapters>
+</book>
+
 <hr/>
 
-<p>
-● Kotlin:
+<book>
+  <description>Web Technologies</description>
+  <chapters>
+  [HTTP State Management ("Cookies")](./viewer.html?payload=../WebTechnologies/cookies_state_management.txt),&nbsp;&nbsp;
+  [angular](./viewer.html?payload=../WebTechnologies/angular_ALL.payload),&nbsp;&nbsp; <br/>
+  [typescript](./viewer.html?payload=../WebTechnologies/typescript.txt),&nbsp;&nbsp; <br/>
+  </chapters>
+   &nbsp;&nbsp;NOTE: many other topics are Work in progress:<br/>
+   &nbsp;&nbsp;&nbsp;&nbsp; (API management, bundlers, CSS, data 
+    visualization, HAPI framework, JS alternatives, PWA, multimedia, 
+    NodeJS, react/preact, SEO positioning and monetization, static site 
+    generators, Typescript, WASM, WebGPU, ...).<br/>
+   <a href="https://github.com/earizon/txt_world_domination/issues" target="_blank">Open an Issue</a>
+   to vote for the next topic to include.
+</book>
+
+<book>
+  <description>GOLang</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../GOLang/ALL.payload), &nbsp;&nbsp;
+  [101](./viewer.html?payload=../GOLang/notes.txt),               &nbsp;&nbsp;
+  [Functional with lo](./viewer.html?payload=../GOLang/functional_Samber_lo.md), &nbsp;&nbsp;
+  [Cheat Sheet](./viewer.html?payload=../GOLang/cheat_sheet.txt),         &nbsp;&nbsp;
+  [vim plugin](./viewer.html?payload=../GOLang/vim_plugin.txt),          &nbsp;&nbsp;
+  [Kala](./viewer.html?payload=../GOLang/kala.txt),                &nbsp;&nbsp;
+  [Modules](./viewer.html?payload=../GOLang/go_ref_mod.txt),          &nbsp;&nbsp;
+  [TODO](./viewer.html?payload=../GOLang/TODO.txt),                &nbsp;&nbsp;
+  </chapters>
+</book>
+
+<!-- 
+<book>
+<br/>&nbsp;&nbsp;
+[General](./viewer.html?payload=../WebTechnologies/notes.txt)
+<br/>&nbsp;&nbsp;
+Client Side:
+[javascript](./viewer.html?payload=../WebTechnologies/javascript.txt)
+[CSS](./viewer.html?payload=../WebTechnologies/CSS.txt)
+[react](./viewer.html?payload=../WebTechnologies/react.txt)
+<br/>&nbsp;&nbsp;
+Server side:
+[gRPC](./viewer.html?payload=../WebTechnologies/gRPC.txt)
+[API_management](./viewer.html?payload=../WebTechnologies/API_management.txt)
+</book>
+<hr/>
+
+<book>
+● Cloud:
+  [AWS](./viewer.html?payload=../AWS/notes.txt)   [Azure](./viewer.html?payload=../Azure/notes.txt)
+</book>
+<hr/>
+-->
+
+<book>
+  <description>Android (Draft State)</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../Android/ALL.payload)
+  [basics](./viewer.html?payload=../Android/notes.txt)
+  [persistence](./viewer.html?payload=../Android/persistence.txt)
+  [GUI](./viewer.html?payload=../Android/GUI.txt)
+  [GUI Jetpack](./viewer.html?payload=../Android/GUI_jetpack.txt)
+  [GUI Mavericks](./viewer.html?payload=../Android/GUI_mavericks.txt)
+  [Identity Credential Store](./viewer.html?payload=../Android/security_identity_credential_store.txt)
+  [Keystore](./viewer.html?payload=../Android/security_keystore.txt)
+  [Firebase](./viewer.html?payload=../Android/cloud_firebase.txt)
+  [Media Player](./viewer.html?payload=../Android/media_player.txt)
+  [What's New](./viewer.html?payload=../Android/whats_new.txt)
+  [JNI](./viewer.html?payload=../Android/JNI_C.txt)
+  [TODO](./viewer.html?payload=../Android/TODO.txt)
+  </chapters>
+</book>
+
+<book>
+  <description>PostgreSQL (Draft State)</description>
+  <chapters>
+  [ALL Content](./viewer.html?payload=../PostgreSQL/notes.txt)
+  </chapters>
+</book>
+
+<book>
+  <description>Kotlin (Draft State)</description>
+  <chapters>
   [Basics](./viewer.html?payload=../Kotlin/notes.txt)&nbsp;&nbsp;
   [Javalin Web Server](./viewer.html?payload=../Kotlin/javalin.txt)&nbsp;&nbsp;
-  <br/>&nbsp;&nbsp;
-</p>
+  </chapters>
+</book>
 <hr/>
 
-<p>
-● Ethereum:
-[ALL](./viewer.html?payload=../ethereum/ALL.payload)&nbsp;&nbsp;
-[Solidity](./viewer.html?payload=../ethereum/solidity.txt)&nbsp;&nbsp;
-[Tokenization](./viewer.html?payload=../ethereum/tokenization.txt)&nbsp;&nbsp;
-[TO-DO](./viewer.html?payload=../ethereum/TODO.txt)&nbsp;&nbsp;
-<!-- [marketplaces](./viewer.html?payload=../ethereum/marketplaces.txt) -->
-</p>
-<hr/>
-<p>
-● DevOps<br/>&nbsp;&nbsp;
+<book>
+  <description>Ethereum</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../ethereum/ALL.payload)&nbsp;&nbsp;
+  [Solidity](./viewer.html?payload=../ethereum/solidity.txt)&nbsp;&nbsp;
+  [Tokenization](./viewer.html?payload=../ethereum/tokenization.txt)&nbsp;&nbsp;
+  [TO-DO](./viewer.html?payload=../ethereum/TODO.txt)&nbsp;&nbsp;
+  <!-- [marketplaces](./viewer.html?payload=../ethereum/marketplaces.txt) -->
+  </chapters>
+</book>
+
+<book>
+  <description>DevOps</description>
+  <chapters>
                [Git](./viewer.html?payload=../DevOps/git.md) (git)<br/>&nbsp;&nbsp;
        [Linux Admin](./viewer.html?payload=../DevOps/linux.txt)&nbsp;&nbsp;
-           [Generic](./viewer.html?payload=../DevOps/notes.txt) (shell, backups, monitoring, ...)<br/>&nbsp;&nbsp;
+           [Generic](./viewer.html?payload=../DevOps/notes.txt) (shell, backups, monitoring, ...)&nbsp;&nbsp;
   [Containerization](./viewer.html?payload=../DevOps/containerization.md)&nbsp;&nbsp;
-        [PostgreSQL](./viewer.html?payload=../PostgreSQL/notes.txt)
   <!--
  [caddy_http_server](./viewer.html?payload=../DevOps/caddy_http_server.txt)&nbsp;&nbsp;
              [socat](./viewer.html?payload=../DevOps/socat.txt)&nbsp;&nbsp;
@@ -196,9 +309,12 @@ Server side:
               [TODO](./viewer.html?payload=../DevOps/linux_TODO.txt)&nbsp;&nbsp;
                [ALL](./viewer.html?payload=../DevOps/linux_ALL.payload)&nbsp;&nbsp;
   -->
-  <br/>&nbsp;&nbsp;
-<br/>
-● Kubernetes<br/>&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>Kubernetes</description>
+  <chapters>
             [kubernetes](./viewer.html?payload=../kubernetes/notes.txt)&nbsp;&nbsp;
          [cluster setup](./viewer.html?payload=../kubernetes/cluster_setup.txt)&nbsp;&nbsp;
                  [Istio](./viewer.html?payload=../kubernetes/istio.txt)&nbsp;&nbsp;
@@ -207,53 +323,64 @@ Server side:
             [Core Types](./viewer.html?payload=../kubernetes/kubernetes_core_v1_types.go.txt)&nbsp;&nbsp;
 [Understanding the code](./viewer.html?payload=../kubernetes/understanding_the_code.txt)&nbsp;&nbsp;
 -->
-</p>
-<hr/>
+  </chapters>
+</book>
 
-<p>
-● Software Architecture:
- [ALL](./viewer.html?payload=../SoftwareArchitecture/ALL.payload)&nbsp;&nbsp;
- [ddbb_engines](./viewer.html?payload=../SoftwareArchitecture/ddbb_engines.txt)&nbsp;&nbsp;
- [kafka](./viewer.html?payload=../SoftwareArchitecture/kafka.txt)&nbsp;&nbsp;
- [Camel_ESB](./viewer.html?payload=../SoftwareArchitecture/camel_esb.txt)&nbsp;&nbsp;
-</p>
-<hr/>
-<p>
-● Identity
-[SSI ALL](./viewer.html?payload=../Identity/SSI/ALL.payload)&nbsp;&nbsp;
-[EUIDW ALL](./viewer.html?payload=../Identity/SSI/EuropeID/ALL.payload)&nbsp;&nbsp;
-[OIDC4VCI draft10](./viewer.html?payload=../Identity/SSI/OIDC4VCI_draft10.txt)&nbsp;&nbsp;
-[OIDC4VCI](./viewer.html?payload=../Identity/SSI/OIDC4VCI.txt)&nbsp;&nbsp;
-[OAuth+OIDC](./viewer.html?payload=../Identity/OAuth_OpenIDConnect.txt)&nbsp;&nbsp;
-[KeyCloak](./viewer.html?payload=../Identity/keycloak.txt)&nbsp;&nbsp;
-[DEX](./viewer.html?payload=../Identity/DEX.txt)&nbsp;&nbsp;
-[SAML](./viewer.html?payload=../Identity/SAML.txt)&nbsp;&nbsp;
-[ALL](./viewer.html?payload=../Identity/ALL.payload)&nbsp;&nbsp;
-<hr/>
-● Cryptography
-[ALL](./viewer.html?payload=../cryptography/ALL.payload)&nbsp;&nbsp;
-[java crypto](./viewer.html?payload=../cryptography/java_cryptography.txt)&nbsp;&nbsp;
-<hr/>
-<p>
-● IoT
-[ALL](./viewer.html?payload=../IoT/ALL.payload)&nbsp;&nbsp;
-[101](./viewer.html?payload=../IoT/101.txt)&nbsp;&nbsp;
-[network protocols](./viewer.html?payload=../IoT/network_protocols.txt)&nbsp;&nbsp;
-[OSes and dev.stacks](./viewer.html?payload=../IoT/IoT_OSes_and_dev_stacks.txt)&nbsp;&nbsp;
-[hardware network](./viewer.html?payload=../IoT/IoT_hardware_network.txt)&nbsp;&nbsp;
-[hardware network_5G](./viewer.html?payload=../IoT/IoT_hardware_network_5G.txt)&nbsp;&nbsp;
-[hardware storage](./viewer.html?payload=../IoT/IoT_hardware_storage.txt)&nbsp;&nbsp;
-[hardware network_antennas](./viewer.html?payload=../IoT/IoT_hardware_network_antennas.txt)&nbsp;&nbsp;
-[hardware ESP](./viewer.html?payload=../IoT/IoT_hardware_ESP.txt)&nbsp;&nbsp;
-[hardware STM32](./viewer.html?payload=../IoT/IoT_hardware_STM32.txt)&nbsp;&nbsp;
-[hardware STMicroelectronics](./viewer.html?payload=../IoT/IoT_hardware_STMicroelectronics.txt)&nbsp;&nbsp;
-[hardware Displays](./viewer.html?payload=../IoT/IoT_hardware_Displays.txt)&nbsp;&nbsp;
-[hardware sensors](./viewer.html?payload=../IoT/IoT_hardware_sensors.txt)&nbsp;&nbsp;
-[motherboards](./viewer.html?payload=../IoT/IoT_motherboards.txt)&nbsp;&nbsp;
-[robotics](./viewer.html?payload=../IoT/robotics.txt)&nbsp;&nbsp;
-[TODO](./viewer.html?payload=../IoT/TODO.txt)&nbsp;&nbsp;
+<book>
+  <description>Software Architecture</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../SoftwareArchitecture/ALL.payload)&nbsp;&nbsp;
+  [ddbb_engines](./viewer.html?payload=../SoftwareArchitecture/ddbb_engines.txt)&nbsp;&nbsp;
+  [kafka](./viewer.html?payload=../SoftwareArchitecture/kafka.txt)&nbsp;&nbsp;
+  [Camel_ESB](./viewer.html?payload=../SoftwareArchitecture/camel_esb.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>Identity</description>
+  <chapters>
+  [SSI ALL](./viewer.html?payload=../Identity/SSI/ALL.payload)&nbsp;&nbsp;
+  [EUIDW ALL](./viewer.html?payload=../Identity/SSI/EuropeID/ALL.payload)&nbsp;&nbsp;
+  [OIDC4VCI draft10](./viewer.html?payload=../Identity/SSI/OIDC4VCI_draft10.txt)&nbsp;&nbsp;
+  [OIDC4VCI](./viewer.html?payload=../Identity/SSI/OIDC4VCI.txt)&nbsp;&nbsp;
+  [OAuth+OIDC](./viewer.html?payload=../Identity/OAuth_OpenIDConnect.txt)&nbsp;&nbsp;
+  [KeyCloak](./viewer.html?payload=../Identity/keycloak.txt)&nbsp;&nbsp;
+  [DEX](./viewer.html?payload=../Identity/DEX.txt)&nbsp;&nbsp;
+  [SAML](./viewer.html?payload=../Identity/SAML.txt)&nbsp;&nbsp;
+  [ISO](./viewer.html?payload=../Identity/ISO.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>IoT</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../IoT/ALL.payload)&nbsp;&nbsp;
+  [101](./viewer.html?payload=../IoT/101.txt)&nbsp;&nbsp;
+  [network protocols](./viewer.html?payload=../IoT/network_protocols.txt)&nbsp;&nbsp;
+  [OSes and dev.stacks](./viewer.html?payload=../IoT/IoT_OSes_and_dev_stacks.txt)&nbsp;&nbsp;
+  [hardware network](./viewer.html?payload=../IoT/IoT_hardware_network.txt)&nbsp;&nbsp;
+  [hardware network_5G](./viewer.html?payload=../IoT/IoT_hardware_network_5G.txt)&nbsp;&nbsp;
+  [hardware storage](./viewer.html?payload=../IoT/IoT_hardware_storage.txt)&nbsp;&nbsp;
+  [hardware network_antennas](./viewer.html?payload=../IoT/IoT_hardware_network_antennas.txt)&nbsp;&nbsp;
+  [hardware ESP](./viewer.html?payload=../IoT/IoT_hardware_ESP.txt)&nbsp;&nbsp;
+  [hardware STM32](./viewer.html?payload=../IoT/IoT_hardware_STM32.txt)&nbsp;&nbsp;
+  [hardware STMicroelectronics](./viewer.html?payload=../IoT/IoT_hardware_STMicroelectronics.txt)&nbsp;&nbsp;
+  [hardware Displays](./viewer.html?payload=../IoT/IoT_hardware_Displays.txt)&nbsp;&nbsp;
+  [hardware sensors](./viewer.html?payload=../IoT/IoT_hardware_sensors.txt)&nbsp;&nbsp;
+  [motherboards](./viewer.html?payload=../IoT/IoT_motherboards.txt)&nbsp;&nbsp;
+  [robotics](./viewer.html?payload=../IoT/robotics.txt)&nbsp;&nbsp;
+  [TODO](./viewer.html?payload=../IoT/TODO.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>Python (Draft State)</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../PYTHON/ALL.payload)&nbsp;&nbsp;
+  </chapters>
+</book>
+
 <!--
-[Python](./viewer.html?payload=../PYTHON/notes.txt)&nbsp;&nbsp;
 [C/C++](./viewer.html?payload=../CLang/notes.txt)&nbsp;&nbsp;
 [Security](./viewer.html?payload=../Security/notes.txt)&nbsp;&nbsp;
 -->
