@@ -126,3 +126,41 @@ Next features come for free:
 * [Cryptography notes](https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt)
 * [Software Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../SoftwareArchitecture/ALL.payload)
 * [PostgreSQL Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../PostgreSQL/notes.txt)
+
+## Taking and classifying notes "vs" LLM AI
+
+* Why taking notes in the era of Machine Learning and Large Language Models.
+
+Simply puts. They complement each other:
+
+  AI responses are just stochastic answers. They look to make sense, but
+they completely ignore the real world outside its "buffer" context.
+
+ When taking notes we can just "reuse" the knowledge of experts posting in
+magazines, research papers, reddit, coffee chats, ...
+
+ AI works "fine" when applied to limited contexts, for example, basic
+programming tasks or (not so basic) math-like tasks with a well defined set
+and operations (algebraic problems, chess-like problems, ...). 
+
+I work in the software development world. Let me summarize my experience:
+
+ - When asking AI bots about some well defined programming code, it works. Really Nice! 
+ - When asking AI bots about some blur administration task related to 
+   operation of systems with many opinionated tools, undefined context, 
+   competing companies shelling overlapping products, ... **AI miserably 
+   fails**.
+
+  On the other side, when taking notes from experts we can tag 
+competing products, highlight pros/cons, take cheat-sheets, annotate 
+with use-cases, pending features, stuff like that.<br/>
+  We can fetch some "information" and complete some previous note 
+(maybe written 4 years ago) so that content that was incomplete starts
+to "make sense". Finally, we can take much more sensible decisions.
+
+ It's possible through advanced prompt-engineering to make AI return 
+sensible answers .. **but advanced prompt-engineering is way more difficult
+and time consuming that just taking and classifying notes**.
+ In fact, I would say that taking and classifying notes, **creating a
+well defined and stable taxonomy is a "MUST" for "advanced" prompt-engineering**.
+
