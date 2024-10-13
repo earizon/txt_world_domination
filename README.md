@@ -127,25 +127,25 @@ Next features come for free:
 * [Software Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../SoftwareArchitecture/ALL.payload)
 * [PostgreSQL Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../PostgreSQL/notes.txt)
 
-## Taking and classifying notes "vs" LLM AI
+## Taking and classifying notes "vs" LLM AI and prompt Engineering
 
-* Why taking notes in the era of Machine Learning and Large Language Models.
+Why taking notes in the era of Machine Learning and Large Language Models?
 
-Simply puts. They complement each other:
+Simply put. They complement each other:
 
-  AI responses are just stochastic answers. They look to make sense, but
+- LLM responses are just stochastic answers. They look to make sense, but
 they completely ignore the real world outside its "buffer" context.
-
- When taking notes we can just "reuse" the knowledge of experts posting in
+- When taking notes we can just "reuse" the knowledge of experts posting in
 magazines, research papers, reddit, coffee chats, ...
 
- AI works "fine" when applied to limited contexts, for example, basic
-programming tasks or (not so basic) math-like tasks with a well defined set
-and operations (algebraic problems, chess-like problems, ...). 
+ AI works "fine" when applied to limited (not necesarely small) contexts,
+for example, basic programming tasks or (not so basic) math-like tasks with
+a well defined set and operations (algebraic problems, chess-like problems, ...). 
 
 I work in the software development world. Let me summarize my experience:
 
- - When asking AI bots about some well defined programming code, it works. Really Nice! 
+ - When asking AI bots about some well defined programming code, it works. 
+   Really Nice! 
  - When asking AI bots about some blur administration task related to 
    operation of systems with many opinionated tools, undefined context, 
    competing companies shelling overlapping products, ... **AI miserably 
@@ -164,3 +164,27 @@ and time consuming that just taking and classifying notes**.
  In fact, I would say that taking and classifying notes, **creating a
 well defined and stable taxonomy is a "MUST" for "advanced" prompt-engineering**.
 
+ We can ask an LLM bot about solving a task and many times it will work.
+Some questions arise:
+
+  * how do we know that we are asking the correct question in first place?
+    **Maybe the LLM ends up given the correct answer to the wrong question**.
+  * how do we know that an answer was the best answer?.
+  * Will the proposed solution evolve with time?.
+  * Is there some other area of knowledge, technology, standard or
+    trending are that also works and maybe was better in the long 
+    term?.
+
+ We are asking the LLM because we ignore the solution in first place,
+so we probably ignore alternative solutions and probably we ignore 
+many other things (remember the **risk of the unknown unknowns**.).
+If we take notes about related tasks, and related alternatives for 
+similar problems, we can now add such information to our prompt and 
+we can also consider filling with "orthogonal" aspects (QA, security, 
+standarization, best patterns, ...). In this way we help the LLM to 
+reduce the problem dimensionality and our prompt will be a much more 
+efficient prompt.
+
+ Needeless to say, an LLM can also help us to design our taxonomy by
+suggesting topics and subtopics. In that sense, both systems can feed
+each other in an infinite loop. Great, isn't it?
