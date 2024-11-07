@@ -39,9 +39,9 @@ book > description { display: block; }
 book > chapters {
   display: block;
   padding-left: 1em;
-  padding-bottom: 2em;
-  border-left: 1px; 
+  padding-bottom: 1em;
   max-width: 70em;
+  outline: 1px solid gray;
 }
 a { white-space: nowrap; }
 
@@ -237,12 +237,23 @@ Server side:
 </book>
 <hr/>
 
-<book>
-● Cloud:
-  [AWS](./viewer.html?payload=../AWS/notes.txt)   [Azure](./viewer.html?payload=../Azure/notes.txt)
-</book>
-<hr/>
 -->
+<book>
+  <description>AWS</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../AWS/ALL.payload)
+  </chapters>
+</book>
+
+<!--
+<book>
+  <description>Azure</description>
+  <chapters>
+   [Azure](./viewer.html?payload=../Azure/notes.txt)
+  </chapters>
+</book>
+-->
+<hr/>
 
 <book>
   <description>Android (Draft State)</description>
@@ -266,9 +277,28 @@ Server side:
 <book>
   <description>PostgreSQL (Draft State)</description>
   <chapters>
-  [ALL Content](./viewer.html?payload=../PostgreSQL/notes.txt)
+  [ALL Content](./viewer.html?payload=../PostgreSQL/ALL.payload)
+  [101](./viewer.html?payload=../PostgreSQL/101.txt)
+  [101 bootstrap](./viewer.html?payload=../PostgreSQL/101_bootstrap.txt)
+  [101 network](./viewer.html?payload=../PostgreSQL/101_network.txt  )
+  [101 profiling](./viewer.html?payload=../PostgreSQL/101_profiling.txt)
+  [101 security](./viewer.html?payload=../PostgreSQL/security_101.txt)
+  [pg_file_settings](./viewer.html?payload=../PostgreSQL/devops_pg_file_settings.txt)
+  [postgresql.conf](./viewer.html?payload=../PostgreSQL/devops_postgresql.conf.txt )
+
+
+
+
   </chapters>
 </book>
+
+<book>
+  <description>Oracle (Draft State)</description>
+  <chapters>
+  [ALL Content](./viewer.html?payload=../OracleDDBB/ALL.payload)
+  </chapters>
+</book>
+
 
 <book>
   <description>Kotlin (Draft State)</description>
@@ -292,7 +322,9 @@ Server side:
 <book>
   <description>DevOps</description>
   <chapters>
-               [Git](./viewer.html?payload=../DevOps/git.md) (git)<br/>&nbsp;&nbsp;
+       [Git](./viewer.html?payload=../DevOps/git.md) (git)<br/>&nbsp;&nbsp;
+  </chapters>
+  <chapters>
        Linux ...
        [... "ALL"](./viewer.html?payload=../DevOps/linux_ALL.payload)&nbsp;&nbsp;
        [... basic](./viewer.html?payload=../DevOps/linux.txt              )&nbsp;&nbsp;
@@ -309,9 +341,16 @@ Server side:
        [... kernel](./viewer.html?payload=../DevOps/linux_kernel.txt)&nbsp;&nbsp;
        [... alternatives](./viewer.html?payload=../DevOps/linux_kernel_alternatives.txt)&nbsp;&nbsp;
        [... TODO](./viewer.html?payload=../DevOps/linux_TODO.txt)&nbsp;&nbsp;<br/>
-
-           [Generic](./viewer.html?payload=../DevOps/notes.txt) (shell, backups, monitoring, ...)&nbsp;&nbsp;
-  [Containerization](./viewer.html?payload=../DevOps/containerization_ALL.payload)&nbsp;&nbsp;
+  </chapters>
+  <chapters>
+       Various ...
+       [BASH](./viewer.html?payload=../DevOps/devops_bash.txt)&nbsp;&nbsp;
+       [CURL](./viewer.html?payload=../DevOps/devops_curl.txt)&nbsp;&nbsp;
+       [Monitoring](./viewer.html?payload=../DevOps/devops_monitoring.txt)&nbsp;&nbsp;
+       [Networking](./viewer.html?payload=../DevOps/devops_networking.txt)&nbsp;&nbsp;
+       [yaml 101](./viewer.html?payload=../DevOps/devops_yaml.txt)&nbsp;&nbsp;
+       <br/>&nbsp;&nbsp;
+       [Containerization](./viewer.html?payload=../DevOps/containerization_ALL.payload)&nbsp;&nbsp;
   <!--
  [caddy_http_server](./viewer.html?payload=../DevOps/caddy_http_server.txt)&nbsp;&nbsp;
              [socat](./viewer.html?payload=../DevOps/socat.txt)&nbsp;&nbsp;
@@ -330,7 +369,8 @@ Server side:
 <book>
   <description>Kubernetes</description>
   <chapters>
-            [kubernetes](./viewer.html?payload=../kubernetes/notes.txt)&nbsp;&nbsp;
+            [kubernetes](./viewer.html?payload=../kubernetes/ALL.payload)&nbsp;&nbsp;
+           [helm charts](./viewer.html?payload=../kubernetes/application_helm_charts.txt)&nbsp;&nbsp;
          [cluster setup](./viewer.html?payload=../kubernetes/cluster_setup.txt)&nbsp;&nbsp;
                  [Istio](./viewer.html?payload=../kubernetes/istio.txt)&nbsp;&nbsp;
 <!--
