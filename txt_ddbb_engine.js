@@ -333,42 +333,45 @@ class TXTDBEngine {
       }
     }
 
-    constructor( url_txt_source_csv ) {
+    constructor( URL_SOURCE ) {
       this.base_url = document.location.href
                        .replace(document.location.search,"")
                        .replace(/[/][^/]*[?]?$/,"")
       this.topicsDB         = new TopicBlockDB();
-      this.url_txt_source_csv = url_txt_source_csv
+      this.URL_SOURCE = URL_SOURCE
+    }
+
+    async url2PayloadPromiseList(url_txt_source) {
+      if (!url_txt_source.endsWith(".payload")){
+        return url_txt_source
+      } else {
+        /*
+         * url_txt_source will be like:
+         * ../../../XXXX.payload
+         *               └─────┴─ Identify file as payload (list of other files)
+         *          └──────────┴─ doesn't matter.
+         * └───────┴─ base 
+         */
+        const base = url_txt_source.split("/").slice(0,-1).join("/")
+        const regexReplaceCommentsInPayload = new RegExp("[ \t]*(//|#).*$", '' /*flags */);
+        const thisPtr = this
+        const payload_l = (await this
+                       .fetchPayload(url_txt_source)) // Get txt with file (payload) list
+                       .split(/\n/g)                  // split lines into array
+                       .map(line => line.replace(regexReplaceCommentsInPayload,"")) 
+                       .filter(line => !!line)
+                       .map(async (line) => {
+                           return line.endsWith(".payload")
+                           ? await Promise.all( await thisPtr.url2PayloadPromiseList(`${base}/${line}`) )
+                           : `${base}/${line}`
+                       })
+         return payload_l
+      }
     }
 
     async init() {
-      const regexReplaceCommentsInPayload = new RegExp("[ \t]*(//|#).*$", '' /*flags */);
-      this.url_txt_source_csv = (await Promise.all(
-        this.url_txt_source_csv.split(",")
-        .map(async (url_txt_source) => {
-          if (!url_txt_source.endsWith(".payload")){
-            return url_txt_source
-          } else {
-            /*
-             * url_txt_source will be like:
-             * ../../../XXXX.payload
-             *               └─────┴─ Identify file as payload (list of other files)
-             *          └──────────┴─ doesn't matter.
-             * └───────┴─ base 
-             */
-            const base = url_txt_source.split("/").slice(0,-1).join("/")
-            const payload_l = (await this
-                           .fetchPayload(url_txt_source)) // Get txt with file (payload) list
-                           .split(/\n/g)                  // split lines into array
-                           .map(line => line.replace(regexReplaceCommentsInPayload,"")) 
-                           .filter(line => !!line)
-                           .map(line => `${base}/${line}`)
-             return payload_l
-          }
-        }
-        )
-      )).flat().join(",")
-      this.url_txt_source_l = this.url_txt_source_csv.split(",")
+      const txt_csv_list =  (await Promise.all( await this.url2PayloadPromiseList(this.URL_SOURCE))).flat()
+      this.url_txt_source_l = txt_csv_list
            .map( (url_txt_source) =>
                   url_txt_source.startsWith("http")
                 ? new URL(url_txt_source)
