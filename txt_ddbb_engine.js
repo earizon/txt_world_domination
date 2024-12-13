@@ -2,7 +2,7 @@
 import {parseMD2HTML} from "./lightmarkdown.js";
 
 const debug_topics_101=false
-const debug_fetch=false
+const debug_fetch=true
 const debug_topic_proximity=true
 
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
@@ -343,7 +343,7 @@ class TXTDBEngine {
 
     async url2PayloadPromiseList(url_txt_source) {
       if (!url_txt_source.endsWith(".payload")){
-        return url_txt_source
+        return [ url_txt_source ]
       } else {
         /*
          * url_txt_source will be like:
@@ -371,12 +371,15 @@ class TXTDBEngine {
 
     async init() {
       const txt_csv_list =  (await Promise.all( await this.url2PayloadPromiseList(this.URL_SOURCE))).flat()
+console.dir(txt_csv_list) ; alert(1)
       this.url_txt_source_l = txt_csv_list
            .map( (url_txt_source) =>
                   url_txt_source.startsWith("http")
                 ? new URL(url_txt_source)
                 : new URL(`${this.base_url}/${url_txt_source}`)
            )
+
+console.dir(this.url_txt_source_l) ; alert(2)
 
       this.relative_path_l = this.url_txt_source_l
                              .map( (url_txt_source) => {
