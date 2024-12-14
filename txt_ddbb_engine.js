@@ -2,8 +2,8 @@
 import {parseMD2HTML} from "./lightmarkdown.js";
 
 const debug_topics_101=false
-const debug_fetch=true
-const debug_topic_proximity=true
+const debug_fetch=false
+const debug_topic_proximity=false
 
 class TopicCoordinate { //                                                      [{][[class.topicCoordinate]][[data_structure]]
     static id2Instance = {}
@@ -252,7 +252,14 @@ class TXTDBEngine {
             return
           } else { 
             txt_loadOK_l.push({ href: url})
-            resolve( xhr.responseText )
+            const responseText = (
+                    url.toLowerCase().endsWith(".payload" ) ||
+                    url.toLowerCase().endsWith(".md" )      ||
+                    url.toLowerCase().endsWith(".txt")      ||
+                    url.toLowerCase().endsWith(".svg") )
+                  ? xhr.responseText 
+                  : "<hr/>```"+`${url}\n${xhr.responseText}`+"```"
+            resolve( responseText )
           }
         }
         xhr.send()
@@ -341,8 +348,15 @@ class TXTDBEngine {
       this.URL_SOURCE = URL_SOURCE
     }
 
+    /**
+     * If the url contains payload, return (recursively) the list of files 
+     * pointed in payload. (the promise actually)
+     * Otherwise, return the url as is.
+     * NOTE: txt file can be a markdown, or any other text file (source code, ...)
+     */ 
     async url2PayloadPromiseList(url_txt_source) {
       if (!url_txt_source.endsWith(".payload")){
+console.dir([ url_txt_source ]);
         return [ url_txt_source ]
       } else {
         /*
@@ -365,22 +379,29 @@ class TXTDBEngine {
                            ? await Promise.all( await thisPtr.url2PayloadPromiseList(`${base}/${line}`) )
                            : `${base}/${line}`
                        })
-         return payload_l
+         return payload_l.flat()
       }
     }
 
     async init() {
-      const txt_csv_list =  (await Promise.all( await this.url2PayloadPromiseList(this.URL_SOURCE))).flat()
-console.dir(txt_csv_list) ; alert(1)
-      this.url_txt_source_l = txt_csv_list
+      const url_tree = await Promise.all( await this.url2PayloadPromiseList(this.URL_SOURCE))
+      const url_list_with_dups = url_tree.filter(it => { return it.length>0 }).flat()
+      /*
+       * url_list_with_dups can contain (maybe) duplicates, if different "payloads"
+       * point to the same file. This is a mostly undesired behaviour when grouping many
+       * payloads. (do not repeat). Arbitrarely, next line keep csv order, removing 
+       * duplicates after first.
+       */
+      const url_list =  [...new Set(url_list_with_dups)];
+      this.url_txt_source_l = url_list
            .map( (url_txt_source) =>
                   url_txt_source.startsWith("http")
                 ? new URL(url_txt_source)
                 : new URL(`${this.base_url}/${url_txt_source}`)
            )
-
-console.dir(this.url_txt_source_l) ; alert(2)
-
+      if (debug_fetch) {
+          console.log(`this.url_txt_source_l: ${this.url_txt_source_l}`)
+      }
       this.relative_path_l = this.url_txt_source_l
                              .map( (url_txt_source) => {
                                  url_txt_source.href
