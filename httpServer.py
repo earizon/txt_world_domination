@@ -13,6 +13,7 @@
 # cd $(dirname $0)/../..
 # COORDINATE_ZERO=$(pwd)  # <·· USE a well-defined directory for any script
 
+import getpass
 import os, http.server
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import socketserver
@@ -63,12 +64,14 @@ if os.fork() > 0:
   sys.exit()
 else:
   os.setsid() # TODO:(0)
-  # sys.stdout.flush()
-  # sys.stderr.flush()
-  # with open('/dev/null', 'rb', 0) as read_null:
-  #   with open('/dev/null', 'wb', 0) as write_null:
-  #     with open('/dev/null', 'wb', 0) as error_null:
-  #       os.dup2(read_null.fileno(), sys.stdin.fileno())
-  #       os.dup2(write_null.fileno(), sys.stdout.fileno())
-  #       os.dup2(error_null.fileno(), sys.stderr.fileno())
+  sys.stdout.flush()
+  sys.stderr.flush()
+  who_am_i = getpass.getuser()
+  server_log = f"/tmp/txtWD.server.{who_am_i}.log"
+  with open('/dev/null', 'rb', 0) as read_null:
+    with open(server_log, 'wb', 0) as stdout:
+      with open(server_log, 'wb', 0) as stderr:
+        os.dup2(read_null.fileno(), sys.stdin.fileno())
+        os.dup2(stdout.fileno(), sys.stdout.fileno())
+        os.dup2(stderr.fileno(), sys.stderr.fileno())
   server.serve_forever()
