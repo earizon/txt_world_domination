@@ -1,4 +1,23 @@
+const debug_latex=true
+const debug_pre=true
 const QUOT/*ationMark*/='ºq '
+
+
+// REF: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions#about-writing-mathematical-expressions
+let sRETexInline="[$]"                     // RegEx starts with a '$'
+    sRETexInline=sRETexInline+"([^$]+)"    // It continues until finding another '$'
+                                           // (matching anything that is not $$)
+    sRETexInline=sRETexInline+"[$]"        // and ends including the $
+if (debug_latex) { console.log("RegeExg_TeX Inline: "+sRETexInline); }
+const RE_TeX_INLINE=new RegExp(sRETexInline,"g")
+
+let sRETexBlock="[$][$]"                     // RegEx starts with a '$$'
+    sRETexBlock=sRETexBlock+"([^$][^$]+)"   // It continues until finding another '$$'
+                                             // (matching anything that is not $$)
+    sRETexBlock=sRETexBlock+"[$][$]"        // and ends including the $$
+if (debug_latex) { console.log("RegeExg_TeX Block: "+sRETexBlock); }
+const RE_TeX_BLOCK=new RegExp(sRETexBlock,"g")
+
 // A single empty line delimits paragraphs
 const PARAGRAPH_MARK_REGEX=/^\n/gm
 function _00_documentCleaning(md, relative_path){
@@ -26,9 +45,7 @@ const funReplaceHeader = function(match, m1){
   const CLEAN_BUILD_ID_REGEX_0=new RegExp('\\[\\[([^\\[])*\\]\\]' , 'g');
   const CLEAN_BUILD_ID_REGEX_1=new RegExp('[^",a-z\,A-Z,0-9,_,\']', 'g');
   const tag = match.startsWith("# "     ) ? "h1"
-            : match.startsWith("● "     ) ? "h1"
             : match.startsWith("## "    ) ? "h2"
-            : match.startsWith("• "     ) ? "h2"
             : match.startsWith("### "   ) ? "h3"
             : match.startsWith("#### "  ) ? "h4"
             : match.startsWith("##### " ) ? "h5"
@@ -49,9 +66,13 @@ function handleTables(p/*aragraph*/) {
 
   p = p.trim()
   const  tableStart = '<table cellspacing="0"><tbody>', tableEnd = '</tbody></table>',
-           rowStart = '<tr>'          ,   rowEnd = '</tr>',
-          headStart = '<th>'          ,  headEnd = '</th>',
-           colStart = '<td>'          ,   colEnd = '</td>';
+           rowStart = '<tr>'          ,   rowEnd = '\n</tr>',
+          headStart = '<th>'          ,  headEnd = '\n</th>',
+           colStart = '<td>'          ,   colEnd = '\n</td>';
+  /*                                                ^^
+   * Adding a "next line" help to parse properly other elements inside
+   * the <tr>,<th>,<td> (TeX expressions for example).
+   */
   const row_l = p.split('\n')
   let content = '';
   for (let i=0; i < row_l.length; i += 1) {
@@ -73,22 +94,24 @@ function handleTables(p/*aragraph*/) {
 }
 
 function handlePre(p/*aragraph*/) {
+  if (debug_pre) { console.log(p) }
   let result = "<pre>"
              + ( p.trimEnd()
-                 .replaceAll(/^\s*[|]/gm,"\n ")
-                 .replaceAll(/[|]\s*$/gm,"")
-                 .replaceAll(/\s\s*$/mg,"") // avoid problems
+                 .replaceAll(/^\s*[|]/gm,"")
+              /* .replaceAll(/[|]\s*$/gm,'') commented. Not standard, not documented */
+              /* .replaceAll(/\s\s*$/mg,"") // avoid problems */
                )
              + "</pre>"
     ;
+  if (debug_pre) { console.log(result) }
   return result;
 
 }
 
-const ulistRegex_l=[/^[*] /gm   ,
-                   /^ {2,3}[*] /gm  ,
-                   /^ {4,6}[*] /gm  ,
-                   /^ {7,8}[*] /gm  ,
+const ulistRegex_l=[/^[*-] /gm   ,
+                   /^ {2,3}[*-] /gm  ,
+                   /^ {4,6}[*-] /gm  ,
+                   /^ {7,8}[*-] /gm  ,
 ]
 function handleUnorderedLists(nLevel, p/*aragraph*/) {
    if (nLevel>ulistRegex_l.length-1) return p;
@@ -148,6 +171,7 @@ const stylesParseHelp={
 }
 const styleList = Object.keys(stylesParseHelp)
 function handleFontStyles(p/*aragraph*/) {
+  if (p.match(PARAGRAPH_MARK_REGEX /* Markdown collides with LaTex. LaTex takes precedence.*/)) { return p; }
   for (let styleIdx=0; styleIdx < styleList.length; styleIdx++){ 
     let even=true; // due to next slice(1)
     const  styleKey=styleList[styleIdx]
@@ -190,7 +214,7 @@ function _01_standardMarkdownParsing(p_m/*paragraph meta*/, relative_path){
   p = handleImages(p); 
   p = handleFontStyles(p); 
   p = handleBlockQuotes(p);
-  p = p.replaceAll(/  $/mg,"º[br/]º"  )
+  p = p.replaceAll(/  $/mg,"º[br/]º"  ) // space + space + end-of-line == new html line in markdown
   }
   p = handleLinks(p)
        .replaceAll("º[","<") 
@@ -225,10 +249,61 @@ const _02_markdown_extension = (p, relative_path) => {
   return p
 }
 
+function handleLatext(p/*aragraph*/) {
+  if (! (p.match(REGEX_MAYBE_IS_TABLE) /*table*/)) { return p; }
+
+//p = p.trim()
+//const  tableStart = '<table cellspacing="0"><tbody>', tableEnd = '</tbody></table>',
+//         rowStart = '<tr>'          ,   rowEnd = '</tr>',
+//        headStart = '<th>'          ,  headEnd = '</th>',
+//         colStart = '<td>'          ,   colEnd = '</td>';
+//const row_l = p.split('\n')
+//let content = '';
+//for (let i=0; i < row_l.length; i += 1) {
+//  let i_res = row_l[i]
+//  let column_l = i_res.split('|')
+//  let k = 0
+//  let inner = ''
+//  for (k; k < column_l.length; k += 1) {
+//    if (k == 0) {continue;}
+//    let k_res = column_l[k].trim()
+//    inner += i==0 ? `${headStart}${k_res}${headEnd}\n`
+//                  :  `${colStart}${k_res}${colEnd}\n`
+//  }
+//  content += `${rowStart}${inner}${rowEnd}`
+//  i_res = row_l[i + 1]
+//}
+//let result = (content) ? `${tableStart}${content}${tableEnd}` : '';
+//return result
+}
+const HAS_REGEX_LATEX=/[$]([^$]+)[$]/gs
+const _03_latex_extension = (p, relative_path) => {
+  if (! (p.match(HAS_REGEX_LATEX) )) { return p; }
+  if (debug_latex) { console.log(`paragraph with Tex found: ${p}`) }
+  
+  // NEXT) Replace LaTex expression with SVG
+  const funReplaceTeXInLine = function(match, m1) {
+    if (debug_latex) {
+      console.log(match);
+      console.log(m1);
+    }
+    return MathJax.tex2mml(m1); // TODO:(0) Recheck .tex2SVG not found ¿?
+  }
+  const funReplaceTeXBlock = function(match, m1) {
+    return `<div>${funReplaceTeXInLine(match, m1)}</div>`
+  }
+  // Blocks must be replaced first.
+  /* 1) */ p = p.replace( RE_TeX_BLOCK , funReplaceTeXBlock) 
+  /* 2) */ p = p.replace( RE_TeX_INLINE, funReplaceTeXInLine)
+
+
+  return p
+}
+
 function parseMD2HTML(md_payload, relative_path){
   md_payload = _00_documentCleaning(md_payload, relative_path)
   let even=true
-  // const paragraph_l = md_payload.split(PARAGRAPH_MARK_REGEX).filter(p => p.length>0)
+//const paragraph_l = md_payload.split(PARAGRAPH_MARK_REGEX).filter(p => p.length>0)
   const paragraph_l = md_payload.split("```").map(it => {
     const p_list = (even)
                    ? it.split(PARAGRAPH_MARK_REGEX).filter(it => it!="") 
@@ -245,6 +320,10 @@ function parseMD2HTML(md_payload, relative_path){
         .map(p/*aragraph*/ => {
           return _02_markdown_extension     (p, relative_path)
         })
+     // .map(p/*aragraph*/ => {
+     //   return _03_latex_extension        (p, relative_path)
+     // })
+
   return result;
 }
 
