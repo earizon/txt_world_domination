@@ -2,6 +2,15 @@ const debug_latex=true
 const debug_pre=true
 const QUOT/*ationMark*/='ºq '
 
+class P /*(Paragraph with metadata) */ { 
+    static ROOT=new P(false,"")
+    constructor ( _isPre, _strContent ) {
+        this.isPre = _isPre;
+        this.strContent = _strContent; 
+        this.parent = P.ROOT // TODO:(future) allow parents. ej: pre inside li
+    }
+}
+
 
 // REF: https://docs.github.com/en/get-started/writing-on-github/working-with-advanced-formatting/writing-mathematical-expressions#about-writing-mathematical-expressions
 let sRETexInline="[$]"                     // RegEx starts with a '$'
@@ -20,7 +29,7 @@ const RE_TeX_BLOCK=new RegExp(sRETexBlock,"g")
 
 // A single empty line delimits paragraphs
 const PARAGRAPH_MARK_REGEX=/^\n/gm
-function _00_documentCleaning(md, relative_path){
+function _00_escapeHTML(md, relative_path){
 
   // NEXT) Replace external link <http...> link
 
@@ -93,19 +102,18 @@ function handleTables(p/*aragraph*/) {
   return result
 }
 
-function handlePre(p/*aragraph*/) {
-  if (debug_pre) { console.log(p) }
+function handlePre(p_m/*aragraph*/) {
+  if (debug_pre) { console.log(p_m.strContent) }
   let result = "<pre>"
-             + ( p.trimEnd()
+             + ( p_m.strContent.trimEnd()
                  .replaceAll(/^\s*[|]/gm,"")
               /* .replaceAll(/[|]\s*$/gm,'') commented. Not standard, not documented */
               /* .replaceAll(/\s\s*$/mg,"") // avoid problems */
                )
              + "</pre>"
-    ;
+  ;
   if (debug_pre) { console.log(result) }
-  return result;
-
+  return new P(true, result);
 }
 
 const ulistRegex_l=[/^[*-] /gm   ,
@@ -202,11 +210,11 @@ function handleBlockQuotes(p/*aragraph*/) {
 /**
  * Apply markdown to each paragraph.
  */
-function _01_standardMarkdownParsing(p_m/*paragraph meta*/, relative_path){
-  let p = p_m.content;
+function _01_standardMarkdownParsing(p_m/*paragraph */, relative_path){
   if (p_m.isPre) {
-    p = handlePre(p);
-  } else {
+    return handlePre(p_m);
+  }
+  let p = p_m.strContent;
   p = handleUnorderedLists(0, p);
   p = handleOrderedLists  (0, p);
   p = handleTables(p);
@@ -215,15 +223,13 @@ function _01_standardMarkdownParsing(p_m/*paragraph meta*/, relative_path){
   p = handleFontStyles(p); 
   p = handleBlockQuotes(p);
   p = p.replaceAll(/  $/mg,"º[br/]º"  ) // space + space + end-of-line == new html line in markdown
-  }
   p = handleLinks(p)
-       .replaceAll("º[","<") 
-       .replaceAll("]º",">") 
-  return p.length>0 ? "\n<p>"+p+"</p>" : "";
+  return new P(p_m.isPre, p.length>0 ? "\n<p>"+p+"</p>" : "");
 }
 
 /* step 2: markdown txt extensions for pre-like */
-const _02_markdown_extension = (p, relative_path) => {
+const _02_markdown_extension = (p_m, relative_path) => {
+  let p = p_m.strContent;
   // NEXT) TXTWD extension. replace anchors link #[target_id]
   p = p.replace( /[#]\[([^\]]*)\]/g, "◆<span id='$1'>#$1</span>◆")
 
@@ -246,40 +252,14 @@ const _02_markdown_extension = (p, relative_path) => {
   // NEXT) TXTWD extension. Add style to topic blocks [[topic1,topic2.subtopicA,...]]
   p = p.replace(/(\[\[[^\]\n]*\]\])/g, "<div class='txtblock'>$1</div>")
 
-  return p
+  return new P(p_m.isPre, p)
 }
 
-function handleLatext(p/*aragraph*/) {
-  if (! (p.match(REGEX_MAYBE_IS_TABLE) /*table*/)) { return p; }
-
-//p = p.trim()
-//const  tableStart = '<table cellspacing="0"><tbody>', tableEnd = '</tbody></table>',
-//         rowStart = '<tr>'          ,   rowEnd = '</tr>',
-//        headStart = '<th>'          ,  headEnd = '</th>',
-//         colStart = '<td>'          ,   colEnd = '</td>';
-//const row_l = p.split('\n')
-//let content = '';
-//for (let i=0; i < row_l.length; i += 1) {
-//  let i_res = row_l[i]
-//  let column_l = i_res.split('|')
-//  let k = 0
-//  let inner = ''
-//  for (k; k < column_l.length; k += 1) {
-//    if (k == 0) {continue;}
-//    let k_res = column_l[k].trim()
-//    inner += i==0 ? `${headStart}${k_res}${headEnd}\n`
-//                  :  `${colStart}${k_res}${colEnd}\n`
-//  }
-//  content += `${rowStart}${inner}${rowEnd}`
-//  i_res = row_l[i + 1]
-//}
-//let result = (content) ? `${tableStart}${content}${tableEnd}` : '';
-//return result
-}
 const HAS_REGEX_LATEX=/[$]([^$]+)[$]/gs
-const _03_latex_extension = (p, relative_path) => {
-  if (! (p.match(HAS_REGEX_LATEX) )) { return p; }
-  if (debug_latex) { console.log(`paragraph with Tex found: ${p}`) }
+const _03_latex_extension = (p_m) => {
+  if (p_m.isPre) return p_m;
+  if (! (p_m.strContent.match(HAS_REGEX_LATEX) )) { return p_m; }
+  if (debug_latex) { console.log(`paragraph with Tex found: ${p_m.strContent}`) }
   
   // NEXT) Replace LaTex expression with SVG
   const funReplaceTeXInLine = function(match, m1) {
@@ -292,38 +272,56 @@ const _03_latex_extension = (p, relative_path) => {
   const funReplaceTeXBlock = function(match, m1) {
     return `<div>${funReplaceTeXInLine(match, m1)}</div>`
   }
+  let p = p_m.strContent
   // Blocks must be replaced first.
   /* 1) */ p = p.replace( RE_TeX_BLOCK , funReplaceTeXBlock) 
   /* 2) */ p = p.replace( RE_TeX_INLINE, funReplaceTeXInLine)
 
-
-  return p
+  return new P(p_m.isPre, p)
 }
 
+function _04_unescapeHTML(p_m/*paragraph */){
+  return new P(
+    p_m.isPre, 
+    p_m.strContent
+       .replaceAll("º[","<")
+       .replaceAll("]º",">")
+  )
+}
+
+
+
 function parseMD2HTML(md_payload, relative_path){
-  md_payload = _00_documentCleaning(md_payload, relative_path)
+  md_payload = _00_escapeHTML(md_payload, relative_path)
   let even=true
 //const paragraph_l = md_payload.split(PARAGRAPH_MARK_REGEX).filter(p => p.length>0)
   const paragraph_l = md_payload.split("```").map(it => {
     const p_list = (even)
                    ? it.split(PARAGRAPH_MARK_REGEX).filter(it => it!="") 
                    : [it]
-    const result = p_list.map(it2 => { return { isPre:!even, content:it2 } })
+    const result = p_list.map(
+      it2 => { return new P( !even /* isPre*/, it2 /* strContent*/ ) }
+    )
     even = !even
     // console.log(result)
     return result
   }).flat()
   const result = paragraph_l
-        .map(p/*aragraph*/ => {
-          return _01_standardMarkdownParsing(p, relative_path)
+        .map(p_m/*paragraph class instance*/ => {
+          return _01_standardMarkdownParsing(p_m, relative_path)
         })
-        .map(p/*aragraph*/ => {
-          return _02_markdown_extension     (p, relative_path)
+        .map(p_m/*paragraph class instance*/ => {
+          return _02_markdown_extension     (p_m, relative_path)
         })
-     // .map(p/*aragraph*/ => {
-     //   return _03_latex_extension        (p, relative_path)
-     // })
-
+        .map(p_m/*paragraph class instance*/ => {
+          return _03_latex_extension        (p_m)
+        })
+        .map(p_m/*paragraph class instance*/ => {
+          return _04_unescapeHTML(p_m)
+        })
+        .map(p_m/*paragraph class instance*/ => {
+            return p_m.strContent
+        })
   return result;
 }
 
