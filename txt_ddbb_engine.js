@@ -214,19 +214,19 @@ class TXTDBEngine {
     fetchPayload = async function (url) {
       if (debug_fetch) { console.log("fetchPayload url:"+url) }
       const xhr  = new XMLHttpRequest();
-      ( () => {
-        if (url.indexOf("127.0.0")>=0 ||
-            url.indexOf("localhost")>=0 ) return;
-        navigator.sendBeacon("http://www.oficina24x7.com/visitedTXT/"+escape(document.location),"-");
-       // this.timerUserActivityTrace = setInterval(
-       // (() => {
-       //   ImageObject = new Image();
-       //   ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
-       //   setTimeout(()=> {ImageObject = null;}, 1000)
-       // }),
-       //   60*1000 /* log every min */
-       // );
-      } )()
+      // ( () => {
+      //   if (url.indexOf("127.0.0")>=0 ||
+      //       url.indexOf("localhost")>=0 ) return;
+      //   navigator.sendBeacon("http://www.oficina24x7.com/visitedTXT/"+escape(document.location),"-");
+      //  // this.timerUserActivityTrace = setInterval(
+      //  // (() => {
+      //  //   ImageObject = new Image();
+      //  //   ImageObject.src = "http://www.oficina24x7.com/visitedTXT/"+escape(document.location);
+      //  //   setTimeout(()=> {ImageObject = null;}, 1000)
+      //  // }),
+      //  //   60*1000 /* log every min */
+      //  // );
+      // } )()
 
       return new Promise( (resolve,reject) => {
         xhr.open('GET', url, true);
