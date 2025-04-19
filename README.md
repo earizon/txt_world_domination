@@ -8,7 +8,7 @@ on topics (axes) and subtopics (coordinates).
 documentation management.
 
  Recommended to safely store and classify research (PhD) work, complex software documentation,
-complex procedures, book writing, "industrial" web pages. A few examples for the impatient:
+complex procedures, book writing, "industrial" web pages. 
 
 Since content is just plain text (vs some weird binary database format) it means that many tools can 
 be reused to [edit](https://en.wikipedia.org/wiki/Comparison_of_text_editors) and
@@ -127,39 +127,22 @@ Next features come for free:
 * [Software Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../SoftwareArchitecture/ALL.payload)
 * [PostgreSQL Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../PostgreSQL/notes.txt)
 
-## Taking and classifying notes "vs" LLM AI and prompt Engineering
+## Taking and classifying notes in the era of LLMs and prompt Engineering
 
 Why taking notes in the era of Machine Learning and Large Language Models?
 
-Simply put. They complement each other:
+Simply put. They complement each other in a recursive infinite loop:
 
-- LLM responses are just stochastic answers. They look to make sense, but
-they completely ignore the real world outside its "buffer" context.
-- When taking notes we can just "reuse" the knowledge of experts posting in
-magazines, research papers, reddit, coffee chats, ...
+- LLMs training can be highly improved by providing embedding hints (topics,
+subtopics with well defined dimensions vs randomly trained dimensions in 
+embeddings).
+- Unclassified markdown (and code, and "JIRA" tasks") can make use of LLMs to 
+tag current content using the previously defined taxonomy or improving/detailing
+the taxonomy.
 
- AI works "fine" when applied to limited (not necesarely small) contexts,
-for example, basic programming tasks or (not so basic) math-like tasks with
-a well defined set and operations (algebraic problems, chess-like problems, ...). 
 
-I work in the software development world. Let me summarize my experience:
-
- - When asking AI bots about some well defined programming code, it works. 
-   Really Nice! 
- - When asking AI bots about some blur administration task related to 
-   operation of systems with many opinionated tools, undefined context, 
-   competing companies shelling overlapping products, ... **AI miserably 
-   fails**.
-
-  On the other side, when taking notes from experts we can tag 
-competing products, highlight pros/cons, take cheat-sheets, annotate 
-with use-cases, pending features, stuff like that.<br/>
-  We can fetch some "information" and complete some previous note 
-(maybe written 4 years ago) so that content that was incomplete starts
-to "make sense". Finally, we can take much more sensible decisions.
-
- It's possible through advanced prompt-engineering to make AI return 
-sensible answers .. **but advanced prompt-engineering is way more difficult
+Also, it's possible through advanced prompt-engineering to make AI return 
+contextual and correct answers .. **but advanced prompt-engineering is way more difficult
 and time consuming that just taking and classifying notes**.
  In fact, I would say that taking and classifying notes, **creating a
 well defined and stable taxonomy is a "MUST" for "advanced" prompt-engineering**.
@@ -185,6 +168,13 @@ standarization, best patterns, ...). In this way we help the LLM to
 reduce the problem dimensionality and our prompt will be a much more 
 efficient prompt.
 
- Needeless to say, an LLM can also help us to design our taxonomy by
-suggesting topics and subtopics. In that sense, both systems can feed
-each other in an infinite loop. Great, isn't it?
+ Before modern "autopilots" the supercheat-sheets created by this project
+were probably the best way to help writing code. New big LLM models based
+tools can create high quality code with easy. Still, throught out the years,
+code will grow out of control and it will be difficult to find duplicated
+or pottentially reusable or refactorizable code. By tagging it based on
+concerns (security, FE, persistence, integration, ...) and subtopics 
+(security.authentication, security.DoS, security....) code management will
+be much simpler, both for humans and IAs.
+
+
