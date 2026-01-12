@@ -123,7 +123,7 @@ Next features come for free:
  Just a few examples on how this project is being used to document real 
   world documentation:
 * [Java Documentation](https://earizon.github.io/txt_world_domination/viewer.html?payload=../JAVA/ALL.payload)
-* [Cryptography notes](https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/notes.txt)
+* [Cryptography notes](https://earizon.github.io/txt_world_domination/viewer.html?payload=../cryptography/ALL.payload)
 * [Software Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../SoftwareArchitecture/ALL.payload)
 * [PostgreSQL Architecture](https://earizon.github.io/txt_world_domination/viewer.html?payload=../PostgreSQL/notes.txt)
 
