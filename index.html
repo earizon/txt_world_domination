@@ -91,7 +91,7 @@ window.addEventListener('load', doTextPreProcessing )
 
 <ul>
     <li><a href="./viewer.html?payload=test.payload">with some testing just in case</a></li>
-    <li><a href="./viewer.html?payload=TODO.txt">and a planning of TO-DO tasks</a></li>
+    <li><a href="./viewer.html?payload=ProjectManagement.txt">and a project management white board (uh,uh, just markdown!!!) </a></li>
     <li><a href="./viewer.html?payload=ADR.md">and some Architecture Decission Records</a></li>
 </ul>
 
@@ -121,7 +121,45 @@ window.addEventListener('load', doTextPreProcessing )
   <chapters>
 </book>
 
+<book>
+  <description> Data Science </description>
+  <chapters>
+  [101](./viewer.html?payload=../DataScience/101.payload)&nbsp;&nbsp;
+  <chapters>
+</book>
+
+
+
+<hr/> 
+
+<book>
+  <description>GOLang</description>
+  <chapters>
+  [ALL Content](./viewer.html?payload=../GOLang/ALL.payload), &nbsp;&nbsp;
+  [101 All](./viewer.html?payload=../GOLang/101.payload), &nbsp;&nbsp;
+  [DevOps 101](./viewer.html?payload=../GOLang/DevOps_101.txt), &nbsp;&nbsp;
+  [101 Data Structures](./viewer.html?payload=../GOLang/101_Data_Structures.txt), &nbsp;&nbsp;
+  [101 Error Mng](./viewer.html?payload=../GOLang/101_error_management.txt), &nbsp;&nbsp;
+  [101 Interfaces](./viewer.html?payload=../GOLang/101_interfaces.txt), &nbsp;&nbsp;
+  [101 Programming](./viewer.html?payload=../GOLang/101_programming.txt), &nbsp;&nbsp;
+  [101 String Templates](./viewer.html?payload=../GOLang/101_string_templates.txt), &nbsp;&nbsp;
+</book>
+
+
+<book>
+  <description>Others</description>
+  <chapters>
+  [Functional with lo](./viewer.html?payload=../GOLang/functional_Samber_lo.md), &nbsp;&nbsp;
+  [vim plugin](./viewer.html?payload=../GOLang/vim_plugin.txt),          &nbsp;&nbsp;
+  [Kala](./viewer.html?payload=../GOLang/kala.txt),                &nbsp;&nbsp;
+  [Modules Ref](./viewer.html?payload=../GOLang/go_ref_mod.txt),          &nbsp;&nbsp;
+  [Testing](./viewer.html?payload=../GOLang/qa_testing.txt),                &nbsp;&nbsp;
+  [TODO](./viewer.html?payload=../GOLang/TODO.txt),                &nbsp;&nbsp;
+  </chapters>
+</book>
+
 <hr/>
+
 
 <book>
   <description>JAVA Core</description>
@@ -135,11 +173,25 @@ window.addEventListener('load', doTextPreProcessing )
   [QA&testing](./viewer.html?payload=../JAVA/QA_and_testing.txt)&nbsp;&nbsp;
   [Security](./viewer.html?payload=../JAVA/security.txt)&nbsp;&nbsp;
   [java crypto](./viewer.html?payload=../cryptography/java_cryptography.txt)&nbsp;&nbsp;
-  [persistence](./viewer.html?payload=../JAVA/persistence.payload)&nbsp;&nbsp;
   [RXJava](./viewer.html?payload=../JAVA/RXJAVA.txt)&nbsp;&nbsp;
   [Async/Reactive](./viewer.html?payload=../JAVA/async_reactive.txt)&nbsp;&nbsp;
   [debug&profiling](./viewer.html?payload=../JAVA/debug_and_profiling.txt)&nbsp;&nbsp;
   [concurrent_prog](./viewer.html?payload=../JAVA/concurrent_programming.txt)&nbsp;&nbsp;
+  </chapters>
+</book>
+
+<book>
+  <description>JAVA Persistence</description>
+  <chapters>
+  [ALL](./viewer.html?payload=../JAVA/persistence.payload)&nbsp;&nbsp;
+  [HikaryCP](./viewer.html?payload=../JAVA/persistence_HikariCP.txt      )&nbsp;&nbsp;
+  [MyBatis](./viewer.html?payload=../JAVA/persistence_mybatis.txt       )&nbsp;&nbsp;
+  [Stalactite](./viewer.html?payload=../JAVA/persistence_stalactite.txt    )&nbsp;&nbsp;
+  [JPA/Hibernate](./viewer.html?payload=../JAVA/persistence_JPA_Hibernate.txt )&nbsp;&nbsp;
+  [JooQ](./viewer.html?payload=../JAVA/persistence_Jooq.txt          )&nbsp;&nbsp;
+  [QueryDSL](./viewer.html?payload=../JAVA/persistence_QueryDSL.txt      )&nbsp;&nbsp;
+  [Speedment](./viewer.html?payload=../JAVA/persistence_speedment.txt     )&nbsp;&nbsp;
+  [Non Classified](./viewer.html?payload=../JAVA/persistence_non_classified.txt)&nbsp;&nbsp;
   </chapters>
 </book>
 
@@ -208,19 +260,7 @@ window.addEventListener('load', doTextPreProcessing )
    to vote for the next topic to include.
 </book>
 
-<book>
-  <description>GOLang</description>
-  <chapters>
-  [ALL](./viewer.html?payload=../GOLang/ALL.payload), &nbsp;&nbsp;
-  [101](./viewer.html?payload=../GOLang/notes.txt),               &nbsp;&nbsp;
-  [Functional with lo](./viewer.html?payload=../GOLang/functional_Samber_lo.md), &nbsp;&nbsp;
-  [Cheat Sheet](./viewer.html?payload=../GOLang/cheat_sheet.txt),         &nbsp;&nbsp;
-  [vim plugin](./viewer.html?payload=../GOLang/vim_plugin.txt),          &nbsp;&nbsp;
-  [Kala](./viewer.html?payload=../GOLang/kala.txt),                &nbsp;&nbsp;
-  [Modules](./viewer.html?payload=../GOLang/go_ref_mod.txt),          &nbsp;&nbsp;
-  [TODO](./viewer.html?payload=../GOLang/TODO.txt),                &nbsp;&nbsp;
-  </chapters>
-</book>
+
 
 <!-- 
 <book>
@@ -323,7 +363,10 @@ Server side:
 <book>
   <description>DevOps</description>
   <chapters>
-       [Git](./viewer.html?payload=../DevOps/git.md) (git)<br/>&nbsp;&nbsp;
+       [ALL](./viewer.html?payload=../DevOps/ALL.payload)<br/>&nbsp;&nbsp;
+  </chapters>
+  <chapters>
+       [Git](./viewer.html?payload=../DevOps/git.payload) (git)<br/>&nbsp;&nbsp;
   </chapters>
   <chapters>
        Linux ...
@@ -347,9 +390,11 @@ Server side:
        Various ...
        [BASH](./viewer.html?payload=../DevOps/devops_bash.txt)&nbsp;&nbsp;
        [CURL](./viewer.html?payload=../DevOps/devops_curl.txt)&nbsp;&nbsp;
-       [Monitoring](./viewer.html?payload=../DevOps/devops_monitoring.txt)&nbsp;&nbsp;
+       [socat (netcat++)](./viewer.html?payload=../DevOps/socat.txt)&nbsp;&nbsp;
+       [Monitoring](./viewer.html?payload=../DevOps/monitoring.payload)&nbsp;&nbsp;
        [Networking](./viewer.html?payload=../DevOps/devops_networking.txt)&nbsp;&nbsp;
        [yaml 101](./viewer.html?payload=../DevOps/devops_yaml.txt)&nbsp;&nbsp;
+       [Reverse Proxy](./viewer.html?payload=../DevOps/reverse_proxy.payload)&nbsp;&nbsp;
        <br/>&nbsp;&nbsp;
        [Containerization](./viewer.html?payload=../DevOps/containerization_ALL.payload)&nbsp;&nbsp;
   <!--
@@ -393,6 +438,7 @@ Server side:
   [ddbb_engines](./viewer.html?payload=../SoftwareArchitecture/ddbb_engines.txt)&nbsp;&nbsp;
   [kafka](./viewer.html?payload=../SoftwareArchitecture/kafka.txt)&nbsp;&nbsp;
   [Camel_ESB](./viewer.html?payload=../SoftwareArchitecture/camel_esb.txt)&nbsp;&nbsp;
+  [ELK](./viewer.html?payload=../SoftwareArchitecture/ELK.txt)&nbsp;&nbsp;
   </chapters>
 </book>
 
@@ -437,6 +483,9 @@ Server side:
   <description>Python (Draft State)</description>
   <chapters>
   [ALL](./viewer.html?payload=../PYTHON/ALL.payload)&nbsp;&nbsp;
+  [101](./viewer.html?payload=../PYTHON/101.payload)&nbsp;&nbsp;
+  [DevOps](./viewer.html?payload=../PYTHON/DEVOPS.payload)&nbsp;&nbsp;
+  [IO](./viewer.html?payload=../PYTHON/IO.txt)&nbsp;&nbsp;
   </chapters>
 </book>
 

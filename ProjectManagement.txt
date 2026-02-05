@@ -1,6 +1,12 @@
 # Bugs [[{QA.BUG]]
 
+## In "AND" mode selecting a "topic.*" does not work.
+
+* When selecting "topicA" alone (with either AND/OR search criteria), it is expected to
+include topicA.* subtopics, but it fails to include subtopics.
+
 ## pre blocks do not indent properly. 
+
 * Right now, pre blocks/paragraphs are parsed "asymetrically" respect to other 
   type of content since rendering is completing different (pre is actually 2-dimensional
   while anything else is 1-(DOM-tree)-dimensional actually).<br/>
@@ -9,25 +15,19 @@
   <https://github.com/Python-Markdown/markdown/tree/master/markdown>
   See also pre-processing and post-processing for reference.
 
-* Fix: 
-  ```
-  [[{ $topicA ]]
-  ...
-     [[{$topicB} ]]
-  ...
-  [[  $topicA}]]
-  ```
-  when selecting topicB, topicA must be displayed as "related" topic.
-
-* In "AND" mode selecting a "topic.*" does not work.
-
 [[QA.BUG}]] 
 
-# Work in Progress [[{PM.WiP]]
-## Support for Latex
-[[PM.WiP}]]
+# RoadMap/Backlog [[{PM.backlog]]
 
-# RoadMap [[{PM.backlog]]
+## Allow to filter out content. 
+
+* This allows content (expert) writers to write detailed chapters and
+  just tag paragraphs with `level.basics`, `level.intermediate`, `level.advanced`.
+  An student can initially filter out intermediate and advanced levels,
+  then gradually activate (display) them, while showing/hiding at will
+  other levels.
+* A variation of this method can be used to offer free, paid content.
+  (probably with some encryption support).
 
 ## Allow for common or prefix tags.  [[{QA.UX]]
 
@@ -39,6 +39,11 @@
   [[$ common.tag-}]]
   ```
 [[QA.UX}]]
+
+## Allow to add metadata to topics/subtopics.
+
+* For example a description for topic acronims, order of topic in list,
+  "weight" of topic, ...
 
 ## Support for Mermaid Diagrams.  [[{QA.UX]]
 * This will allow for sequence/BPML/Gantt/... diagrams "for free".
@@ -52,6 +57,7 @@
   key will show the content.
 * Consider also support for 
   [Bell LaPadula security model](https://en.wikipedia.org/wiki/Bell%E2%80%93LaPadula_model)
+* Portable PGP in JS: <https://openpgpjs.org/>
 [[security.secret_mng}]]
 
 ## Custom 'highlight' tags?  [[{QA.UX]]
@@ -84,4 +90,34 @@
 
 ## Support for Observable Framework:
 * <https://observablehq.com/framework/>
+
+## Check Joplin import/export to markdown
+
+* <https://joplinapp.org/>
+
+* open source note-taking app. "Capture your thoughts and securely access them from any device".
+
+## Check pandoc to convert different Lightweight formats to/from markdown including
+
+REF: <https://pandoc.org/>
+* Markdown (CommonMark, GitHub-flavor)
+* AsciiDoc
+* txt2tags
+* djot
+* HTML5
+* EPUB version 2 or 3
+* GNU TexInfo
+* LaTeX
+* DocBook version 4 or 5
+* BibTeX
+* Word docx, RTF  OpenOffice ODT
+* Jupyter notebook (ipynb)
+* MediaWiki, *Wiki, 
+* Jira
+* Microsoft PowerPoint
+* CSV/TSV tables
+* plain (ANSI-formatted) text
+* PDF via pdflatex, lualatex, ...
+* ...
+
 [[PM.backlog}]]

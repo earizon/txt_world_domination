@@ -1,8 +1,9 @@
+[[ { PM.ADR ]]
 # TEXT WORLD DOMINATION <br/>ARCHITECTURAL DECISSION RECORDS (ADR)<br/><br/>
 
 <br/> <br/> <br/>
 <!-- { -->
-# Text vs binary formats
+# ADR 1: plaing text preferred over binary formats as "core" database
 
 ## Summary 1
 
@@ -15,7 +16,7 @@
 ## Discussion 1
 
 * Notes are schema-less on their own nature. Using a binary format
-  will provide little or no advantage over plain (unicode) text.
+  will provide little or no advantage over plain (unicode) text and lot of headaches.
 * Binary formats are not human friendly, not text-editor, neither text-utils
   (grep, sed, sort, cut,...) friendly.
 * Binary formats do not take advantage of common file-systems in 
@@ -25,23 +26,32 @@
 * Binary formats and not Git friendly. We loose a powerful, battle-tested and
   well-known versioning tool that also allows for offline distributed
   workgroup collaboration.
-    
+* If perfomance is needed, a periodic batch job can index and "zip" the text
+  and deal with data in non-yet planned ways. If it works and scales for search
+  engines like Google, it will also work for non-Internet scale projects.<br/>
+  Documents for a company with  100.000 employees can be considered 
+  "small data" if proper formats - markdown/text- is used. Modern SSD drivers
+  and CPUs will digest the documents in a few minutes. <br/>
+  In such sense the text document becomes a "source of true" or "event source",
+  while binary formats will become a "view".
+
 ##  Solution 1
 
 * Markdown was selected. It is human and computer friendly and keeps
   enough information to adapt to different display technologies:
   * electronic displays (converted to html then rendered by web browsers),
   * printed paper (as "raw" markdown or printed html page).
-* Markdown also offers an intuitive way for 
+* Markdown is also very easy to extend to custom needs.
 
 ##  Consequences 1
 
 * An initial markdown engine was created to render as "HTML" in browser.
-* It works and allows 
+* It works properly and shows a very decent speed for documents up to ~500 pages
+  using not so modern hardware and software.
 <!-- } -->
 
 <!-- { -->
-# Content classification
+# ADR 2: Content classification
 
 ## Summary 2
 
@@ -95,7 +105,7 @@
 <!-- } -->
 
 <!-- { -->
-# Concatinating markdowns 
+# ADR 3: Concatinating markdowns 
 
 ## Summary 3
 
@@ -126,6 +136,16 @@ be considered a single "document" or book.
   language.
 * Payload comments allows also to introduce metadata (for example status of the
   full document -OK, WiP; ...-)
+* We detected our current solution can be extended to be used as a "documentation"
+  protocol (on top of HTTP or other lower level protocols). While the current 
+  implementation focus on an HTML client parsing the markdown to HTML and an
+  embedded JS engine following some basic rules for topic/subtopics, any other
+  client/middleware/backend module can process the document following the same
+  rules to extract the content, or cache/transform to some other internal format,
+  quite similar to semantic HTML, but with a more human and machine friendly language.
+  (no need anymore for "dirty" and complex tagging).
+  
+  
 
 <!-- } -->
 
@@ -159,3 +179,4 @@ This is the story explaining the problem we are looking to resolve.
  Did it work, not work, was changed, upgraded, etc.)
 }
 -->
+[[  PM.ADR } ]]

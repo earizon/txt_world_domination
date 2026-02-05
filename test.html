@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+   <meta charset="UTF-8">
+   <meta name="viewport"
+     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   <title>TXT World Domination</title>
+   <head>
+<style>
+@font-face{
+  font-family: 'source_code_pro';
+  font-weight: 400;
+  font-style: normal;
+  font-stretch: normal;
+  src: url('./source-code-pro/EOT/SourceCodePro-Regular.eot') format('embedded-opentype'),
+       url('./source-code-pro/WOFF2/TTF/SourceCodePro-Regular.ttf.woff2') format('woff2'),
+       url('./source-code-pro/WOFF/OTF/SourceCodePro-Regular.otf.woff') format('woff'),
+       url('./source-code-pro/OTF/SourceCodePro-Regular.otf') format('opentype'),
+       url('./source-code-pro/TTF/SourceCodePro-Regular.ttf') format('truetype') ;
+}
+#id_mainText {
+  font-family:'source_code_pro',monospace, console;
+  font-size:1em;
+}
+
+hr {
+    line-height: 3em;
+}
+
+book { 
+  display: inline-block;
+  margin: 1em;
+  border-bottom: 1px solid black;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 40ch;
+  vertical-align: top;
+  background-color: #FFF;
+}
+book > description { display: block; }
+book > chapters {
+  display: block;
+  padding-left: 1em;
+  padding-bottom: 1em;
+  max-width: 70em;
+  outline: 1px solid gray;
+}
+a { white-space: nowrap; }
+
+
+main_page_title {
+  font-family: 'dragon_is_comingregular';
+  text-align: center;
+  width: auto;
+  display: inline-block;
+  font-family: sans;
+  letter-spacing: -1px;
+  font-size: 30px;
+  border-bottom: 1px solid gray;
+}
+
+body {
+    margin: 1em 4ch 1em 4ch;
+    box-shadow: #232 5px 12px 17px;
+    background-color: #EEE;
+}
+
+
+</style>
+<script>
+const doTextPreProcessing = function () {
+   const N = document.getElementById("id_mainText")
+   let   H = N.innerHTML
+   // 1st) replace External link
+   H = H.replace(/@\[(http.?[^\]]*)\]/g," ▶<a target='_new' href='$1'>$1</a>◀")
+
+   // 2nd) replace relative (to page) link
+   H = H.replace(/@\[([^\]]*)\]/g," ▷<a target='_new' href='$1'>$1</a>◁")
+   H = H.replace(/\[([^\]]*)*\][(]([^)]*)[)]/g,"<a target='_new' href='$2'>$1</a>")
+   N.innerHTML = H
+}
+window.addEventListener('load', doTextPreProcessing )
+
+</script>
+    </head>
+<body>
+
+<div>
+<main_page_title>TXT World domination Final Battle</main_page_title>
+</div>
+
+<div id="id_mainText">
+
+<ul>
+  <li><a href="./viewer.html?payload=test_manual.md"                            >test_manual.md                            </a></li>
+  <li><a href="./viewer.html?payload=test_02_Ordered_Unordered_list.md"         >test_02_Ordered_Unordered_list.md         </a></li>
+  <li><a href="./viewer.html?payload=test_03_preformated_and_tabulated_links.md">test_03_preformated_and_tabulated_links.md</a></li>
+  <li><a href="./viewer.html?payload=test_04_Header_levels.md"                  >test_04_Header_levels.md                  </a></li>
+  <li><a href="./viewer.html?payload=test_05_text_formatting.md"                >test_05_text_formatting.md                </a></li>
+  <li><a href="./viewer.html?payload=test_06_mardown_images.md"                 >test_06_mardown_images.md                 </a></li>
+  <li><a href="./viewer.html?payload=test_07_links.md"                          >test_07_links.md                          </a></li>
+  <li><a href="./viewer.html?payload=test_08_FAQ.md"                            >test_08_FAQ.md                            </a></li>
+  <li><a href="./viewer.html?payload=test_09_TeX.md"                            >test_09_TeX.md                            </a></li>
+  <li><a href="./viewer.html?payload=test_10_Quotes.md"                         >test_10_Quotes.md                         </a></li>
+  <li><a href="./viewer.html?payload=test_11_Tables.md"                         >test_11_Tables.md                         </a></li>
+  <li><a href="./viewer.html?payload=test_12_task_lists.md"                     >test_12_task_lists.md                     </a></li>
+  <li><a href="./viewer.html?payload=test_13_topics_coordinates.md"             >test_13_topics_coordinates.md             </a></li>
+</ul>
+
+</body>
+</html>

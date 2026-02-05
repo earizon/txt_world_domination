@@ -36,28 +36,57 @@
   ```
   The tag can be almost "anyware" (top/bottom, left/right or in the midst).
 
-# Topic Testing
+# Tagging paragraphs with topics
 
 * Topic tags can be added anywhere before the start and end of a
-  block.
+  block. Next examples are equivalent. Repeating topic 
+
   ```
-__Example A__                  _Example B_
-                                                          [[{topicA]]
-  Lorem Ipsum will dominate     Lorem Ipsum will dominate [[topicB]]
-  the World                     the World
-                                                          [[}]]
-  └──────────┬────────────┘     └──────────────┬────────────────────┘
-             │                                 │
-             └─────────────┬───────────────────┘
-  Both ways of tagging content with topic tags end up with the same result
-  (except for maybe some extra whitespace).
-  Placing
+  | [[ { ]] <·· opening block
+  | some important paragraph about topicA. [[ topicA ]]
+  |                               
+  | some important paragraph about topicB. [[ topicB ]]
+  | [[ } ]] <·· closing block
   ```
+
+  ```
+  | [[ { topicA, topicB ]] 
+  | some important paragraph about topicA.
+  |                               
+  | some important paragraph about topicB.
+  | [[ topicA } ]]  <·· No problem with retagging with topicA.
+  ```
+
+[[ { PM.ADR ]]
+Notice also that a pre-formated (2D content) code is considered
+a single paragraph so the following example is also equivalent:
+  ```
+  | [[ { topicA, topicB } ]] ¹ 
+  | some important paragraph about topicA.
+  |                               
+  | some important paragraph about topicB.
+  | 
+  ```
+* ¹ Architecture Decission Record (ADR): <br/>
+  For normal (non preformated) text, topicA and B will just tag 
+  the first paragraph, with pre-formated text, both visual 
+  paragraph are part of the same "logical" paragraph. 
+  Ussually, preformated 2D diagrams and tables are displayed
+  with random paragraphs, but we don't want to manage them 
+  separately.
+
+[[ PM.ADR } ]]
+
 
 * Each topic can be subclassified in subtopics following the syntax
   ```
-  [[ { topicA.subtopic.subsubtopic } ]]
+  [[ topicA.subtopic ]]
   ```
+* Rarely, sub-subtopics are also required for finer classifications.<br/>
+  ```
+  [[ topicA.subtopic.subsubtopic ]]
+  ```
+
 
 * Think of a topic as a first or principal clasification of content.          [[{doc_has.KEY-POINT]]
   For example in a document about Project Management main topics/coordinates
@@ -73,28 +102,74 @@ __Example A__                  _Example B_
   ```
   (Subtopics can be seen as the taxonomy used for each main topic,
   and sub-subtopics as a way to further detail and classify each subtopic).
+* Think of subtopics as "meter" coordinate, and a subsubtopics as a 
+  "milimiter" coordinates in the "topic" dimension.
 
 * Graphically you can imagine them as: <!-- { --> 
   ```
-  [[{doc_has.graph]]
+  [[{doc_has.graph}]]
+  | NOTE: each p represents a "paragraph" of random size.
+  |
+  |  normal book:
+  |                    
+  |                     
+  |   p p p p p p p p p p p p p p  <·· Chapter 1
+  |   p p p p p p p p p p p p p p 
+  |   p p p p p p p p p p p p p p 
+  |   p p p p p p p p p p p p p p 
+  |   p p p p p p p p p p p p p p  <·· Chapter 2
+  |   p p p p p p p p p p p p p p 
+  |   p p p p p p p p p p p p p p 
+  |   p p p p p p p p p p p p p p  <·· Chapter 3
+  |   p p p p p p p p p p p p p p 
+  |   p p p p p p p p p p p p p p 
+  |   ...
+  |
+  | Wise Book by TXT World Domination
+  |
   |                 topicA
   |                   ^
-  |                 ┌ ┤       ┌·························┐
-  |                 · │       · block of text related to·
-  | topicA.subtopic · │       · topicA.subtopic and     ·
-  |                 · │       · topicB.subtopic.subsubtopic
-  |                 └ ┤       └·························┘
-  |                   │
-  |                   +───────┬────────────────────────────topicB
-  |                  ╱        └─······················─┘
-  |                 ╱          topicB.subtopic.subsubtopic
-  |                ╱    └─····························─┘
-  |               ╱           topicB.subtopic
-  |              ╱
-  |             ╱
+  |                   │  ... 
+  |                   │       ┌─·················─┐
+  | topicA.subtopic ··┼········p p p p p p p p p p·
+  |                   │       └─·····┼···········─┘                         
+  |                   │              ·                  
+  |                 ┌ ┼·······┌─·····┼···········─┐
+  | topicA.subtopic · │       ·p p p p p p p p p p·
+  |                 · │       ·p p p p p p p p p p·
+  |                 └ ┼·······└─·····┼···········─┘
+  |                   │       ·      ·                  
+  |                   │       ·      ·            ·  
+  |                   │       ·      ·            ·   
+  |                   ·───────┼──────┼────────────┼───── topicB
+  |                  ╱        ·      ²            ·  
+  |                 ╱         ·                   ·  
+  |                ╱          └─· topicB.subtopic ┘  
+  |               ╱           
+  |              ╱               ² topicB.subtopic.subsubtopic               
+  |             ╱                 
   |         topicC
-  [[doc_has.graph}]]
   ```
+ As it can be seen graphically, topics.subtopics allows to navigate content based on
+ "concerns". <br/>
+
+ A simple use case can be to tag paragraphs in student's text book according to complexity
+ level. Then an student can "navigate" through simple to complex levels.<br/>
+
+  There is no need to create new books that either duplicate content or just 
+ forget to reference important basic information. Students with different skills 
+ and knowledge can use the same book and choose at will what to read/ignore filtering
+ content in/out at will.
+
+  Students books with multi-level content is just an example.  topics/subtopics 
+ can be used for "anything", even to create complex project management dashboards
+ with no need for ad-hoc software or "cheat-sheets with steroids" to simplify 
+ daily tasks, or multidimensional web-maps, again with no need for custom software,
+ and so on. [[{doc_has.key-point}]]
+
+ AI machine learning algorithms can scan a set of paragraphs, and based on tags,
+ reduce the classification problem dimensionality while training by orders of magnitude:
+
 <!-- } -->
 
 * The relation among blocks and topics.subtopics can be visualized like:  [[{doc_has.graph]]
