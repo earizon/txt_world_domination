@@ -385,7 +385,7 @@ console.dir([ url_txt_source ]);
 
     async init() {
       const url_tree = await Promise.all( await this.url2PayloadPromiseList(this.URL_SOURCE))
-      const url_list_with_dups = url_tree.filter(it => { return it.length>0 }).flat()
+      const url_list_with_dups = url_tree.filter(it => { return it.length>0 }).flat(Infinity)
       /*
        * url_list_with_dups can contain (maybe) duplicates, if different "payloads"
        * point to the same file. This is a mostly undesired behaviour when grouping many
