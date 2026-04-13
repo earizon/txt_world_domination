@@ -247,7 +247,8 @@ class TXTDBEngine {
           }
           if (xhr.status      != 200 ) {
             txt_loadError_l.push({ href: url, err: xhr.status})
-            console.error("url:"+url+", error: xhr.status: "+xhr.status);
+            // TODO:(FIX) continue if ...payload is not found
+            console.error("url:"+url+", error: xhr.status: "+xhr.status); 
             resolve( "" )
             return
           } else { 
@@ -423,11 +424,12 @@ console.dir([ url_txt_source ]);
               ... txt_loadError_l.map(it => `<code style="color:red;">${it.href}</code>, `),
               ... this.immutableDDBB ]
       }
-      if (txt_loadOK_l.length != 0 ) {
-          this.immutableDDBB = [
-              ... txt_loadOK_l.map(it => `<code style="color:blue;"><a href="${it.href}" target="_blank">${it.href}</a></code>, `),
-              ... this.immutableDDBB ]
-      }
+      // TODO: move log "somewhere else" (in debug pannel) and re-enable
+      // if (txt_loadOK_l.length != 0 ) {
+      //     this.immutableDDBB = [
+      //         ... txt_loadOK_l.map(it => `<code style="color:blue;"><a href="${it.href}" target="_blank">${it.href}</a></code>, `),
+      //         ... this.immutableDDBB ]
+      // }
       /*
        *  this.immutableDDBB looks like:
        *  index (== paragraph)    | paragraph
