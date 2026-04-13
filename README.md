@@ -1,14 +1,81 @@
-# TXT World Domination
+# TXT World Domination. "The Wise Books"
 
-Serverless CMS (**just plain text!!!**) based on markdown with extensions for
-multidimensional taxonomy classification, allowing to navigate the content based
-on topics (axes) and subtopics (coordinates).
+  Serverless CMS (**just plain text!!!**) based on markdown with a set of 
+minimal extensions providing:
+
+Daily use:
+
+1. Using your favourite text editor, you write arbitrary content in mardown.
+  A single markdown can represent a quick note, a new idea, a draft,
+  some TO-DO task, ... anything.
+2. On each paragraph you add different tags like `[[topic_A.subtopic01,topic_B.subtopic02]]`.<br/>
+  You can think of it as the Twitter "#hastags" ... but don't get cheated:<br/>
+  using "topic" as "dimension" or "dimension axis" and subtopics as "coordinate"
+  (position relative or projected into to the topic "dimension axis") will
+  provide you and your notes super-powers in the long term.
+3. Once your notes in markdown are in place, you can group them togheter
+  forming a full chapter, and then you can group a set of chapters into
+  a book using payloads. A payload is just a simple txt files similar to:
+
+  ```
+     Arbitrary set               Arbitrary set               
+     of markdown files           of markdown files           
+     and payload files           and payload files
+           ·                            ·
+           v                            v
+  ┌─ full_book.payload ───┐ ┌>┌ chapter01/ALL.payload ┐ ┌>┌ chapter01/basic_concepts.md ─────┐
+  │                       │ │ │                       │ │ │                                  │
+  │ introduction.md       │ │ │ basic_concepts.md     ··┘ │ # A brief tour of ...            │
+  │ chapter01/ALL.payload··─┘ │ advanced_concepts.md  │   │ [[{PM.WiP,doc_has.tutorial]]     │
+  │ chapter02/ALL.payload │   │ lab_exercises.md      │   │ Let's examine the principles and │
+  │ chapter03/ALL.payload │   │ TO_DO_complete.md     │   │ building blocks of this materia. │
+  │ ...                   │   │ ...                   │   │ ...                              │
+  │ final_notes.md        │   │ ...                   │   │ ...                              │
+  └───────────────────────┘   └───────────────────────┘   └─────^────────────────────────────┘
+                                                                ·
+  ┌─ basics_book.payload ─┐ ┌─>┌ chapter01/101.payload ┐        ·
+  │ chapter01/101.payload··─┘  │ basic_concepts.md  ···········─┘
+  │ chapter02/101.payload··─┐  └───────────────────────┘
+  │ chapter03/101.payload │ │
+  │ ...                   │ └─>┌ chapter02/101.payload ┐
+  └───────────────────────┘    │ basic_concepts.md     │
+                               └───────────────────────┘
+
+
+   File system layout (local files and folders):
+
+    <some base folder>/
+    ├─ introduction.md
+    ├─ full_book.payload
+    ├─ basics_book.payload
+    ├─ final_notes.md
+    ├─ chapter01/
+       ├─ basic_concepts.md
+       ├─ advanced_concepts.md
+       ├─ ...
+    ├─ chapter02/
+       ├─ ...
+    ├─ ...
+  ```
+
+4. Use the free and open source viewer provided in this project to profit from
+   the tag and payload extensions to standard markdown (hopefully a new version
+   of markdown will standarize it and make them available to any other viewer).
 
  This projects aims to provide an easy-to-use tool for "long life" (years or tens of years) 
-documentation management.
+documentation management:
+- Information is written tagged, classified, updated and then grouped in a single place,
+  (either by humans or AI agents), versioned in git and consulted as a book or as book 
+  "views".
 
- Recommended to safely store and classify research (PhD) work, complex software documentation,
-complex procedures, book writing, "industrial" web pages. 
+
+## Use cases
+
+- store and classify research (PhD) work.
+- complex software documentation.
+- complex procedures.
+- technical book writing.
+- industrial web pages. (not fancy, but quick).
 
 Since content is just plain text (vs some weird binary database format) it means that many tools can 
 be reused to [edit](https://en.wikipedia.org/wiki/Comparison_of_text_editors) and
@@ -220,4 +287,23 @@ concerns (security, FE, persistence, integration, ...) and subtopics
 (security.authentication, security.DoS, security....) code management will
 be much simpler, both for humans and IAs.
 
+## Future work: Wise Books as Agentic Memory
 
+  While the purpose of the project was to make content easy to retrieve and 
+classify for human beings, it is pretty clear that the new Agentic World also 
+love markdown, "zipped" notes and simple RAGs that allows to quickly retrive 
+context information for the next prompt and yeah!!!  the wise books is also a 
+wise agent memory!
+
+ Semantic database and custom token embeddings can still be used to retrive
+new context for you next GPT prompt but ... most probably filtering by topic.suptopic
+is more than enough in many scenarios **if you (and/or your agent) took care of
+properly tagging with consistent taxonomies/topic coordinates**!.
+
+  Not only that, topic/subtopic filtering and retrieval is deterministic and you
+are in full control. In contrats, vector embedding and semantic search are obscure
+and opaque and they just work by "brute force", by creating hundreds of dimensions
+and uncontrolled floating point for each and every one of the thousands of tokens
+in a given "book". Worst even, they ussually don't match the final embedding
+using by your GPT when doing inference, so they need to be converted back to 
+human text and many tricks applied.
