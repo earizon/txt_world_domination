@@ -3,11 +3,11 @@ image: alpine:latest
 create-pages:
   pages:
     # The folder that contains the files to be exposed at the Page URL
-    publish: ""
+    publish: "public"
   rules:
     # This ensures that only pushes to the default branch will trigger
     # a pages deploy
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   script:
-    - echo "done"
+    - mkdir public && tar cf - --exclude "public" * | tar -C public -xf -
   # jobs create-pages config should implement the script:, run:, or trigger: 
